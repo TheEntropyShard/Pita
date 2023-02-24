@@ -18,62 +18,93 @@
 package me.theentropyshard.pita.view;
 
 import me.theentropyshard.pita.Callback;
+import me.theentropyshard.pita.Utils;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 public class LoginPanel extends JPanel {
+    private final PitaTextField loginField;
+    private final PitaTextField schoolNameField;
+    private final PitaTextField schoolDomainField;
+    private final PitaPasswordField passwordField;
+    private final Button loginButton;
+
+    private int currentFocusedComponent = 1;
+
     public LoginPanel(Callback callback) {
         this.setLayout(new MigLayout("wrap", "push[center]push", "push[]25[]10[]10[]10[]25[]push"));
+
+        Action action = new AbstractAction("ENTER") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int n = ++currentFocusedComponent;
+
+                if(n == 5) {
+                    ActionListener[] actionListeners = LoginPanel.this.loginButton.getActionListeners();
+                    for(ActionListener l : actionListeners) {
+                        l.actionPerformed(new ActionEvent(LoginPanel.this.loginButton, (int) (Math.random() * 10000), ""));
+                    }
+                    n = currentFocusedComponent = 1;
+                }
+
+                LoginPanel.this.getComponent(n).requestFocus();
+            }
+        };
+        this.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "ENTER");
+        this.getActionMap().put("ENTER", action);
 
         JLabel label = new JLabel("Сетевой Город. Образование");
         label.setFont(new Font("sansserif", Font.BOLD, 30));
         label.setForeground(new Color(7, 164, 121));
         this.add(label);
 
-        PitaTextField login = new PitaTextField();
-        login.setPrefixIcon(new ImageIcon(getClass().getResource("/mail.png")));
-        login.setHint("Логин");
-        int i = label.getPreferredSize().width;
-        String width = String.format("w %d", i);
-        this.add(login, width);
+        String width = String.format("w %d", label.getPreferredSize().width);
 
-        PitaTextField schoolName = new PitaTextField();
-        schoolName.setPrefixIcon(new ImageIcon(getClass().getResource("/school.png")));
-        schoolName.setHint("Имя/ID школы");
-        this.add(schoolName, width);
+        this.loginField = new PitaTextField();
+        this.loginField.setPrefixIcon(Utils.loadIcon("/mail.png"));
+        this.loginField.setHint("Логин");
+        this.add(this.loginField, width);
 
-        PitaTextField schoolDomain = new PitaTextField();
-        schoolDomain.setPrefixIcon(new ImageIcon(getClass().getResource("/browser.png")));
-        schoolDomain.setHint("Домен дневника");
-        this.add(schoolDomain, width);
+        this.schoolNameField = new PitaTextField();
+        this.schoolNameField.setPrefixIcon(Utils.loadIcon("/school.png"));
+        this.schoolNameField.setHint("Имя/ID школы");
+        this.add(this.schoolNameField, width);
 
-        PitaPasswordField pass = new PitaPasswordField();
-        pass.setPrefixIcon(new ImageIcon(getClass().getResource("/pass.png")));
-        pass.setHint("Пароль");
-        this.add(pass, width);
+        this.schoolDomainField = new PitaTextField();
+        this.schoolDomainField.setPrefixIcon(Utils.loadIcon("/browser.png"));
+        this.schoolDomainField.setHint("Домен дневника");
+        this.add(this.schoolDomainField, width);
 
-        Button loginButton = new Button();
-        loginButton.setFocusPainted(false);
-        loginButton.setBackground(new Color(7, 164, 121));
-        loginButton.setForeground(new Color(250, 250, 250));
-        loginButton.addActionListener(e -> {
-            loginButton.setIcon(new ImageIcon(getClass().getResource("/loading2.gif")));
-            loginButton.setDisabledIcon(new ImageIcon(getClass().getResource("/loading2.gif")));
-            loginButton.setRolloverIcon(new ImageIcon(getClass().getResource("/loading2.gif")));
-            loginButton.setPressedIcon(new ImageIcon(getClass().getResource("/loading2.gif")));
-            loginButton.setSelectedIcon(new ImageIcon(getClass().getResource("/loading2.gif")));
-            loginButton.setEnabled(false);
-            loginButton.setText("");
+        this.passwordField = new PitaPasswordField();
+        this.passwordField.setPrefixIcon(Utils.loadIcon("/pass.png"));
+        this.passwordField.setHint("Пароль");
+        this.add(this.passwordField, width);
+
+        this.loginButton = new Button();
+        this.loginButton.setFocusPainted(false);
+        this.loginButton.setBackground(new Color(7, 164, 121));
+        this.loginButton.setForeground(new Color(250, 250, 250));
+        this.loginButton.addActionListener(e -> {
+            this.loginButton.setIcon(Utils.loadIcon("/loading.gif"));
+            this.loginButton.setDisabledIcon(Utils.loadIcon("/loading.gif"));
+            this.loginButton.setRolloverIcon(Utils.loadIcon("/loading.gif"));
+            this.loginButton.setPressedIcon(Utils.loadIcon("/loading.gif"));
+            this.loginButton.setSelectedIcon(Utils.loadIcon("/loading.gif"));
+            this.loginButton.setEnabled(false);
+            this.loginButton.setText("");
             callback.doWork(
-                    login.getText(),
-                    new String(pass.getPassword()),
-                    schoolDomain.getText(),
-                    schoolName.getText()
+                    this.loginField.getText(),
+                    new String(this.passwordField.getPassword()),
+                    this.schoolDomainField.getText(),
+                    this.schoolNameField.getText()
             );
         });
-        loginButton.setText("Войти");
-        this.add(loginButton, width + ", h 40");
+        this.loginButton.setText("Войти");
+        this.add(this.loginButton, width + ", h 40");
     }
 }

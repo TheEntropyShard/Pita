@@ -33,6 +33,8 @@ public class View extends JFrame {
     private final JPanel content;
 
     public View() {
+        super("Pita");
+
         CardLayout layout = new CardLayout();
         this.root = new JPanel(layout);
 

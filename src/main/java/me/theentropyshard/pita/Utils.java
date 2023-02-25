@@ -18,12 +18,8 @@
 package me.theentropyshard.pita;
 
 import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageInputStream;
 import javax.swing.*;
-import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;

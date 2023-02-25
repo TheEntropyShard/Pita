@@ -24,9 +24,7 @@ import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 
 public class LoginPanel extends JPanel {
     private final PitaTextField loginField;
@@ -37,7 +35,6 @@ public class LoginPanel extends JPanel {
     private final JLabel labelErrorLogin;
 
     private int currentFocusedComponent = 1;
-    private boolean dataFilled;
 
     public LoginPanel(Callback callback) {
         this.setLayout(new MigLayout("wrap", "push[center]push", "push[]25[]10[]10[]10[]25[]push"));
@@ -45,21 +42,21 @@ public class LoginPanel extends JPanel {
         Action action = new AbstractAction("ENTER") {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(!schoolNameField.getText().isEmpty() && !schoolDomainField.getText().isEmpty() && !dataFilled) {
+                if(!schoolNameField.getText().isEmpty() && !schoolDomainField.getText().isEmpty() && currentFocusedComponent != 4) {
                     currentFocusedComponent = 3;
-                    dataFilled = true;
                 }
+
                 int n = ++currentFocusedComponent;
 
                 if(n == 5) {
-                    ActionListener[] actionListeners = LoginPanel.this.loginButton.getActionListeners();
+                    ActionListener[] actionListeners = loginButton.getActionListeners();
                     for(ActionListener l : actionListeners) {
-                        l.actionPerformed(new ActionEvent(LoginPanel.this.loginButton, (int) (Math.random() * 10000), ""));
+                        l.actionPerformed(new ActionEvent(loginButton, (int) (Math.random() * 10000), ""));
                     }
                     n = currentFocusedComponent = 1;
                 }
 
-                LoginPanel.this.getComponent(n).requestFocus();
+                getComponent(n).requestFocus();
             }
         };
         this.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "ENTER");
@@ -74,12 +71,18 @@ public class LoginPanel extends JPanel {
 
         this.labelErrorLogin = new JLabel();
         this.labelErrorLogin.setFont(new Font("sansserif", Font.BOLD, 30));
-        this.labelErrorLogin.setForeground(new Color(7, 164, 121));
+        this.labelErrorLogin.setForeground(new Color(164, 7, 44));
         this.labelErrorLogin.setVisible(false);
 
         this.loginField = new PitaTextField();
         this.loginField.setPrefixIcon(Utils.loadIcon("/mail.png"));
         this.loginField.setHint("Логин");
+        this.loginField.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                currentFocusedComponent = 1;
+            }
+        });
         this.add(this.loginField, width);
 
         String[] data = Pita.getPita().getSchoolDomainAndName();
@@ -88,17 +91,35 @@ public class LoginPanel extends JPanel {
         this.schoolNameField.setText(data[1]);
         this.schoolNameField.setPrefixIcon(Utils.loadIcon("/school.png"));
         this.schoolNameField.setHint("Имя/ID школы");
+        this.schoolNameField.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                currentFocusedComponent = 2;
+            }
+        });
         this.add(this.schoolNameField, width);
 
         this.schoolDomainField = new PitaTextField();
         this.schoolDomainField.setText(data[0]);
         this.schoolDomainField.setPrefixIcon(Utils.loadIcon("/browser.png"));
         this.schoolDomainField.setHint("Домен дневника");
+        this.schoolDomainField.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                currentFocusedComponent = 3;
+            }
+        });
         this.add(this.schoolDomainField, width);
 
         this.passwordField = new PitaPasswordField();
         this.passwordField.setPrefixIcon(Utils.loadIcon("/pass.png"));
         this.passwordField.setHint("Пароль");
+        this.passwordField.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                currentFocusedComponent = 4;
+            }
+        });
         this.add(this.passwordField, width);
 
         this.loginButton = new Button();

@@ -29,7 +29,7 @@ public class ContentPanel extends JPanel {
     private Header header;
     private final JPanel content;
 
-    public ContentPanel() {
+    public ContentPanel() { //TODO implement floating windows using undecorated JDialogs
         this.setLayout(new BorderLayout());
         this.setPreferredSize(new Dimension(1200, 720));
 
@@ -72,6 +72,6 @@ public class ContentPanel extends JPanel {
 
         this.content.add(noticeBoard, BorderLayout.CENTER);
 
-        this.validate();
+        this.revalidate();
     }
 }

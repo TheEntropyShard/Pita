@@ -17,6 +17,7 @@
 
 package me.theentropyshard.pita.view;
 
+import me.theentropyshard.pita.Pita;
 import me.theentropyshard.pita.Utils;
 
 import javax.swing.*;
@@ -74,8 +75,12 @@ public class Header extends JPanel {
         buttonSessions.setForeground(new Color(127, 127, 127));
         buttonSessions.setText(Utils.getTodaysDateRussian() + " - В системе работает 100");
 
-        buttonExit.setForeground(new Color(127, 127, 127));
-        buttonExit.setText("Выход");
+        this.buttonExit.setForeground(new Color(127, 127, 127));
+        this.buttonExit.addActionListener(e -> {
+            Pita.getPita().getAPI().logout();
+            Pita.getPita().getView().showLoginPanel();
+        });
+        this.buttonExit.setText("Выход");
 
         jSeparator1.setOrientation(SwingConstants.VERTICAL);
 

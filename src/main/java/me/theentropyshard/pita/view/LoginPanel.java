@@ -149,6 +149,16 @@ public class LoginPanel extends JPanel {
         this.add(this.labelErrorLogin);
         this.labelErrorLogin.setVisible(true);
         this.labelErrorLogin.setText("Произошла ошибка во время входа в систему");
+        this.fixButton();
+        this.validate();
+    }
+
+    public void clearFields() {
+        this.loginField.setText("");
+        this.passwordField.setText("");
+    }
+
+    public void fixButton() {
         this.loginButton.setEnabled(true);
         this.loginButton.setText("Войти");
         this.loginButton.setIcon(null);
@@ -156,11 +166,5 @@ public class LoginPanel extends JPanel {
         this.loginButton.setRolloverIcon(null);
         this.loginButton.setPressedIcon(null);
         this.loginButton.setSelectedIcon(null);
-        this.validate();
-    }
-
-    public void clearFields() {
-        this.loginField.setText("");
-        this.passwordField.setText("");
     }
 }

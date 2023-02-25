@@ -90,6 +90,10 @@ public final class Pita {
         return this.api;
     }
 
+    public View getView() {
+        return this.view;
+    }
+
     private static Pita pita;
 
     public static Pita getPita() {

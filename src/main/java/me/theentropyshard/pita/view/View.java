@@ -76,6 +76,7 @@ public class View extends JFrame {
     }
 
     public void showLoginPanel() {
+        this.loginPanel.fixButton();
         this.layout.show(this.root, LoginPanel.class.getSimpleName());
     }
 

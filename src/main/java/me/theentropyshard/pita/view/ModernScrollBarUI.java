@@ -22,23 +22,23 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
 
 public class ModernScrollBarUI extends BasicScrollBarUI {
-    private final int THUMB_SIZE = 80;
+    private static final int THUMB_SIZE = 80;
 
     @Override
     protected Dimension getMaximumThumbSize() {
-        if (scrollbar.getOrientation() == JScrollBar.VERTICAL) {
-            return new Dimension(0, THUMB_SIZE);
+        if(this.scrollbar.getOrientation() == JScrollBar.VERTICAL) {
+            return new Dimension(0, ModernScrollBarUI.THUMB_SIZE);
         } else {
-            return new Dimension(THUMB_SIZE, 0);
+            return new Dimension(ModernScrollBarUI.THUMB_SIZE, 0);
         }
     }
 
     @Override
     protected Dimension getMinimumThumbSize() {
-        if (scrollbar.getOrientation() == JScrollBar.VERTICAL) {
-            return new Dimension(0, THUMB_SIZE);
+        if(this.scrollbar.getOrientation() == JScrollBar.VERTICAL) {
+            return new Dimension(0, ModernScrollBarUI.THUMB_SIZE);
         } else {
-            return new Dimension(THUMB_SIZE, 0);
+            return new Dimension(ModernScrollBarUI.THUMB_SIZE, 0);
         }
     }
 
@@ -53,37 +53,37 @@ public class ModernScrollBarUI extends BasicScrollBarUI {
     }
 
     @Override
-    protected void paintTrack(Graphics grphcs, JComponent jc, Rectangle rctngl) {
+    protected void paintTrack(Graphics g, JComponent c, Rectangle rect) {
 
     }
 
     @Override
-    protected void paintThumb(Graphics grphcs, JComponent jc, Rectangle rctngl) {
-        Graphics2D g2 = (Graphics2D) grphcs;
+    protected void paintThumb(Graphics g, JComponent c, Rectangle rect) {
+        Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        int x = rctngl.x;
-        int y = rctngl.y;
-        int width = rctngl.width;
-        int height = rctngl.height;
-        if (scrollbar.getOrientation() == JScrollBar.VERTICAL) {
+        int x = rect.x;
+        int y = rect.y;
+        int width = rect.width;
+        int height = rect.height;
+        if(this.scrollbar.getOrientation() == JScrollBar.VERTICAL) {
             y += 8;
             height -= 16;
         } else {
             x += 8;
             width -= 16;
         }
-        g2.setColor(scrollbar.getForeground());
+        g2.setColor(this.scrollbar.getForeground());
         g2.fillRoundRect(x, y, width, height, 1, 1);
     }
 
-    private class ScrollBarButton extends JButton {
-
+    private static class ScrollBarButton extends JButton {
         public ScrollBarButton() {
-            setBorder(BorderFactory.createEmptyBorder());
+            this.setBorder(BorderFactory.createEmptyBorder());
         }
 
         @Override
-        public void paint(Graphics grphcs) {
+        public void paint(Graphics g) {
+
         }
     }
 }

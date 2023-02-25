@@ -18,6 +18,7 @@
 package me.theentropyshard.pita.view;
 
 import me.theentropyshard.pita.Callback;
+import me.theentropyshard.pita.Pita;
 import me.theentropyshard.pita.Utils;
 import net.miginfocom.swing.MigLayout;
 
@@ -33,8 +34,10 @@ public class LoginPanel extends JPanel {
     private final PitaTextField schoolDomainField;
     private final PitaPasswordField passwordField;
     private final Button loginButton;
+    private final JLabel labelErrorLogin;
 
     private int currentFocusedComponent = 1;
+    private boolean dataFilled;
 
     public LoginPanel(Callback callback) {
         this.setLayout(new MigLayout("wrap", "push[center]push", "push[]25[]10[]10[]10[]25[]push"));
@@ -42,6 +45,10 @@ public class LoginPanel extends JPanel {
         Action action = new AbstractAction("ENTER") {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if(!schoolNameField.getText().isEmpty() && !schoolDomainField.getText().isEmpty() && !dataFilled) {
+                    currentFocusedComponent = 3;
+                    dataFilled = true;
+                }
                 int n = ++currentFocusedComponent;
 
                 if(n == 5) {
@@ -58,24 +65,33 @@ public class LoginPanel extends JPanel {
         this.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "ENTER");
         this.getActionMap().put("ENTER", action);
 
-        JLabel label = new JLabel("Сетевой Город. Образование");
-        label.setFont(new Font("sansserif", Font.BOLD, 30));
-        label.setForeground(new Color(7, 164, 121));
-        this.add(label);
+        JLabel labelSGO = new JLabel("Сетевой Город. Образование");
+        labelSGO.setFont(new Font("sansserif", Font.BOLD, 30));
+        labelSGO.setForeground(new Color(7, 164, 121));
+        this.add(labelSGO);
 
-        String width = String.format("w %d", label.getPreferredSize().width);
+        String width = String.format("w %d", labelSGO.getPreferredSize().width);
+
+        this.labelErrorLogin = new JLabel();
+        this.labelErrorLogin.setFont(new Font("sansserif", Font.BOLD, 30));
+        this.labelErrorLogin.setForeground(new Color(7, 164, 121));
+        this.labelErrorLogin.setVisible(false);
 
         this.loginField = new PitaTextField();
         this.loginField.setPrefixIcon(Utils.loadIcon("/mail.png"));
         this.loginField.setHint("Логин");
         this.add(this.loginField, width);
 
+        String[] data = Pita.getPita().getSchoolDomainAndName();
+
         this.schoolNameField = new PitaTextField();
+        this.schoolNameField.setText(data[1]);
         this.schoolNameField.setPrefixIcon(Utils.loadIcon("/school.png"));
         this.schoolNameField.setHint("Имя/ID школы");
         this.add(this.schoolNameField, width);
 
         this.schoolDomainField = new PitaTextField();
+        this.schoolDomainField.setText(data[0]);
         this.schoolDomainField.setPrefixIcon(Utils.loadIcon("/browser.png"));
         this.schoolDomainField.setHint("Домен дневника");
         this.add(this.schoolDomainField, width);
@@ -106,5 +122,24 @@ public class LoginPanel extends JPanel {
         });
         this.loginButton.setText("Войти");
         this.add(this.loginButton, width + ", h 40");
+    }
+
+    public void errorWhileLogin(Exception e) {
+        this.add(this.labelErrorLogin);
+        this.labelErrorLogin.setVisible(true);
+        this.labelErrorLogin.setText("Произошла ошибка во время входа в систему");
+        this.loginButton.setEnabled(true);
+        this.loginButton.setText("Войти");
+        this.loginButton.setIcon(null);
+        this.loginButton.setDisabledIcon(null);
+        this.loginButton.setRolloverIcon(null);
+        this.loginButton.setPressedIcon(null);
+        this.loginButton.setSelectedIcon(null);
+        this.validate();
+    }
+
+    public void clearFields() {
+        this.loginField.setText("");
+        this.passwordField.setText("");
     }
 }

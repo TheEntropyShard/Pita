@@ -25,11 +25,11 @@ public class PitaTextField extends JTextField {
     private String hint = "";
 
     public PitaTextField() {
-        setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        setBackground(new Color(0, 0, 0, 0));
-        setForeground(Color.decode("#7A8C8D"));
-        setFont(new java.awt.Font("sansserif", Font.BOLD, View.TEXT_FIELD_FONT_SIZE));
-        setSelectionColor(new Color(75, 175, 152));
+        this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        this.setBackground(new Color(0, 0, 0, 0));
+        this.setForeground(Color.decode("#7A8C8D"));
+        this.setFont(new Font("sansserif", Font.BOLD, View.TEXT_FIELD_FONT_SIZE));
+        this.setSelectionColor(new Color(75, 175, 152));
     }
 
     @Override
@@ -37,21 +37,20 @@ public class PitaTextField extends JTextField {
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setColor(new Color(218, 243, 235));
-        g2.fillRoundRect(0, 0, getWidth(), getHeight(), 7, 7);
-        paintIcon(g);
+        g2.fillRoundRect(0, 0, this.getWidth(), this.getHeight(), 7, 7);
+        this.paintIcon(g);
         super.paintComponent(g);
     }
 
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        if(getText().length() == 0) {
-            int h = getHeight();
+        if(this.getText().length() == 0) {
             ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
             Insets ins = this.getInsets();
             FontMetrics fm = g.getFontMetrics();
             g.setColor(new Color(200, 200, 200));
-            g.drawString(this.hint, ins.left, h / 2 + fm.getAscent() / 2 - 2);
+            g.drawString(this.hint, ins.left, this.getHeight() / 2 + fm.getAscent() / 2 - 2);
         }
     }
 

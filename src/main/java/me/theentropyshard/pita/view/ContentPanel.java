@@ -26,15 +26,12 @@ import java.io.IOException;
 import java.util.List;
 
 public class ContentPanel extends JPanel {
-    private final Header header;
+    private Header header;
     private final JPanel content;
 
     public ContentPanel() {
         this.setLayout(new BorderLayout());
         this.setPreferredSize(new Dimension(1200, 720));
-
-        this.header = new Header();
-        this.add(this.header, BorderLayout.NORTH);
 
         this.content = new JPanel();
         this.content.setLayout(new BorderLayout());
@@ -49,7 +46,14 @@ public class ContentPanel extends JPanel {
         return this.content;
     }
 
-    public void addDefaultComponent() {
+    public void loadComponents() {
+        try {
+            this.header = new Header(Pita.getPita().getAPI().getSchoolInfo().commonInfo.schoolName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        this.add(this.header, BorderLayout.NORTH);
+
         NoticeBoard noticeBoard = new NoticeBoard();
 
         try {
@@ -67,5 +71,7 @@ public class ContentPanel extends JPanel {
         }
 
         this.content.add(noticeBoard, BorderLayout.CENTER);
+
+        this.validate();
     }
 }

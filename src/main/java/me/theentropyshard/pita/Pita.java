@@ -17,10 +17,12 @@
 
 package me.theentropyshard.pita;
 
+import com.google.gson.Gson;
 import me.theentropyshard.netschoolapi.NetSchoolAPI;
 import me.theentropyshard.pita.view.View;
 
 import javax.swing.*;
+import java.io.*;
 
 public final class Pita {
     private final NetSchoolAPI api;
@@ -43,6 +45,45 @@ public final class Pita {
                 this.api.logout();
             }
         }));
+    }
+
+    public void saveSchoolDomainAndName(String domain, String schoolName) {
+        File file = new File("data.txt");
+        if(!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+            writer.write(domain + "\n");
+            writer.write(schoolName + "\n");
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String[] getSchoolDomainAndName() {
+        File file = new File("data.txt");
+        if(file.exists()) {
+            try {
+                BufferedReader reader = new BufferedReader(new FileReader(file));
+                String domain = reader.readLine();
+                String name = reader.readLine();
+                return new String[]{
+                        domain == null ? "" : domain,
+                        name == null ? "" : name
+                };
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return new String[]{"", ""};
     }
 
     public NetSchoolAPI getAPI() {

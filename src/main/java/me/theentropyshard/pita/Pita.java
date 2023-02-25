@@ -1,4 +1,4 @@
-/*      NetSchoolAPI. A simple API client for NetSchool by irTech
+/*      Pita. A simple desktop client for NetSchool by irTech
  *      Copyright (C) 2022-2023 TheEntropyShard
  *
  *      This program is free software: you can redistribute it and/or modify

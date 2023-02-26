@@ -27,6 +27,8 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class LoginPanel extends JPanel {
+    private static final String ENTER_ACTION_KEY = "ENTER";
+
     private final PitaTextField loginField;
     private final PitaTextField schoolNameField;
     private final PitaTextField schoolDomainField;
@@ -39,7 +41,7 @@ public class LoginPanel extends JPanel {
     public LoginPanel(Callback callback) {
         this.setLayout(new MigLayout("wrap", "push[center]push", "push[]25[]10[]10[]10[]25[]push"));
 
-        Action action = new AbstractAction("ENTER") {
+        Action action = new AbstractAction(LoginPanel.ENTER_ACTION_KEY) {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(!schoolNameField.getText().isEmpty() && !schoolDomainField.getText().isEmpty() && currentFocusedComponent != 4) {
@@ -59,8 +61,8 @@ public class LoginPanel extends JPanel {
                 getComponent(n).requestFocus();
             }
         };
-        this.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "ENTER");
-        this.getActionMap().put("ENTER", action);
+        this.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), LoginPanel.ENTER_ACTION_KEY);
+        this.getActionMap().put(LoginPanel.ENTER_ACTION_KEY, action);
 
         JLabel labelSGO = new JLabel("Сетевой Город. Образование");
         labelSGO.setFont(new Font("sansserif", Font.BOLD, 30));
@@ -127,6 +129,17 @@ public class LoginPanel extends JPanel {
         this.loginButton.setBackground(new Color(7, 164, 121));
         this.loginButton.setForeground(new Color(250, 250, 250));
         this.loginButton.addActionListener(e -> {
+            for(int i = 1; i < 5; i++) {
+                Component c = this.getComponent(i);
+                if(c instanceof JTextField) {
+                    JTextField t = (JTextField) c;
+                    if(t.getText().isEmpty()) {
+                        c.requestFocus();
+                        return;
+                    }
+                }
+            }
+
             this.loginButton.setIcon(Utils.loadIcon("/loading.gif"));
             this.loginButton.setDisabledIcon(Utils.loadIcon("/loading.gif"));
             this.loginButton.setRolloverIcon(Utils.loadIcon("/loading.gif"));

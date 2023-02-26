@@ -38,14 +38,6 @@ public class ContentPanel extends JPanel {
         this.add(this.content, BorderLayout.CENTER);
     }
 
-    public Header getHeader() {
-        return this.header;
-    }
-
-    public JPanel getContent() {
-        return this.content;
-    }
-
     public void loadComponents() {
         try {
             this.header = new Header(Pita.getPita().getAPI().getSchoolInfo().commonInfo.schoolName);
@@ -54,12 +46,12 @@ public class ContentPanel extends JPanel {
         }
         this.add(this.header, BorderLayout.NORTH);
 
-        NoticeBoard noticeBoard = new NoticeBoard();
+        AnnouncementsPanel annPanel = new AnnouncementsPanel();
 
         try {
             List<Announcement> announcements = Pita.getPita().getAPI().getAnnouncements(-1);
             for(Announcement announcement : announcements) {
-                noticeBoard.addNoticeBoard(new ModelNoticeBoard(
+                annPanel.addNewAnnouncement(new AnnouncementModel(
                         Color.RED,
                         announcement.name,
                         announcement.postDate,
@@ -70,8 +62,16 @@ public class ContentPanel extends JPanel {
             e.printStackTrace();
         }
 
-        this.content.add(noticeBoard, BorderLayout.CENTER);
+        this.content.add(annPanel, BorderLayout.CENTER);
 
         this.revalidate();
+    }
+
+    public Header getHeader() {
+        return this.header;
+    }
+
+    public JPanel getContent() {
+        return this.content;
     }
 }

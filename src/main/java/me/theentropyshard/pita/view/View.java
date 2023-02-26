@@ -54,6 +54,7 @@ public class View extends JFrame {
                         showContentPanel();
                         contentPanel.loadComponents();
                     } catch (RuntimeException e) {
+                        e.printStackTrace();
                         errorWhileLogin(e);
                     }
                 }

@@ -19,7 +19,7 @@ package me.theentropyshard.pita.view;
 
 import java.awt.*;
 
-public class ModelNoticeBoard {
+public class AnnouncementModel {
     public Color getTitleColor() {
         return titleColor;
     }
@@ -52,14 +52,14 @@ public class ModelNoticeBoard {
         this.description = description;
     }
 
-    public ModelNoticeBoard(Color titleColor, String title, String time, String description) {
+    public AnnouncementModel(Color titleColor, String title, String time, String description) {
         this.titleColor = titleColor;
         this.title = title;
         this.time = time;
         this.description = description;
     }
 
-    public ModelNoticeBoard() {
+    public AnnouncementModel() {
     }
 
     private Color titleColor;

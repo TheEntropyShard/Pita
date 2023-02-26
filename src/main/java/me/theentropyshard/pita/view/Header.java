@@ -22,11 +22,16 @@ import me.theentropyshard.pita.Utils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 public class Header extends JPanel {
-    private ButtonBadges buttonBadges1;
-    private ButtonBadges buttonBadges2;
-    private JSeparator jSeparator1;
+    private static final String CURRENT_USERS = " - В системе работает %d чел";
+
+    private final Pita pita;
+
+    private ButtonBadges buttonAnnouncements;
+    private ButtonBadges buttonMail;
+    private JSeparator vertSeparator;
 
     private Button buttonExit;
     private Button buttonSessions;
@@ -39,41 +44,47 @@ public class Header extends JPanel {
     private Button buttonDiaryPage;
 
     public Header(String schoolName) {
-        buttonSessions = new Button();
-        buttonExit = new Button();
+        this.setBackground(new Color(255, 255, 255));
 
-        labelSGO = new JLabel("Сетевой Город. Образование");
-        buttonSchoolCard = new Button();
-        buttonSchoolCard.setText(schoolName);
+        this.pita = Pita.getPita();
 
-        labelSGO.setFont(new Font("sansserif", 1, 12));
-        labelSGO.setForeground(new Color(127, 127, 127));
+        this.buttonSessions = new Button();
+        this.buttonExit = new Button();
 
-        buttonSchoolCard.setFont(new Font("sansserif", 1, 12));
-        buttonSchoolCard.setForeground(new Color(127, 127, 127));
+        this.labelSGO = new JLabel("Сетевой Город. Образование");
+        this.buttonSchoolCard = new Button();
+        this.buttonSchoolCard.setText(schoolName);
 
-        jSeparator1 = new MySeparator();
-        buttonBadges1 = new ButtonBadges();
-        buttonBadges2 = new ButtonBadges();
+        this.labelSGO.setFont(new Font("sansserif", Font.BOLD, 12));
+        this.labelSGO.setForeground(new Color(127, 127, 127));
 
-        buttonMainPage = new Button();
-        buttonMainPage.setText("Главная");
-        buttonMainPage.setBackground(new Color(200, 200, 200));
-        buttonMainPage.setForeground(new Color(127, 127, 127));
+        this.buttonSchoolCard.setFont(new Font("sansserif", Font.BOLD, 12));
+        this.buttonSchoolCard.setForeground(new Color(127, 127, 127));
 
-        buttonReportsPage = new Button();
-        buttonReportsPage.setText("Отчеты");
-        buttonReportsPage.setForeground(new Color(127, 127, 127));
+        this.vertSeparator = new MySeparator();
+        this.buttonAnnouncements = new ButtonBadges();
+        this.buttonMail = new ButtonBadges();
 
-        buttonDiaryPage = new Button();
-        buttonDiaryPage.setText("Дневник");
-        buttonDiaryPage.setForeground(new Color(127, 127, 127));
+        this.buttonMainPage = new Button();
+        this.buttonMainPage.setText("Главная");
+        this.buttonMainPage.setBackground(new Color(200, 200, 200));
+        this.buttonMainPage.setForeground(new Color(127, 127, 127));
 
-        setBackground(new Color(255, 255, 255));
+        this.buttonReportsPage = new Button();
+        this.buttonReportsPage.setText("Отчеты");
+        this.buttonReportsPage.setForeground(new Color(127, 127, 127));
 
-        buttonSessions.setFont(new Font("sansserif", 1, 12));
-        buttonSessions.setForeground(new Color(127, 127, 127));
-        buttonSessions.setText(Utils.getTodaysDateRussian() + " - В системе работает 100");
+        this.buttonDiaryPage = new Button();
+        this.buttonDiaryPage.setText("Дневник");
+        this.buttonDiaryPage.setForeground(new Color(127, 127, 127));
+
+        this.buttonSessions.setFont(new Font("sansserif", Font.BOLD, 12));
+        this.buttonSessions.setForeground(new Color(127, 127, 127));
+        try {
+            this.buttonSessions.setText(String.format(Utils.getTodaysDateRussian() + Header.CURRENT_USERS, this.pita.getAPI().getActiveSessions().size()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         this.buttonExit.setForeground(new Color(127, 127, 127));
         this.buttonExit.addActionListener(e -> {
@@ -82,16 +93,16 @@ public class Header extends JPanel {
         });
         this.buttonExit.setText("Выход");
 
-        jSeparator1.setOrientation(SwingConstants.VERTICAL);
+        this.vertSeparator.setOrientation(SwingConstants.VERTICAL);
 
-        JSeparator separator = new JSeparator(SwingConstants.HORIZONTAL);
+        JSeparator horizSeparator = new JSeparator(SwingConstants.HORIZONTAL);
 
-        buttonBadges1.setForeground(new Color(250, 49, 49));
-        buttonBadges1.setIcon(Utils.loadIcon("/notification.png"));
+        this.buttonAnnouncements.setForeground(new Color(250, 49, 49));
+        this.buttonAnnouncements.setIcon(Utils.loadIcon("/notification.png"));
 
-        buttonBadges2.setForeground(new Color(63, 178, 232));
-        buttonBadges2.setIcon(Utils.loadIcon("/message.png"));
-        buttonBadges2.setBadges(5);
+        this.buttonMail.setForeground(new Color(63, 178, 232));
+        this.buttonMail.setIcon(Utils.loadIcon("/message.png"));
+        this.buttonMail.setBadges(5);
 
         GroupLayout layout = new GroupLayout(this);
         this.setLayout(layout);
@@ -100,56 +111,60 @@ public class Header extends JPanel {
                         .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                        .addComponent(labelSGO, GroupLayout.Alignment.LEADING)
-                                        .addComponent(buttonSchoolCard, GroupLayout.Alignment.LEADING))
+                                        .addComponent(this.labelSGO, GroupLayout.Alignment.LEADING)
+                                        .addComponent(this.buttonSchoolCard, GroupLayout.Alignment.LEADING))
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 362, Short.MAX_VALUE)
                                 .addGroup(layout.createSequentialGroup()
-                                        .addComponent(buttonBadges1, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(this.buttonAnnouncements, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE)
                                         .addGap(3, 3, 3)
-                                        .addComponent(buttonBadges2, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(this.buttonMail, GroupLayout.PREFERRED_SIZE, 38, GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jSeparator1, GroupLayout.PREFERRED_SIZE, 8, GroupLayout.PREFERRED_SIZE)
+                                .addComponent(this.vertSeparator, GroupLayout.PREFERRED_SIZE, 8, GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                        .addComponent(buttonSessions, GroupLayout.Alignment.TRAILING)
-                                        .addComponent(buttonExit, GroupLayout.Alignment.TRAILING))
+                                        .addComponent(this.buttonSessions, GroupLayout.Alignment.TRAILING)
+                                        .addComponent(this.buttonExit, GroupLayout.Alignment.TRAILING))
                                 .addContainerGap())
                         .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(separator)
+                                .addComponent(horizSeparator)
                                 .addContainerGap())
                         .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(buttonMainPage, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(buttonReportsPage, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(buttonDiaryPage, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(this.buttonMainPage, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(this.buttonReportsPage, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(this.buttonDiaryPage, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
                 layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                                         .addGroup(layout.createSequentialGroup()
-                                                .addComponent(labelSGO)
+                                                .addComponent(this.labelSGO)
                                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(buttonSchoolCard))
+                                                .addComponent(this.buttonSchoolCard))
                                         .addGroup(layout.createSequentialGroup()
-                                                .addComponent(buttonSessions)
+                                                .addComponent(this.buttonSessions)
                                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(buttonExit))
-                                        .addComponent(jSeparator1)
+                                                .addComponent(this.buttonExit))
+                                        .addComponent(this.vertSeparator)
                                         .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                                                .addComponent(buttonBadges1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(buttonBadges2, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                                .addComponent(this.buttonAnnouncements, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(this.buttonMail, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                                 .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                                .addComponent(separator)
+                                                .addComponent(horizSeparator)
                                         ))
                                 .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                                .addComponent(buttonMainPage, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(buttonReportsPage, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(buttonDiaryPage, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                                .addComponent(this.buttonMainPage, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(this.buttonReportsPage, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(this.buttonDiaryPage, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         )
         );
+    }
+
+    public void setCurrentSessionsNumber(int n) {
+        this.buttonSessions.setText(String.format(Utils.getTodaysDateRussian() + Header.CURRENT_USERS, n));
     }
 }

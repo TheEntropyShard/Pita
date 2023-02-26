@@ -20,6 +20,7 @@ package me.theentropyshard.pita.view;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import javax.swing.event.HyperlinkEvent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -27,11 +28,11 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-public class NoticeBoard extends JPanel {
+public class AnnouncementsPanel extends JPanel {
     private final JScrollPane scrollPane;
     private final JPanel panel;
     
-    public NoticeBoard() {
+    public AnnouncementsPanel() {
         this.setBackground(Color.WHITE);
 
         this.scrollPane = new JScrollPane();
@@ -40,7 +41,7 @@ public class NoticeBoard extends JPanel {
         this.scrollPane.setBorder(null);
         this.scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-        this.panel.setBackground(new java.awt.Color(255, 255, 255));
+        this.panel.setBackground(new Color(255, 255, 255));
 
         GroupLayout panelLayout = new GroupLayout(this.panel);
         this.panel.setLayout(panelLayout);
@@ -87,17 +88,20 @@ public class NoticeBoard extends JPanel {
         this.getActionMap().put("SCROLL_TO_BOTTOM", actionScrollDown);
 
         this.scrollPane.setVerticalScrollBar(new ScrollBarCustom());
-        this.panel.setLayout(new MigLayout("nogrid, fillx"));
+        this.panel.setLayout(new MigLayout("nogrid, flowy, alignx"));
     }
 
-    public void addNoticeBoard(ModelNoticeBoard data) {
-        JLabel title = new JLabel(data.getTitle());
-        title.setFont(new Font("sansserif", Font.BOLD, 12));
-        title.setForeground(data.getTitleColor());
-        this.panel.add(title);
-        JLabel time = new JLabel(data.getTime());
+    public void addNewAnnouncement(AnnouncementModel model) {
+        JPanel container = new JPanel(new MigLayout("nogrid, fillx"));
+        container.setBorder(new LineBorder(Color.RED, 1));
+
+        JLabel topic = new JLabel("<html><span style=\"color:rgb(102, 102, 102);\">Тема:</span><span style=\"color:#06A;\"> " + model.getTitle() + "</span></html>");
+        topic.setFont(new Font("sansserif", Font.BOLD, 12));
+        topic.setForeground(model.getTitleColor());
+        container.add(topic);
+        JLabel time = new JLabel("<html><span style=\"color:rgb(102, 102, 102);\">" + model.getTime() + "</span><html>");
         time.setForeground(new Color(180, 180, 180));
-        this.panel.add(time, "gap 10, wrap");
+        container.add(time, "wrap");
         JTextPane txt = new JTextPane();
         txt.setBackground(new Color(0, 0, 0, 0));
         txt.setForeground(new Color(120, 120, 120));
@@ -117,9 +121,14 @@ public class NoticeBoard extends JPanel {
                 }
             }
         });
-        txt.setText(data.getDescription());
-        this.panel.add(txt, "w 100::90%, wrap");
-    }
+
+        String text = model.getDescription().replace("amp;#160", "nbsp");
+        txt.setText("<html style=\"font-family: Arial, Helvetica, sans-serif;\">" + text + "</html>");
+        container.add(txt, "w 100::90%, wrap");
+        Dimension preferredSize = container.getPreferredSize();
+        container.setPreferredSize(new Dimension(800, preferredSize.height));
+        this.panel.add(container, "w 75%");
+    } // TODO add author information next to the text block
 
     public void scrollToTop() {
         SwingUtilities.invokeLater(() -> this.scrollPane.getVerticalScrollBar().setValue(0));

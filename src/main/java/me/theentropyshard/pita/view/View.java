@@ -17,76 +17,23 @@
 
 package me.theentropyshard.pita.view;
 
-import me.theentropyshard.pita.Pita;
-
 import javax.swing.*;
-import java.awt.*;
 
-public class View extends JFrame {
-    public static final int TEXT_FIELD_FONT_SIZE = 16;
-
-    private final CardLayout layout;
+public final class View {
     private final JPanel root;
 
-    private final LoginPanel loginPanel;
-    private final ContentPanel contentPanel;
-
     public View() {
-        super("Pita");
+        if(view != null) {
+            throw new IllegalStateException("View is already shown");
+        }
+        view = this;
 
-        this.layout = new CardLayout();
-        this.root = new JPanel(this.layout);
-
-        this.contentPanel = new ContentPanel();
-        this.root.add(this.contentPanel, ContentPanel.class.getSimpleName());
-
-        this.loginPanel = new LoginPanel(args -> {
-            Thread t = new Thread(() -> {
-                synchronized (Pita.class) {
-                    Pita.getPita().saveSchoolDomainAndName(args[2], args[3]);
-                    try {
-                        Pita.getPita().getAPI().login(
-                                args[0],
-                                args[1],
-                                args[2],
-                                args[3]
-                        );
-                        showContentPanel();
-                        contentPanel.loadComponents();
-                    } catch (RuntimeException e) {
-                        e.printStackTrace();
-                        errorWhileLogin(e);
-                    }
-                }
-            });
-            t.start();
-        });
-        this.root.add(this.loginPanel, LoginPanel.class.getSimpleName());
-
-        this.showLoginPanel();
-
-        this.add(this.root, BorderLayout.CENTER);
-        this.pack();
-        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.setPreferredSize(new Dimension(800, 600));
-        this.setLocationRelativeTo(null);
+        this.root = new JPanel();
     }
 
-    public void errorWhileLogin(Exception e) {
-        this.loginPanel.errorWhileLogin(e);
-    }
+    private static View view;
 
-    public void showLoginPanel() {
-        this.loginPanel.fixButton();
-        this.layout.show(this.root, LoginPanel.class.getSimpleName());
-    }
-
-    public void showContentPanel() {
-        this.layout.show(this.root, ContentPanel.class.getSimpleName());
-        this.loginPanel.clearFields();
-    }
-
-    public LoginPanel getLoginPanel() {
-        return this.loginPanel;
+    public static View getView() {
+        return view;
     }
 }

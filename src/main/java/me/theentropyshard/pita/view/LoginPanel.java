@@ -17,167 +17,92 @@
 
 package me.theentropyshard.pita.view;
 
-import me.theentropyshard.pita.Callback;
-import me.theentropyshard.pita.Pita;
 import me.theentropyshard.pita.Utils;
-import net.miginfocom.swing.MigLayout;
+import me.theentropyshard.pita.view.component.GradientPressEffectButton;
+import me.theentropyshard.pita.view.component.PPassField;
+import me.theentropyshard.pita.view.component.PTextField;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class LoginPanel extends JPanel {
-    private static final String ENTER_ACTION_KEY = "ENTER";
+    public static final String SGO_TEXT = "Сетевой Город. Образование";
+    public static final String SGO_LABEL_FONT_NAME = "sansserif";
+    public static final int SGO_TEXT_SIZE_LOGIN_PANEL = 30;
 
-    private final PitaTextField loginField;
-    private final PitaTextField schoolNameField;
-    private final PitaTextField schoolDomainField;
-    private final PitaPasswordField passwordField;
-    private final Button loginButton;
-    private final JLabel labelErrorLogin;
+    public LoginPanel(LoginButtonCallback callback) {
+        this.setLayout(new GridBagLayout());
 
-    private int currentFocusedComponent = 1;
+        GridBagConstraints c = new GridBagConstraints();
+        c.insets = new Insets(5, 0, 5, 0);
+        c.anchor = GridBagConstraints.CENTER;
+        c.fill = GridBagConstraints.VERTICAL;
 
-    public LoginPanel(Callback callback) {
-        this.setLayout(new MigLayout("wrap", "push[center]push", "push[]25[]10[]10[]10[]25[]push"));
+        c.gridx = 0;
+        c.gridy = 0;
+        JLabel sgoLabel = new JLabel(LoginPanel.SGO_TEXT) {
+            {
+                this.setFont(new Font(LoginPanel.SGO_LABEL_FONT_NAME, Font.BOLD, LoginPanel.SGO_TEXT_SIZE_LOGIN_PANEL));
+            }
 
-        Action action = new AbstractAction(LoginPanel.ENTER_ACTION_KEY) {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                if(!schoolNameField.getText().isEmpty() && !schoolDomainField.getText().isEmpty() && currentFocusedComponent != 4) {
-                    currentFocusedComponent = 3;
-                }
-
-                int n = ++currentFocusedComponent;
-
-                if(n == 5) {
-                    ActionListener[] actionListeners = loginButton.getActionListeners();
-                    for(ActionListener l : actionListeners) {
-                        l.actionPerformed(new ActionEvent(loginButton, (int) (Math.random() * 10000), ""));
-                    }
-                    n = currentFocusedComponent = 1;
-                }
-
-                getComponent(n).requestFocus();
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g;
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setPaint(new GradientPaint(0, 0, UIConstants.DARK_GREEN, this.getWidth(), this.getHeight(), UIConstants.LIGHT_GREEN));
+                g2.drawString(this.getText(), 0, g2.getFontMetrics().getAscent());
             }
         };
-        this.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), LoginPanel.ENTER_ACTION_KEY);
-        this.getActionMap().put(LoginPanel.ENTER_ACTION_KEY, action);
+        this.add(sgoLabel, c);
 
-        JLabel labelSGO = new JLabel("Сетевой Город. Образование");
-        labelSGO.setFont(new Font("sansserif", Font.BOLD, 30));
-        labelSGO.setForeground(new Color(7, 164, 121));
-        this.add(labelSGO);
+        c.gridy = 1;
+        PTextField loginField = new PTextField();
+        loginField.setPrefixIcon(Utils.getIcon("/images/mail.png"));
+        loginField.setHint("Логин");
+        loginField.setPreferredSize(new Dimension(sgoLabel.getPreferredSize().width, loginField.getPreferredSize().height));
+        this.add(loginField, c);
 
-        String width = String.format("w %d", labelSGO.getPreferredSize().width);
+        c.gridy = 2;
+        PTextField sgoAddressField = new PTextField();
+        sgoAddressField.setPrefixIcon(Utils.getIcon("/images/browser.png"));
+        sgoAddressField.setHint("Сайт дневника");
+        sgoAddressField.setPreferredSize(new Dimension(sgoLabel.getPreferredSize().width, sgoAddressField.getPreferredSize().height));
+        this.add(sgoAddressField, c);
 
-        this.labelErrorLogin = new JLabel();
-        this.labelErrorLogin.setFont(new Font("sansserif", Font.BOLD, 30));
-        this.labelErrorLogin.setForeground(new Color(164, 7, 44));
-        this.labelErrorLogin.setVisible(false);
+        c.gridy = 3;
+        PTextField schoolNameField = new PTextField();
+        schoolNameField.setPrefixIcon(Utils.getIcon("/images/school.png"));
+        schoolNameField.setHint("Имя школы");
+        schoolNameField.setPreferredSize(new Dimension(sgoLabel.getPreferredSize().width, schoolNameField.getPreferredSize().height));
+        this.add(schoolNameField, c);
 
-        this.loginField = new PitaTextField();
-        this.loginField.setPrefixIcon(Utils.loadIcon("/mail.png"));
-        this.loginField.setHint("Логин");
-        this.loginField.addMouseListener(new MouseAdapter() {
+        c.gridy = 4;
+        PPassField passwordField = new PPassField();
+        passwordField.setPrefixIcon(Utils.getIcon("/images/pass.png"));
+        passwordField.setHint("Пароль");
+        passwordField.setPreferredSize(new Dimension(sgoLabel.getPreferredSize().width, passwordField.getPreferredSize().height));
+        this.add(passwordField, c);
+
+        c.gridy = 5;
+        GradientPressEffectButton loginButton = new GradientPressEffectButton("Войти");
+        loginButton.setPreferredSize(new Dimension(sgoLabel.getPreferredSize().width, passwordField.getPreferredSize().height));
+        loginButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                currentFocusedComponent = 1;
+                super.mousePressed(e);
+                callback.buttonPressed(
+                        loginField.getText(), sgoAddressField.getText(),
+                        schoolNameField.getText(), new String(passwordField.getPassword())
+                );
             }
         });
-        this.add(this.loginField, width);
+        this.add(loginButton, c);
+    } //TODO make rotating loading. Try make it by drawing path
 
-        String[] data = Pita.getPita().getSchoolDomainAndName();
-
-        this.schoolNameField = new PitaTextField();
-        this.schoolNameField.setText(data[1]);
-        this.schoolNameField.setPrefixIcon(Utils.loadIcon("/school.png"));
-        this.schoolNameField.setHint("Имя/ID школы");
-        this.schoolNameField.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                currentFocusedComponent = 2;
-            }
-        });
-        this.add(this.schoolNameField, width);
-
-        this.schoolDomainField = new PitaTextField();
-        this.schoolDomainField.setText(data[0]);
-        this.schoolDomainField.setPrefixIcon(Utils.loadIcon("/browser.png"));
-        this.schoolDomainField.setHint("Домен дневника");
-        this.schoolDomainField.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                currentFocusedComponent = 3;
-            }
-        });
-        this.add(this.schoolDomainField, width);
-
-        this.passwordField = new PitaPasswordField();
-        this.passwordField.setPrefixIcon(Utils.loadIcon("/pass.png"));
-        this.passwordField.setHint("Пароль");
-        this.passwordField.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                currentFocusedComponent = 4;
-            }
-        });
-        this.add(this.passwordField, width);
-
-        this.loginButton = new Button();
-        this.loginButton.setFocusPainted(false);
-        this.loginButton.setBackground(new Color(7, 164, 121));
-        this.loginButton.setForeground(new Color(250, 250, 250));
-        this.loginButton.addActionListener(e -> {
-            for(int i = 1; i < 5; i++) {
-                Component c = this.getComponent(i);
-                if(c instanceof JTextField) {
-                    JTextField t = (JTextField) c;
-                    if(t.getText().isEmpty()) {
-                        c.requestFocus();
-                        return;
-                    }
-                }
-            }
-
-            this.loginButton.setIcon(Utils.loadIcon("/loading.gif"));
-            this.loginButton.setDisabledIcon(Utils.loadIcon("/loading.gif"));
-            this.loginButton.setRolloverIcon(Utils.loadIcon("/loading.gif"));
-            this.loginButton.setPressedIcon(Utils.loadIcon("/loading.gif"));
-            this.loginButton.setSelectedIcon(Utils.loadIcon("/loading.gif"));
-            this.loginButton.setEnabled(false);
-            this.loginButton.setText("");
-            callback.doWork(
-                    this.loginField.getText(),
-                    new String(this.passwordField.getPassword()),
-                    this.schoolDomainField.getText(),
-                    this.schoolNameField.getText()
-            );
-        });
-        this.loginButton.setText("Войти");
-        this.add(this.loginButton, width + ", h 40");
-    }
-
-    public void errorWhileLogin(Exception e) {
-        this.add(this.labelErrorLogin);
-        this.labelErrorLogin.setVisible(true);
-        this.labelErrorLogin.setText("Произошла ошибка во время входа в систему");
-        this.fixButton();
-        this.validate();
-    }
-
-    public void clearFields() {
-        this.loginField.setText("");
-        this.passwordField.setText("");
-    }
-
-    public void fixButton() {
-        this.loginButton.setEnabled(true);
-        this.loginButton.setText("Войти");
-        this.loginButton.setIcon(null);
-        this.loginButton.setDisabledIcon(null);
-        this.loginButton.setRolloverIcon(null);
-        this.loginButton.setPressedIcon(null);
-        this.loginButton.setSelectedIcon(null);
+    @FunctionalInterface
+    public interface LoginButtonCallback {
+        void buttonPressed(String login, String address, String schoolName, String password);
     }
 }

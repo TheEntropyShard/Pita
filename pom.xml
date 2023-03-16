@@ -16,22 +16,6 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>io.github.theentropyshard</groupId>
-            <artifactId>netschoolapi</artifactId>
-            <version>3.0.1</version>
-        </dependency>
 
-        <dependency>
-            <groupId>com.miglayout</groupId>
-            <artifactId>miglayout-swing</artifactId>
-            <version>4.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.miglayout</groupId>
-            <artifactId>miglayout-core</artifactId>
-            <version>4.2</version>
-        </dependency>
     </dependencies>
 </project>

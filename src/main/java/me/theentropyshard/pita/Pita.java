@@ -17,34 +17,30 @@
 
 package me.theentropyshard.pita;
 
-import com.google.gson.Gson;
-import me.theentropyshard.netschoolapi.NetSchoolAPI;
-import me.theentropyshard.pita.view.View;
+import me.theentropyshard.pita.view.LoginPanel;
+import me.theentropyshard.pita.view.UIConstants;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.*;
 
 public final class Pita {
-    private final NetSchoolAPI api;
 
-    private final View view;
-
-    public Pita() {
+    public Pita(String[] args) {
         if(pita != null) {
             throw new IllegalStateException("Only one Pita instance can exist at a time");
         }
         pita = this;
 
-        this.api = new NetSchoolAPI();
-
-        this.view = new View();
-        SwingUtilities.invokeLater(() -> this.view.setVisible(true));
-
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            synchronized (this.api) {
-                this.api.logout();
-            }
-        }));
+        JFrame frame = new JFrame();
+        frame.setTitle("Pita");
+        frame.add(new LoginPanel((login, address, schoolName, password) -> System.out.println("Tried to login")) {{
+            this.setPreferredSize(new Dimension(UIConstants.DEFAULT_WIDTH, UIConstants.DEFAULT_HEIGHT));
+        }});
+        frame.pack();
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 
     public void saveSchoolDomainAndName(String domain, String schoolName) {
@@ -84,14 +80,6 @@ public final class Pita {
             }
         }
         return new String[]{"", ""};
-    }
-
-    public NetSchoolAPI getAPI() {
-        return this.api;
-    }
-
-    public View getView() {
-        return this.view;
     }
 
     private static Pita pita;

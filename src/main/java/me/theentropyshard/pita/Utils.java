@@ -22,61 +22,33 @@ import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.time.format.TextStyle;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
 import java.util.Objects;
+import java.util.Scanner;
 
 public enum Utils {
     ;
 
-    private static final Map<String, ImageIcon> ICON_CACHE = new HashMap<>();
-    private static final Map<String, BufferedImage> IMAGE_CACHE = new HashMap<>();
-
-    public static String getTodaysDateRussian() {
-        LocalDate localDate = LocalDate.now(ZoneId.of("Europe/Moscow"));
-        String month = localDate.getMonth().getDisplayName(TextStyle.FULL, Locale.getDefault());
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(String.format("dd %s yyyy г.", month));
-
-        return localDate.format(formatter);
-    }
-
-    public static BufferedImage loadImage(String path) {
-        if(Utils.IMAGE_CACHE.containsKey(path)) {
-            return Utils.IMAGE_CACHE.get(path);
-        }
-        BufferedImage image;
+    public static BufferedImage getImage(String path) {
         try {
-
-            image = ImageIO.read(Objects.requireNonNull(Utils.class.getResourceAsStream(path)));
-            Utils.IMAGE_CACHE.put(path, image);
+            return ImageIO.read(Objects.requireNonNull(Utils.class.getResourceAsStream(path)));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        return image;
     }
 
-    public static ImageIcon loadIcon(String path) {
-        if(Utils.ICON_CACHE.containsKey(path)) {
-            return Utils.ICON_CACHE.get(path);
-        }
-
-        ImageIcon icon;
-        try {
-            InputStream is = Objects.requireNonNull(Utils.class.getResourceAsStream(path));
-            byte[] bytes = new byte[is.available()];
-            is.read(bytes);
-            icon = new ImageIcon(bytes);
-            Utils.ICON_CACHE.put(path, icon);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
+    public static Icon getIcon(String path) {
+        ImageIcon icon = new ImageIcon();
+        icon.setImage(Utils.getImage(path));
         return icon;
+    }
+
+    public static String readStream(InputStream is) {
+        StringBuilder builder = new StringBuilder();
+        Scanner scanner = new Scanner(is);
+        while(scanner.hasNextLine()) {
+            builder.append(scanner.nextLine());
+        }
+        scanner.close();
+        return builder.toString();
     }
 }

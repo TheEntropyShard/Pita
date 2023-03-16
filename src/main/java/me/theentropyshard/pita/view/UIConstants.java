@@ -17,17 +17,17 @@
 
 package me.theentropyshard.pita.view;
 
-import javax.swing.*;
 import java.awt.*;
 
-public class MySeparator extends JSeparator {
-    private static final int OFFSET = 5;
+public enum UIConstants {
+    ;
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        int w = getWidth();
-        int h = getHeight();
+    public static final int DEFAULT_WIDTH = 1280;
+    public static final int DEFAULT_HEIGHT = 720;
 
-        g.drawLine(w / 2 - 0, 0 + OFFSET, w / 2 - 0, h - OFFSET);
-    }
+    public static final int ARC_WIDTH = 7;
+    public static final int ARC_HEIGHT = 7;
+
+    public static final Color DARK_GREEN = new Color(6, 79, 10);
+    public static final Color LIGHT_GREEN = new Color(34, 136, 41);
 }

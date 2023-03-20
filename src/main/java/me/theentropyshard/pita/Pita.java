@@ -17,14 +17,16 @@
 
 package me.theentropyshard.pita;
 
-import me.theentropyshard.pita.view.LoginPanel;
-import me.theentropyshard.pita.view.UIConstants;
+import me.theentropyshard.pita.view.View;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.*;
 
 public final class Pita {
+    public static final File CWD = new File(System.getProperty("user.dir"));
+    public static final File PITA_DIR = Utils.getAppDir("Pita");
+
+    private final File credentialsFile;
 
     public Pita(String[] args) {
         if(pita != null) {
@@ -32,54 +34,33 @@ public final class Pita {
         }
         pita = this;
 
-        JFrame frame = new JFrame();
-        frame.setTitle("Pita");
-        frame.add(new LoginPanel((login, address, schoolName, password) -> System.out.println("Tried to login")) {{
-            this.setPreferredSize(new Dimension(UIConstants.DEFAULT_WIDTH, UIConstants.DEFAULT_HEIGHT));
-        }});
-        frame.pack();
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+        this.credentialsFile = Utils.makeDirectory(new File(Pita.PITA_DIR, "credentials.dat"));
+
+        SwingUtilities.invokeLater(View::new);
     }
 
-    public void saveSchoolDomainAndName(String domain, String schoolName) {
-        File file = new File("data.txt");
-        if(!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
+    public void saveCredentials(Credentials c) {
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-            writer.write(domain + "\n");
-            writer.write(schoolName + "\n");
-            writer.flush();
-            writer.close();
+            FileOutputStream fos = new FileOutputStream(this.credentialsFile);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(oos);
+            oos.close();
         } catch (IOException e) {
+            System.err.println("Не удалось сохранить данные для входа:");
             e.printStackTrace();
         }
     }
 
-    public String[] getSchoolDomainAndName() {
-        File file = new File("data.txt");
-        if(file.exists()) {
-            try {
-                BufferedReader reader = new BufferedReader(new FileReader(file));
-                String domain = reader.readLine();
-                String name = reader.readLine();
-                return new String[]{
-                        domain == null ? "" : domain,
-                        name == null ? "" : name
-                };
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    public Credentials loadCredentials() {
+        try {
+            FileInputStream fis = new FileInputStream(this.credentialsFile);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            return (Credentials) ois.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("Не удалось загрузить данные для входа:");
+            e.printStackTrace();
         }
-        return new String[]{"", ""};
+        return null;
     }
 
     private static Pita pita;

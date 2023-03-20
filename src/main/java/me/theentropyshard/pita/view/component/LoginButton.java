@@ -7,11 +7,14 @@ import org.jdesktop.animation.timing.TimingTargetAdapter;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
-public class GradientPressEffectButton extends JButton {
+public class LoginButton extends JButton implements ActionListener {
     private final Animator animator;
 
     private int targetSize;
@@ -19,8 +22,15 @@ public class GradientPressEffectButton extends JButton {
     private float alpha;
     private Point pressedPoint;
     private Color effectColor = new Color(255, 255, 255);
+    private boolean loading;
+    private int startAngle;
+    private int endAngle;
 
-    public GradientPressEffectButton(String text) {
+    private String oldText;
+
+    private final Timer timer;
+
+    public LoginButton(String text) {
         super(text);
         this.setFocusPainted(false);
         this.setContentAreaFilled(false);
@@ -28,6 +38,8 @@ public class GradientPressEffectButton extends JButton {
         this.setForeground(new Color(250, 250, 250));
         this.setBackground(Color.WHITE);
         this.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        this.timer = new Timer(150, this);
 
         this.addMouseListener(new MouseAdapter() {
             @Override
@@ -48,7 +60,7 @@ public class GradientPressEffectButton extends JButton {
         this.animator = new Animator(700, new TimingTargetAdapter() {
             @Override
             public void timingEvent(float fraction) {
-                if (fraction > 0.5f) {
+                if(fraction > 0.5f) {
                     alpha = 1 - fraction;
                 }
                 animationSize = fraction * targetSize;
@@ -67,14 +79,49 @@ public class GradientPressEffectButton extends JButton {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setPaint(new GradientPaint(0, 0, UIConstants.DARK_GREEN, this.getWidth(), this.getHeight(), UIConstants.LIGHT_GREEN));
         g2.fillRoundRect(0, 0, this.getWidth(), this.getHeight(), UIConstants.ARC_WIDTH, UIConstants.ARC_HEIGHT);
-        if (this.pressedPoint != null) {
+        if(this.pressedPoint != null && !this.loading) {
             g2.setColor(this.effectColor);
             g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, this.alpha));
             g2.fillOval((int) (this.pressedPoint.x - this.animationSize / 2), (int) (this.pressedPoint.y - this.animationSize / 2), (int) this.animationSize, (int) this.animationSize);
         }
+        if(this.loading) {
+            int w = this.getWidth();
+            int h = this.getHeight();
+
+            g2.setColor(Color.WHITE);
+            g2.setStroke(new BasicStroke(3));
+            g2.rotate(Math.toRadians(this.endAngle), w >> 1, h >> 1);
+            g2.drawArc(w / 2 - 9, h / 2 - 9, 18, 18, 0, -250);
+        }
         g2.dispose();
         g.drawImage(img, 0, 0, null);
         super.paintComponent(g);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        this.endAngle += 10;
+        this.repaint();
+    }
+
+    public void setLoading(boolean loading) {
+        this.loading = loading;
+        if(loading) {
+            this.oldText = this.getText();
+            this.setText("");
+            if(!this.timer.isRunning()) {
+                this.timer.start();
+            }
+        } else {
+            this.setText(this.oldText);
+            if(this.timer.isRunning()) {
+                this.timer.stop();
+            }
+        }
+    }
+
+    public boolean isLoading() {
+        return this.loading;
     }
 
     public int getTargetSize() {

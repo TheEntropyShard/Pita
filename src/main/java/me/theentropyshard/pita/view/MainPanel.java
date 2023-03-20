@@ -17,19 +17,28 @@
 
 package me.theentropyshard.pita.view;
 
+import javax.swing.*;
 import java.awt.*;
 
-public enum UIConstants {
-    ;
+public class MainPanel extends JPanel {
+    private final CardLayout contentLayout;
+    private final JPanel contentPanel;
 
-    public static final int DEFAULT_WIDTH = 1280;
-    public static final int DEFAULT_HEIGHT = 720;
+    private final AnnouncementsPanel annPanel;
+    private final DiaryPanel diaryPanel;
 
-    public static final int ARC_WIDTH = 7;
-    public static final int ARC_HEIGHT = 7;
+    public MainPanel() {
+        this.setLayout(new BorderLayout());
 
-    public static final Color DARK_GREEN = new Color(6, 79, 10);
-    public static final Color LIGHT_GREEN = new Color(34, 136, 41);
-    public static final Color NEAR_WHITE = new Color(220, 243, 218);
-    public static final Color WRONG = new Color(243, 218, 218);
+        this.contentLayout = new CardLayout();
+        this.contentPanel = new JPanel(this.contentLayout);
+
+        this.annPanel = new AnnouncementsPanel();
+        this.contentPanel.add(this.annPanel, AnnouncementsPanel.class.getSimpleName());
+
+        this.diaryPanel = new DiaryPanel();
+        this.contentPanel.add(this.diaryPanel, DiaryPanel.class.getSimpleName());
+
+        this.contentLayout.show(this.contentPanel, AnnouncementsPanel.class.getSimpleName());
+    }
 }

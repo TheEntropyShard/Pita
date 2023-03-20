@@ -4,6 +4,8 @@ import me.theentropyshard.pita.view.UIConstants;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class PTextField extends JTextField {
     public static final String TEXT_FIELD_FONT = "sansserif";
@@ -12,23 +14,39 @@ public class PTextField extends JTextField {
 
     private Icon prefixIcon;
     private String hint = "";
+    private boolean isWrong;
 
     public PTextField() {
+        this.setOpaque(false);
         this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        this.setBackground(new Color(0, 0, 0, 0));
+        this.setBackground(UIConstants.NEAR_WHITE);
         this.setForeground(PTextField.TEXT_FIELD_TEXT_COLOR);
         this.setFont(new Font(PTextField.TEXT_FIELD_FONT, Font.BOLD, PTextField.TEXT_FIELD_FONT_SIZE));
         this.setSelectionColor(new Color(75, 175, 152));
+        this.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                super.keyPressed(e);
+                if(isWrong) {
+                    setWrong(false);
+                    repaint();
+                }
+            }
+        });
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setColor(new Color(220, 243, 218));
+        if(this.isWrong) {
+            g2.setColor(UIConstants.WRONG);
+        } else {
+            g2.setColor(UIConstants.NEAR_WHITE);
+        }
         g2.fillRoundRect(0, 0, this.getWidth(), this.getHeight(), UIConstants.ARC_WIDTH, UIConstants.ARC_HEIGHT);
-        this.paintIcon(g);
-        super.paintComponent(g);
+        this.paintIcon(g2);
+        super.paintComponent(g2);
     }
 
     @Override
@@ -55,6 +73,11 @@ public class PTextField extends JTextField {
             left = this.prefixIcon.getIconWidth() + 15;
         }
         this.setBorder(BorderFactory.createEmptyBorder(10, left, 10, 15));
+    }
+
+
+    public void setWrong(boolean wrong) {
+        this.isWrong = wrong;
     }
 
     public void setHint(String hint) {

@@ -17,10 +17,19 @@
 
 package me.theentropyshard.pita.view;
 
+import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
+
 import javax.swing.*;
+import java.awt.*;
 
 public final class View {
+    private final JFrame frame;
+
+    private final CardLayout rootLayout;
     private final JPanel root;
+
+    private final LoginPanel loginPanel;
+    private final MainPanel mainPanel;
 
     public View() {
         if(view != null) {
@@ -28,7 +37,29 @@ public final class View {
         }
         view = this;
 
-        this.root = new JPanel();
+        this.frame = new JFrame("Pita");
+        this.rootLayout = new CardLayout();
+        this.root = new JPanel(this.rootLayout);
+
+        this.root.setPreferredSize(new Dimension(UIConstants.DEFAULT_WIDTH, UIConstants.DEFAULT_HEIGHT));
+
+        this.loginPanel = new LoginPanel(NetSchoolAPI.I::login);
+        this.root.add(this.loginPanel, LoginPanel.class.getSimpleName());
+
+        this.mainPanel = new MainPanel();
+        this.root.add(this.mainPanel, MainPanel.class.getSimpleName());
+
+        this.rootLayout.show(this.root, LoginPanel.class.getSimpleName());
+
+        this.frame.add(this.root, BorderLayout.CENTER);
+        this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.frame.pack();
+        this.frame.setLocationRelativeTo(null);
+        this.frame.setVisible(true);
+    }
+
+    public JPanel getRoot() {
+        return this.root;
     }
 
     private static View view;

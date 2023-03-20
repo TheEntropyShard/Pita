@@ -15,21 +15,22 @@
  *      along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.pita.view;
+package me.theentropyshard.pita.http;
 
-import java.awt.*;
+import okhttp3.MediaType;
 
-public enum UIConstants {
-    ;
+public enum ContentType {
+    JSON("application/json; charset=utf-8"),
+    FORM_URLENCODED("application/x-www-form-urlencoded; charset=utf-8"),
+    MULTIPART_FORMDATA("application/octet-stream");
 
-    public static final int DEFAULT_WIDTH = 1280;
-    public static final int DEFAULT_HEIGHT = 720;
+    private final MediaType mediaType;
 
-    public static final int ARC_WIDTH = 7;
-    public static final int ARC_HEIGHT = 7;
+    ContentType(String contentType) {
+        this.mediaType = MediaType.get(contentType);
+    }
 
-    public static final Color DARK_GREEN = new Color(6, 79, 10);
-    public static final Color LIGHT_GREEN = new Color(34, 136, 41);
-    public static final Color NEAR_WHITE = new Color(220, 243, 218);
-    public static final Color WRONG = new Color(243, 218, 218);
+    public MediaType getMediaType() {
+        return this.mediaType;
+    }
 }

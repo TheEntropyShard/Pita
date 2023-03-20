@@ -15,21 +15,16 @@
  *      along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.pita.view;
+package me.theentropyshard.pita.netschoolapi;
 
-import java.awt.*;
+import me.theentropyshard.pita.http.HttpClientWrapper;
 
-public enum UIConstants {
-    ;
+public enum NetSchoolAPI {
+    I;
 
-    public static final int DEFAULT_WIDTH = 1280;
-    public static final int DEFAULT_HEIGHT = 720;
+    private HttpClientWrapper client;
 
-    public static final int ARC_WIDTH = 7;
-    public static final int ARC_HEIGHT = 7;
+    public void login(String address, String schoolName, String login, String password) {
 
-    public static final Color DARK_GREEN = new Color(6, 79, 10);
-    public static final Color LIGHT_GREEN = new Color(34, 136, 41);
-    public static final Color NEAR_WHITE = new Color(220, 243, 218);
-    public static final Color WRONG = new Color(243, 218, 218);
+    }
 }

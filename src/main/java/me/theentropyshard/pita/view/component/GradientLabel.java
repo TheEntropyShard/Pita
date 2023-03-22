@@ -15,29 +15,38 @@
  *      along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.pita.view;
+package me.theentropyshard.pita.view.component;
+
+import me.theentropyshard.pita.view.component.ui.PGradientLabelUI;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class AnnouncementsPanel extends JPanel {
-    private final JPanel root;
+public class GradientLabel extends JLabel {
+    private Color color1;
+    private Color color2;
 
-    public AnnouncementsPanel() {
-        this.setLayout(new BorderLayout());
+    public GradientLabel(Color color1, Color color2) {
+        this.color1 = color1;
+        this.color2 = color2;
 
-        this.root = new JPanel();
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.add(this.root, BorderLayout.CENTER);
-        JScrollPane scrollPane = new JScrollPane(
-                panel,
-                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
-        );
-        this.add(scrollPane, BorderLayout.CENTER);
+        this.setOpaque(false);
+        this.setUI(new PGradientLabelUI());
     }
 
-    public void addNewAnnouncement(String subject, String author, String time, String text) {
-        JPanel container = new JPanel();
+    public Color getColor1() {
+        return this.color1;
+    }
+
+    public void setColor1(Color color1) {
+        this.color1 = color1;
+    }
+
+    public Color getColor2() {
+        return this.color2;
+    }
+
+    public void setColor2(Color color2) {
+        this.color2 = color2;
     }
 }

@@ -39,7 +39,7 @@ public class LoginButton extends JButton implements ActionListener {
         this.setBackground(Color.WHITE);
         this.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        this.timer = new Timer(150, this);
+        this.timer = new Timer(100, this);
 
         this.addMouseListener(new MouseAdapter() {
             @Override

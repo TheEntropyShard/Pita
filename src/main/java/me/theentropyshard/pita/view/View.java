@@ -18,9 +18,13 @@
 package me.theentropyshard.pita.view;
 
 import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
+import me.theentropyshard.pita.netschoolapi.exceptions.AuthException;
+import me.theentropyshard.pita.netschoolapi.exceptions.SchoolNotFoundException;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.net.UnknownHostException;
 
 public final class View {
     private final JFrame frame;
@@ -43,7 +47,28 @@ public final class View {
 
         this.root.setPreferredSize(new Dimension(UIConstants.DEFAULT_WIDTH, UIConstants.DEFAULT_HEIGHT));
 
-        this.loginPanel = new LoginPanel(NetSchoolAPI.I::login);
+        this.loginPanel = new LoginPanel();
+        LoginPanel.LoginButtonCallback callback = (address, schoolName, login, password) -> {
+            Thread t = new Thread(() -> {
+                try {
+                    NetSchoolAPI.I.login(address, schoolName, login, password);
+                    SwingUtilities.invokeLater(() -> {
+                        this.rootLayout.show(this.root, MainPanel.class.getSimpleName());
+                        this.loginPanel.reset();
+                    });
+                } catch (UnknownHostException e) {
+                    this.loginPanel.wrongAddress();
+                } catch (SchoolNotFoundException e) {
+                    this.loginPanel.schoolNotFound();
+                } catch (AuthException e) {
+                    this.loginPanel.wrongCredentials();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+            t.start();
+        };
+        this.loginPanel.setLoginButtonPressedCallback(callback);
         this.root.add(this.loginPanel, LoginPanel.class.getSimpleName());
 
         this.mainPanel = new MainPanel();
@@ -58,8 +83,8 @@ public final class View {
         this.frame.setVisible(true);
     }
 
-    public JPanel getRoot() {
-        return this.root;
+    public JFrame getFrame() {
+        return this.frame;
     }
 
     private static View view;

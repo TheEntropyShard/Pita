@@ -18,6 +18,7 @@
 package me.theentropyshard.pita.view;
 
 import me.theentropyshard.pita.Utils;
+import me.theentropyshard.pita.view.component.GradientLabel;
 import me.theentropyshard.pita.view.component.LoginButton;
 import me.theentropyshard.pita.view.component.PPassField;
 import me.theentropyshard.pita.view.component.PTextField;
@@ -32,7 +33,20 @@ public class LoginPanel extends JPanel {
     public static final String SGO_LABEL_FONT_NAME = "sansserif";
     public static final int SGO_TEXT_SIZE = 30;
 
-    public LoginPanel(LoginButtonCallback callback) {
+    public static final String ERROR_OCCURRED_TEXT = "Произошла ошибка: ";
+    public static final String ERROR_FONT_NAME = "sansserif";
+    public static final int ERROR_TEXT_SIZE = 18;
+
+    private final PTextField sgoAddressField;
+    private final PTextField schoolNameField;
+    private final PTextField loginField;
+    private final PPassField passwordField;
+    private final LoginButton loginButton;
+    private final GradientLabel errorLabel;
+
+    private LoginButtonCallback callback;
+
+    public LoginPanel() {
         this.setLayout(new GridBagLayout());
 
         GridBagConstraints c = new GridBagConstraints();
@@ -42,84 +56,51 @@ public class LoginPanel extends JPanel {
 
         c.gridx = 0;
         c.gridy = 0;
-        JLabel sgoLabel = new JLabel(LoginPanel.SGO_TEXT) {
-            {
-                this.setFont(new Font(LoginPanel.SGO_LABEL_FONT_NAME, Font.BOLD, LoginPanel.SGO_TEXT_SIZE));
-            }
-
-            @Override
-            protected void paintComponent(Graphics g) {
-                Graphics2D g2 = (Graphics2D) g;
-                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g2.setPaint(new GradientPaint(0, 0, UIConstants.DARK_GREEN, this.getWidth(), this.getHeight(), UIConstants.LIGHT_GREEN));
-                g2.drawString(this.getText(), 0, g2.getFontMetrics().getAscent());
-            }
-        };
+        GradientLabel sgoLabel = new GradientLabel(UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+        sgoLabel.setText(LoginPanel.SGO_TEXT);
+        sgoLabel.setFont(new Font(LoginPanel.SGO_LABEL_FONT_NAME, Font.BOLD, LoginPanel.SGO_TEXT_SIZE));
         this.add(sgoLabel, c);
 
         c.gridy = 1;
-        PTextField sgoAddressField = new PTextField();
-        sgoAddressField.setPrefixIcon(Utils.getIcon("/images/browser.png"));
-        sgoAddressField.setHint("Сайт дневника");
-        sgoAddressField.setPreferredSize(new Dimension(sgoLabel.getPreferredSize().width, sgoAddressField.getPreferredSize().height));
-        this.add(sgoAddressField, c);
+        this.sgoAddressField = new PTextField();
+        this.sgoAddressField.setPrefixIcon(Utils.getIcon("/images/browser.png"));
+        this.sgoAddressField.setHint("Сайт дневника");
+        this.sgoAddressField.setPreferredSize(new Dimension(sgoLabel.getPreferredSize().width, this.sgoAddressField.getPreferredSize().height));
+        this.add(this.sgoAddressField, c);
 
         c.gridy = 2;
-        PTextField schoolNameField = new PTextField();
-        schoolNameField.setPrefixIcon(Utils.getIcon("/images/school.png"));
-        schoolNameField.setHint("Имя школы");
-        schoolNameField.setPreferredSize(new Dimension(sgoLabel.getPreferredSize().width, sgoAddressField.getPreferredSize().height));
-        this.add(schoolNameField, c);
+        this.schoolNameField = new PTextField();
+        this.schoolNameField.setPrefixIcon(Utils.getIcon("/images/school.png"));
+        this.schoolNameField.setHint("Имя школы");
+        this.schoolNameField.setPreferredSize(new Dimension(sgoLabel.getPreferredSize().width, this.sgoAddressField.getPreferredSize().height));
+        this.add(this.schoolNameField, c);
 
         c.gridy = 3;
-        PTextField loginField = new PTextField();
+        this.loginField = new PTextField();
         loginField.setPrefixIcon(Utils.getIcon("/images/mail.png"));
         loginField.setHint("Логин");
-        loginField.setPreferredSize(new Dimension(sgoLabel.getPreferredSize().width, sgoAddressField.getPreferredSize().height));
+        loginField.setPreferredSize(new Dimension(sgoLabel.getPreferredSize().width, this.sgoAddressField.getPreferredSize().height));
         this.add(loginField, c);
 
         c.gridy = 4;
-        PPassField passwordField = new PPassField();
-        passwordField.setPrefixIcon(Utils.getIcon("/images/pass.png"));
-        passwordField.setHint("Пароль");
-        passwordField.setPreferredSize(new Dimension(sgoLabel.getPreferredSize().width, sgoAddressField.getPreferredSize().height));
-        this.add(passwordField, c);
+        this.passwordField = new PPassField();
+        this.passwordField.setPrefixIcon(Utils.getIcon("/images/pass.png"));
+        this.passwordField.setHint("Пароль");
+        this.passwordField.setPreferredSize(new Dimension(sgoLabel.getPreferredSize().width, this.sgoAddressField.getPreferredSize().height));
+        this.add(this.passwordField, c);
 
         c.gridy = 5;
-        LoginButton loginButton = new LoginButton("Войти");
-        loginButton.setPreferredSize(new Dimension(sgoLabel.getPreferredSize().width, sgoAddressField.getPreferredSize().height));
-        loginButton.addActionListener(e -> {
-            for(int i = 1; i < 5; i++) {
-                Component com = this.getComponent(i);
-                if(com instanceof JTextField) {
-                    JTextField t = (JTextField) com;
-                    if(t.getText().isEmpty()) {
-                        com.setBackground(UIConstants.WRONG);
-                        if(t instanceof PTextField) {
-                            ((PTextField) t).setWrong(true);
-                        } else if(t instanceof PPassField) {
-                            ((PPassField) t).setWrong(true);
-                        }
-                        com.requestFocus();
-                        return;
-                    }
-                }
-            }
-
-            loginButton.setLoading(true);
-            loginButton.setEnabled(false);
-
-            sgoAddressField.setText("");
-            schoolNameField.setText("");
-            loginField.setText("");
-            passwordField.setText("");
-
-            callback.buttonPressed(
-                    sgoAddressField.getText(), schoolNameField.getText(),
-                    loginField.getText(), new String(passwordField.getPassword())
-            );
+        this.loginButton = new LoginButton("Войти");
+        this.loginButton.setPreferredSize(new Dimension(sgoLabel.getPreferredSize().width, this.sgoAddressField.getPreferredSize().height));
+        this.loginButton.addActionListener(e -> {
+            this.loginButtonPressed(this.callback);
         });
-        this.add(loginButton, c);
+        this.add(this.loginButton, c);
+
+        c.gridy = 6;
+        this.errorLabel = new GradientLabel(new Color(105, 0, 0), new Color(168, 0, 0));
+        this.errorLabel.setFont(new Font(LoginPanel.ERROR_FONT_NAME, Font.BOLD, LoginPanel.ERROR_TEXT_SIZE));
+        this.add(this.errorLabel, c);
 
         this.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "ENTER");
         this.getActionMap().put("ENTER", new AbstractAction() {
@@ -128,38 +109,93 @@ public class LoginPanel extends JPanel {
                 KeyboardFocusManager m = KeyboardFocusManager.getCurrentKeyboardFocusManager();
                 m.focusNextComponent();
                 if(m.getFocusOwner() == passwordField) {
-                    for(int i = 1; i < 5; i++) {
-                        Component com = getComponent(i);
-                        if(com instanceof JTextField) {
-                            JTextField t = (JTextField) com;
-                            if(t.getText().isEmpty()) {
-                                com.setBackground(UIConstants.WRONG);
-                                if(t instanceof PTextField) {
-                                    ((PTextField) t).setWrong(true);
-                                } else if(t instanceof PPassField) {
-                                    ((PPassField) t).setWrong(true);
-                                }
-                                com.requestFocus();
-                                return;
-                            }
-                        }
-                    }
-
-                    loginButton.setLoading(true);
-                    loginButton.setEnabled(false);
-
-                    sgoAddressField.setText("");
-                    schoolNameField.setText("");
-                    loginField.setText("");
-                    passwordField.setText("");
-
-                    callback.buttonPressed(
-                            sgoAddressField.getText(), schoolNameField.getText(),
-                            loginField.getText(), new String(passwordField.getPassword())
-                    );
+                    loginButtonPressed(callback);
                 }
             }
         });
+    }
+
+    private void loginButtonPressed(LoginButtonCallback callback) {
+        for(int i = 1; i < 5; i++) {
+            Component com = this.getComponent(i);
+            if(com instanceof JTextField) {
+                JTextField t = (JTextField) com;
+                if(t.getText().isEmpty()) {
+                    com.setBackground(UIConstants.WRONG);
+                    if(t instanceof PTextField) {
+                        ((PTextField) t).setWrong(true);
+                    } else if(t instanceof PPassField) {
+                        ((PPassField) t).setWrong(true);
+                    }
+                    com.requestFocus();
+                    return;
+                }
+            }
+        }
+
+        for(int i = 1; i < 5; i++) {
+            JTextField t = (JTextField) this.getComponent(i);
+            t.setEditable(false);
+        }
+
+        this.loginButton.setLoading(true);
+        this.loginButton.setEnabled(false);
+
+        callback.buttonPressed(
+                this.sgoAddressField.getText(), this.schoolNameField.getText(),
+                this.loginField.getText(), new String(this.passwordField.getPassword())
+        );
+    }
+
+    public void reset() {
+        this.resetFields(true, true);
+        this.resetLoginButton();
+    }
+
+    public void resetFields(boolean clear, boolean editable) {
+        for(int i = 1; i < 5; i++) {
+            JTextField t = (JTextField) this.getComponent(i);
+            t.setEditable(editable);
+            if(clear) {
+                t.setText("");
+            }
+        }
+    }
+
+    public void resetLoginButton() {
+        this.loginButton.setLoading(false);
+        this.loginButton.setEnabled(true);
+    }
+
+    public void wrongAddress() {
+        this.sgoAddressField.setWrong(true);
+        this.sgoAddressField.setEditable(true);
+        this.sgoAddressField.requestFocus();
+        this.resetLoginButton();
+        this.repaint();
+    }
+
+    public void schoolNotFound() {
+        this.schoolNameField.setWrong(true);
+        this.schoolNameField.setEditable(true);
+        this.schoolNameField.requestFocus();
+        this.resetLoginButton();
+        this.repaint();
+    }
+
+    public void wrongCredentials() {
+        this.loginField.setWrong(true);
+        this.loginField.setEditable(true);
+        this.loginField.requestFocus();
+        this.passwordField.setWrong(true);
+        this.passwordField.setEditable(true);
+        this.passwordField.setText("");
+        this.resetLoginButton();
+        this.repaint();
+    }
+
+    public void setLoginButtonPressedCallback(LoginButtonCallback callback) {
+        this.callback = callback;
     }
 
     @FunctionalInterface

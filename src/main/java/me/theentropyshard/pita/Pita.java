@@ -36,6 +36,10 @@ public final class Pita {
 
         this.credentialsFile = Utils.makeDirectory(new File(Pita.PITA_DIR, "credentials.dat"));
 
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+
+        }));
+
         SwingUtilities.invokeLater(View::new);
     }
 

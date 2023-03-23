@@ -28,7 +28,9 @@ import me.theentropyshard.pita.view.component.PTextField;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.nio.charset.Charset;
 
 public class LoginPanel extends JPanel {
     public static final String SGO_TEXT = "Сетевой Город. Образование";
@@ -90,6 +92,12 @@ public class LoginPanel extends JPanel {
         this.passwordField.setPrefixIcon(Utils.getIcon("/images/pass.png"));
         this.passwordField.setHint("Пароль");
         this.passwordField.setPreferredSize(new Dimension(sgoLabel.getPreferredSize().width, this.sgoAddressField.getPreferredSize().height));
+        this.passwordField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                passwordHashed = false;
+            }
+        });
         this.add(this.passwordField, c);
 
         c.gridy = 5;
@@ -100,14 +108,7 @@ public class LoginPanel extends JPanel {
         });
         this.add(this.loginButton, c);
 
-        Credentials creds = Pita.getPita().loadCredentials();
-        if(creds != null) {
-            this.sgoAddressField.setText(creds.getSchoolAddress());
-            this.schoolNameField.setText(creds.getSchoolName());
-            this.loginField.setText(creds.getLogin());
-            this.passwordField.setText(creds.getPasswordHash());
-            this.passwordHashed = true;
-        }
+        this.loadCredentials();
 
         c.gridy = 6;
         this.errorLabel = new GradientLabel(new Color(105, 0, 0), new Color(168, 0, 0));
@@ -158,6 +159,17 @@ public class LoginPanel extends JPanel {
                 this.loginField.getText(), new String(this.passwordField.getPassword()),
                 this.passwordHashed
         );
+    }
+
+    private void loadCredentials() {
+        Credentials creds = Pita.getPita().loadCredentials();
+        if(creds != null) {
+            this.sgoAddressField.setText(creds.getSchoolAddress());
+            this.schoolNameField.setText(creds.getSchoolName());
+            this.loginField.setText(creds.getLogin());
+            this.passwordField.setText(creds.getPasswordHash());
+            this.passwordHashed = true;
+        }
     }
 
     public void reset() {

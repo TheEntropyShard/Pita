@@ -59,8 +59,11 @@ public final class View {
             Thread t = new Thread(() -> {
                 try {
                     NetSchoolAPI.I.login(address, schoolName, login, password, passwordHashed);
-                    final String passHash = Utils.md5(password.getBytes(Charset.forName("windows-1251")));
-                    Pita.getPita().saveCredentials(new Credentials(address, schoolName, login, passHash));
+                    if(!passwordHashed) {
+                        Pita.getPita().saveCredentials(new Credentials(
+                                address, schoolName, login, Utils.md5(password.getBytes(Charset.forName("windows-1251")))
+                        ));
+                    }
                     SwingUtilities.invokeLater(() -> {
                         this.rootLayout.show(this.root, MainPanel.class.getSimpleName());
                         this.mainPanel.showComponents();
@@ -82,7 +85,6 @@ public final class View {
         this.root.add(this.loginPanel, LoginPanel.class.getSimpleName());
 
         this.rootLayout.show(this.root, LoginPanel.class.getSimpleName());
-        //this.rootLayout.show(this.root, MainPanel.class.getSimpleName());
 
         this.frame.add(this.root, BorderLayout.CENTER);
         this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

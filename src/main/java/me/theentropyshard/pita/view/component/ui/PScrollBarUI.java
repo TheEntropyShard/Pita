@@ -17,11 +17,9 @@
 
 package me.theentropyshard.pita.view.component.ui;
 
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
+import me.theentropyshard.pita.view.UIConstants;
+
+import java.awt.*;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -80,7 +78,7 @@ public class PScrollBarUI extends BasicScrollBarUI {
             x += 8;
             width -= 16;
         }
-        g2.setColor(this.scrollbar.getForeground());
+        g2.setPaint(new GradientPaint(0, 0, UIConstants.DARK_GREEN, width, height, UIConstants.LIGHT_GREEN));
         g2.fillRoundRect(x, y, width, height, 1, 1);
     }
 

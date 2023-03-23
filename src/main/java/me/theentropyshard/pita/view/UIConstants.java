@@ -31,5 +31,6 @@ public enum UIConstants {
     public static final Color DARK_GREEN = new Color(6, 79, 10);
     public static final Color LIGHT_GREEN = new Color(34, 136, 41);
     public static final Color NEAR_WHITE = new Color(220, 243, 218);
+    public static final Color NEAR_WHITE2 = new Color(240, 255, 238);
     public static final Color WRONG = new Color(243, 218, 218);
 }

@@ -121,7 +121,7 @@ public class LoginPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 KeyboardFocusManager m = KeyboardFocusManager.getCurrentKeyboardFocusManager();
                 m.focusNextComponent();
-                if(m.getFocusOwner() == passwordField) {
+                if(m.getFocusOwner() == passwordField || passwordHashed) {
                     loginButtonPressed(callback);
                 }
             }

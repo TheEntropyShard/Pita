@@ -22,13 +22,17 @@ import com.google.gson.JsonObject;
 import me.theentropyshard.pita.Utils;
 import me.theentropyshard.pita.http.HttpClientWrapper;
 import me.theentropyshard.pita.netschoolapi.diary.models.Announcement;
+import me.theentropyshard.pita.netschoolapi.diary.models.Attachment;
 import me.theentropyshard.pita.netschoolapi.exceptions.AuthException;
 import me.theentropyshard.pita.netschoolapi.exceptions.SchoolNotFoundException;
 import me.theentropyshard.pita.netschoolapi.models.SchoolModel;
 import okhttp3.Response;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -153,6 +157,34 @@ public enum NetSchoolAPI {
         try(Response response = this.client.get(Urls.ANNOUNCEMENTS, new Object[]{"take", take})) {
             return Arrays.asList(this.gson.fromJson(Objects.requireNonNull(response.body()).charStream(), Announcement[].class));
         }
+    }
+
+    public void downloadAttachment(File file, Attachment attachment) {
+        long start = System.currentTimeMillis();
+        try {
+            String fileName = attachment.name != null ? attachment.name : attachment.originalFileName;
+            if(file == null) {
+                file = new File(System.getProperty("user.dir") + "/attachments", fileName);
+                if(!file.exists()) {
+                    file.getParentFile().mkdirs();
+                    file.createNewFile();
+                }
+            } else {
+                if(file.isDirectory()) {
+                    file = new File(file, fileName);
+                    if(!file.exists()) {
+                        file.createNewFile();
+                    }
+                }
+            }
+
+            try(Response response = this.client.get(String.format(Urls.ATTACHMENTS_DOWNLOAD, attachment.id))) {
+                Files.copy(Objects.requireNonNull(response.body()).byteStream(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Downloaded attachment, took " + (System.currentTimeMillis() - start) + " ms");
     }
 
     public void logout() {

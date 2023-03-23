@@ -17,16 +17,16 @@
 
 package me.theentropyshard.pita;
 
+import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
 import me.theentropyshard.pita.view.View;
 
 import javax.swing.*;
 import java.io.*;
 
 public final class Pita {
-    public static final File CWD = new File(System.getProperty("user.dir"));
-    public static final File PITA_DIR = Utils.getAppDir("Pita");
-
+    private final File pitaDir;
     private final File credentialsFile;
+    private final File attachmentsDir;
 
     public Pita(String[] args) {
         if(pita != null) {
@@ -34,11 +34,11 @@ public final class Pita {
         }
         pita = this;
 
-        this.credentialsFile = Utils.makeFile(new File(Pita.PITA_DIR, "credentials.dat"));
+        this.pitaDir = Utils.getAppDir("Pita");
+        this.credentialsFile = Utils.makeFile(new File(this.pitaDir, "credentials.dat"));
+        this.attachmentsDir = Utils.makeDirectory(new File(this.pitaDir, "Attachments"));
 
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-
-        }));
+        Runtime.getRuntime().addShutdownHook(new Thread(NetSchoolAPI.I::logout));
 
         SwingUtilities.invokeLater(View::new);
     }
@@ -68,6 +68,14 @@ public final class Pita {
         }
 
         return null;
+    }
+
+    public File getPitaDir() {
+        return this.pitaDir;
+    }
+
+    public File getAttachmentsDir() {
+        return this.attachmentsDir;
     }
 
     private static Pita pita;

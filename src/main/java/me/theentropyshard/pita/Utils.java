@@ -1,4 +1,4 @@
-/*      NetSchoolAPI. A simple API client for NetSchool by irTech
+/*      Pita. A simple desktop client for NetSchool by irTech
  *      Copyright (C) 2022-2023 TheEntropyShard
  *
  *      This program is free software: you can redistribute it and/or modify
@@ -20,7 +20,10 @@ package me.theentropyshard.pita;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
@@ -63,6 +66,7 @@ public enum Utils {
 
             default:
                 appDir = new File(userHome, appName + '/');
+                break;
         }
 
         if(!appDir.exists() && !appDir.mkdirs()) {

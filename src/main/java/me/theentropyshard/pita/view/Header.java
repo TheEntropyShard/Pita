@@ -15,7 +15,7 @@
  *      along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.pita.view.component;
+package me.theentropyshard.pita.view;
 
 import javax.swing.*;
 

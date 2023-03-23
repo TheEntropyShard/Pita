@@ -41,6 +41,8 @@ public enum NetSchoolAPI {
 
     private HttpClientWrapper client;
 
+    private boolean loggedIn;
+
     private int yearId;
     private int globalYearId;
     private int studentId;
@@ -70,7 +72,7 @@ public enum NetSchoolAPI {
         throw new SchoolNotFoundException("Не удалось найти школу \"" + schoolName + "\"\n по адресу '" + url + "', скопируйте название школы с сайта");
     }
 
-    public void login(String address, String schoolName, String login, String password) throws AuthException, SchoolNotFoundException, IOException {
+    public void login(String address, String schoolName, String login, String password, boolean passwordHashed) throws AuthException, SchoolNotFoundException, IOException {
         this.logout();
 
         address = address.endsWith("/") ? address.substring(0, address.length() - 1) : address;
@@ -91,7 +93,12 @@ public enum NetSchoolAPI {
             lt = json.get("lt").getAsString();
         }
 
-        String pw2 = Utils.md5((salt + Utils.md5(password.getBytes(Charset.forName("windows-1251")))).getBytes(Utils.UTF_8));
+        String pw2;
+        if(passwordHashed) {
+            pw2 = Utils.md5((salt + password).getBytes(Utils.UTF_8));
+        } else {
+            pw2 = Utils.md5((salt + Utils.md5(password.getBytes(Charset.forName("windows-1251")))).getBytes(Utils.UTF_8));
+        }
         if(pw2 == null) {
             throw new AuthException("Не удалось хэшировать пароль");
         }
@@ -138,6 +145,8 @@ public enum NetSchoolAPI {
                     .getAsJsonObject().get("items").getAsJsonArray().get(0)
                     .getAsJsonObject().get("title").getAsString();
         }
+
+        this.loggedIn = true;
     }
 
     public List<Announcement> getAnnouncements(int take) throws IOException {
@@ -147,11 +156,12 @@ public enum NetSchoolAPI {
     }
 
     public void logout() {
-        if(this.client != null) {
+        if(this.client != null && this.loggedIn) {
             try {
                 try(Response response = this.client.post(Urls.LOGOUT, "")) {
                     if(response.isSuccessful()) {
                         this.client = null;
+                        this.loggedIn = false;
                         return;
                     }
 

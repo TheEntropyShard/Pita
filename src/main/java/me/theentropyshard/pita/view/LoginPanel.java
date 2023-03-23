@@ -17,6 +17,8 @@
 
 package me.theentropyshard.pita.view;
 
+import me.theentropyshard.pita.Credentials;
+import me.theentropyshard.pita.Pita;
 import me.theentropyshard.pita.Utils;
 import me.theentropyshard.pita.view.component.GradientLabel;
 import me.theentropyshard.pita.view.component.LoginButton;
@@ -45,6 +47,7 @@ public class LoginPanel extends JPanel {
     private final GradientLabel errorLabel;
 
     private LoginButtonCallback callback;
+    private boolean passwordHashed;
 
     public LoginPanel() {
         this.setLayout(new GridBagLayout());
@@ -97,6 +100,15 @@ public class LoginPanel extends JPanel {
         });
         this.add(this.loginButton, c);
 
+        Credentials creds = Pita.getPita().loadCredentials();
+        if(creds != null) {
+            this.sgoAddressField.setText(creds.getSchoolAddress());
+            this.schoolNameField.setText(creds.getSchoolName());
+            this.loginField.setText(creds.getLogin());
+            this.passwordField.setText(creds.getPasswordHash());
+            this.passwordHashed = true;
+        }
+
         c.gridy = 6;
         this.errorLabel = new GradientLabel(new Color(105, 0, 0), new Color(168, 0, 0));
         this.errorLabel.setFont(new Font(LoginPanel.ERROR_FONT_NAME, Font.BOLD, LoginPanel.ERROR_TEXT_SIZE));
@@ -143,7 +155,8 @@ public class LoginPanel extends JPanel {
 
         callback.buttonPressed(
                 this.sgoAddressField.getText(), this.schoolNameField.getText(),
-                this.loginField.getText(), new String(this.passwordField.getPassword())
+                this.loginField.getText(), new String(this.passwordField.getPassword()),
+                this.passwordHashed
         );
     }
 
@@ -200,6 +213,6 @@ public class LoginPanel extends JPanel {
 
     @FunctionalInterface
     public interface LoginButtonCallback {
-        void buttonPressed(String address, String schoolName, String login, String password);
+        void buttonPressed(String address, String schoolName, String login, String password, boolean passwordHashed);
     }
 }

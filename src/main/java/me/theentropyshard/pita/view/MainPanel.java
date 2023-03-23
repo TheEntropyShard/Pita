@@ -32,13 +32,17 @@ public class MainPanel extends JPanel {
 
         this.contentLayout = new CardLayout();
         this.contentPanel = new JPanel(this.contentLayout);
+        this.add(this.contentPanel, BorderLayout.CENTER);
 
         this.annPanel = new AnnouncementsPanel();
         this.contentPanel.add(this.annPanel, AnnouncementsPanel.class.getSimpleName());
 
         this.diaryPanel = new DiaryPanel();
         this.contentPanel.add(this.diaryPanel, DiaryPanel.class.getSimpleName());
+    }
 
+    public void showComponents() {
+        this.annPanel.loadData();
         this.contentLayout.show(this.contentPanel, AnnouncementsPanel.class.getSimpleName());
     }
 }

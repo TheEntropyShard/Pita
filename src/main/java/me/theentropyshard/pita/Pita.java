@@ -34,7 +34,7 @@ public final class Pita {
         }
         pita = this;
 
-        this.credentialsFile = Utils.makeDirectory(new File(Pita.PITA_DIR, "credentials.dat"));
+        this.credentialsFile = Utils.makeFile(new File(Pita.PITA_DIR, "credentials.dat"));
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
 
@@ -47,7 +47,7 @@ public final class Pita {
         try {
             FileOutputStream fos = new FileOutputStream(this.credentialsFile);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(oos);
+            oos.writeObject(c);
             oos.close();
         } catch (IOException e) {
             System.err.println("Не удалось сохранить данные для входа:");
@@ -56,14 +56,17 @@ public final class Pita {
     }
 
     public Credentials loadCredentials() {
-        try {
-            FileInputStream fis = new FileInputStream(this.credentialsFile);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            return (Credentials) ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            System.err.println("Не удалось загрузить данные для входа:");
-            e.printStackTrace();
+        if(this.credentialsFile.length() != 0L) {
+            try {
+                FileInputStream fis = new FileInputStream(this.credentialsFile);
+                ObjectInputStream ois = new ObjectInputStream(fis);
+                return (Credentials) ois.readObject();
+            } catch (IOException | ClassNotFoundException e) {
+                System.err.println("Не удалось загрузить данные для входа:");
+                e.printStackTrace();
+            }
         }
+
         return null;
     }
 

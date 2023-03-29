@@ -121,6 +121,29 @@ public class AnnouncementsPanel extends JPanel {
         authorLabel.setFont(new Font("sansserif", Font.BOLD, 14));
         container.add(authorLabel, "wrap");
 
+        JPanel internalContainer = new JPanel(new MigLayout("nogrid, fillx", "[]", "")) {
+            {
+                this.setOpaque(false);
+                this.addComponentListener(new ComponentAdapter() {
+                    @Override
+                    public void componentResized(ComponentEvent e) {
+                        revalidate();
+                    }
+                });
+            }
+
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g;
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(Color.WHITE);
+                g2.fillRoundRect(0, 0, this.getWidth(), this.getHeight(), 7, 7);
+                super.paintComponent(g2);
+            }
+        };
+
+        container.add(internalContainer, "grow");
+
         JTextPane mainTextPane = new JTextPane() {
             {
                 this.setOpaque(false);
@@ -131,14 +154,14 @@ public class AnnouncementsPanel extends JPanel {
                 Graphics2D g2 = (Graphics2D) g;
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 g2.setColor(Color.WHITE);
-                g2.fillRoundRect(0, 0, this.getWidth(), this.getHeight(), 10, 10);
+                g2.fillRoundRect(0, 0, this.getWidth(), this.getHeight(), 7, 7);
                 super.paintComponent(g2);
             }
         };
 
         mainTextPane.setForeground(new Color(120, 120, 120));
         mainTextPane.setSelectionColor(new Color(218, 243, 235));
-        container.setBorder(BorderFactory.createCompoundBorder(container.getBorder(), BorderFactory.createEmptyBorder(0, 5, 0, 5)));
+        container.setBorder(BorderFactory.createCompoundBorder(container.getBorder(), BorderFactory.createEmptyBorder(0, 5, 5, 5)));
         mainTextPane.setOpaque(false);
         mainTextPane.setEditable(false);
         mainTextPane.setMargin(new Insets(0, 5, 5, 5));
@@ -160,7 +183,7 @@ public class AnnouncementsPanel extends JPanel {
                 "<head><style> a { color: #2a5885; } p { font-family: \"sansserif\"; } </style></head>" + txt + "</html>");
 
         if(a.attachments != null && a.attachments.length != 0) {
-            container.add(mainTextPane, "w 100::95%, grow, wrap");
+            internalContainer.add(mainTextPane, "w 100::95%, grow, wrap");
 
             JPanel attachedFiles = new JPanel();
             attachedFiles.setOpaque(false);
@@ -183,9 +206,9 @@ public class AnnouncementsPanel extends JPanel {
                 }});
             }
 
-            container.add(attachedFiles, "grow");
+            internalContainer.add(attachedFiles, "grow");
         } else {
-            container.add(mainTextPane, "w 100::95%, grow");
+            internalContainer.add(mainTextPane, "w 100::95%, grow");
         }
 
         if(this.numAnnouncements == 0) {

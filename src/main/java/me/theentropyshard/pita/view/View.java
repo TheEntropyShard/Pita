@@ -86,6 +86,14 @@ public final class View {
 
         this.rootLayout.show(this.root, LoginPanel.class.getSimpleName());
 
+        this.frame.getRootPane().setGlassPane(new JComponent() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                g.setColor(new Color(255, 255, 255, 100));
+                g.fillRect(0, 0, this.getWidth(), this.getHeight());
+                super.paintComponent(g);
+            }
+        });
         this.frame.add(this.root, BorderLayout.CENTER);
         this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.frame.pack();

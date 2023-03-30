@@ -82,6 +82,9 @@ public class AnnouncementsPanel extends JPanel {
     }
 
     public void addNewAnnouncement(Announcement a) {
+        Font labelFont = new Font("JetBrains Mono", Font.BOLD, 14);
+        Font textPaneFont = new Font("JetBrains Mono", Font.PLAIN, 14);
+
         JPanel container = new JPanel(new MigLayout("nogrid, fillx", "[]", "")) {
             {
                 this.setOpaque(false);
@@ -98,27 +101,25 @@ public class AnnouncementsPanel extends JPanel {
                 Graphics2D g2 = (Graphics2D) g;
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 g2.setColor(UIConstants.NEAR_WHITE2);
-                g2.fillRoundRect(0, 0, this.getWidth(), this.getHeight(), 7, 7);
+                g2.fillRoundRect(0, 0, this.getWidth(), this.getHeight(), UIConstants.ARC_WIDTH, UIConstants.ARC_HEIGHT);
                 super.paintComponent(g2);
             }
         };
+        container.setBorder(BorderFactory.createCompoundBorder(container.getBorder(), BorderFactory.createEmptyBorder(0, 5, 5, 5)));
 
         GradientLabel topicLabel = new GradientLabel(UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
         topicLabel.setText("Тема: " + a.name);
-        topicLabel.setFont(new Font("sansserif", Font.BOLD, 14));
-        container.add(topicLabel, "pushx, grow");
-
-        LocalDateTime timeObj = LocalDateTime.parse(a.postDate);
-        String timeStr = timeObj.format(AnnouncementsPanel.TO_POST_TIME_FORMATTER);
+        topicLabel.setFont(labelFont);
+        container.add(topicLabel, "grow");
 
         GradientLabel timeLabel = new GradientLabel(UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
-        timeLabel.setText(timeStr);
-        timeLabel.setFont(new Font("sansserif", Font.BOLD, 14));
+        timeLabel.setText(LocalDateTime.parse(a.postDate).format(AnnouncementsPanel.TO_POST_TIME_FORMATTER));
+        timeLabel.setFont(labelFont);
         container.add(timeLabel, "wrap");
 
         GradientLabel authorLabel = new GradientLabel(UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
         authorLabel.setText("Автор: " + a.author.nickName);
-        authorLabel.setFont(new Font("sansserif", Font.BOLD, 14));
+        authorLabel.setFont(labelFont);
         container.add(authorLabel, "wrap");
 
         JPanel internalContainer = new JPanel(new MigLayout("nogrid, fillx", "[]", "")) {
@@ -137,11 +138,10 @@ public class AnnouncementsPanel extends JPanel {
                 Graphics2D g2 = (Graphics2D) g;
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 g2.setColor(Color.WHITE);
-                g2.fillRoundRect(0, 0, this.getWidth(), this.getHeight(), 7, 7);
+                g2.fillRoundRect(0, 0, this.getWidth(), this.getHeight(), UIConstants.ARC_WIDTH, UIConstants.ARC_HEIGHT);
                 super.paintComponent(g2);
             }
         };
-
         container.add(internalContainer, "grow");
 
         JTextPane mainTextPane = new JTextPane() {
@@ -159,42 +159,41 @@ public class AnnouncementsPanel extends JPanel {
             }
         };
 
+        mainTextPane.setContentType("text/html");
+        String txt = AnnouncementsPanel.fixHTMLEntities(a.description);
+        mainTextPane.setText("<html><head><style> a { color: #2a5885; } p { font-family: \"JetBrains Mono\"; } </style></head>" + txt + "</html>");
         mainTextPane.setForeground(new Color(120, 120, 120));
-        mainTextPane.setSelectionColor(new Color(218, 243, 235));
-        container.setBorder(BorderFactory.createCompoundBorder(container.getBorder(), BorderFactory.createEmptyBorder(0, 5, 5, 5)));
+        mainTextPane.setSelectionColor(UIConstants.NEAR_WHITE2);
         mainTextPane.setOpaque(false);
         mainTextPane.setEditable(false);
+        mainTextPane.setFont(textPaneFont);
         mainTextPane.setMargin(new Insets(0, 5, 5, 5));
-        mainTextPane.setContentType("text/html");
         mainTextPane.addHyperlinkListener(e -> {
             if(e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
                 if(Desktop.isDesktopSupported()) {
                     try {
                         Desktop.getDesktop().browse(e.getURL().toURI());
-                    } catch (IOException | URISyntaxException ex) {
+                    } catch (Exception ex) {
                         ex.printStackTrace();
                     }
                 }
             }
         });
 
-        String txt = AnnouncementsPanel.fixHTMLEntities(a.description);
-        mainTextPane.setText("<html>" +
-                "<head><style> a { color: #2a5885; } p { font-family: \"sansserif\"; } </style></head>" + txt + "</html>");
-
         if(a.attachments != null && a.attachments.length != 0) {
-            internalContainer.add(mainTextPane, "w 100::95%, grow, wrap");
+            internalContainer.add(mainTextPane, "w 100::98%, grow, wrap");
 
             JPanel attachedFiles = new JPanel();
             attachedFiles.setOpaque(false);
             attachedFiles.setBorder(new TitledBorder(new LineBorder(UIConstants.DARK_GREEN, 1), "Прикрепленные файлы",
-                    TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("sansserif", Font.BOLD, 12),
+                    TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("JetBrains Mono", Font.BOLD, 12),
                     UIConstants.DARK_GREEN));
             attachedFiles.setLayout(new BoxLayout(attachedFiles, BoxLayout.PAGE_AXIS));
 
             for(Attachment attach : a.attachments) {
                 attachedFiles.add(new GradientLabel(UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN) {{
                     this.setText(attach.name);
+                    this.setFont(new Font("JetBrains Mono", Font.BOLD, 12));
                     this.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                     this.setBorder(new EmptyBorder(0, 5, 3, 0));
                     this.addMouseListener(new MouseAdapter() {
@@ -208,7 +207,7 @@ public class AnnouncementsPanel extends JPanel {
 
             internalContainer.add(attachedFiles, "grow");
         } else {
-            internalContainer.add(mainTextPane, "w 100::95%, grow");
+            internalContainer.add(mainTextPane, "w 100::98%, grow");
         }
 
         if(this.numAnnouncements == 0) {

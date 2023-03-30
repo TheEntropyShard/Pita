@@ -34,6 +34,11 @@ public class GradientLabel extends JLabel {
         this.setUI(new PGradientLabelUI());
     }
 
+    public GradientLabel(String text, Color color1, Color color2) {
+        this(color1, color2);
+        this.setText(text);
+    }
+
     public Color getColor1() {
         return this.color1;
     }

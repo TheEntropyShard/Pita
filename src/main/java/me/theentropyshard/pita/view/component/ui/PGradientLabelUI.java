@@ -33,7 +33,7 @@ public class PGradientLabelUI extends BasicLabelUI {
             GradientLabel gl = (GradientLabel) l;
             Graphics2D g2 = (Graphics2D) g;
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g2.setPaint(new GradientPaint(0, 0, gl.getColor1(), l.getWidth(), l.getHeight(), gl.getColor2()));
+            g2.setPaint(new GradientPaint(0, 0, gl.getColor1(), g2.getFontMetrics().stringWidth(s), l.getHeight(), gl.getColor2()));
             g2.drawString(s, x, y);
         } else {
             super.paintEnabledText(l, g, s, x, y);

@@ -21,6 +21,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MainPanel extends JPanel {
+    private final Header header;
+
     private final CardLayout contentLayout;
     private final JPanel contentPanel;
 
@@ -29,6 +31,9 @@ public class MainPanel extends JPanel {
 
     public MainPanel() {
         this.setLayout(new BorderLayout());
+
+        this.header = new Header();
+        this.add(this.header, BorderLayout.NORTH);
 
         this.contentLayout = new CardLayout();
         this.contentPanel = new JPanel(this.contentLayout);
@@ -42,6 +47,7 @@ public class MainPanel extends JPanel {
     }
 
     public void showComponents() {
+        this.header.loadData();
         this.annPanel.loadData();
         this.contentLayout.show(this.contentPanel, AnnouncementsPanel.class.getSimpleName());
     }

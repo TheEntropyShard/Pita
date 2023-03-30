@@ -26,6 +26,7 @@ import me.theentropyshard.pita.netschoolapi.diary.models.Attachment;
 import me.theentropyshard.pita.netschoolapi.exceptions.AuthException;
 import me.theentropyshard.pita.netschoolapi.exceptions.SchoolNotFoundException;
 import me.theentropyshard.pita.netschoolapi.models.SchoolModel;
+import me.theentropyshard.pita.netschoolapi.models.UserSession;
 import okhttp3.Response;
 
 import java.io.File;
@@ -159,6 +160,12 @@ public enum NetSchoolAPI {
         }
     }
 
+    public List<UserSession> getActiveSessions() throws IOException {
+        try(Response response = this.client.get(Urls.ACTIVE_SESSIONS)) {
+            return Arrays.asList(this.gson.fromJson(Objects.requireNonNull(response.body()).charStream(), UserSession[].class));
+        }
+    }
+
     public void downloadAttachment(File file, Attachment attachment) {
         long start = System.currentTimeMillis();
         try {
@@ -207,6 +214,10 @@ public enum NetSchoolAPI {
                 e.printStackTrace();
             }
         }
+    }
+
+    public SchoolModel getSchool() {
+        return this.school;
     }
 
     public HttpClientWrapper getClient() {

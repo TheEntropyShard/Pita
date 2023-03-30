@@ -10,7 +10,7 @@ public class PScrollBar extends JScrollBar {
         this.setUI(new PScrollBarUI());
         this.setPreferredSize(new Dimension(5, 5));
         this.setForeground(new Color(94, 139, 231));
-        this.setUnitIncrement(20);
+        this.setUnitIncrement(25);
         this.setBackground(Color.WHITE);
     }
 }

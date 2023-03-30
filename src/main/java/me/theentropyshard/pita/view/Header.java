@@ -17,10 +17,57 @@
 
 package me.theentropyshard.pita.view;
 
+import me.theentropyshard.pita.Utils;
+import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
+import me.theentropyshard.pita.view.component.GradientLabel;
+import net.miginfocom.swing.MigLayout;
+
 import javax.swing.*;
+import javax.swing.border.LineBorder;
+import java.awt.*;
+import java.io.IOException;
 
 public class Header extends JPanel {
-    public Header() {
+    private final JPanel topPanel;
+    private final JPanel bottomPanel;
 
+    private final JLabel schoolNameLabel;
+    private final JLabel infoLabel;
+
+    public Header() {
+        this.setLayout(new BorderLayout());
+        this.setBackground(Color.WHITE);
+
+        this.schoolNameLabel = new JLabel();
+        this.infoLabel = new JLabel();
+
+        this.topPanel = new JPanel() {{
+            this.setLayout(new MigLayout("nogrid, fillx", "[]", ""));
+            this.add(new GradientLabel("Сетевой город. Образование", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN), "grow");
+            this.add(infoLabel, "wrap");
+            this.add(schoolNameLabel);
+        }};
+        this.topPanel.setBorder(new LineBorder(Color.RED, 1));
+        this.topPanel.setBackground(Color.WHITE);
+        this.add(this.topPanel, BorderLayout.CENTER);
+
+        this.bottomPanel = new JPanel(new GridLayout(1, 3));
+        this.bottomPanel.setBorder(new LineBorder(Color.RED, 1));
+        this.bottomPanel.setBackground(Color.WHITE);
+        this.bottomPanel.add(new JButton("hello"));
+        this.bottomPanel.add(new JButton("maybe"));
+        this.bottomPanel.add(new JButton("apple"));
+        this.add(this.bottomPanel, BorderLayout.SOUTH);
+    }
+
+    public void loadData() {
+        this.schoolNameLabel.setText(NetSchoolAPI.I.getSchool().getShortName());
+        int num = 0;
+        try {
+            num = NetSchoolAPI.I.getActiveSessions().size();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        this.infoLabel.setText(Utils.getTodaysDateRussian() + " - В системе работает " + num + " чел.");
     }
 }

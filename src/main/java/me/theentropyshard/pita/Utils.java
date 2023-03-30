@@ -17,9 +17,6 @@
 
 package me.theentropyshard.pita;
 
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,10 +27,13 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.Locale;
 import java.util.Scanner;
 
 /**
@@ -43,6 +43,14 @@ public enum Utils {
     ;
 
     public static final Charset UTF_8 = Charset.forName("UTF-8");
+
+    public static String getTodaysDateRussian() {
+        LocalDate localDate = LocalDate.now(ZoneId.of("Europe/Moscow"));
+        String month = localDate.getMonth().getDisplayName(TextStyle.FULL, Locale.getDefault());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(String.format("dd %s yyyy г.", month));
+
+        return localDate.format(formatter);
+    }
 
     public static File getAppDir(String appName) {
         String userHome = System.getProperty("user.home", ".");
@@ -102,18 +110,6 @@ public enum Utils {
         }
 
         return dir;
-    }
-
-    public static BufferedImage getImage(String path) {
-        try {
-            return ImageIO.read(Objects.requireNonNull(Utils.class.getResourceAsStream(path)));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static Icon getIcon(String path) {
-        return new ImageIcon(Utils.getImage(path));
     }
 
     /**

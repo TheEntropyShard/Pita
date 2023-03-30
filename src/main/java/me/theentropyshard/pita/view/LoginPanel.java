@@ -19,6 +19,7 @@ package me.theentropyshard.pita.view;
 
 import me.theentropyshard.pita.Credentials;
 import me.theentropyshard.pita.Pita;
+import me.theentropyshard.pita.ResourceManager;
 import me.theentropyshard.pita.Utils;
 import me.theentropyshard.pita.view.component.GradientLabel;
 import me.theentropyshard.pita.view.component.LoginButton;
@@ -68,28 +69,28 @@ public class LoginPanel extends JPanel {
 
         c.gridy = 1;
         this.sgoAddressField = new PTextField();
-        this.sgoAddressField.setPrefixIcon(Utils.getIcon("/images/browser.png"));
+        this.sgoAddressField.setPrefixIcon(ResourceManager.getIcon("/images/browser.png"));
         this.sgoAddressField.setHint("Сайт дневника");
         this.sgoAddressField.setPreferredSize(new Dimension(sgoLabel.getPreferredSize().width, this.sgoAddressField.getPreferredSize().height));
         this.add(this.sgoAddressField, c);
 
         c.gridy = 2;
         this.schoolNameField = new PTextField();
-        this.schoolNameField.setPrefixIcon(Utils.getIcon("/images/school.png"));
+        this.schoolNameField.setPrefixIcon(ResourceManager.getIcon("/images/school.png"));
         this.schoolNameField.setHint("Имя школы");
         this.schoolNameField.setPreferredSize(new Dimension(sgoLabel.getPreferredSize().width, this.sgoAddressField.getPreferredSize().height));
         this.add(this.schoolNameField, c);
 
         c.gridy = 3;
         this.loginField = new PTextField();
-        loginField.setPrefixIcon(Utils.getIcon("/images/mail.png"));
+        loginField.setPrefixIcon(ResourceManager.getIcon("/images/mail.png"));
         loginField.setHint("Логин");
         loginField.setPreferredSize(new Dimension(sgoLabel.getPreferredSize().width, this.sgoAddressField.getPreferredSize().height));
         this.add(loginField, c);
 
         c.gridy = 4;
         this.passwordField = new PPassField();
-        this.passwordField.setPrefixIcon(Utils.getIcon("/images/pass.png"));
+        this.passwordField.setPrefixIcon(ResourceManager.getIcon("/images/pass.png"));
         this.passwordField.setHint("Пароль");
         this.passwordField.setPreferredSize(new Dimension(sgoLabel.getPreferredSize().width, this.sgoAddressField.getPreferredSize().height));
         this.passwordField.addKeyListener(new KeyAdapter() {

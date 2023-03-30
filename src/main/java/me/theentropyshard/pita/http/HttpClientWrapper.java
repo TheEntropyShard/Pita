@@ -167,7 +167,7 @@ public class HttpClientWrapper {
      * Simple implementation of CookieJar
      * https://gist.github.com/johannes-staehlin/63a72467bd1f21829d11bc55456c5836
      */
-    private static class SimpleCookieJar implements CookieJar {
+    public static class SimpleCookieJar implements CookieJar {
         private final List<Cookie> cookies = new ArrayList<>();
 
         @NotNull
@@ -180,6 +180,10 @@ public class HttpClientWrapper {
         @Override
         public void saveFromResponse(@NotNull HttpUrl httpUrl, @NotNull List<Cookie> cookies) {
             this.cookies.addAll(cookies);
+        }
+
+        public List<Cookie> getCookies() {
+            return this.cookies;
         }
     }
 }

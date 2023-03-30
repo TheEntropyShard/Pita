@@ -25,6 +25,8 @@ public enum Urls {
 
     //@formatter:off
 
+    public static final String MY_SETTINGS          = "mysettings";
+    public static final String YEAR_LIST            = "mysettings/yearlist";
     public static final String SCHOOLS_SEARCH       = "schools/search";
     public static final String SCHOOL_INFO          = "schools/%d/card";
     public static final String ANNOUNCEMENTS        = "announcements";

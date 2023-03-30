@@ -194,8 +194,8 @@ public class AnnouncementsPanel extends JPanel {
                 attachedFiles.add(new GradientLabel(UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN) {{
                     this.setText(attach.name);
                     this.setFont(new Font("JetBrains Mono", Font.BOLD, 12));
-                    this.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                     this.setBorder(new EmptyBorder(0, 5, 3, 0));
+                    this.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                     this.addMouseListener(new MouseAdapter() {
                         @Override
                         public void mousePressed(MouseEvent e) {

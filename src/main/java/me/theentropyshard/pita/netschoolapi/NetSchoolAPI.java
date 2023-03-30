@@ -25,8 +25,12 @@ import me.theentropyshard.pita.netschoolapi.diary.models.Announcement;
 import me.theentropyshard.pita.netschoolapi.diary.models.Attachment;
 import me.theentropyshard.pita.netschoolapi.exceptions.AuthException;
 import me.theentropyshard.pita.netschoolapi.exceptions.SchoolNotFoundException;
+import me.theentropyshard.pita.netschoolapi.models.IntIdName;
+import me.theentropyshard.pita.netschoolapi.models.MySettings;
 import me.theentropyshard.pita.netschoolapi.models.SchoolModel;
 import me.theentropyshard.pita.netschoolapi.models.UserSession;
+import okhttp3.Cookie;
+import okhttp3.CookieJar;
 import okhttp3.Response;
 
 import java.io.File;
@@ -34,15 +38,13 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
 public enum NetSchoolAPI {
     I;
 
     private final Gson gson = new Gson();
+    private final Timer timer = new Timer("PingTimer", true);
 
     private HttpClientWrapper client;
 
@@ -125,6 +127,33 @@ public enum NetSchoolAPI {
                 throw new AuthException("Не удалось получить at:" + Utils.readAsOneLine(Objects.requireNonNull(response.body()).byteStream()));
             }
             this.client.addHeader("at", this.at = object.get("at").getAsString());
+
+            boolean pingSGO = Boolean.parseBoolean(System.getProperty("pita.pingSGO"));
+
+            if(pingSGO) {
+                String finalAddress = address;
+                this.timer.schedule(new TimerTask() {
+                    private final HttpClientWrapper httpClient = new HttpClientWrapper(finalAddress + "/webapi/");
+
+                    {
+                        httpClient.addHeader("at", at);
+                        CookieJar cookieJar = httpClient.getClient().cookieJar();
+                        ((HttpClientWrapper.SimpleCookieJar) cookieJar).getCookies().addAll(Cookie.parseAll(response.request().url(), response.headers()));
+                    }
+
+                    @Override
+                    public void run() {
+                        try(Response rsp = httpClient.get("settings/firstLetter")) {
+                            if(rsp.isSuccessful()) {
+                                System.out.println("pinged");
+                            }
+                        } catch (IOException ignored) {
+
+                        }
+                    }
+                }, 0L, object.get("timeOut").getAsLong() - 60000L);
+            }
+
             this.studentName = object.get("accountInfo").getAsJsonObject().get("user").getAsJsonObject().get("name").getAsString();
         }
 
@@ -166,6 +195,18 @@ public enum NetSchoolAPI {
         }
     }
 
+    public IntIdName[] getYearlist() throws IOException {
+        try(Response r = this.client.get(Urls.YEAR_LIST)) {
+            return this.gson.fromJson(Objects.requireNonNull(r.body()).charStream(), IntIdName[].class);
+        }
+    }
+
+    public MySettings getMySettings() throws IOException {
+        try(Response r = this.client.get(Urls.MY_SETTINGS)) {
+            return this.gson.fromJson(Objects.requireNonNull(r.body()).charStream(), MySettings.class);
+        }
+    }
+
     public void downloadAttachment(File file, Attachment attachment) {
         long start = System.currentTimeMillis();
         try {
@@ -196,6 +237,7 @@ public enum NetSchoolAPI {
 
     public void logout() {
         if(this.client != null && this.loggedIn) {
+            this.timer.cancel();
             try {
                 try(Response response = this.client.post(Urls.LOGOUT, "")) {
                     if(response.isSuccessful()) {

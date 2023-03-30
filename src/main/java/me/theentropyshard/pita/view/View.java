@@ -89,7 +89,7 @@ public final class View {
         this.frame.getRootPane().setGlassPane(new JComponent() {
             @Override
             protected void paintComponent(Graphics g) {
-                g.setColor(new Color(255, 255, 255, 100));
+                g.setColor(new Color(255, 255, 255, 127));
                 g.fillRect(0, 0, this.getWidth(), this.getHeight());
                 super.paintComponent(g);
             }
@@ -99,6 +99,14 @@ public final class View {
         this.frame.pack();
         this.frame.setLocationRelativeTo(null);
         this.frame.setVisible(true);
+    }
+
+    public CardLayout getRootLayout() {
+        return this.rootLayout;
+    }
+
+    public JPanel getRoot() {
+        return this.root;
     }
 
     public JFrame getFrame() {

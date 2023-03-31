@@ -27,15 +27,15 @@ import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.HyperlinkEvent;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AnnouncementsPanel extends JPanel {
     private static final DateTimeFormatter TO_POST_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
@@ -94,6 +94,7 @@ public class AnnouncementsPanel extends JPanel {
                         revalidate();
                     }
                 });
+                this.setBorder(BorderFactory.createCompoundBorder(this.getBorder(), BorderFactory.createEmptyBorder(0, 5, 5, 5)));
             }
 
             @Override
@@ -105,7 +106,6 @@ public class AnnouncementsPanel extends JPanel {
                 super.paintComponent(g2);
             }
         };
-        container.setBorder(BorderFactory.createCompoundBorder(container.getBorder(), BorderFactory.createEmptyBorder(0, 5, 5, 5)));
 
         GradientLabel topicLabel = new GradientLabel(UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
         topicLabel.setText("Тема: " + a.name);
@@ -167,7 +167,7 @@ public class AnnouncementsPanel extends JPanel {
         mainTextPane.setOpaque(false);
         mainTextPane.setEditable(false);
         mainTextPane.setFont(textPaneFont);
-        mainTextPane.setMargin(new Insets(0, 5, 5, 5));
+        mainTextPane.setMargin(new Insets(-5, 5, 5, 5));
         mainTextPane.addHyperlinkListener(e -> {
             if(e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
                 if(Desktop.isDesktopSupported()) {
@@ -185,24 +185,29 @@ public class AnnouncementsPanel extends JPanel {
 
             JPanel attachedFiles = new JPanel();
             attachedFiles.setOpaque(false);
-            attachedFiles.setBorder(new TitledBorder(new LineBorder(UIConstants.DARK_GREEN, 1), "Прикрепленные файлы",
-                    TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("JetBrains Mono", Font.BOLD, 12),
-                    UIConstants.DARK_GREEN));
+            attachedFiles.setBorder(
+                    BorderFactory.createTitledBorder(
+                            BorderFactory.createLineBorder(UIConstants.DARK_GREEN, 1),
+                            "Прикрепленные файлы",
+                            TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
+                            new Font("JetBrains Mono", Font.BOLD, 12),
+                            UIConstants.DARK_GREEN
+                    )
+            );
             attachedFiles.setLayout(new BoxLayout(attachedFiles, BoxLayout.PAGE_AXIS));
 
             for(Attachment attach : a.attachments) {
-                attachedFiles.add(new GradientLabel(UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN) {{
-                    this.setText(attach.name);
-                    this.setFont(new Font("JetBrains Mono", Font.BOLD, 12));
-                    this.setBorder(new EmptyBorder(0, 5, 3, 0));
-                    this.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                    this.addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mousePressed(MouseEvent e) {
-                            NetSchoolAPI.I.downloadAttachment(Pita.getPita().getAttachmentsDir(), attach);
-                        }
-                    });
-                }});
+                GradientLabel label = new GradientLabel(attach.name, UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+                label.setFont(new Font("JetBrains Mono", Font.BOLD, 12));
+                label.setBorder(new EmptyBorder(0, 5, 3, 0));
+                label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                label.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+                        NetSchoolAPI.I.downloadAttachment(Pita.getPita().getAttachmentsDir(), attach);
+                    }
+                });
+                attachedFiles.add(label);
             }
 
             internalContainer.add(attachedFiles, "grow");
@@ -236,12 +241,14 @@ public class AnnouncementsPanel extends JPanel {
     }
 
     public void loadData() {
+        List<Announcement> announcements = new ArrayList<>();
         try {
-            for(Announcement a : NetSchoolAPI.I.getAnnouncements(-1)) {
-                this.addNewAnnouncement(a);
-            }
+            announcements.addAll(NetSchoolAPI.I.getAnnouncements(-1));
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        for(Announcement a : announcements) {
+            this.addNewAnnouncement(a);
         }
         this.scrollToTop();
     }

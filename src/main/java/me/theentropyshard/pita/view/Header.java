@@ -22,12 +22,9 @@ import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
 import me.theentropyshard.pita.netschoolapi.models.MySettings;
 import me.theentropyshard.pita.view.component.GradientLabel;
 import net.miginfocom.swing.MigLayout;
-import sun.nio.ch.Net;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -68,7 +65,7 @@ public class Header extends JPanel {
             }
         });
 
-        panel = new JPanel() {{
+        this.panel = new JPanel() {{
             this.setBackground(Color.WHITE);
         }};
 
@@ -88,9 +85,10 @@ public class Header extends JPanel {
         this.bottomPanel = new JPanel(new GridLayout(1, 3));
         //this.bottomPanel.setBorder(new LineBorder(Color.RED, 1));
         this.bottomPanel.setBackground(Color.WHITE);
-        this.bottomPanel.add(new JButton("hello"));
-        this.bottomPanel.add(new JButton("maybe"));
-        this.bottomPanel.add(new JButton("apple"));
+        this.bottomPanel.add(new JButton("Дневник"));
+        this.bottomPanel.add(new JButton("Отчеты"));
+        this.bottomPanel.add(new JButton("Почта"));
+        this.bottomPanel.add(new JButton("Объявления"));
         this.add(this.bottomPanel, BorderLayout.SOUTH);
     }
 

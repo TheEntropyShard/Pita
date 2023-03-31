@@ -25,7 +25,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class PTextField extends JTextField {
-    public static final String TEXT_FIELD_FONT = "sansserif";
+    public static final String TEXT_FIELD_FONT = "JetBrains Mono";
     public static final Color TEXT_FIELD_TEXT_COLOR = Color.decode("#7A8C8D");
     public static final int TEXT_FIELD_FONT_SIZE = 16;
 

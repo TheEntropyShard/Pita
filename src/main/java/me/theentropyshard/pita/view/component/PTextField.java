@@ -36,7 +36,6 @@ public class PTextField extends JTextField {
     public PTextField() {
         this.setOpaque(false);
         this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        this.setBackground(UIConstants.NEAR_WHITE);
         this.setForeground(PTextField.TEXT_FIELD_TEXT_COLOR);
         this.setFont(new Font(PTextField.TEXT_FIELD_FONT, Font.BOLD, PTextField.TEXT_FIELD_FONT_SIZE));
         this.setSelectionColor(new Color(75, 175, 152));
@@ -59,7 +58,7 @@ public class PTextField extends JTextField {
         if(this.isWrong) {
             g2.setColor(UIConstants.WRONG);
         } else {
-            g2.setColor(UIConstants.NEAR_WHITE);
+            g2.setColor(UIConstants.NEAR_WHITE2);
         }
         g2.fillRoundRect(0, 0, this.getWidth(), this.getHeight(), UIConstants.ARC_WIDTH, UIConstants.ARC_HEIGHT);
         this.paintIcon(g2);

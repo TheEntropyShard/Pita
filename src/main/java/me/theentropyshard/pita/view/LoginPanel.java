@@ -52,6 +52,7 @@ public class LoginPanel extends JPanel {
 
     public LoginPanel() {
         this.setLayout(new GridBagLayout());
+        this.setBackground(Color.WHITE);
 
         GridBagConstraints c = new GridBagConstraints();
         c.insets = new Insets(5, 0, 5, 0);

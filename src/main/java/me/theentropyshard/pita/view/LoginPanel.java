@@ -20,7 +20,6 @@ package me.theentropyshard.pita.view;
 import me.theentropyshard.pita.Credentials;
 import me.theentropyshard.pita.Pita;
 import me.theentropyshard.pita.ResourceManager;
-import me.theentropyshard.pita.Utils;
 import me.theentropyshard.pita.view.component.GradientLabel;
 import me.theentropyshard.pita.view.component.LoginButton;
 import me.theentropyshard.pita.view.component.PPassField;
@@ -31,7 +30,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.nio.charset.Charset;
 
 public class LoginPanel extends JPanel {
     public static final String SGO_TEXT = "Сетевой Город. Образование";
@@ -104,9 +102,7 @@ public class LoginPanel extends JPanel {
         c.gridy = 5;
         this.loginButton = new LoginButton("Войти");
         this.loginButton.setPreferredSize(new Dimension(sgoLabel.getPreferredSize().width, this.sgoAddressField.getPreferredSize().height));
-        this.loginButton.addActionListener(e -> {
-            this.loginButtonPressed(this.callback);
-        });
+        this.loginButton.addActionListener(e -> this.loginButtonPressed(this.callback));
         this.add(this.loginButton, c);
 
         this.loadCredentials();
@@ -174,6 +170,7 @@ public class LoginPanel extends JPanel {
     }
 
     public void reset() {
+        this.passwordHashed = false;
         this.resetFields(true, true);
         this.resetLoginButton();
     }

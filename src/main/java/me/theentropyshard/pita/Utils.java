@@ -72,6 +72,11 @@ public enum Utils {
                 appDir = new File(userHome, "Library/Application Support/" + appName);
                 break;
 
+            case LINUX:
+            case SOLARIS:
+                appDir = new File(userHome, ".config/" + appName);
+                break;
+
             default:
                 appDir = new File(userHome, appName + '/');
                 break;

@@ -35,6 +35,10 @@ public class Header extends JPanel {
 
     private final GradientLabel infoLabel;
     private final GradientLabel schoolNameLabel;
+
+    private final GradientLabel currentYearLabel;
+    private final GradientLabel usernameLabel;
+    private final GradientLabel exitLabel;
     private final JPanel panel;
 
     public Header() {
@@ -56,18 +60,50 @@ public class Header extends JPanel {
         });
 
         this.schoolNameLabel = new GradientLabel(UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
-        this.schoolNameLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 16));
         this.schoolNameLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        this.schoolNameLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 16));
         this.schoolNameLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-
+                System.out.println("Show school info");
             }
         });
 
-        this.panel = new JPanel() {{
-            this.setBackground(Color.WHITE);
-        }};
+        this.currentYearLabel = new GradientLabel(UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+        this.currentYearLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
+
+        this.usernameLabel = new GradientLabel(UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+        this.usernameLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        this.usernameLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
+        this.usernameLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                System.out.println("Show my settings");
+            }
+        });
+
+        this.exitLabel = new GradientLabel("Выход", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+        this.exitLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        this.exitLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
+        this.exitLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                NetSchoolAPI.I.logout();
+                View.getView().getRootLayout().show(View.getView().getRoot(), LoginPanel.class.getSimpleName());
+            }
+        });
+
+        this.panel = new JPanel();
+        this.panel.setBackground(Color.WHITE);
+        this.panel.add(this.currentYearLabel);
+        this.panel.add(new JSeparator(JSeparator.VERTICAL) {{
+            this.setPreferredSize(new Dimension(5, 20));
+        }});
+        this.panel.add(this.usernameLabel);
+        this.panel.add(new JSeparator(JSeparator.VERTICAL) {{
+            this.setPreferredSize(new Dimension(5, 20));
+        }});
+        this.panel.add(this.exitLabel);
 
         this.topPanel = new JPanel() {{
             this.setLayout(new MigLayout("nogrid, fillx", "[]", ""));
@@ -78,12 +114,10 @@ public class Header extends JPanel {
             this.add(schoolNameLabel, "grow");
             this.add(panel);
         }};
-        //this.topPanel.setBorder(new LineBorder(Color.RED, 1));
         this.topPanel.setBackground(Color.WHITE);
         this.add(this.topPanel, BorderLayout.CENTER);
 
-        this.bottomPanel = new JPanel(new GridLayout(1, 3));
-        //this.bottomPanel.setBorder(new LineBorder(Color.RED, 1));
+        this.bottomPanel = new JPanel(new GridLayout(1, 4));
         this.bottomPanel.setBackground(Color.WHITE);
         this.bottomPanel.add(new JButton("Дневник"));
         this.bottomPanel.add(new JButton("Отчеты"));
@@ -93,49 +127,23 @@ public class Header extends JPanel {
     }
 
     public void loadData() {
+        this.schoolNameLabel.setText(NetSchoolAPI.I.getSchool().getShortName());
+
         try {
-            panel.add(new GradientLabel("текущий " + NetSchoolAPI.I.getYearlist()[0].name + " уч.год",
-                    UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN) {{
-                this.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
-            }});
+            this.currentYearLabel.setText("текущий " + NetSchoolAPI.I.getYearlist()[0].name + " уч.год");
         } catch (IOException e) {
             e.printStackTrace();
+            this.currentYearLabel.setText("ОШИБКА");
         }
-        panel.add(new JSeparator(JSeparator.VERTICAL) {{
-            this.setPreferredSize(new Dimension(5, 20));
-        }});
+
         try {
             MySettings mySettings = NetSchoolAPI.I.getMySettings();
-            panel.add(new GradientLabel(mySettings.firstName + " " + mySettings.lastName,
-                    UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN) {{
-                this.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
-                this.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                this.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mousePressed(MouseEvent e) {
-                        System.out.println("Show my settings");
-                    }
-                });
-            }});
+            this.usernameLabel.setText(mySettings.firstName + " " + mySettings.lastName);
         } catch (IOException e) {
             e.printStackTrace();
+            this.usernameLabel.setText("ОШИБКА");
         }
-        panel.add(new JSeparator(JSeparator.VERTICAL) {{
-            this.setPreferredSize(new Dimension(5, 20));
-        }});
-        panel.add(new GradientLabel("Выход", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN) {{
-            this.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
-            this.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-            this.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mousePressed(MouseEvent e) {
-                    NetSchoolAPI.I.logout();
-                    View.getView().getRootLayout().show(View.getView().getRoot(), LoginPanel.class.getSimpleName());
-                }
-            });
-        }});
 
-        this.schoolNameLabel.setText(NetSchoolAPI.I.getSchool().getShortName());
         int num = 0;
         try {
             num = NetSchoolAPI.I.getActiveSessions().size();

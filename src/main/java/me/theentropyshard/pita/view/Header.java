@@ -30,9 +30,6 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 public class Header extends JPanel {
-    private final JPanel topPanel;
-    private final JPanel bottomPanel;
-
     private final GradientLabel infoLabel;
     private final GradientLabel schoolNameLabel;
 
@@ -105,25 +102,23 @@ public class Header extends JPanel {
         }});
         this.panel.add(this.exitLabel);
 
-        this.topPanel = new JPanel() {{
-            this.setLayout(new MigLayout("nogrid, fillx", "[]", ""));
-            this.add(new GradientLabel("Сетевой город. Образование", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN) {{
-                this.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
-            }}, "grow");
-            this.add(infoLabel, "wrap");
-            this.add(schoolNameLabel, "grow");
-            this.add(panel);
-        }};
-        this.topPanel.setBackground(Color.WHITE);
-        this.add(this.topPanel, BorderLayout.CENTER);
+        JPanel topPanel = new JPanel(new MigLayout("nogrid, fillx", "[]", ""));
+        topPanel.setBackground(Color.WHITE);
+        topPanel.add(new GradientLabel("Сетевой город. Образование", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN) {{
+            this.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
+        }}, "grow");
+        topPanel.add(this.infoLabel, "wrap");
+        topPanel.add(this.schoolNameLabel, "grow");
+        topPanel.add(this.panel);
+        this.add(topPanel, BorderLayout.CENTER);
 
-        this.bottomPanel = new JPanel(new GridLayout(1, 4));
-        this.bottomPanel.setBackground(Color.WHITE);
-        this.bottomPanel.add(new JButton("Дневник"));
-        this.bottomPanel.add(new JButton("Отчеты"));
-        this.bottomPanel.add(new JButton("Почта"));
-        this.bottomPanel.add(new JButton("Объявления"));
-        this.add(this.bottomPanel, BorderLayout.SOUTH);
+        JPanel bottomPanel = new JPanel(new GridLayout(1, 4));
+        bottomPanel.setBackground(Color.WHITE);
+        bottomPanel.add(new JButton("Дневник"));
+        bottomPanel.add(new JButton("Отчеты"));
+        bottomPanel.add(new JButton("Почта"));
+        bottomPanel.add(new JButton("Объявления"));
+        this.add(bottomPanel, BorderLayout.SOUTH);
     }
 
     public void loadData() {

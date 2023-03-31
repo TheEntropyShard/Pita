@@ -15,7 +15,7 @@
  *      along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.pita.netschoolapi.diary.models;
+package me.theentropyshard.pita.netschoolapi.models;
 
 import java.util.Arrays;
 

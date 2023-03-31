@@ -62,7 +62,22 @@ public class Header extends JPanel {
         this.schoolNameLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                System.out.println("Show school info");
+                View.getView().getFrame().getGlassPane().setVisible(true);
+
+                JDialog dialog = new JDialog(View.getView().getFrame(), "Карточка образовательной организации", true);
+                dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+
+                SchoolInfoPanel panel = new SchoolInfoPanel();
+
+                dialog.add(panel);
+                dialog.pack();
+                dialog.setLocationRelativeTo(null);
+                dialog.setVisible(true);
+
+                panel.loadData();
+                panel.revalidate();
+
+                View.getView().getFrame().getGlassPane().setVisible(false);
             }
         });
 

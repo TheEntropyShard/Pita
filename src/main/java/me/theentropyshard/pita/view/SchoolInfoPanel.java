@@ -57,13 +57,6 @@ public class SchoolInfoPanel extends JPanel {
 
         InfoPanel commonInfoPanel = new InfoPanel();
 
-        JPanel infoPart1 = new JPanel(new GridLayout(1, 1));
-        infoPart1.add(new JPanel(new FlowLayout(FlowLayout.LEFT)) {{
-            this.setBackground(Color.WHITE);
-            this.add(new GradientLabel("Вид организационно-правовой формы ОО", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN));
-        }});
-        infoPart1.add(new GradientLabel("Теjejijpiajipwjipст", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN));
-
         DataElementPanel dp1 = new DataElementPanel();
         dp1.setKey("Вид организационно-правовой формы ОО");
         dp1.setValue("wjdwdoodkokdowdokdkdokw");
@@ -84,6 +77,8 @@ public class SchoolInfoPanel extends JPanel {
                 this.setFont(new Font("JetBrains Mono", Font.BOLD, 18));
             }});
         }});
+
+        // Contact info
         panel.add(new JPanel() {{
             this.setBackground(Color.WHITE);
             this.add(new GradientLabel("Контактная информация", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN) {{
@@ -91,18 +86,23 @@ public class SchoolInfoPanel extends JPanel {
             }});
         }});
 
+        // Other info
         panel.add(new JPanel() {{
             this.setBackground(Color.WHITE);
             this.add(new GradientLabel("Другая информация", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN) {{
                 this.setFont(new Font("JetBrains Mono", Font.BOLD, 18));
             }});
         }});
+
+        // Food payment
         panel.add(new JPanel() {{
             this.setBackground(Color.WHITE);
             this.add(new GradientLabel("Оплата питания", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN) {{
                 this.setFont(new Font("JetBrains Mono", Font.BOLD, 18));
             }});
         }});
+
+        // Internet connection info
         panel.add(new JPanel() {{
             this.setBackground(Color.WHITE);
             this.add(new GradientLabel("Информация об интернет-соединении", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN) {{
@@ -181,11 +181,22 @@ public class SchoolInfoPanel extends JPanel {
             this.keyLabel = new GradientLabel("", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
             this.keyLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
 
-            this.valueLabel = new GradientLabel("", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+            this.valueLabel = new GradientLabel("", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN) {
+                @Override
+                protected void paintComponent(Graphics g) {
+                    Color oldColor = g.getColor();
+                    g.setColor(new Color(240, 240, 240));
+                    g.fillRoundRect(0, 0, this.getWidth(), this.getHeight(), 7, 7);
+                    g.setColor(oldColor);
+                    super.paintComponent(g);
+                }
+            };
             this.valueLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
             this.valueLabel.setBorder(new EmptyBorder(5, 5, 5, 5));
 
             this.setLayout(new GridLayout(1, 1));
+            this.setBackground(Color.WHITE);
+
             JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             panel.setBackground(Color.WHITE);
             panel.add(this.keyLabel);

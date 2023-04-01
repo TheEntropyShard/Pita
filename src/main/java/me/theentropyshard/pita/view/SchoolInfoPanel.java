@@ -55,7 +55,7 @@ public class SchoolInfoPanel extends JPanel {
             }});
         }});
 
-        InfoPanel commonInfoPanel = new InfoPanel();
+        /*InfoPanel commonInfoPanel = new InfoPanel();
 
         DataElementPanel dp1 = new DataElementPanel();
         dp1.setKey("Вид организационно-правовой формы ОО");
@@ -68,7 +68,7 @@ public class SchoolInfoPanel extends JPanel {
         commonInfoPanel.addDataPanel(dp1);
         commonInfoPanel.addDataPanel(dp2);
 
-        panel.add(commonInfoPanel);
+        panel.add(commonInfoPanel);*/
 
         /// Management info
         panel.add(new JPanel() {{

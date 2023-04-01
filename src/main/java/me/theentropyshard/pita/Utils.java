@@ -47,7 +47,7 @@ public enum Utils {
     public static String getTodaysDateRussian() {
         LocalDate localDate = LocalDate.now(ZoneId.of("Europe/Moscow"));
         String month = localDate.getMonth().getDisplayName(TextStyle.FULL, Locale.getDefault());
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(String.format("dd %s yyyy г.", month));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(String.format("d %s yyyy г.", month));
 
         return localDate.format(formatter);
     }

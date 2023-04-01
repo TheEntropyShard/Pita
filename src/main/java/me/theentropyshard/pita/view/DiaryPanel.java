@@ -18,8 +18,10 @@
 package me.theentropyshard.pita.view;
 
 import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
+import me.theentropyshard.pita.netschoolapi.diary.models.Assignment;
 import me.theentropyshard.pita.netschoolapi.diary.models.Day;
 import me.theentropyshard.pita.netschoolapi.diary.models.Diary;
+import me.theentropyshard.pita.netschoolapi.diary.models.Lesson;
 import me.theentropyshard.pita.view.component.ui.VerticalLabelUI;
 
 import javax.swing.*;
@@ -32,37 +34,52 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class DiaryPanel extends JPanel {
-    //private static final DateTimeFormatter DAY_DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
     private static final DateTimeFormatter DAY_DATE_FORMATTER = DateTimeFormatter.ofPattern("EEEE',' dd MMMM yyyy 'г.'");
 
     private final DiaryPanelElement[] days;
+    private final JPanel panel;
+
+    private boolean verticalOrder;
 
     public DiaryPanel() {
         super(new BorderLayout());
         this.setBackground(Color.WHITE);
 
-        JPanel panel = new JPanel();
-        panel.setBackground(Color.WHITE);
-        panel.setLayout(new GridLayout(3, 2));
+        this.panel = new JPanel();
+        this.panel.setBackground(Color.WHITE);
+        this.panel.setLayout(new GridLayout(3, 2));
 
-        this.add(panel);
+        this.add(this.panel);
 
         this.days = new DiaryPanelElement[6];
         for(int i = 0; i < this.days.length; i++) {
-            DiaryPanelElement day = new DiaryPanelElement();
-            this.days[i] = day;
-            panel.add(day);
+            this.days[i] = new DiaryPanelElement();
         }
+
+        this.arrangeDays(this.verticalOrder);
     }
 
     public void loadData() {
-        if(false) {
+        if(true) {
             try {
-                Diary diary = NetSchoolAPI.I.getDiary("2023-03-20", "2023-03-26");
-                for(int i = 0; i < diary.weekDays.length; i++) {
-                    Day day = diary.weekDays[i];
-                    DiaryPanelElement element = this.days[i];
+                Diary diary = NetSchoolAPI.I.getDiary("2023-02-13", "2023-02-19");
+                for(int dayNum = 0; dayNum < diary.weekDays.length; dayNum++) {
+                    Day day = diary.weekDays[dayNum];
+                    DiaryPanelElement element = this.days[dayNum];
                     element.setDate(LocalDateTime.parse(day.date).format(DiaryPanel.DAY_DATE_FORMATTER));
+                    String[][] data = element.getRowData();
+                    for(int lessonNum = 0; lessonNum < Math.min(day.lessons.length, 8); lessonNum++) {
+                        Lesson lesson = day.lessons[lessonNum];
+                        String[] lessonArr = data[lesson.number - 1];
+                        lessonArr[0] = lesson.number + ". " + lesson.subjectName;
+                        for(Assignment assign : lesson.assignments) {
+                            if(assign.mark != null) {
+                                lessonArr[2] = String.valueOf(assign.mark.mark);
+                            } else {
+                                lessonArr[1] = assign.assignmentName;
+                            }
+                        }
+                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -70,9 +87,26 @@ public class DiaryPanel extends JPanel {
         }
     }
 
+    public void arrangeDays(boolean verticalOrder) {
+        this.verticalOrder = verticalOrder;
+        this.panel.removeAll();
+
+        if(verticalOrder) {
+            for(int i = 0; i < this.days.length - 3; i++) {
+                this.panel.add(this.days[i]);
+                this.panel.add(this.days[i + 3]);
+            }
+        } else {
+            for(DiaryPanelElement day : this.days) {
+                this.panel.add(day);
+            }
+        }
+    }
+
     private static class DiaryPanelElement extends JPanel {
         private final JLabel dateLabel;
         private final String[][] rowData;
+        private final JTable table;
 
         public DiaryPanelElement() {
             this.setLayout(new BorderLayout());
@@ -95,19 +129,34 @@ public class DiaryPanel extends JPanel {
 
             JPanel panel = new JPanel(new BorderLayout());
 
-            this.setDate("wdwdwddwd");
+            this.setDate("Нет данных");
 
             Object[] colNames = {"Урок", "Домашнее задание", "Оценка"};
             this.rowData = new String[8][3];
             for(int i = 0; i < 8; i++) {
                 for(int j = 0; j < 3; j++) {
-                    this.rowData[i][j] = "<html><font color=\"#6F6\">lol</font>";
+                    this.rowData[i][j] = "";
                 }
             }
 
-            DefaultTableModel tableModel = new DefaultTableModel(this.rowData, colNames);
+            DefaultTableModel tableModel = new DefaultTableModel(this.rowData, colNames) {
+                @Override
+                public int getColumnCount() {
+                    return 3;
+                }
 
-            JTable table = new JTable(tableModel);
+                @Override
+                public int getRowCount() {
+                    return 8;
+                }
+
+                @Override
+                public Object getValueAt(int row, int column) {
+                    return rowData[row][column];
+                }
+            };
+
+            this.table = new JTable(tableModel);
             this.dateLabel.addComponentListener(new ComponentAdapter() {
                 @Override
                 public void componentResized(ComponentEvent e) {
@@ -127,6 +176,10 @@ public class DiaryPanel extends JPanel {
 
         public String[][] getRowData() {
             return this.rowData;
+        }
+
+        public JTable getTable() {
+            return this.table; //TODO изменять ширину колонок по содержимому
         }
     }
 }

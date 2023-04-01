@@ -19,8 +19,8 @@ package me.theentropyshard.pita.view;
 
 import javax.swing.*;
 
-public class DiaryPanel extends JPanel {
-    public DiaryPanel() {
+public class MailPanel extends JPanel {
+    public MailPanel() {
 
     }
 

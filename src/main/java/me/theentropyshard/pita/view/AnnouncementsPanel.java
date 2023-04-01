@@ -241,6 +241,9 @@ public class AnnouncementsPanel extends JPanel {
     }
 
     public void loadData() {
+        this.numAnnouncements = 0;
+        this.panel.removeAll();
+
         List<Announcement> announcements = new ArrayList<>();
         try {
             announcements.addAll(NetSchoolAPI.I.getAnnouncements(-1));

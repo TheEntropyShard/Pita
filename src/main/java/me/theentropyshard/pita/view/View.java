@@ -109,6 +109,10 @@ public final class View {
         return this.root;
     }
 
+    public MainPanel getMainPanel() {
+        return this.mainPanel;
+    }
+
     public JFrame getFrame() {
         return this.frame;
     }

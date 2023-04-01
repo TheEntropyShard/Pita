@@ -26,8 +26,10 @@ public class MainPanel extends JPanel {
     private final CardLayout contentLayout;
     private final JPanel contentPanel;
 
-    private final AnnouncementsPanel annPanel;
     private final DiaryPanel diaryPanel;
+    private final ReportsPanel reportsPanel;
+    private final MailPanel mailPanel;
+    private final AnnouncementsPanel annPanel;
 
     public MainPanel() {
         this.setLayout(new BorderLayout());
@@ -39,16 +41,46 @@ public class MainPanel extends JPanel {
         this.contentPanel = new JPanel(this.contentLayout);
         this.add(this.contentPanel, BorderLayout.CENTER);
 
-        this.annPanel = new AnnouncementsPanel();
-        this.contentPanel.add(this.annPanel, AnnouncementsPanel.class.getSimpleName());
-
         this.diaryPanel = new DiaryPanel();
         this.contentPanel.add(this.diaryPanel, DiaryPanel.class.getSimpleName());
+
+        this.reportsPanel = new ReportsPanel();
+        this.contentPanel.add(this.reportsPanel, ReportsPanel.class.getSimpleName());
+
+        this.mailPanel = new MailPanel();
+        this.contentPanel.add(this.mailPanel, MailPanel.class.getSimpleName());
+
+        this.annPanel = new AnnouncementsPanel();
+        this.contentPanel.add(this.annPanel, AnnouncementsPanel.class.getSimpleName());
     }
 
     public void showComponents() {
         this.header.loadData();
         this.annPanel.loadData();
         this.contentLayout.show(this.contentPanel, AnnouncementsPanel.class.getSimpleName());
+    }
+
+    public CardLayout getContentLayout() {
+        return this.contentLayout;
+    }
+
+    public JPanel getContentPanel() {
+        return this.contentPanel;
+    }
+
+    public DiaryPanel getDiaryPanel() {
+        return this.diaryPanel;
+    }
+
+    public ReportsPanel getReportsPanel() {
+        return this.reportsPanel;
+    }
+
+    public MailPanel getMailPanel() {
+        return this.mailPanel;
+    }
+
+    public AnnouncementsPanel getAnnPanel() {
+        return this.annPanel;
     }
 }

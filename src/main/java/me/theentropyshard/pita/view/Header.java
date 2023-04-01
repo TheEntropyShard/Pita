@@ -21,6 +21,7 @@ import me.theentropyshard.pita.Utils;
 import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
 import me.theentropyshard.pita.netschoolapi.models.MySettings;
 import me.theentropyshard.pita.view.component.GradientLabel;
+import me.theentropyshard.pita.view.component.SimpleButton;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -129,10 +130,58 @@ public class Header extends JPanel {
 
         JPanel bottomPanel = new JPanel(new GridLayout(1, 4));
         bottomPanel.setBackground(Color.WHITE);
-        bottomPanel.add(new JButton("Дневник"));
-        bottomPanel.add(new JButton("Отчеты"));
-        bottomPanel.add(new JButton("Почта"));
-        bottomPanel.add(new JButton("Объявления"));
+        bottomPanel.add(new SimpleButton("Дневник") {{
+            this.addActionListener(e -> {
+                MainPanel mp = View.getView().getMainPanel();
+                DiaryPanel diaryPanel = mp.getDiaryPanel();
+                if(!diaryPanel.isVisible()) {
+                    diaryPanel.loadData();
+                    mp.getContentLayout().show(
+                            mp.getContentPanel(),
+                            DiaryPanel.class.getSimpleName()
+                    );
+                }
+            });
+        }});
+        bottomPanel.add(new SimpleButton("Отчеты") {{
+            this.addActionListener(e -> {
+                MainPanel mp = View.getView().getMainPanel();
+                ReportsPanel reportsPanel = mp.getReportsPanel();
+                if(!reportsPanel.isVisible()) {
+                    reportsPanel.loadData();
+                    mp.getContentLayout().show(
+                            mp.getContentPanel(),
+                            ReportsPanel.class.getSimpleName()
+                    );
+                }
+            });
+        }});
+        bottomPanel.add(new SimpleButton("Почта") {{
+            this.addActionListener(e -> {
+                MainPanel mp = View.getView().getMainPanel();
+                MailPanel mailPanel = mp.getMailPanel();
+                if(!mailPanel.isVisible()) {
+                    mailPanel.loadData();
+                    mp.getContentLayout().show(
+                            mp.getContentPanel(),
+                            MailPanel.class.getSimpleName()
+                    );
+                }
+            });
+        }});
+        bottomPanel.add(new SimpleButton("Объявления") {{
+            this.addActionListener(e -> {
+                MainPanel mp = View.getView().getMainPanel();
+                AnnouncementsPanel annPanel = mp.getAnnPanel();
+                if(!annPanel.isVisible()) {
+                    annPanel.loadData();
+                    mp.getContentLayout().show(
+                            mp.getContentPanel(),
+                            AnnouncementsPanel.class.getSimpleName()
+                    );
+                }
+            });
+        }});
         this.add(bottomPanel, BorderLayout.SOUTH);
     }
 

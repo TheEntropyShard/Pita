@@ -26,13 +26,15 @@ import javax.swing.JComponent;
 import javax.swing.JScrollBar;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
+/**
+ * Slightly modified version of https://github.com/DJ-Raven/java-swing-school-management-dashboard/blob/main/school-dashboard/src/com/raven/swing/scrollbar/ModernScrollBarUI.java
+ */
 public class PScrollBarUI extends BasicScrollBarUI {
-
     private static final int THUMB_SIZE = 80;
 
     @Override
     protected Dimension getMaximumThumbSize() {
-        if(scrollbar.getOrientation() == JScrollBar.VERTICAL) {
+        if(this.scrollbar.getOrientation() == JScrollBar.VERTICAL) {
             return new Dimension(0, PScrollBarUI.THUMB_SIZE);
         } else {
             return new Dimension(PScrollBarUI.THUMB_SIZE, 0);
@@ -41,7 +43,7 @@ public class PScrollBarUI extends BasicScrollBarUI {
 
     @Override
     protected Dimension getMinimumThumbSize() {
-        if(scrollbar.getOrientation() == JScrollBar.VERTICAL) {
+        if(this.scrollbar.getOrientation() == JScrollBar.VERTICAL) {
             return new Dimension(0, PScrollBarUI.THUMB_SIZE);
         } else {
             return new Dimension(PScrollBarUI.THUMB_SIZE, 0);

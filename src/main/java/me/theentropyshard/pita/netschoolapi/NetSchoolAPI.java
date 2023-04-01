@@ -21,8 +21,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import me.theentropyshard.pita.Utils;
 import me.theentropyshard.pita.http.HttpClientWrapper;
+import me.theentropyshard.pita.netschoolapi.diary.DiaryService;
 import me.theentropyshard.pita.netschoolapi.diary.models.Announcement;
 import me.theentropyshard.pita.netschoolapi.diary.models.Attachment;
+import me.theentropyshard.pita.netschoolapi.diary.models.Diary;
 import me.theentropyshard.pita.netschoolapi.exceptions.AuthException;
 import me.theentropyshard.pita.netschoolapi.exceptions.SchoolNotFoundException;
 import me.theentropyshard.pita.netschoolapi.models.*;
@@ -42,6 +44,8 @@ public enum NetSchoolAPI {
 
     private final Gson gson = new Gson();
     private final Timer timer = new Timer("PingTimer", true);
+
+    private final DiaryService diaryService = new DiaryService(this);
 
     private HttpClientWrapper client;
 
@@ -179,6 +183,11 @@ public enum NetSchoolAPI {
 
         this.loggedIn = true;
     }
+
+    public Diary getDiary(String weekStart, String weekEnd) throws IOException {
+        return this.diaryService.getDiary(weekStart, weekEnd);
+    }
+
 
     public List<Announcement> getAnnouncements(int take) throws IOException {
         try(Response response = this.client.get(Urls.ANNOUNCEMENTS, new Object[]{"take", take})) {

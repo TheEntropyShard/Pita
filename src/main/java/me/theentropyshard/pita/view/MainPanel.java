@@ -56,8 +56,8 @@ public class MainPanel extends JPanel {
 
     public void showComponents() {
         this.header.loadData();
-        this.annPanel.loadData();
-        this.contentLayout.show(this.contentPanel, AnnouncementsPanel.class.getSimpleName());
+        this.diaryPanel.loadData();
+        this.contentLayout.show(this.contentPanel, DiaryPanel.class.getSimpleName());
     }
 
     public CardLayout getContentLayout() {

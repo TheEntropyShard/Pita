@@ -49,11 +49,22 @@ public class Header extends JPanel {
         this.infoLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                try {
-                    System.out.println(NetSchoolAPI.I.getActiveSessions());
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
+                View.getView().getFrame().getGlassPane().setVisible(true);
+
+                JDialog dialog = new JDialog(View.getView().getFrame(), "Список пользователей в сети", true);
+                dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+
+                ActiveSessionsPanel panel = new ActiveSessionsPanel();
+
+                dialog.add(panel);
+                panel.loadData();
+                panel.revalidate();
+
+                dialog.pack();
+                dialog.setLocationRelativeTo(null);
+                dialog.setVisible(true);
+
+                View.getView().getFrame().getGlassPane().setVisible(false);
             }
         });
 
@@ -71,12 +82,12 @@ public class Header extends JPanel {
                 SchoolInfoPanel panel = new SchoolInfoPanel();
 
                 dialog.add(panel);
+                panel.loadData();
+                panel.revalidate();
+
                 dialog.pack();
                 dialog.setLocationRelativeTo(null);
                 dialog.setVisible(true);
-
-                panel.loadData();
-                panel.revalidate();
 
                 View.getView().getFrame().getGlassPane().setVisible(false);
             }

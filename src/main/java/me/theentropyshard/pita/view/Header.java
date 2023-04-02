@@ -60,6 +60,8 @@ public class Header extends JPanel {
                 panel.loadData();
                 panel.revalidate();
 
+                infoLabel.setText(Utils.getTodaysDateRussian() + " - В системе работает " + panel.getActiveSessions() + " чел.");
+
                 dialog.pack();
                 dialog.setLocationRelativeTo(null);
                 dialog.setVisible(true);

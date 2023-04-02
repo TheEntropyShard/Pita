@@ -34,6 +34,8 @@ import java.util.List;
 public class ActiveSessionsPanel extends JPanel {
     private final InfoPanel sessionsPanel;
 
+    private int activeSessions;
+
     public ActiveSessionsPanel() {
         super(new BorderLayout());
 
@@ -71,6 +73,7 @@ public class ActiveSessionsPanel extends JPanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        this.activeSessions = activeSessions.size();
         for(int i = 0; i < activeSessions.size(); i++) {
             UserSession session = activeSessions.get(i);
             UserInfoElement element = new UserInfoElement();
@@ -79,6 +82,10 @@ public class ActiveSessionsPanel extends JPanel {
             element.setRoles(session.roles);
             this.sessionsPanel.addDataPanel(element);
         }
+    }
+
+    public int getActiveSessions() {
+        return this.activeSessions;
     }
 
     private static class InfoPanel extends JPanel {

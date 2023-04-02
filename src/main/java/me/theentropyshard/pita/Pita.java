@@ -28,7 +28,7 @@ public final class Pita {
     private final File credentialsFile;
     private final File attachmentsDir;
 
-    public Pita(String[] args) {
+    public Pita() {
         if(pita != null) {
             throw new IllegalStateException("Only one Pita instance can exist at a time");
         }
@@ -38,7 +38,11 @@ public final class Pita {
         this.credentialsFile = Utils.makeFile(new File(this.pitaDir, "credentials.dat"));
         this.attachmentsDir = Utils.makeDirectory(new File(this.pitaDir, "Attachments"));
 
-        Runtime.getRuntime().addShutdownHook(new Thread(NetSchoolAPI.I::logout));
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            synchronized (NetSchoolAPI.I) {
+                NetSchoolAPI.I.logout();
+            }
+        }));
 
         SwingUtilities.invokeLater(View::new);
     }

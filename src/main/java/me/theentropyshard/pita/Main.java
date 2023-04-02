@@ -22,6 +22,6 @@ public class Main {
         ResourceManager.registerFont("JetBrainsMono-Regular.ttf");
         ResourceManager.registerFont("JetBrainsMono-Bold.ttf");
 
-        new Pita(args);
+        new Pita();
     }
 }

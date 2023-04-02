@@ -25,6 +25,9 @@ public enum UIConstants {
     public static final int DEFAULT_WIDTH = 1280;
     public static final int DEFAULT_HEIGHT = 720;
 
+    public static final int DEFAULT_MIN_WIDTH_COLUMN = 163;
+    public static final int DEFAULT_MAX_WIDTH_COLUMN = 273;
+
     public static final int ARC_WIDTH = 7;
     public static final int ARC_HEIGHT = 7;
 

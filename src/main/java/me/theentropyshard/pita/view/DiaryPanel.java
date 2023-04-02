@@ -29,6 +29,8 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -62,7 +64,8 @@ public class DiaryPanel extends JPanel {
     public void loadData() {
         if(true) {
             try {
-                Diary diary = NetSchoolAPI.I.getDiary("2023-02-13", "2023-02-19");
+                //Diary diary = NetSchoolAPI.I.getDiary("2023-02-13", "2023-02-19");
+                Diary diary = NetSchoolAPI.I.getDiary("", "");
                 for(int dayNum = 0; dayNum < diary.weekDays.length; dayNum++) {
                     Day day = diary.weekDays[dayNum];
                     DiaryPanelElement element = this.days[dayNum];
@@ -72,11 +75,13 @@ public class DiaryPanel extends JPanel {
                         Lesson lesson = day.lessons[lessonNum];
                         String[] lessonArr = data[lesson.number - 1];
                         lessonArr[0] = lesson.number + ". " + lesson.subjectName;
-                        for(Assignment assign : lesson.assignments) {
-                            if(assign.mark != null) {
-                                lessonArr[2] = String.valueOf(assign.mark.mark);
-                            } else {
-                                lessonArr[1] = assign.assignmentName;
+                        if(lesson.assignments != null) {
+                            for(Assignment assign : lesson.assignments) {
+                                if(assign.mark != null) {
+                                    lessonArr[2] = String.valueOf(assign.mark.mark);
+                                } else {
+                                    lessonArr[1] = assign.assignmentName;
+                                }
                             }
                         }
                     }
@@ -157,6 +162,8 @@ public class DiaryPanel extends JPanel {
             };
 
             this.table = new JTable(tableModel);
+            this.table.getColumn("Урок").setMinWidth(UIConstants.DEFAULT_MIN_WIDTH_COLUMN);
+            this.table.getColumn("Урок").setMaxWidth(UIConstants.DEFAULT_MAX_WIDTH_COLUMN);
             this.dateLabel.addComponentListener(new ComponentAdapter() {
                 @Override
                 public void componentResized(ComponentEvent e) {

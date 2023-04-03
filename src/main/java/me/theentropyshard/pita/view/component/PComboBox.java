@@ -34,12 +34,9 @@ public class PComboBox extends JComboBox<String> {
 
     public PComboBox() {
         this.setUI(new PComboBoxUI());
-        this.setBackground(UIConstants.NEAR_WHITE);
-        this.setForeground(PTextField.TEXT_FIELD_TEXT_COLOR);
-        this.setFont(new Font(PTextField.TEXT_FIELD_FONT, Font.BOLD, PTextField.TEXT_FIELD_FONT_SIZE));
+        this.setBackground(UIConstants.NEAR_WHITE2);
         this.setEditable(false);
         this.setOpaque(false);
-        this.addItem("Имя школы");
 
         this.addPopupMenuListener(new PopupMenuListener() {
             @Override
@@ -65,14 +62,11 @@ public class PComboBox extends JComboBox<String> {
                     this.setBackground(new Color(250, 250, 250));
                     this.setForeground(list.getSelectionForeground());
                 } else {
-                    this.setBackground(new Color(220, 243, 218));
+                    this.setBackground(UIConstants.NEAR_WHITE2);
                     this.setForeground(list.getForeground());
                 }
-
-                this.setFont(list.getFont());
-                this.setText(String.valueOf(value));
-
-                return this;
+                list.setBackground(UIConstants.NEAR_WHITE2);
+                return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
             }
         });
 
@@ -84,7 +78,8 @@ public class PComboBox extends JComboBox<String> {
                     Graphics2D g2 = (Graphics2D) g;
                     g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                     g2.setStroke(new BasicStroke(2));
-                    g2.setPaint(new GradientPaint(0, 0, UIConstants.DARK_GREEN, width, height, UIConstants.LIGHT_GREEN));
+                    //g2.setPaint(new GradientPaint(0, 0, UIConstants.DARK_GREEN, width, height, UIConstants.LIGHT_GREEN));
+                    g2.setColor(UIConstants.NEAR_WHITE2);
                     g2.fillRoundRect(0, 0, width - 1, height - 1, UIConstants.ARC_WIDTH, UIConstants.ARC_HEIGHT);
                     g2.drawRoundRect(0, 0, width - 1, height - 1, UIConstants.ARC_WIDTH, UIConstants.ARC_HEIGHT);
                 }
@@ -92,20 +87,14 @@ public class PComboBox extends JComboBox<String> {
         });
 
         JScrollPane scrollPane = (JScrollPane) popup.getAccessibleContext().getAccessibleChild(0);
-        scrollPane.setVerticalScrollBar(new JScrollBar() {{
-            this.setUI(new PScrollBarUI());
-            this.setForeground(new Color(94, 139, 231));
-            this.setOpaque(false);
-            this.setUnitIncrement(8);
-            this.setPreferredSize(new Dimension(5, 5));
-        }});
+        scrollPane.setVerticalScrollBar(new PScrollBar());
     }
 
     @Override
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setColor(this.getBackground());
+        g2.setColor(UIConstants.NEAR_WHITE2);
         g2.fillRoundRect(0, 0, this.getWidth(), this.getHeight(), UIConstants.ARC_WIDTH, UIConstants.ARC_HEIGHT);
         this.paintIcon(g);
     }
@@ -115,7 +104,7 @@ public class PComboBox extends JComboBox<String> {
         super.paint(g);
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setColor(PTextField.TEXT_FIELD_TEXT_COLOR);
+        g2.setPaint(new GradientPaint(0, 0, UIConstants.DARK_GREEN, this.getWidth(), this.getHeight(), UIConstants.LIGHT_GREEN));
         g2.drawString(String.valueOf(this.getSelectedItem()), this.getInsets().left, this.getHeight() / 2 + g.getFontMetrics().getAscent() / 2 - 2);
     }
 

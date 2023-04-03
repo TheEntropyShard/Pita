@@ -116,7 +116,7 @@ public class MailPanel extends JPanel {
 
     private static class MailPanelHeader extends CustomPanel {
         public MailPanelHeader() {
-            this.setLayout(new MigLayout("flowy, debug", "[left]15[left]5[left]15[left]push", "[center][center][center]"));
+            this.setLayout(new MigLayout("flowy", "[left]15[left]5[left]15[left]push", "[center][center][center]"));
             this.setBackground(Color.WHITE);
 
             GradientLabel label = new GradientLabel("Почтовая папка", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);

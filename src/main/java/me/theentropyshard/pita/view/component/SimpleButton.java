@@ -23,6 +23,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class SimpleButton extends JButton {
+    private boolean round;
+
     public SimpleButton(String text) {
         super(text);
         this.setFocusPainted(false);
@@ -43,7 +45,19 @@ public class SimpleButton extends JButton {
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setPaint(new GradientPaint(0, 0, UIConstants.DARK_GREEN, this.getWidth(), this.getHeight(), UIConstants.LIGHT_GREEN));
-        g2.fillRect(0, 0, this.getWidth(), this.getHeight());
+        if(this.round) {
+            g2.fillRoundRect(0, 0, this.getWidth(), this.getHeight(), UIConstants.ARC_WIDTH, UIConstants.ARC_HEIGHT);
+        } else {
+            g2.fillRect(0, 0, this.getWidth(), this.getHeight());
+        }
         super.paintComponent(g);
+    }
+
+    public boolean isRound() {
+        return this.round;
+    }
+
+    public void setRound(boolean round) {
+        this.round = round;
     }
 }

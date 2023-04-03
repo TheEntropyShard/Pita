@@ -20,13 +20,19 @@ package me.theentropyshard.pita.netschoolapi;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import me.theentropyshard.pita.Utils;
-import me.theentropyshard.pita.http.HttpClientWrapper;
 import me.theentropyshard.pita.netschoolapi.diary.DiaryService;
 import me.theentropyshard.pita.netschoolapi.diary.models.Announcement;
 import me.theentropyshard.pita.netschoolapi.diary.models.Attachment;
 import me.theentropyshard.pita.netschoolapi.diary.models.Diary;
 import me.theentropyshard.pita.netschoolapi.exceptions.AuthException;
 import me.theentropyshard.pita.netschoolapi.exceptions.SchoolNotFoundException;
+import me.theentropyshard.pita.netschoolapi.http.HttpClientWrapper;
+import me.theentropyshard.pita.netschoolapi.mail.MailBox;
+import me.theentropyshard.pita.netschoolapi.mail.MailOrder;
+import me.theentropyshard.pita.netschoolapi.mail.MailSearch;
+import me.theentropyshard.pita.netschoolapi.mail.MailService;
+import me.theentropyshard.pita.netschoolapi.mail.models.Mail;
+import me.theentropyshard.pita.netschoolapi.mail.models.Message;
 import me.theentropyshard.pita.netschoolapi.models.*;
 import okhttp3.Cookie;
 import okhttp3.CookieJar;
@@ -46,6 +52,7 @@ public enum NetSchoolAPI {
     private final Timer timer = new Timer("PingTimer", true);
 
     private final DiaryService diaryService = new DiaryService(this);
+    private final MailService mailService = new MailService(this);
 
     private HttpClientWrapper client;
 
@@ -245,6 +252,48 @@ public enum NetSchoolAPI {
             e.printStackTrace();
         }
         System.out.println("Downloaded attachment, took " + (System.currentTimeMillis() - start) + " ms");
+    }
+
+    /**
+     * @return Количество непрочитанных сообщений
+     * @throws IOException При IO ошибке
+     */
+    public int getUnreadMessagesCount() throws IOException {
+        return this.mailService.getUnreadMessagesCount();
+    }
+
+    /**
+     * Возвращает ID непрочитанных сообщений
+     *
+     * @return int[]
+     * @throws IOException При IO ошибке
+     */
+    public int[] getUnreadMessagesIds() throws IOException {
+        return this.mailService.getUnreadMessagesIds();
+    }
+
+    public Mail getMail(MailBox mailBox, List<String> fields, MailOrder order, MailSearch search, int page, int pageSize) throws IOException {
+        return this.mailService.getMail(mailBox, fields, order, search, page, pageSize);
+    }
+
+    public Response sendMessage(List<String> receiverIds, List<File> files, String subject, String text, boolean notify) throws IOException {
+        return this.mailService.sendMessage(receiverIds, files, subject, text, notify);
+    }
+
+    public Message readMessage(int messageId) throws IOException {
+        return this.mailService.readMessage(messageId);
+    }
+
+    public Response markMessages(boolean read, int... messageIds) throws IOException {
+        return this.mailService.markMessages(read, messageIds);
+    }
+
+    public Response restoreMessages(int... messageIds) throws IOException {
+        return this.mailService.restoreMessages(messageIds);
+    }
+
+    public Response deleteMessages(boolean permanent, int... messageIds) throws IOException {
+        return this.mailService.deleteMessages(permanent, messageIds);
     }
 
     public void logout() {

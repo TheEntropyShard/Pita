@@ -1,4 +1,4 @@
-/*      Pita. A simple desktop client for NetSchool by irTech
+/*      NetSchoolAPI. A simple API client for NetSchool by irTech
  *      Copyright (C) 2022-2023 TheEntropyShard
  *
  *      This program is free software: you can redistribute it and/or modify
@@ -15,22 +15,20 @@
  *      along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.pita.http;
+package me.theentropyshard.pita.netschoolapi.mail;
 
-import okhttp3.MediaType;
+public final class MailOrder {
+    private final String jsonString;
 
-public enum ContentType {
-    JSON("application/json; charset=utf-8"),
-    FORM_URLENCODED("application/x-www-form-urlencoded; charset=utf-8"),
-    MULTIPART_FORMDATA("application/octet-stream");
-
-    private final MediaType mediaType;
-
-    ContentType(String contentType) {
-        this.mediaType = MediaType.get(contentType);
+    private MailOrder(String jsonString) {
+        this.jsonString = jsonString;
     }
 
-    public MediaType getMediaType() {
-        return this.mediaType;
+    public String getJsonString() {
+        return this.jsonString;
+    }
+
+    public static MailOrder of(MailField field, boolean ascending) {
+        return new MailOrder("{\"fieldId\":\"" + field.getFieldId() + "\",\"ascending\":" + ascending + "}");
     }
 }

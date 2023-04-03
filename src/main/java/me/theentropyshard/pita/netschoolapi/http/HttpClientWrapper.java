@@ -14,7 +14,7 @@
  *      You should have received a copy of the GNU General Public License
  *      along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package me.theentropyshard.pita.http;
+package me.theentropyshard.pita.netschoolapi.http;
 
 import me.theentropyshard.pita.Utils;
 import okhttp3.*;

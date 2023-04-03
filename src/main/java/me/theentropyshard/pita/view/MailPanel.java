@@ -17,18 +17,28 @@
 
 package me.theentropyshard.pita.view;
 
+import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
+import me.theentropyshard.pita.netschoolapi.mail.MailBox;
+import me.theentropyshard.pita.netschoolapi.mail.MailHelper;
+import me.theentropyshard.pita.netschoolapi.mail.models.Mail;
+import me.theentropyshard.pita.netschoolapi.mail.models.MailRecord;
 import me.theentropyshard.pita.view.component.*;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class MailPanel extends JPanel {
+    private static final DateTimeFormatter SENT_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+
+    private final MailContentPanel mailContentPanel;
+
     public MailPanel() {
         super(new BorderLayout());
 
@@ -44,19 +54,38 @@ public class MailPanel extends JPanel {
 
         this.add(scrollPane, BorderLayout.CENTER);
 
-        InfoPanel infoPanel = new InfoPanel();
+        InfoPanel headerPanel = new InfoPanel();
 
-        MailPanelHeader element = new MailPanelHeader();
-        infoPanel.addDataPanel(element);
+        MailPanelHeader header = new MailPanelHeader();
+        headerPanel.addDataPanel(header);
 
-        InfoPanel mailContent = new InfoPanel();
+        this.mailContentPanel = new MailContentPanel();
+        this.mailContentPanel.addNewRecord("№", "Автор", "Тема", "Отправлено");
 
-        panel.add(infoPanel);
-        panel.add(mailContent);
+        InfoPanel mainContent = new InfoPanel();
+
+        mainContent.addDataPanel(this.mailContentPanel);
+
+        panel.add(headerPanel);
+        panel.add(mainContent);
     }
 
     public void loadData() {
-
+        try {
+            Mail mail = NetSchoolAPI.I.getMail(MailBox.BOX_INCOMING, MailHelper.getDefaultFields(), null, null, 1, 20);
+            MailRecord[] rows = mail.rows;
+            for(int i = 0; i < rows.length; i++) {
+                MailRecord record = rows[i];
+                this.mailContentPanel.addNewRecord(
+                        String.valueOf(i + 1),
+                        record.author,
+                        record.subject,
+                        LocalDateTime.parse(record.sent).format(MailPanel.SENT_TIME_FORMATTER)
+                );
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private static class InfoPanel extends JPanel { //TODO попытаться сделать эти классы более generic, а не копипастить их
@@ -240,6 +269,32 @@ public class MailPanel extends JPanel {
             panel.add(deleteButton, "");
 
             this.add(panel, "cell 0 2, span");
+        }
+    }
+
+    public static class MailContentPanel extends CustomPanel {
+        public MailContentPanel() {
+            this.setLayout(new MigLayout("", "[left][center, grow][center, grow][center]", "[center, fill]"));
+            this.setBackground(Color.WHITE);
+        }
+
+        public void addNewRecord(String number, String author, String subject, String sent) {
+            GradientLabel numberLabel = new GradientLabel(number, UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+            numberLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
+
+            GradientLabel authorLabel = new GradientLabel(author, UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+            authorLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
+
+            GradientLabel subjectLabel = new GradientLabel(subject, UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+            subjectLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
+
+            GradientLabel sentLabel = new GradientLabel(sent, UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+            sentLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
+
+            this.add(numberLabel);
+            this.add(authorLabel);
+            this.add(subjectLabel);
+            this.add(sentLabel, "wrap");
         }
     }
 }

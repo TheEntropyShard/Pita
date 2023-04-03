@@ -30,6 +30,8 @@ import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -252,6 +254,7 @@ public class MailPanel extends JPanel {
             this.add(numberField, "cell 3 1");
 
             JPanel panel = new JPanel(new MigLayout("insets 0, fillx"));
+            panel.setBackground(Color.WHITE);
 
             SimpleButton loadButton = new SimpleButton("Загрузить");
             loadButton.setRound(true);
@@ -276,6 +279,19 @@ public class MailPanel extends JPanel {
         public MailContentPanel() {
             this.setLayout(new MigLayout("", "[left][center, grow][center, grow][center]", "[center, fill]"));
             this.setBackground(Color.WHITE);
+            this.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    super.mouseEntered(e);
+                    setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    super.mouseExited(e);
+                    setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                }
+            });
         }
 
         public void addNewRecord(String number, String author, String subject, String sent) {

@@ -60,6 +60,11 @@ public class Header extends JPanel {
                 panel.loadData();
                 panel.revalidate();
 
+                Dimension preferredSize = panel.getPreferredSize();
+                if(preferredSize.height > UIConstants.DEFAULT_HEIGHT) {
+                    panel.setPreferredSize(new Dimension(preferredSize.width, UIConstants.DEFAULT_HEIGHT));
+                }
+
                 infoLabel.setText(Utils.getTodaysDateRussian() + " - В системе работает " + panel.getActiveSessions() + " чел.");
 
                 dialog.pack();

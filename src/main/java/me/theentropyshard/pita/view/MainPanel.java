@@ -17,6 +17,10 @@
 
 package me.theentropyshard.pita.view;
 
+import me.theentropyshard.pita.view.mail.MailPanel;
+import me.theentropyshard.pita.view.mail.MailReadPanel;
+import me.theentropyshard.pita.view.mail.MailWritePanel;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -28,7 +32,11 @@ public class MainPanel extends JPanel {
 
     private final DiaryPanel diaryPanel;
     private final ReportsPanel reportsPanel;
+
     private final MailPanel mailPanel;
+    private final MailReadPanel mailReadPanel;
+    private final MailWritePanel mailWritePanel;
+
     private final AnnouncementsPanel annPanel;
 
     public MainPanel() {
@@ -47,8 +55,14 @@ public class MainPanel extends JPanel {
         this.reportsPanel = new ReportsPanel();
         this.contentPanel.add(this.reportsPanel, ReportsPanel.class.getSimpleName());
 
-        this.mailPanel = new MailPanel();
+        this.mailPanel = new MailPanel(this);
         this.contentPanel.add(this.mailPanel, MailPanel.class.getSimpleName());
+
+        this.mailReadPanel = new MailReadPanel(this.mailPanel);
+        this.contentPanel.add(this.mailReadPanel, MailReadPanel.class.getSimpleName());
+
+        this.mailWritePanel = new MailWritePanel(this.mailPanel);
+        this.contentPanel.add(this.mailWritePanel, MailWritePanel.class.getSimpleName());
 
         this.annPanel = new AnnouncementsPanel();
         this.contentPanel.add(this.annPanel, AnnouncementsPanel.class.getSimpleName());
@@ -78,6 +92,14 @@ public class MainPanel extends JPanel {
 
     public MailPanel getMailPanel() {
         return this.mailPanel;
+    }
+
+    public MailReadPanel getMailReadPanel() {
+        return this.mailReadPanel;
+    }
+
+    public MailWritePanel getMailWritePanel() {
+        return this.mailWritePanel;
     }
 
     public AnnouncementsPanel getAnnPanel() {

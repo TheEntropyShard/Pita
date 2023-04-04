@@ -28,10 +28,7 @@ import okhttp3.Response;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.StringJoiner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class MailService {
@@ -49,9 +46,9 @@ public class MailService {
         }
     }
 
-    public int[] getUnreadMessagesIds() throws IOException {
+    public Set<Integer> getUnreadMessagesIds() throws IOException {
         try(Response response = this.api.getClient().get(Urls.MAIL_UNREAD, new Object[]{"userId", this.api.getStudentId()})) {
-            return this.gson.fromJson(Objects.requireNonNull(response.body()).charStream(), int[].class);
+            return new HashSet<>(Arrays.asList(this.gson.fromJson(Objects.requireNonNull(response.body()).charStream(), Integer[].class)));
         }
     }
 

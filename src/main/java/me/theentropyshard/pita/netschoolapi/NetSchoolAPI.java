@@ -268,7 +268,7 @@ public enum NetSchoolAPI {
      * @return int[]
      * @throws IOException При IO ошибке
      */
-    public int[] getUnreadMessagesIds() throws IOException {
+    public Set<Integer> getUnreadMessagesIds() throws IOException {
         return this.mailService.getUnreadMessagesIds();
     }
 

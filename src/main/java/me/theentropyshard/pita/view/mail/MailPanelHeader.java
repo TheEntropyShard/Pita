@@ -27,9 +27,10 @@ import net.miginfocom.swing.MigLayout;
 import javax.swing.*;
 import javax.swing.text.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class MailPanelHeader extends CustomPanel {
-    public MailPanelHeader() {
+    public MailPanelHeader(ActionListener lbc) {
         this.setLayout(new MigLayout("flowy", "[left]15[left]5[left]15[left]push", "[center][center][center]"));
         this.setBackground(Color.WHITE);
 
@@ -141,6 +142,7 @@ public class MailPanelHeader extends CustomPanel {
         panel.setBackground(Color.WHITE);
 
         SimpleButton loadButton = new SimpleButton("Загрузить");
+        loadButton.addActionListener(lbc);
         loadButton.setRound(true);
 
         panel.add(loadButton, "");

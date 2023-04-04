@@ -63,7 +63,7 @@ public class MailPanel extends JPanel {
 
         InfoPanel headerPanel = new InfoPanel();
 
-        MailPanelHeader header = new MailPanelHeader();
+        MailPanelHeader header = new MailPanelHeader(e -> this.loadData());
         headerPanel.addDataPanel(header);
 
         this.mailListPanel = new MailListPanel();
@@ -100,6 +100,7 @@ public class MailPanel extends JPanel {
                         !unreadMessagesIds.contains(record.id), false
                 );
             }
+            this.revalidate();
         } catch (IOException e) {
             e.printStackTrace();
         }

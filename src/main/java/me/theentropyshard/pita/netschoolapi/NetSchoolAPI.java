@@ -254,20 +254,10 @@ public enum NetSchoolAPI {
         System.out.println("Downloaded attachment, took " + (System.currentTimeMillis() - start) + " ms");
     }
 
-    /**
-     * @return Количество непрочитанных сообщений
-     * @throws IOException При IO ошибке
-     */
     public int getUnreadMessagesCount() throws IOException {
         return this.mailService.getUnreadMessagesCount();
     }
 
-    /**
-     * Возвращает ID непрочитанных сообщений
-     *
-     * @return int[]
-     * @throws IOException При IO ошибке
-     */
     public Set<Integer> getUnreadMessagesIds() throws IOException {
         return this.mailService.getUnreadMessagesIds();
     }

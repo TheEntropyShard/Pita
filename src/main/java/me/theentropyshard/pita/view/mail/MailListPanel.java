@@ -36,16 +36,16 @@ public class MailListPanel extends CustomPanel {
         this.setBackground(Color.WHITE);
     }
 
-    public void addNewRecord(String number, String author, String subject, String sent, boolean isRead, boolean isSpecial) {
+    public void addNewRecord(String number, String from, String subject, String sent, boolean isRead, boolean isSpecial) {
         GradientLabel numberLabel = new GradientLabel(number, UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
         numberLabel.setOpaque(true);
         numberLabel.setBackground(Color.WHITE);
         numberLabel.setFont(new Font("JetBrains Mono", Font.PLAIN, 14));
 
-        GradientLabel authorLabel = new GradientLabel(author, UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
-        authorLabel.setOpaque(true);
-        authorLabel.setBackground(Color.WHITE);
-        authorLabel.setFont(new Font("JetBrains Mono", Font.PLAIN, 14));
+        GradientLabel fromLabel = new GradientLabel(from, UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+        fromLabel.setOpaque(true);
+        fromLabel.setBackground(Color.WHITE);
+        fromLabel.setFont(new Font("JetBrains Mono", Font.PLAIN, 14));
 
         GradientLabel subjectLabel = new GradientLabel(subject, UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
         subjectLabel.setOpaque(true);
@@ -59,7 +59,7 @@ public class MailListPanel extends CustomPanel {
 
         if(!isRead) {
             numberLabel.setFont(numberLabel.getFont().deriveFont(Font.BOLD));
-            authorLabel.setFont(authorLabel.getFont().deriveFont(Font.BOLD));
+            fromLabel.setFont(fromLabel.getFont().deriveFont(Font.BOLD));
             subjectLabel.setFont(subjectLabel.getFont().deriveFont(Font.BOLD));
             sentLabel.setFont(sentLabel.getFont().deriveFont(Font.BOLD));
         }
@@ -71,13 +71,13 @@ public class MailListPanel extends CustomPanel {
                     Color c = sentLabel.getBackground();
                     if(c == Color.WHITE) {
                         numberLabel.setBackground(Color.LIGHT_GRAY);
-                        authorLabel.setBackground(Color.LIGHT_GRAY);
+                        fromLabel.setBackground(Color.LIGHT_GRAY);
                         subjectLabel.setBackground(Color.LIGHT_GRAY);
                         sentLabel.setBackground(Color.LIGHT_GRAY);
                         selectedRows.put(number, true);
                     } else {
                         numberLabel.setBackground(Color.WHITE);
-                        authorLabel.setBackground(Color.WHITE);
+                        fromLabel.setBackground(Color.WHITE);
                         subjectLabel.setBackground(Color.WHITE);
                         sentLabel.setBackground(Color.WHITE);
                         selectedRows.put(number, false);
@@ -96,7 +96,7 @@ public class MailListPanel extends CustomPanel {
                 }
             });
 
-            authorLabel.addMouseListener(new MouseAdapter() {
+            fromLabel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mousePressed(MouseEvent e) {
                     View v = View.getView();
@@ -106,12 +106,12 @@ public class MailListPanel extends CustomPanel {
 
                 @Override
                 public void mouseEntered(MouseEvent e) {
-                    authorLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                    fromLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
-                    authorLabel.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+                    fromLabel.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
                 }
             });
 
@@ -140,13 +140,13 @@ public class MailListPanel extends CustomPanel {
                     Color c = sentLabel.getBackground();
                     if(c == Color.WHITE) {
                         numberLabel.setBackground(Color.LIGHT_GRAY);
-                        authorLabel.setBackground(Color.LIGHT_GRAY);
+                        fromLabel.setBackground(Color.LIGHT_GRAY);
                         subjectLabel.setBackground(Color.LIGHT_GRAY);
                         sentLabel.setBackground(Color.LIGHT_GRAY);
                         selectedRows.put(number, true);
                     } else {
                         numberLabel.setBackground(Color.WHITE);
-                        authorLabel.setBackground(Color.WHITE);
+                        fromLabel.setBackground(Color.WHITE);
                         subjectLabel.setBackground(Color.WHITE);
                         sentLabel.setBackground(Color.WHITE);
                         selectedRows.put(number, false);
@@ -167,7 +167,7 @@ public class MailListPanel extends CustomPanel {
         }
 
         this.add(numberLabel);
-        this.add(authorLabel);
+        this.add(fromLabel);
         this.add(subjectLabel);
         this.add(sentLabel, "wrap");
     }

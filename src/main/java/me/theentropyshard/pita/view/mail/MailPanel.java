@@ -80,7 +80,7 @@ public class MailPanel extends JPanel {
 
     public void loadData() {
         this.mailListPanel.removeAll();
-        this.mailListPanel.addNewRecord("№", "Автор", "Тема", "Отправлено", false, true);
+        this.mailListPanel.addNewRecord("№", "От кого", "Тема", "Отправлено", false, true);
         this.mailListPanel.addNewRecord(" ", " ", " ", " ", false, true);
 
         // TODO сделать выбор страниц

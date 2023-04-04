@@ -31,6 +31,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Set;
 
 public class MailPanel extends JPanel {
     private static final DateTimeFormatter SENT_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
@@ -66,23 +67,26 @@ public class MailPanel extends JPanel {
         headerPanel.addDataPanel(header);
 
         this.mailListPanel = new MailListPanel();
-        this.mailListPanel.addNewRecord("№", "Автор", "Тема", "Отправлено", true);
-        this.mailListPanel.addNewRecord(" ", " ", " ", " ", true);
+        this.mailListPanel.addNewRecord("№", "Автор", "Тема", "Отправлено", false, true);
+        this.mailListPanel.addNewRecord(" ", " ", " ", " ", false, true);
 
         InfoPanel mainContent = new InfoPanel();
 
         mainContent.addDataPanel(this.mailListPanel);
 
         panel.add(headerPanel);
-        panel.add(mainContent);
+        panel.add(mainContent, "gapy 4 0");
     }
 
     public void loadData() {
         this.mailListPanel.removeAll();
-        this.mailListPanel.addNewRecord("№", "Автор", "Тема", "Отправлено", true);
-        this.mailListPanel.addNewRecord(" ", " ", " ", " ", true);
+        this.mailListPanel.addNewRecord("№", "Автор", "Тема", "Отправлено", false, true);
+        this.mailListPanel.addNewRecord(" ", " ", " ", " ", false, true);
 
+        // TODO сделать выбор страниц
+        // кол-во страниц = (кол-во писем / размер страницы) + кол-во писем % размер страницы == 0 ? 0 : 1
         try {
+            Set<Integer> unreadMessagesIds = NetSchoolAPI.I.getUnreadMessagesIds();
             Mail mail = NetSchoolAPI.I.getMail(MailBox.BOX_INCOMING, MailHelper.getDefaultFields(), null, null, 1, 20);
             MailRecord[] rows = mail.rows;
             this.rows = rows;
@@ -93,7 +97,7 @@ public class MailPanel extends JPanel {
                         record.author,
                         record.subject,
                         LocalDateTime.parse(record.sent).format(MailPanel.SENT_TIME_FORMATTER),
-                        false
+                        !unreadMessagesIds.contains(record.id), false
                 );
             }
         } catch (IOException e) {

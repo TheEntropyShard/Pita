@@ -36,26 +36,33 @@ public class MailListPanel extends CustomPanel {
         this.setBackground(Color.WHITE);
     }
 
-    public void addNewRecord(String number, String author, String subject, String sent, boolean isSpecial) {
+    public void addNewRecord(String number, String author, String subject, String sent, boolean isRead, boolean isSpecial) {
         GradientLabel numberLabel = new GradientLabel(number, UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
         numberLabel.setOpaque(true);
         numberLabel.setBackground(Color.WHITE);
-        numberLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
+        numberLabel.setFont(new Font("JetBrains Mono", Font.PLAIN, 14));
 
         GradientLabel authorLabel = new GradientLabel(author, UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
         authorLabel.setOpaque(true);
         authorLabel.setBackground(Color.WHITE);
-        authorLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
+        authorLabel.setFont(new Font("JetBrains Mono", Font.PLAIN, 14));
 
         GradientLabel subjectLabel = new GradientLabel(subject, UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
         subjectLabel.setOpaque(true);
         subjectLabel.setBackground(Color.WHITE);
-        subjectLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
+        subjectLabel.setFont(new Font("JetBrains Mono", Font.PLAIN, 14));
 
         GradientLabel sentLabel = new GradientLabel(sent, UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
         sentLabel.setOpaque(true);
         sentLabel.setBackground(Color.WHITE);
-        sentLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
+        sentLabel.setFont(new Font("JetBrains Mono", Font.PLAIN, 14));
+
+        if(!isRead) {
+            numberLabel.setFont(numberLabel.getFont().deriveFont(Font.BOLD));
+            authorLabel.setFont(authorLabel.getFont().deriveFont(Font.BOLD));
+            subjectLabel.setFont(subjectLabel.getFont().deriveFont(Font.BOLD));
+            sentLabel.setFont(sentLabel.getFont().deriveFont(Font.BOLD));
+        }
 
         if(!isSpecial) {
             numberLabel.addMouseListener(new MouseAdapter() {

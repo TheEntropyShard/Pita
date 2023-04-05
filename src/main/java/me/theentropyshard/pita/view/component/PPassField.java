@@ -25,6 +25,9 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class PPassField extends JPasswordField {
+    private Color defaultColor = UIConstants.NEAR_WHITE2;
+    private Color wrongColor = UIConstants.WRONG;
+
     private Icon prefixIcon;
     private String hint = "";
     private boolean isWrong;
@@ -52,9 +55,9 @@ public class PPassField extends JPasswordField {
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         if(this.isWrong) {
-            g2.setColor(UIConstants.WRONG);
+            g2.setColor(this.wrongColor);
         } else {
-            g2.setColor(UIConstants.NEAR_WHITE2);
+            g2.setColor(this.defaultColor);
         }
         g2.fillRoundRect(0, 0, this.getWidth(), this.getHeight(), UIConstants.ARC_WIDTH, UIConstants.ARC_HEIGHT);
         this.paintIcon(g2);
@@ -85,6 +88,22 @@ public class PPassField extends JPasswordField {
             left = this.prefixIcon.getIconWidth() + 15;
         }
         this.setBorder(BorderFactory.createEmptyBorder(10, left, 10, 15));
+    }
+
+    public Color getDefaultColor() {
+        return this.defaultColor;
+    }
+
+    public void setDefaultColor(Color defaultColor) {
+        this.defaultColor = defaultColor;
+    }
+
+    public Color getWrongColor() {
+        return this.wrongColor;
+    }
+
+    public void setWrongColor(Color wrongColor) {
+        this.wrongColor = wrongColor;
     }
 
     public void setWrong(boolean wrong) {

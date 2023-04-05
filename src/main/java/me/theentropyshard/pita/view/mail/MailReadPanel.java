@@ -202,9 +202,9 @@ public class MailReadPanel extends JPanel {
                     attachedFiles.add(label);
                 }
 
-                mailBodyPanel.addDataPanel(attachedFiles, "grow");
+                this.mailBodyPanel.addDataPanel(attachedFiles, "grow");
             } else {
-                mailBodyPanel.addDataPanel(mainTextPane, "w 100::98%, grow");
+                this.mailBodyPanel.addDataPanel(mainTextPane, "w 100::98%, grow");
             }
 
         } catch (IOException e) {

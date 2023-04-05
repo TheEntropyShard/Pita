@@ -51,6 +51,12 @@ public enum NetSchoolAPI {
     private final Gson gson = new Gson();
     private final Timer timer = new Timer("PingTimer", true);
 
+    private final List<UserModel> admins = new ArrayList<>();
+    private final List<UserModel> headTeachers = new ArrayList<>();
+    private final List<UserModel> classroomTeachers = new ArrayList<>();
+    private final List<UserModel> teachers = new ArrayList<>();
+    private final List<UserModel> classmates = new ArrayList<>();
+
     private final DiaryService diaryService = new DiaryService(this);
     private final MailService mailService = new MailService(this);
 
@@ -266,8 +272,8 @@ public enum NetSchoolAPI {
         return this.mailService.getMail(mailBox, fields, order, search, page, pageSize);
     }
 
-    public Response sendMessage(List<String> receiverIds, List<File> files, String subject, String text, boolean notify) throws IOException {
-        return this.mailService.sendMessage(receiverIds, files, subject, text, notify);
+    public Response sendMessage(List<String> receiverIds, List<File> files, String subject, String text, boolean notify, boolean draft) throws IOException {
+        return this.mailService.sendMessage(receiverIds, files, subject, text, notify, draft);
     }
 
     public Message readMessage(int messageId) throws IOException {
@@ -284,6 +290,96 @@ public enum NetSchoolAPI {
 
     public Response deleteMessages(boolean permanent, int... messageIds) throws IOException {
         return this.mailService.deleteMessages(permanent, messageIds);
+    }
+
+    public List<UserModel> getAdmins() {
+        if(this.admins.isEmpty()) {
+            String data = "?" + Utils.toFormUrlEncoded(
+                    "classId", this.getClassId(), "emId", "NaN",
+                    "forCurrentOrganization", true, "grade", "NaN", "group", 1,
+                    "organizationId", this.school.getId(),
+                    "userId", this.getStudentId()
+            );
+            try(Response response = this.client.get(Urls.MAIL_RECIPIENTS + data)) {
+                this.admins.addAll(Arrays.asList(this.gson.fromJson(Objects.requireNonNull(response.body()).charStream(), UserModel[].class)));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return this.admins;
+    }
+
+    public List<UserModel> getHeadTeachers() {
+        if(this.headTeachers.isEmpty()) {
+            String data = "?" + Utils.toFormUrlEncoded(
+                    "classId", this.getClassId(), "emId", "NaN",
+                    "forCurrentOrganization", true, "grade", "NaN", "group", 2,
+                    "organizationId", this.school.getId(),
+                    "userId", this.getStudentId()
+            );
+            try(Response response = this.client.get(Urls.MAIL_RECIPIENTS + data)) {
+                this.headTeachers.addAll(Arrays.asList(this.gson.fromJson(Objects.requireNonNull(response.body()).charStream(), UserModel[].class)));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return this.headTeachers;
+    }
+
+    public List<UserModel> getClassroomTeachers() {
+        if(this.classroomTeachers.isEmpty()) {
+            String data = "?" + Utils.toFormUrlEncoded(
+                    "classId", this.getClassId(), "emId", "NaN",
+                    "forCurrentOrganization", true, "grade", "NaN", "group", 3,
+                    "organizationId", this.school.getId(),
+                    "userId", this.getStudentId()
+            );
+            try(Response response = this.client.get(Urls.MAIL_RECIPIENTS + data)) {
+                this.classroomTeachers.addAll(Arrays.asList(this.gson.fromJson(Objects.requireNonNull(response.body()).charStream(), UserModel[].class)));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return this.classroomTeachers;
+    }
+
+    public List<UserModel> getTeachers() {
+        if(this.teachers.isEmpty()) {
+            String data = "?" + Utils.toFormUrlEncoded(
+                    "classId", this.getClassId(), "emId", "NaN",
+                    "forCurrentOrganization", true, "grade", "NaN", "group", 4,
+                    "organizationId", this.school.getId(),
+                    "userId", this.getStudentId()
+            );
+            try(Response response = this.client.get(Urls.MAIL_RECIPIENTS + data)) {
+                this.teachers.addAll(Arrays.asList(this.gson.fromJson(Objects.requireNonNull(response.body()).charStream(), UserModel[].class)));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return this.teachers;
+    }
+
+    public List<UserModel> getClassmates() {
+        if(this.classmates.isEmpty()) {
+            String data = "?" + Utils.toFormUrlEncoded(
+                    "classId", this.getClassId(), "emId", "NaN",
+                    "forCurrentOrganization", true, "grade", "NaN", "group", 7,
+                    "organizationId", this.school.getId(),
+                    "userId", this.getStudentId()
+            );
+            try(Response response = this.client.get(Urls.MAIL_RECIPIENTS + data)) {
+                this.classmates.addAll(Arrays.asList(this.gson.fromJson(Objects.requireNonNull(response.body()).charStream(), UserModel[].class)));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return this.classmates;
     }
 
     public void logout() {

@@ -72,7 +72,7 @@ public class MailService {
         }
     }
 
-    public Response sendMessage(List<String> receiverIds, List<File> files, String subject, String text, boolean notify) throws IOException {
+    public Response sendMessage(List<String> receiverIds, List<File> files, String subject, String text, boolean notify, boolean draft) throws IOException {
         if(receiverIds == null || receiverIds.isEmpty()) {
             throw new IOException("receiverIds == null || receiverIds.length == 0");
         }
@@ -95,13 +95,14 @@ public class MailService {
             }
         }
 
-        String data = String.format("{\"subject\":\"%s\",\"text\":\"%s\",\"authorId\":%d,\"fileAttachmentIds\":%s,\"notify\":%b,\"to\":%s,\"draft\":false}",
+        String data = String.format("{\"subject\":\"%s\",\"text\":\"%s\",\"authorId\":%d,\"fileAttachmentIds\":%s,\"notify\":%b,\"to\":%s,\"draft\":%b}",
                 subject,
                 text,
                 this.api.getStudentId(),
                 fileAttachmentIds.stream().map(s -> "\"" + s + "\"").collect(Collectors.toList()),
                 notify,
-                receiverIds.stream().map(s -> "\"" + s + "\"").collect(Collectors.toList()));
+                receiverIds.stream().map(s -> "\"" + s + "\"").collect(Collectors.toList()),
+                draft);
 
         try(Response response = this.api.getClient().post(Urls.MAIL_MESSAGES, new Object[0], data, ContentType.JSON)) {
             return response;

@@ -17,7 +17,9 @@
 
 package me.theentropyshard.pita.view.mail;
 
+import me.theentropyshard.pita.view.MainPanel;
 import me.theentropyshard.pita.view.UIConstants;
+import me.theentropyshard.pita.view.View;
 import me.theentropyshard.pita.view.component.GradientLabel;
 import me.theentropyshard.pita.view.component.PComboBox;
 import me.theentropyshard.pita.view.component.PTextField;
@@ -149,6 +151,11 @@ public class MailPanelHeader extends CustomPanel {
 
         SimpleButton writeButton = new SimpleButton("Написать");
         writeButton.setRound(true);
+        writeButton.addActionListener(e -> {
+            View v = View.getView();
+            MainPanel mp = v.getMainPanel();
+            mp.getContentLayout().show(mp.getContentPanel(), MailWritePanel.class.getSimpleName());
+        });
 
         panel.add(writeButton, "");
 

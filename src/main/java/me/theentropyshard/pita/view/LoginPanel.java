@@ -102,6 +102,7 @@ public class LoginPanel extends JPanel {
 
         c.gridy = 5;
         this.loginButton = new LoginButton("Войти");
+        this.loginButton.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
         this.loginButton.setPreferredSize(new Dimension(sgoLabel.getPreferredSize().width, this.sgoAddressField.getPreferredSize().height));
         this.loginButton.addActionListener(e -> this.loginButtonPressed(this.callback));
         this.add(this.loginButton, c);

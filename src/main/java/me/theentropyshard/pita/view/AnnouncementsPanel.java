@@ -232,8 +232,9 @@ public class AnnouncementsPanel extends JPanel {
         SwingUtilities.invokeLater(() -> this.scrollPane.getVerticalScrollBar().setValue(this.scrollPane.getVerticalScrollBar().getMaximum()));
     }
 
-    private static String fixHTMLEntities(String raw) {
+    public static String fixHTMLEntities(String raw) {
         return raw
+                .replace("\n", "<br>")
                 .replace("amp;#160", "nbsp")
                 .replace("&amp;quot;", "\"")
                 .replace("&amp;#171;", "«")

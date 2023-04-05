@@ -17,6 +17,7 @@
 
 package me.theentropyshard.pita.netschoolapi.mail.models;
 
+import me.theentropyshard.pita.netschoolapi.diary.models.Attachment;
 import me.theentropyshard.pita.netschoolapi.models.UserModel;
 
 import java.util.Arrays;
@@ -30,7 +31,7 @@ public class Message {
     public String subject;
     public String sent;
     public UserModel author;
-    public Object[] fileAttachments;
+    public Attachment[] fileAttachments;
     public UserModel[] to;
     public String toNames;
     public Object[] cc;

@@ -71,7 +71,20 @@ public class InfoPanel extends JPanel { //TODO попытаться сделат
         super.paintComponent(g2);
     }
 
-    public void addDataPanel(CustomPanel customPanel) {
-        this.internalInfoPanel.add(customPanel);
+    public void addDataPanel(Component component) {
+        this.internalInfoPanel.add(component);
+    }
+
+    public void addDataPanel(Component component, String constraints) {
+        this.internalInfoPanel.add(component, constraints);
+    }
+
+    @Override
+    public void removeAll() {
+        this.internalInfoPanel.removeAll();
+    }
+
+    public JPanel getInternalInfoPanel() {
+        return this.internalInfoPanel;
     }
 }

@@ -153,7 +153,6 @@ public class MailReadPanel extends JPanel {
             mainTextPane.setFont(textPaneFont);
             mainTextPane.setContentType("text/html");
             String txt = AnnouncementsPanel.fixHTMLEntities(message.text);
-            System.out.println(txt);
             mainTextPane.setText("<html><head><style> a { color: #2a5885; } p { font-family: \"JetBrains Mono\"; } </style></head><p>" + txt + "</p></html>");
             mainTextPane.setForeground(new Color(120, 120, 120));
             mainTextPane.setSelectionColor(UIConstants.NEAR_WHITE2);

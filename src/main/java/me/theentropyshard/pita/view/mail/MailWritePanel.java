@@ -18,6 +18,9 @@
 package me.theentropyshard.pita.view.mail;
 
 import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
+import me.theentropyshard.pita.netschoolapi.models.UserModel;
+import me.theentropyshard.pita.view.FileUploadDialog;
+import me.theentropyshard.pita.view.MainPanel;
 import me.theentropyshard.pita.view.UIConstants;
 import me.theentropyshard.pita.view.View;
 import me.theentropyshard.pita.view.component.GradientLabel;
@@ -31,18 +34,16 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.plaf.basic.BasicTextFieldUI;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class MailWritePanel extends JPanel {
-
     private final JTextArea textArea;
     private final PTextField subjectField;
 
@@ -82,20 +83,31 @@ public class MailWritePanel extends JPanel {
         //
         InfoPanel controlsPanel = new InfoPanel();
 
-        DestUserPanel receiversPanel = new DestUserPanel();
-        receiversPanel.setKey("Кому");
+        List<String> receiverIds = new ArrayList<>();
 
-        PTextField receiversField = new PTextField();
-        receiversField.setDefaultColor(new Color(240, 240, 240));
-        receiversField.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        receiversField.setEditable(false);
-        receiversField.addMouseListener(new MouseAdapter() {
+        DataElementPanel receiversPanel = new DataElementPanel();
+        receiversPanel.setKey("Кому");
+        receiversPanel.getValueLabel().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        receiversPanel.getValueLabel().addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                System.out.println("Pressed receiver field");
+                View.getView().getFrame().getGlassPane().setVisible(true);
+
+                MailChooseRecipientDialog dialog = new MailChooseRecipientDialog();
+
+                Set<UserModel> recipients = dialog.getRecipients();
+
+                StringJoiner joiner = new StringJoiner("; ");
+                for(UserModel model : recipients) {
+                    joiner.add(model.name + " " + model.organizationName);
+                }
+                receiversPanel.getValueLabel().setText(joiner.toString());
+
+                receiverIds.addAll(recipients.stream().map(userModel -> userModel.id).collect(Collectors.toList()));
+
+                View.getView().getFrame().getGlassPane().setVisible(false);
             }
         });
-        receiversPanel.setValueComponent(receiversField);
 
         DestUserPanel subjectPanel = new DestUserPanel();
         subjectPanel.setKey("Тема");
@@ -124,9 +136,8 @@ public class MailWritePanel extends JPanel {
         JCheckBox notifyCheckBox = new JCheckBox() {
             {
                 this.setCursor(new Cursor(Cursor.HAND_CURSOR));
-                this.setOpaque(false);
+                this.setBackground(Color.WHITE);
                 this.setBorder(new EmptyBorder(5, 5, 5, 5));
-                this.setBackground(UIConstants.DARK_GREEN);
             }
 
             private final int border = 5;
@@ -136,33 +147,30 @@ public class MailWritePanel extends JPanel {
                 super.paint(g);
                 Graphics2D g2 = (Graphics2D) g;
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                Color c = g2.getColor();
+                g2.setColor(new Color(240, 240, 240));
+                g2.fillRoundRect(0, 0, this.getWidth(), this.getHeight(), UIConstants.ARC_WIDTH, UIConstants.ARC_HEIGHT);
+                g2.setColor(c);
                 int ly = (getHeight() - 16) / 2;
+                g2.setColor(Color.GRAY);
+                g2.fillRoundRect(6, ly, 15, 15, this.border, this.border);
+                g2.setColor(Color.WHITE);
+                g2.fillRoundRect(7, ly + 1, 13, 13, this.border, this.border);
                 if(isSelected()) {
-                    if(isEnabled()) {
-                        g2.setColor(this.getBackground());
-                    } else {
-                        g2.setColor(Color.GRAY);
-                    }
-                    g2.fillRoundRect(6, ly, 16, 16, this.border, this.border);
                     //  Draw Check icon
-                    int[] px = {9, 13, 19, 17, 13, 11};
-                    int[] py = {ly + 8, ly + 14, ly + 5, ly + 3, ly + 10, ly + 6};
-                    g2.setColor(Color.WHITE);
+                    int[] px = {8, 12, 18, 16, 12, 10};
+                    int[] py = {ly + 7, ly + 13, ly + 4, ly + 2, ly + 9, ly + 5};
+                    g2.setPaint(new GradientPaint(0, 0, UIConstants.DARK_GREEN, g2.getFontMetrics().stringWidth(getText()), getHeight(), UIConstants.LIGHT_GREEN));
                     g2.fillPolygon(px, py, px.length);
-                } else {
-                    g2.setColor(Color.GRAY);
-                    g2.fillRoundRect(6, ly, 15, 16, this.border, this.border);
-                    g2.setColor(Color.WHITE);
-                    g2.fillRoundRect(6, ly + 1, 14, 14, this.border, this.border);
                 }
                 g2.dispose();
             }
         };
         notifyPanel.setValueComponent(notifyCheckBox);
 
-        controlsPanel.addDataPanel(receiversPanel);
-        controlsPanel.addDataPanel(subjectPanel);
-        controlsPanel.addDataPanel(notifyPanel);
+        controlsPanel.addDataPanel(receiversPanel, "growx, width 0:0:100%");
+        controlsPanel.addDataPanel(subjectPanel, "growx, width 0:0:100%");
+        controlsPanel.addDataPanel(notifyPanel, "growx, width 0:0:100%");
 
         panel.add(controlsPanel, "gapy 4 0");
 
@@ -195,6 +203,12 @@ public class MailWritePanel extends JPanel {
         attachedFiles.setLayout(new BoxLayout(attachedFiles, BoxLayout.PAGE_AXIS));
 
         addNewFileButton.addActionListener(e -> {
+            FileUploadDialog dialog = new FileUploadDialog(View.getView().getFrame());
+            dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+            dialog.pack();
+            dialog.setLocationRelativeTo(null);
+            dialog.setVisible(true);
+
             GradientLabel label = new GradientLabel(new Random().nextInt() + "", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
             label.setFont(new Font("JetBrains Mono", Font.BOLD, 12));
             label.setBorder(new EmptyBorder(0, 5, 3, 0));
@@ -215,7 +229,6 @@ public class MailWritePanel extends JPanel {
                 return;
             }
 
-            List<String> receiverIds = new ArrayList<>();
             List<File> files = new ArrayList<>();
             try {
                 NetSchoolAPI.I.sendMessage(receiverIds, files, subjectField.getText(), textArea.getText(), notifyCheckBox.isSelected(),
@@ -223,6 +236,9 @@ public class MailWritePanel extends JPanel {
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
+
+            MainPanel mainPanel = View.getView().getMainPanel();
+            mainPanel.getContentLayout().show(mainPanel.getContentPanel(), MailPanel.class.getSimpleName());
         };
 
         sendButton.addActionListener(buttonListener);
@@ -267,6 +283,10 @@ public class MailWritePanel extends JPanel {
 
     }
 
+    public void clearFields() {
+
+    }
+
     public static class DestUserPanel extends CustomPanel {
         private final GradientLabel keyLabel;
         private JComponent valueComponent;
@@ -296,6 +316,58 @@ public class MailWritePanel extends JPanel {
                 this.remove(1);
             }
             this.add(this.valueComponent);
+        }
+
+        public JComponent getValueComponent() {
+            return this.valueComponent;
+        }
+    }
+
+    public static class DataElementPanel extends CustomPanel {
+        private final GradientLabel keyLabel;
+        private final GradientLabel valueLabel;
+
+        public DataElementPanel() {
+            this.keyLabel = new GradientLabel("", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+            this.keyLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
+
+            this.valueLabel = new GradientLabel("", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN) {
+                @Override
+                protected void paintComponent(Graphics g) {
+                    Color oldColor = g.getColor();
+                    g.setColor(new Color(240, 240, 240));
+                    g.fillRoundRect(0, 0, this.getWidth(), this.getHeight(), 7, 7);
+                    g.setColor(oldColor);
+                    super.paintComponent(g);
+                }
+            };
+            this.valueLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
+            this.valueLabel.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+            this.setLayout(new GridLayout(1, 1));
+            this.setBackground(Color.WHITE);
+
+            JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            panel.setBackground(Color.WHITE);
+            panel.add(this.keyLabel);
+            this.add(panel);
+            this.add(this.valueLabel);
+        }
+
+        public void setKey(String key) {
+            this.keyLabel.setText(key);
+        }
+
+        public void setValue(String value) {
+            this.valueLabel.setText(value);
+        }
+
+        public GradientLabel getKeyLabel() {
+            return this.keyLabel;
+        }
+
+        public GradientLabel getValueLabel() {
+            return this.valueLabel;
         }
     }
 }

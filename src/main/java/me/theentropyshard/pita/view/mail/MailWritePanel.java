@@ -19,10 +19,7 @@ package me.theentropyshard.pita.view.mail;
 
 import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
 import me.theentropyshard.pita.netschoolapi.models.UserModel;
-import me.theentropyshard.pita.view.FileUploadDialog;
-import me.theentropyshard.pita.view.MainPanel;
-import me.theentropyshard.pita.view.UIConstants;
-import me.theentropyshard.pita.view.View;
+import me.theentropyshard.pita.view.*;
 import me.theentropyshard.pita.view.component.GradientLabel;
 import me.theentropyshard.pita.view.component.PScrollBar;
 import me.theentropyshard.pita.view.component.PTextField;
@@ -229,16 +226,30 @@ public class MailWritePanel extends JPanel {
                 return;
             }
 
+            boolean success = true;
+
             List<File> files = new ArrayList<>();
             try {
                 NetSchoolAPI.I.sendMessage(receiverIds, files, subjectField.getText(), textArea.getText(), notifyCheckBox.isSelected(),
                         e.getSource() == saveButton);
             } catch (IOException ex) {
                 ex.printStackTrace();
+                success = false;
             }
 
             MainPanel mainPanel = View.getView().getMainPanel();
+            mainPanel.getMailPanel().loadData();
             mainPanel.getContentLayout().show(mainPanel.getContentPanel(), MailPanel.class.getSimpleName());
+
+            View.getView().getFrame().getGlassPane().setVisible(true);
+
+            if(success) {
+                new MessageDialog("Внимание", "Ваше письмо успешно отправлено");
+            } else {
+                new MessageDialog("Ошибка", "Не удалось отправить письмо");
+            }
+
+            View.getView().getFrame().getGlassPane().setVisible(false);
         };
 
         sendButton.addActionListener(buttonListener);
@@ -254,23 +265,7 @@ public class MailWritePanel extends JPanel {
         if(this.textArea.getText().isEmpty() && this.subjectField.getText().isEmpty()) {
             View.getView().getFrame().getGlassPane().setVisible(true);
 
-            JDialog dialog = new JDialog(View.getView().getFrame(), "Ошибка", true);
-
-            InfoPanel infoPanel = new InfoPanel();
-
-            JPanel panel = new JPanel();
-            panel.setBackground(Color.WHITE);
-            panel.setLayout(new MigLayout("fillx, flowy", "[fill]"));
-            panel.add(infoPanel);
-
-            GradientLabel label = new GradientLabel("Вы должны ввести хотя бы текст письма или тему", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
-            label.setFont(new Font("JetBrains Mono", Font.BOLD, 16));
-            infoPanel.addDataPanel(label);
-
-            dialog.add(panel, BorderLayout.CENTER);
-            dialog.pack();
-            dialog.setLocationRelativeTo(null);
-            dialog.setVisible(true);
+            new MessageDialog("Ошибка", "Вы должны ввести хотя бы текст письма или тему");
 
             View.getView().getFrame().getGlassPane().setVisible(false);
 

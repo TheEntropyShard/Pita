@@ -26,6 +26,8 @@ import java.awt.*;
 
 public class MessageDialog extends JDialog {
     public MessageDialog(String title, String message) {
+        super(View.getView().getFrame());
+
         InfoPanel infoPanel = new InfoPanel();
 
         JPanel panel = new JPanel();

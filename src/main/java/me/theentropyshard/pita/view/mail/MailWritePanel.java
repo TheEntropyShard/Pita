@@ -31,9 +31,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.plaf.basic.BasicTextFieldUI;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -43,9 +41,19 @@ import java.util.stream.Collectors;
 public class MailWritePanel extends JPanel {
     private final JTextArea textArea;
     private final PTextField subjectField;
+    private final JPanel attachedFiles;
+    private final DataElementPanel receiversPanel;
 
     public MailWritePanel() {
         super(new BorderLayout());
+
+        this.addHierarchyListener(e -> {
+            JComponent component = (JComponent) e.getSource();
+
+            if((HierarchyEvent.SHOWING_CHANGED & e.getChangeFlags()) != 0 && !component.isShowing()) {
+                this.clearFields();
+            }
+        });
 
         JPanel panel = new JPanel();
         panel.setBackground(Color.WHITE);
@@ -82,10 +90,10 @@ public class MailWritePanel extends JPanel {
 
         List<String> receiverIds = new ArrayList<>();
 
-        DataElementPanel receiversPanel = new DataElementPanel();
-        receiversPanel.setKey("Кому");
-        receiversPanel.getValueLabel().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        receiversPanel.getValueLabel().addMouseListener(new MouseAdapter() {
+        this.receiversPanel = new DataElementPanel();
+        this.receiversPanel.setKey("Кому");
+        this.receiversPanel.getValueLabel().setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        this.receiversPanel.getValueLabel().addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 View.getView().getFrame().getGlassPane().setVisible(true);
@@ -186,9 +194,9 @@ public class MailWritePanel extends JPanel {
         SimpleButton addNewFileButton = new SimpleButton("Загрузить файл");
         addNewFileButton.setRound(true);
 
-        JPanel attachedFiles = new JPanel();
-        attachedFiles.setOpaque(false);
-        attachedFiles.setBorder(
+        this.attachedFiles = new JPanel();
+        this.attachedFiles.setOpaque(false);
+        this.attachedFiles.setBorder(
                 BorderFactory.createTitledBorder(
                         BorderFactory.createLineBorder(UIConstants.DARK_GREEN, 1),
                         "Прикрепленные файлы",
@@ -197,7 +205,7 @@ public class MailWritePanel extends JPanel {
                         UIConstants.DARK_GREEN
                 )
         );
-        attachedFiles.setLayout(new BoxLayout(attachedFiles, BoxLayout.PAGE_AXIS));
+        this.attachedFiles.setLayout(new BoxLayout(this.attachedFiles, BoxLayout.PAGE_AXIS));
 
         addNewFileButton.addActionListener(e -> {
             FileUploadDialog dialog = new FileUploadDialog(View.getView().getFrame());
@@ -279,7 +287,10 @@ public class MailWritePanel extends JPanel {
     }
 
     public void clearFields() {
-
+        this.receiversPanel.setValue("");
+        this.subjectField.setText("");
+        this.textArea.setText("");
+        this.attachedFiles.removeAll();
     }
 
     public static class DestUserPanel extends CustomPanel {

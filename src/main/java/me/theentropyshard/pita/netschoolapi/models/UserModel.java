@@ -17,6 +17,8 @@
 
 package me.theentropyshard.pita.netschoolapi.models;
 
+import java.util.Objects;
+
 public class UserModel {
     public String id;
     public String name;
@@ -35,6 +37,19 @@ public class UserModel {
         this.id = id;
         this.name = name;
         this.organizationName = organizationName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(this == o) return true;
+        if(o == null || getClass() != o.getClass()) return false;
+        UserModel model = (UserModel) o;
+        return Objects.equals(id, model.id) && Objects.equals(name, model.name) && Objects.equals(organizationName, model.organizationName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, organizationName);
     }
 
     @Override

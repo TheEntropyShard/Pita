@@ -294,13 +294,15 @@ public enum NetSchoolAPI {
 
     public List<UserModel> getAdmins() {
         if(this.admins.isEmpty()) {
-            String data = "?" + Utils.toFormUrlEncoded(
+            Object[] params = {
                     "classId", this.getClassId(), "emId", "NaN",
-                    "forCurrentOrganization", true, "grade", "NaN", "group", 1,
+                    "grade", "NaN", "group", 1, "funcType", 2, "orgType", 1,
+                    "municipalityId", "NaN",
                     "organizationId", this.school.getId(),
                     "userId", this.getStudentId()
-            );
-            try(Response response = this.client.get(Urls.MAIL_RECIPIENTS + data)) {
+            };
+
+            try(Response response = this.client.get(Urls.MAIL_RECIPIENTS, params)) {
                 this.admins.addAll(Arrays.asList(this.gson.fromJson(Objects.requireNonNull(response.body()).charStream(), UserModel[].class)));
             } catch (IOException e) {
                 e.printStackTrace();
@@ -312,13 +314,15 @@ public enum NetSchoolAPI {
 
     public List<UserModel> getHeadTeachers() {
         if(this.headTeachers.isEmpty()) {
-            String data = "?" + Utils.toFormUrlEncoded(
+            Object[] params = {
                     "classId", this.getClassId(), "emId", "NaN",
-                    "forCurrentOrganization", true, "grade", "NaN", "group", 2,
+                    "grade", "NaN", "group", 2, "funcType", 2, "orgType", 1,
+                    "municipalityId", "NaN",
                     "organizationId", this.school.getId(),
                     "userId", this.getStudentId()
-            );
-            try(Response response = this.client.get(Urls.MAIL_RECIPIENTS + data)) {
+            };
+
+            try(Response response = this.client.get(Urls.MAIL_RECIPIENTS, params)) {
                 this.headTeachers.addAll(Arrays.asList(this.gson.fromJson(Objects.requireNonNull(response.body()).charStream(), UserModel[].class)));
             } catch (IOException e) {
                 e.printStackTrace();
@@ -330,13 +334,15 @@ public enum NetSchoolAPI {
 
     public List<UserModel> getClassroomTeachers() {
         if(this.classroomTeachers.isEmpty()) {
-            String data = "?" + Utils.toFormUrlEncoded(
+            Object[] params = {
                     "classId", this.getClassId(), "emId", "NaN",
-                    "forCurrentOrganization", true, "grade", "NaN", "group", 3,
+                    "grade", "NaN", "group", 3, "funcType", 2, "orgType", 1,
+                    "municipalityId", "NaN",
                     "organizationId", this.school.getId(),
                     "userId", this.getStudentId()
-            );
-            try(Response response = this.client.get(Urls.MAIL_RECIPIENTS + data)) {
+            };
+
+            try(Response response = this.client.get(Urls.MAIL_RECIPIENTS, params)) {
                 this.classroomTeachers.addAll(Arrays.asList(this.gson.fromJson(Objects.requireNonNull(response.body()).charStream(), UserModel[].class)));
             } catch (IOException e) {
                 e.printStackTrace();
@@ -348,13 +354,15 @@ public enum NetSchoolAPI {
 
     public List<UserModel> getTeachers() {
         if(this.teachers.isEmpty()) {
-            String data = "?" + Utils.toFormUrlEncoded(
+            Object[] params = {
                     "classId", this.getClassId(), "emId", "NaN",
-                    "forCurrentOrganization", true, "grade", "NaN", "group", 4,
+                    "grade", "NaN", "group", 4, "funcType", 2, "orgType", 1,
+                    "municipalityId", "NaN",
                     "organizationId", this.school.getId(),
                     "userId", this.getStudentId()
-            );
-            try(Response response = this.client.get(Urls.MAIL_RECIPIENTS + data)) {
+            };
+
+            try(Response response = this.client.get(Urls.MAIL_RECIPIENTS, params)) {
                 this.teachers.addAll(Arrays.asList(this.gson.fromJson(Objects.requireNonNull(response.body()).charStream(), UserModel[].class)));
             } catch (IOException e) {
                 e.printStackTrace();
@@ -366,13 +374,15 @@ public enum NetSchoolAPI {
 
     public List<UserModel> getClassmates() {
         if(this.classmates.isEmpty()) {
-            String data = "?" + Utils.toFormUrlEncoded(
+            Object[] params = {
                     "classId", this.getClassId(), "emId", "NaN",
-                    "forCurrentOrganization", true, "grade", "NaN", "group", 7,
+                    "grade", "NaN", "group", 7, "funcType", 2, "orgType", 1,
+                    "municipalityId", "NaN",
                     "organizationId", this.school.getId(),
                     "userId", this.getStudentId()
-            );
-            try(Response response = this.client.get(Urls.MAIL_RECIPIENTS + data)) {
+            };
+
+            try(Response response = this.client.get(Urls.MAIL_RECIPIENTS, params)) {
                 this.classmates.addAll(Arrays.asList(this.gson.fromJson(Objects.requireNonNull(response.body()).charStream(), UserModel[].class)));
             } catch (IOException e) {
                 e.printStackTrace();

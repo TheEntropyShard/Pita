@@ -159,7 +159,7 @@ public enum NetSchoolAPI {
                     public void run() {
                         try(Response rsp = httpClient.get("settings/firstLetter")) {
                             if(rsp.isSuccessful()) {
-                                System.out.println("pinged");
+
                             }
                         } catch (IOException ignored) {
 

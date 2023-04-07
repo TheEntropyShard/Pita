@@ -25,7 +25,9 @@ import me.theentropyshard.pita.netschoolapi.mail.MailSearch;
 import me.theentropyshard.pita.netschoolapi.mail.models.Mail;
 import me.theentropyshard.pita.netschoolapi.mail.models.MailRecord;
 import me.theentropyshard.pita.view.MainPanel;
+import me.theentropyshard.pita.view.View;
 import me.theentropyshard.pita.view.component.PScrollBar;
+import me.theentropyshard.pita.view.component.SimpleButton;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -94,6 +96,20 @@ public class MailPanel extends JPanel {
         // TODO сделать выбор страниц
         // кол-во страниц = (кол-во писем / размер страницы) + кол-во писем % размер страницы == 0 ? 0 : 1
         try {
+            SimpleButton mailButton = View.getView().getMainPanel().getHeader().getMailButton();
+
+            int umc = 0;
+            try {
+                umc = NetSchoolAPI.I.getUnreadMessagesCount();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if(umc > 0) {
+                mailButton.setText("Почта - " + umc + " непрочитанных");
+            } else {
+                mailButton.setText("Почта");
+            }
+
             MailSearch mailSearch = null;
             if(this.searchText != null && !this.searchText.isEmpty() && this.searchField != null) {
                 mailSearch = MailSearch.of(this.searchField, this.searchText);

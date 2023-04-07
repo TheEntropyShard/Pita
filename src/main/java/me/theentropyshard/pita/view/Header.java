@@ -24,6 +24,7 @@ import me.theentropyshard.pita.view.component.GradientLabel;
 import me.theentropyshard.pita.view.component.SimpleButton;
 import me.theentropyshard.pita.view.mail.MailPanel;
 import net.miginfocom.swing.MigLayout;
+import sun.nio.ch.Net;
 
 import javax.swing.*;
 import java.awt.*;
@@ -39,6 +40,7 @@ public class Header extends JPanel {
     private final GradientLabel usernameLabel;
     private final GradientLabel exitLabel;
     private final JPanel panel;
+    private final SimpleButton mailButton;
 
     public Header() {
         this.setLayout(new BorderLayout());
@@ -175,7 +177,7 @@ public class Header extends JPanel {
                 }
             });
         }});
-        bottomPanel.add(new SimpleButton("Почта") {{
+        this.mailButton = new SimpleButton("Почта") {{
             this.addActionListener(e -> {
                 MainPanel mp = View.getView().getMainPanel();
                 MailPanel mailPanel = mp.getMailPanel();
@@ -187,7 +189,8 @@ public class Header extends JPanel {
                     );
                 }
             });
-        }});
+        }};
+        bottomPanel.add(this.mailButton);
         bottomPanel.add(new SimpleButton("Объявления") {{
             this.addActionListener(e -> {
                 MainPanel mp = View.getView().getMainPanel();
@@ -205,6 +208,18 @@ public class Header extends JPanel {
     }
 
     public void loadData() {
+        int umc = 0;
+        try {
+            umc = NetSchoolAPI.I.getUnreadMessagesCount();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if(umc > 0) {
+            this.mailButton.setText("Почта - " + umc + " непрочитанных");
+        } else {
+            this.mailButton.setText("Почта");
+        }
+
         this.schoolNameLabel.setText(NetSchoolAPI.I.getSchool().getShortName());
 
         try {
@@ -229,5 +244,9 @@ public class Header extends JPanel {
             e.printStackTrace();
         }
         this.infoLabel.setText(Utils.getTodaysDateRussian() + " - В системе работает " + num + " чел.");
+    }
+
+    public SimpleButton getMailButton() {
+        return this.mailButton;
     }
 }

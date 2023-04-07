@@ -234,7 +234,6 @@ public class AnnouncementsPanel extends JPanel {
 
     public static String fixHTMLEntities(String raw) {
         return raw
-                .replace("\n", "<br>")
                 .replace("amp;#160", "nbsp")
                 .replace("&amp;quot;", "\"")
                 .replace("&amp;#171;", "«")

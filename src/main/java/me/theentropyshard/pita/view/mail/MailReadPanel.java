@@ -152,7 +152,7 @@ public class MailReadPanel extends JPanel {
             Font textPaneFont = new Font("JetBrains Mono", Font.PLAIN, 14);
             mainTextPane.setFont(textPaneFont);
             mainTextPane.setContentType("text/html");
-            String txt = AnnouncementsPanel.fixHTMLEntities(message.text);
+            String txt = MailReadPanel.fixHTMLEntities(message.text);
             mainTextPane.setText("<html><head><style> a { color: #2a5885; } p { font-family: \"JetBrains Mono\"; } </style></head><p>" + txt + "</p></html>");
             mainTextPane.setForeground(new Color(120, 120, 120));
             mainTextPane.setSelectionColor(UIConstants.NEAR_WHITE2);
@@ -209,6 +209,15 @@ public class MailReadPanel extends JPanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static String fixHTMLEntities(String raw) {
+        return raw
+                .replace("\n", "<br>")
+                .replace("amp;#160", "nbsp")
+                .replace("&amp;quot;", "\"")
+                .replace("&amp;#171;", "«")
+                .replace("&amp;#187;", "»");
     }
 
     public static class DataElementPanel extends CustomPanel {

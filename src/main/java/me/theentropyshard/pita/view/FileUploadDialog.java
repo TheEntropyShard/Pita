@@ -19,6 +19,8 @@ package me.theentropyshard.pita.view;
 
 import me.theentropyshard.pita.view.component.GradientLabel;
 import me.theentropyshard.pita.view.component.SimpleButton;
+import me.theentropyshard.pita.view.mail.InfoPanel;
+import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,20 +29,25 @@ public class FileUploadDialog extends JDialog {
     public FileUploadDialog(Frame frame) {
         super(frame, "Прикрепите файл", true);
 
-        JPanel panel = new JPanel(new FlowLayout());
+        JPanel panel = new JPanel();
+        panel.setBackground(Color.WHITE);
+        panel.setLayout(new MigLayout("fillx, flowy", "[fill]"));
+
+        InfoPanel chooseFilePanel = new InfoPanel();
 
         SimpleButton chooseFileButton = new SimpleButton("Выбрать файл");
         chooseFileButton.setRound(true);
 
-        panel.add(chooseFileButton);
+        chooseFilePanel.addDataPanel(chooseFileButton);
 
         GradientLabel fileNameLabel = new GradientLabel("", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
 
-        panel.add(fileNameLabel, BorderLayout.CENTER);
+        chooseFilePanel.addDataPanel(fileNameLabel);
 
-        this.add(panel, BorderLayout.CENTER);
+        panel.add(chooseFilePanel, BorderLayout.CENTER);
 
-        JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        InfoPanel buttonsPanel = new InfoPanel();
+        buttonsPanel.getInternalInfoPanel().setLayout(new MigLayout("fillx", "[right][right]", ""));
 
         SimpleButton addFileButton = new SimpleButton("Прикрепить файл");
         addFileButton.setRound(true);
@@ -48,9 +55,11 @@ public class FileUploadDialog extends JDialog {
         SimpleButton cancelButton = new SimpleButton("Отменить");
         cancelButton.setRound(true);
 
-        buttonsPanel.add(addFileButton);
-        buttonsPanel.add(cancelButton);
+        buttonsPanel.addDataPanel(addFileButton);
+        buttonsPanel.addDataPanel(cancelButton);
 
-        this.add(buttonsPanel, BorderLayout.SOUTH);
+        panel.add(buttonsPanel);
+
+        this.add(panel, BorderLayout.CENTER);
     }
 }

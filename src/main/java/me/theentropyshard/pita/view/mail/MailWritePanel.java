@@ -208,11 +208,15 @@ public class MailWritePanel extends JPanel {
         this.attachedFiles.setLayout(new BoxLayout(this.attachedFiles, BoxLayout.PAGE_AXIS));
 
         addNewFileButton.addActionListener(e -> {
+            View.getView().getFrame().getGlassPane().setVisible(true);
+
             FileUploadDialog dialog = new FileUploadDialog(View.getView().getFrame());
             dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
             dialog.pack();
             dialog.setLocationRelativeTo(null);
             dialog.setVisible(true);
+
+            View.getView().getFrame().getGlassPane().setVisible(false);
 
             GradientLabel label = new GradientLabel(new Random().nextInt() + "", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
             label.setFont(new Font("JetBrains Mono", Font.BOLD, 12));

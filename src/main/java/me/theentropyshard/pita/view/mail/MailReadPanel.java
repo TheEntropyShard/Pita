@@ -23,7 +23,6 @@ import me.theentropyshard.pita.netschoolapi.diary.models.Attachment;
 import me.theentropyshard.pita.netschoolapi.mail.models.MailRecord;
 import me.theentropyshard.pita.netschoolapi.mail.models.Message;
 import me.theentropyshard.pita.netschoolapi.models.UserModel;
-import me.theentropyshard.pita.view.AnnouncementsPanel;
 import me.theentropyshard.pita.view.UIConstants;
 import me.theentropyshard.pita.view.component.GradientLabel;
 import me.theentropyshard.pita.view.component.PScrollBar;
@@ -155,7 +154,7 @@ public class MailReadPanel extends JPanel {
             String txt = MailReadPanel.fixHTMLEntities(message.text);
             mainTextPane.setText("<html><head><style> a { color: #2a5885; } p { font-family: \"JetBrains Mono\"; } </style></head><p>" + txt + "</p></html>");
             mainTextPane.setForeground(new Color(120, 120, 120));
-            mainTextPane.setSelectionColor(UIConstants.NEAR_WHITE2);
+            mainTextPane.setSelectionColor(UIConstants.NEAR_WHITE);
             mainTextPane.setOpaque(false);
             mainTextPane.setEditable(false);
             mainTextPane.setMargin(new Insets(-10, 5, 5, 5));

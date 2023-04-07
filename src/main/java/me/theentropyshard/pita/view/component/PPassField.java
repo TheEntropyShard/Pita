@@ -25,7 +25,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class PPassField extends JPasswordField {
-    private Color defaultColor = UIConstants.NEAR_WHITE2;
+    private Color defaultColor = UIConstants.NEAR_WHITE;
     private Color wrongColor = UIConstants.WRONG;
 
     private Icon prefixIcon;

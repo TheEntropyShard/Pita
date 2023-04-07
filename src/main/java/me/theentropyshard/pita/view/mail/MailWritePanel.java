@@ -130,7 +130,7 @@ public class MailWritePanel extends JPanel {
             });
         }};
         this.subjectField.setDefaultColor(new Color(240, 240, 240));
-        this.subjectField.setSelectionColor(UIConstants.NEAR_WHITE2);
+        this.subjectField.setSelectionColor(UIConstants.NEAR_WHITE);
         subjectPanel.setValueComponent(this.subjectField);
 
         DestUserPanel notifyPanel = new DestUserPanel();

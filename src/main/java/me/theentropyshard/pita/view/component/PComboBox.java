@@ -19,7 +19,6 @@ package me.theentropyshard.pita.view.component;
 
 import me.theentropyshard.pita.view.UIConstants;
 import me.theentropyshard.pita.view.component.ui.PComboBoxUI;
-import me.theentropyshard.pita.view.component.ui.PScrollBarUI;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -34,7 +33,7 @@ public class PComboBox extends JComboBox<String> {
 
     public PComboBox() {
         this.setUI(new PComboBoxUI());
-        this.setBackground(UIConstants.NEAR_WHITE2);
+        this.setBackground(UIConstants.NEAR_WHITE);
         this.setEditable(false);
         this.setOpaque(false);
 
@@ -62,10 +61,10 @@ public class PComboBox extends JComboBox<String> {
                     this.setBackground(new Color(250, 250, 250));
                     this.setForeground(list.getSelectionForeground());
                 } else {
-                    this.setBackground(UIConstants.NEAR_WHITE2);
+                    this.setBackground(UIConstants.NEAR_WHITE);
                     this.setForeground(list.getForeground());
                 }
-                list.setBackground(UIConstants.NEAR_WHITE2);
+                list.setBackground(UIConstants.NEAR_WHITE);
                 return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
             }
         });
@@ -79,7 +78,7 @@ public class PComboBox extends JComboBox<String> {
                     g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                     g2.setStroke(new BasicStroke(2));
                     //g2.setPaint(new GradientPaint(0, 0, UIConstants.DARK_GREEN, width, height, UIConstants.LIGHT_GREEN));
-                    g2.setColor(UIConstants.NEAR_WHITE2);
+                    g2.setColor(UIConstants.NEAR_WHITE);
                     g2.fillRoundRect(0, 0, width - 1, height - 1, UIConstants.ARC_WIDTH, UIConstants.ARC_HEIGHT);
                     g2.drawRoundRect(0, 0, width - 1, height - 1, UIConstants.ARC_WIDTH, UIConstants.ARC_HEIGHT);
                 }
@@ -94,7 +93,7 @@ public class PComboBox extends JComboBox<String> {
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setColor(UIConstants.NEAR_WHITE2);
+        g2.setColor(UIConstants.NEAR_WHITE);
         g2.fillRoundRect(0, 0, this.getWidth(), this.getHeight(), UIConstants.ARC_WIDTH, UIConstants.ARC_HEIGHT);
         this.paintIcon(g);
     }

@@ -90,7 +90,7 @@ public class AnnouncementsPanel extends JPanel {
             protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g;
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g2.setColor(UIConstants.NEAR_WHITE2);
+                g2.setColor(UIConstants.NEAR_WHITE);
                 g2.fillRoundRect(0, 0, this.getWidth(), this.getHeight(), UIConstants.ARC_WIDTH, UIConstants.ARC_HEIGHT);
                 super.paintComponent(g2);
             }
@@ -157,7 +157,7 @@ public class AnnouncementsPanel extends JPanel {
         mainTextPane.setText("<html><head><style> a { color: #2a5885; } p { font-family: \"JetBrains Mono\"; } </style></head>" + txt + "</html>");
         mainTextPane.setOpaque(false);
         mainTextPane.setForeground(new Color(120, 120, 120));
-        mainTextPane.setSelectionColor(UIConstants.NEAR_WHITE2);
+        mainTextPane.setSelectionColor(UIConstants.NEAR_WHITE);
         mainTextPane.setOpaque(false);
         mainTextPane.setEditable(false);
         mainTextPane.setFont(textPaneFont);

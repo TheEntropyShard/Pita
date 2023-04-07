@@ -18,6 +18,7 @@
 package me.theentropyshard.pita.view;
 
 import me.theentropyshard.pita.view.component.GradientLabel;
+import me.theentropyshard.pita.view.component.SimpleButton;
 import me.theentropyshard.pita.view.mail.InfoPanel;
 import net.miginfocom.swing.MigLayout;
 
@@ -25,8 +26,14 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MessageDialog extends JDialog {
+    private Result result = Result.CANCEL;
+
     public MessageDialog(String title, String message) {
-        super(View.getView().getFrame());
+        this(title, message, false);
+    }
+
+    public MessageDialog(String title, String message, boolean confirmDialog) {
+        super(View.getView().getFrame(), title, true);
 
         InfoPanel infoPanel = new InfoPanel();
 
@@ -39,11 +46,40 @@ public class MessageDialog extends JDialog {
         label.setFont(new Font("JetBrains Mono", Font.BOLD, 16));
         infoPanel.addDataPanel(label);
 
-        this.setTitle(title);
+        if(confirmDialog) {
+            InfoPanel buttonsPanel = new InfoPanel();
+            buttonsPanel.getInternalInfoPanel().setLayout(new MigLayout("nogrid, fillx", "[right]", ""));
+
+            SimpleButton okButton = new SimpleButton("ОК");
+            okButton.setRound(true);
+            okButton.addActionListener(e -> {
+                this.result = Result.OK;
+                this.dispose();
+            });
+
+            SimpleButton cancelButton = new SimpleButton("Отмена");
+            cancelButton.setRound(true);
+            cancelButton.addActionListener(e -> this.dispose());
+
+            buttonsPanel.addDataPanel(cancelButton);
+            buttonsPanel.addDataPanel(okButton);
+
+            panel.add(buttonsPanel);
+        }
+
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         this.add(panel, BorderLayout.CENTER);
         this.pack();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+    }
+
+    public Result getResult() {
+        return this.result;
+    }
+
+    public enum Result {
+        OK,
+        CANCEL
     }
 }

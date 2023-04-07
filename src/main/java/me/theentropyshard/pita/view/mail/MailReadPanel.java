@@ -23,7 +23,10 @@ import me.theentropyshard.pita.netschoolapi.diary.models.Attachment;
 import me.theentropyshard.pita.netschoolapi.mail.models.MailRecord;
 import me.theentropyshard.pita.netschoolapi.mail.models.Message;
 import me.theentropyshard.pita.netschoolapi.models.UserModel;
+import me.theentropyshard.pita.view.MainPanel;
+import me.theentropyshard.pita.view.MessageDialog;
 import me.theentropyshard.pita.view.UIConstants;
+import me.theentropyshard.pita.view.View;
 import me.theentropyshard.pita.view.component.GradientLabel;
 import me.theentropyshard.pita.view.component.PScrollBar;
 import me.theentropyshard.pita.view.component.SimpleButton;
@@ -53,6 +56,8 @@ public class MailReadPanel extends JPanel {
     private final DataElementPanel subject;
 
     private final InfoPanel mailBodyPanel;
+
+    private int messageId;
 
     public MailReadPanel(MailPanel mailPanel) {
         super(new BorderLayout());
@@ -98,6 +103,39 @@ public class MailReadPanel extends JPanel {
             }});
             this.add(new SimpleButton("Удалить") {{
                 this.setRound(true);
+                this.addActionListener(e -> {
+                    if(messageId != 0) {
+                        View.getView().getFrame().getGlassPane().setVisible(true);
+
+                        MessageDialog dialog = new MessageDialog("Подтверждение", "Вы хотите переместить это письмо в папку \"Удаленные\"?", true);
+
+                        View.getView().getFrame().getGlassPane().setVisible(false);
+
+                        if(dialog.getResult() == MessageDialog.Result.OK) {
+                            View.getView().getFrame().getGlassPane().setVisible(true);
+
+                            boolean success = true;
+
+                            try {
+                                NetSchoolAPI.I.deleteMessages(false, messageId);
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                                success = false;
+                            }
+
+                            if(success) {
+                                new MessageDialog("Внимание", "Ваше письмо помещено в папку \"Удаленные\"", true);
+                                MainPanel mainPanel = View.getView().getMainPanel();
+                                mainPanel.getMailPanel().loadData();
+                                mainPanel.getContentLayout().show(mainPanel.getContentPanel(), MailPanel.class.getSimpleName());
+                            } else {
+                                new MessageDialog("Ошибка", "Не удалось поместить письмо в папку \"Удаленные\"", true);
+                            }
+
+                            View.getView().getFrame().getGlassPane().setVisible(false);
+                        }
+                    }
+                });
             }});
         }});
 
@@ -120,6 +158,7 @@ public class MailReadPanel extends JPanel {
         MailRecord mailRecord = this.mailPanel.getRows()[index];
         try {
             Message message = NetSchoolAPI.I.readMessage(mailRecord.id);
+            this.messageId = message.id;
             StringJoiner joiner = new StringJoiner("; ");
             for(UserModel model : message.to) {
                 joiner.add(model.name);

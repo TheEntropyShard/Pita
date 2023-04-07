@@ -86,17 +86,6 @@ public class AnnouncementsPanel extends JPanel {
         Font textPaneFont = new Font("JetBrains Mono", Font.PLAIN, 14);
 
         JPanel container = new JPanel(new MigLayout("nogrid, fillx", "[]", "")) {
-            {
-                this.setOpaque(false);
-                this.addComponentListener(new ComponentAdapter() {
-                    @Override
-                    public void componentResized(ComponentEvent e) {
-                        revalidate();
-                    }
-                });
-                this.setBorder(BorderFactory.createCompoundBorder(this.getBorder(), BorderFactory.createEmptyBorder(0, 5, 5, 5)));
-            }
-
             @Override
             protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g;
@@ -106,6 +95,15 @@ public class AnnouncementsPanel extends JPanel {
                 super.paintComponent(g2);
             }
         };
+
+        container.setOpaque(false);
+        container.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                container.revalidate();
+            }
+        });
+        container.setBorder(BorderFactory.createCompoundBorder(container.getBorder(), BorderFactory.createEmptyBorder(0, 5, 5, 5)));
 
         GradientLabel topicLabel = new GradientLabel(UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
         topicLabel.setText("Тема: " + a.name);
@@ -123,16 +121,6 @@ public class AnnouncementsPanel extends JPanel {
         container.add(authorLabel, "wrap");
 
         JPanel internalContainer = new JPanel(new MigLayout("nogrid, fillx", "[]", "")) {
-            {
-                this.setOpaque(false);
-                this.addComponentListener(new ComponentAdapter() {
-                    @Override
-                    public void componentResized(ComponentEvent e) {
-                        revalidate();
-                    }
-                });
-            }
-
             @Override
             protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g;
@@ -142,13 +130,18 @@ public class AnnouncementsPanel extends JPanel {
                 super.paintComponent(g2);
             }
         };
+
+        internalContainer.setOpaque(false);
+        internalContainer.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                internalContainer.revalidate();
+            }
+        });
+
         container.add(internalContainer, "grow");
 
         JTextPane mainTextPane = new JTextPane() {
-            {
-                this.setOpaque(false);
-            }
-
             @Override
             protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g;
@@ -162,6 +155,7 @@ public class AnnouncementsPanel extends JPanel {
         mainTextPane.setContentType("text/html");
         String txt = AnnouncementsPanel.fixHTMLEntities(a.description);
         mainTextPane.setText("<html><head><style> a { color: #2a5885; } p { font-family: \"JetBrains Mono\"; } </style></head>" + txt + "</html>");
+        mainTextPane.setOpaque(false);
         mainTextPane.setForeground(new Color(120, 120, 120));
         mainTextPane.setSelectionColor(UIConstants.NEAR_WHITE2);
         mainTextPane.setOpaque(false);

@@ -35,7 +35,6 @@ import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -116,65 +115,23 @@ public class MailPanelHeader extends CustomPanel {
         numberField.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
         numberField.setText("20");
 
-        // See https://stackoverflow.com/a/11093360/19857533
-        ((PlainDocument) numberField.getDocument()).setDocumentFilter(new DocumentFilter() {
-            @Override
-            public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr) throws BadLocationException {
-                Document doc = fb.getDocument();
-                StringBuilder sb = new StringBuilder();
-                sb.append(doc.getText(0, doc.getLength()));
-                sb.insert(offset, string);
-
-                if(this.test(sb.toString())) {
-                    super.insertString(fb, offset, string, attr);
-                }
-            }
-
-            private boolean test(String text) {
-                try {
-                    Integer.parseInt(text);
-                } catch (NumberFormatException e) {
-                    return false;
-                }
-                return true;
-            }
-
-            @Override
-            public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
-                Document doc = fb.getDocument();
-                StringBuilder sb = new StringBuilder();
-                sb.append(doc.getText(0, doc.getLength()));
-                sb.replace(offset, offset + length, text);
-
-                if(this.test(sb.toString())) {
-                    super.replace(fb, offset, length, text, attrs);
-                }
-            }
-
-            @Override
-            public void remove(FilterBypass fb, int offset, int length) throws BadLocationException {
-                Document doc = fb.getDocument();
-                StringBuilder sb = new StringBuilder();
-                sb.append(doc.getText(0, doc.getLength()));
-                sb.delete(offset, offset + length);
-
-                if(sb.toString().length() == 0) {
-                    super.replace(fb, offset, length, "20", null);
-                } else {
-                    if(this.test(sb.toString())) {
-                        super.remove(fb, offset, length);
-                    }
-                }
-            }
-        });
-
         this.add(numberField, "cell 3 1");
 
         JPanel panel = new JPanel(new MigLayout("insets 0, fillx"));
         panel.setBackground(Color.WHITE);
 
         SimpleButton loadButton = new SimpleButton("Загрузить");
-        loadButton.addActionListener(lbc);
+        loadButton.addActionListener(e -> {
+            int pageSize = 20;
+            try {
+                pageSize = Integer.parseInt(numberField.getText());
+            } catch (NumberFormatException ignored) {
+
+            }
+
+            mailPanel.setPageSize(pageSize);
+            lbc.actionPerformed(e);
+        });
         loadButton.setRound(true);
 
         panel.add(loadButton, "");

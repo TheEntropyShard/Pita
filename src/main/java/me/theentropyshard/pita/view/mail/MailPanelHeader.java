@@ -67,6 +67,7 @@ public class MailPanelHeader extends CustomPanel {
                     mp.setMailBox(MailBox.BOX_DRAFTS);
                     break;
                 default:
+                    System.err.println("Illegal item: " + item);
                     throw new RuntimeException("Unreachable");
             }
             mp.loadData();

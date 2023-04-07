@@ -292,6 +292,12 @@ public enum NetSchoolAPI {
         return this.mailService.deleteMessages(permanent, messageIds);
     }
 
+    public UploadLimits getUploadLimits() throws IOException {
+        try(Response response = this.client.get(Urls.UPLOAD_LIMITS)) {
+            return this.gson.fromJson(Objects.requireNonNull(response.body()).charStream(), UploadLimits.class);
+        }
+    }
+
     public List<UserModel> getAdmins() {
         if(this.admins.isEmpty()) {
             Object[] params = {

@@ -25,11 +25,12 @@ import net.miginfocom.swing.MigLayout;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class MailListPanel extends CustomPanel {
-    private final Map<String, Boolean> selectedRows = new HashMap<>();
+    private final Set<String> selectedRows = new HashSet<>();
 
     public MailListPanel() {
         this.setLayout(new MigLayout("", "[left][center, grow][center, grow][center]", "[center, fill]"));
@@ -74,13 +75,13 @@ public class MailListPanel extends CustomPanel {
                         fromLabel.setBackground(Color.LIGHT_GRAY);
                         subjectLabel.setBackground(Color.LIGHT_GRAY);
                         sentLabel.setBackground(Color.LIGHT_GRAY);
-                        selectedRows.put(number, true);
+                        selectedRows.add(number);
                     } else {
                         numberLabel.setBackground(Color.WHITE);
                         fromLabel.setBackground(Color.WHITE);
                         subjectLabel.setBackground(Color.WHITE);
                         sentLabel.setBackground(Color.WHITE);
-                        selectedRows.put(number, false);
+                        selectedRows.remove(number);
                     }
                     repaint();
                 }
@@ -143,13 +144,13 @@ public class MailListPanel extends CustomPanel {
                         fromLabel.setBackground(Color.LIGHT_GRAY);
                         subjectLabel.setBackground(Color.LIGHT_GRAY);
                         sentLabel.setBackground(Color.LIGHT_GRAY);
-                        selectedRows.put(number, true);
+                        selectedRows.add(number);
                     } else {
                         numberLabel.setBackground(Color.WHITE);
                         fromLabel.setBackground(Color.WHITE);
                         subjectLabel.setBackground(Color.WHITE);
                         sentLabel.setBackground(Color.WHITE);
-                        selectedRows.put(number, false);
+                        selectedRows.remove(number);
                     }
                     repaint();
                 }
@@ -172,7 +173,7 @@ public class MailListPanel extends CustomPanel {
         this.add(sentLabel, "wrap");
     }
 
-    public Map<String, Boolean> getSelectedRows() {
+    public Set<String> getSelectedRows() {
         return this.selectedRows;
     }
 }

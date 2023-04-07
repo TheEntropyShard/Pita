@@ -17,8 +17,11 @@
 
 package me.theentropyshard.pita.view.mail;
 
+import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
 import me.theentropyshard.pita.netschoolapi.mail.MailBox;
+import me.theentropyshard.pita.netschoolapi.mail.models.MailRecord;
 import me.theentropyshard.pita.view.MainPanel;
+import me.theentropyshard.pita.view.MessageDialog;
 import me.theentropyshard.pita.view.UIConstants;
 import me.theentropyshard.pita.view.View;
 import me.theentropyshard.pita.view.component.GradientLabel;
@@ -31,10 +34,13 @@ import javax.swing.*;
 import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 public class MailPanelHeader extends CustomPanel {
-    public MailPanelHeader(ActionListener lbc) {
+    public MailPanelHeader(ActionListener lbc, MailPanel mailPanel) {
         this.setLayout(new MigLayout("flowy", "[left]15[left]5[left]15[left]push", "[center][center][center]"));
         this.setBackground(Color.WHITE);
 
@@ -185,6 +191,50 @@ public class MailPanelHeader extends CustomPanel {
 
         SimpleButton deleteButton = new SimpleButton("Удалить");
         deleteButton.setRound(true);
+        deleteButton.addActionListener(e -> {
+            Set<String> selectedRows = mailPanel.getMailListPanel().getSelectedRows();
+            MailRecord[] rows = mailPanel.getRows();
+
+            int[] messageIds = new int[selectedRows.size()];
+
+            int i = 0;
+            for(String s : selectedRows) {
+                messageIds[i] = rows[Integer.parseInt(s) - 1].id;
+                i++;
+            }
+
+            if(selectedRows.size() != 0) {
+                View.getView().getFrame().getGlassPane().setVisible(true);
+
+                MessageDialog dialog = new MessageDialog("Подтверждение", "Вы хотите выбранные письма в папку \"Удаленные\"?", true);
+
+                View.getView().getFrame().getGlassPane().setVisible(false);
+
+                if(dialog.getResult() == MessageDialog.Result.OK) {
+                    View.getView().getFrame().getGlassPane().setVisible(true);
+
+                    boolean success = true;
+
+                    try {
+                        NetSchoolAPI.I.deleteMessages(false, messageIds);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                        success = false;
+                    }
+
+                    if(success) {
+                        new MessageDialog("Внимание", "Ваши письма помещены в папку \"Удаленные\"", true);
+                        MainPanel mainPanel = View.getView().getMainPanel();
+                        mainPanel.getMailPanel().loadData();
+                        mainPanel.getContentLayout().show(mainPanel.getContentPanel(), MailPanel.class.getSimpleName());
+                    } else {
+                        new MessageDialog("Ошибка", "Не удалось поместить письма в папку \"Удаленные\"", true);
+                    }
+
+                    View.getView().getFrame().getGlassPane().setVisible(false);
+                }
+            }
+        });
 
         panel.add(deleteButton, "");
 

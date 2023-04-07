@@ -67,7 +67,7 @@ public class MailPanel extends JPanel {
 
         InfoPanel headerPanel = new InfoPanel();
 
-        MailPanelHeader header = new MailPanelHeader(e -> this.loadData());
+        MailPanelHeader header = new MailPanelHeader(e -> this.loadData(), this);
         headerPanel.addDataPanel(header);
 
         this.mailListPanel = new MailListPanel();

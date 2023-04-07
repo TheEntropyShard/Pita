@@ -21,12 +21,11 @@ import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
 import me.theentropyshard.pita.netschoolapi.models.UserSession;
 import me.theentropyshard.pita.view.component.GradientLabel;
 import me.theentropyshard.pita.view.component.PScrollBar;
+import me.theentropyshard.pita.view.mail.InfoPanel;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -86,57 +85,6 @@ public class ActiveSessionsPanel extends JPanel {
 
     public int getActiveSessions() {
         return this.activeSessions;
-    }
-
-    private static class InfoPanel extends JPanel {
-        private final JPanel internalInfoPanel;
-
-        public InfoPanel() {
-            this.setLayout(new MigLayout("nogrid, fillx", "[]", ""));
-            this.setOpaque(false);
-            this.addComponentListener(new ComponentAdapter() {
-                @Override
-                public void componentResized(ComponentEvent e) {
-                    revalidate();
-                }
-            });
-            this.setBorder(BorderFactory.createCompoundBorder(this.getBorder(), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-
-            this.internalInfoPanel = new JPanel(new MigLayout("fillx, flowy", "[fill]")) {
-                {
-                    this.setOpaque(false);
-                    this.addComponentListener(new ComponentAdapter() {
-                        @Override
-                        public void componentResized(ComponentEvent e) {
-                            revalidate();
-                        }
-                    });
-                }
-
-                @Override
-                protected void paintComponent(Graphics g) {
-                    Graphics2D g2 = (Graphics2D) g;
-                    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                    g2.setColor(Color.WHITE);
-                    g2.fillRoundRect(0, 0, this.getWidth(), this.getHeight(), UIConstants.ARC_WIDTH, UIConstants.ARC_HEIGHT);
-                    super.paintComponent(g2);
-                }
-            };
-            this.add(this.internalInfoPanel, "grow");
-        }
-
-        @Override
-        protected void paintComponent(Graphics g) {
-            Graphics2D g2 = (Graphics2D) g;
-            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g2.setColor(UIConstants.NEAR_WHITE2);
-            g2.fillRoundRect(0, 0, this.getWidth(), this.getHeight(), UIConstants.ARC_WIDTH, UIConstants.ARC_HEIGHT);
-            super.paintComponent(g2);
-        }
-
-        public void addDataPanel(UserInfoElement dataPanel) {
-            this.internalInfoPanel.add(dataPanel);
-        }
     }
 
     private static class UserInfoElement extends JPanel {

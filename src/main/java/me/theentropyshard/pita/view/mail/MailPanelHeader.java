@@ -19,6 +19,8 @@ package me.theentropyshard.pita.view.mail;
 
 import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
 import me.theentropyshard.pita.netschoolapi.mail.MailBox;
+import me.theentropyshard.pita.netschoolapi.mail.MailField;
+import me.theentropyshard.pita.netschoolapi.mail.models.Mail;
 import me.theentropyshard.pita.netschoolapi.mail.models.MailRecord;
 import me.theentropyshard.pita.view.MainPanel;
 import me.theentropyshard.pita.view.MessageDialog;
@@ -56,25 +58,24 @@ public class MailPanelHeader extends CustomPanel {
         comboBox.addItem("Черновики");
 
         comboBox.addItemListener(e -> {
-            MailPanel mp = View.getView().getMainPanel().getMailPanel();
             String item = (String) comboBox.getSelectedItem();
             switch(Objects.requireNonNull(item)) {
                 case "Входящие":
-                    mp.setMailBox(MailBox.BOX_INCOMING);
+                    mailPanel.setMailBox(MailBox.BOX_INCOMING);
                     break;
                 case "Отправленные":
-                    mp.setMailBox(MailBox.BOX_SENT);
+                    mailPanel.setMailBox(MailBox.BOX_SENT);
                     break;
                 case "Удаленные":
-                    mp.setMailBox(MailBox.BOX_DELETED);
+                    mailPanel.setMailBox(MailBox.BOX_DELETED);
                     break;
                 case "Черновики":
-                    mp.setMailBox(MailBox.BOX_DRAFTS);
+                    mailPanel.setMailBox(MailBox.BOX_DRAFTS);
                     break;
                 default:
                     throw new RuntimeException("Unreachable: " + item);
             }
-            mp.loadData();
+            mailPanel.loadData();
         });
 
         this.add(comboBox, "cell 0 1");
@@ -89,6 +90,23 @@ public class MailPanelHeader extends CustomPanel {
         searchCB.addItem("От кого");
         searchCB.addItem("Кому");
         searchCB.addItem("Тема");
+
+        searchCB.addItemListener(e -> {
+            String item = (String) searchCB.getSelectedItem();
+            switch(Objects.requireNonNull(item)) {
+                case "От кого":
+                    mailPanel.setSearchField(MailField.AUTHOR);
+                    break;
+                case "Кому":
+                    mailPanel.setSearchField(MailField.TO_NAMES);
+                    break;
+                case "Тема":
+                    mailPanel.setSearchField(MailField.SUBJECT);
+                    break;
+                default:
+                    throw new RuntimeException("Unreachable: " + item);
+            }
+        });
 
         PTextField searchField = new PTextField();
         searchField.setHint("Введите текст...");
@@ -130,6 +148,7 @@ public class MailPanelHeader extends CustomPanel {
             }
 
             mailPanel.setPageSize(pageSize);
+            mailPanel.setSearchText(searchField.getText());
             lbc.actionPerformed(e);
         });
         loadButton.setRound(true);

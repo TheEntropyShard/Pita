@@ -19,7 +19,9 @@ package me.theentropyshard.pita.view.mail;
 
 import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
 import me.theentropyshard.pita.netschoolapi.mail.MailBox;
+import me.theentropyshard.pita.netschoolapi.mail.MailField;
 import me.theentropyshard.pita.netschoolapi.mail.MailHelper;
+import me.theentropyshard.pita.netschoolapi.mail.MailSearch;
 import me.theentropyshard.pita.netschoolapi.mail.models.Mail;
 import me.theentropyshard.pita.netschoolapi.mail.models.MailRecord;
 import me.theentropyshard.pita.view.MainPanel;
@@ -44,6 +46,8 @@ public class MailPanel extends JPanel {
     private int page = 1;
     private int pageSize = 20;
     private MailBox mailBox = MailBox.BOX_INCOMING;
+    private String searchText;
+    private MailField searchField = MailField.AUTHOR;
 
     private MailRecord[] rows;
 
@@ -90,8 +94,12 @@ public class MailPanel extends JPanel {
         // TODO сделать выбор страниц
         // кол-во страниц = (кол-во писем / размер страницы) + кол-во писем % размер страницы == 0 ? 0 : 1
         try {
+            MailSearch mailSearch = null;
+            if(this.searchText != null && !this.searchText.isEmpty() && this.searchField != null) {
+                mailSearch = MailSearch.of(this.searchField, this.searchText);
+            }
             Set<Integer> unreadMessagesIds = NetSchoolAPI.I.getUnreadMessagesIds();
-            Mail mail = NetSchoolAPI.I.getMail(this.mailBox, MailHelper.getDefaultFields(), null, null, this.page, this.pageSize);
+            Mail mail = NetSchoolAPI.I.getMail(this.mailBox, MailHelper.getDefaultFields(), null, mailSearch, this.page, this.pageSize);
             MailRecord[] rows = mail.rows;
             this.rows = rows;
             for(int i = 0; i < rows.length; i++) {
@@ -140,5 +148,21 @@ public class MailPanel extends JPanel {
 
     public void setMailBox(MailBox mailBox) {
         this.mailBox = mailBox;
+    }
+
+    public String getSearchText() {
+        return this.searchText;
+    }
+
+    public void setSearchText(String searchText) {
+        this.searchText = searchText;
+    }
+
+    public MailField getSearchField() {
+        return this.searchField;
+    }
+
+    public void setSearchField(MailField searchField) {
+        this.searchField = searchField;
     }
 }

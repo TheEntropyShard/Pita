@@ -18,6 +18,7 @@
 package me.theentropyshard.pita.view.mail;
 
 import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
+import me.theentropyshard.pita.netschoolapi.models.UploadLimits;
 import me.theentropyshard.pita.netschoolapi.models.UserModel;
 import me.theentropyshard.pita.view.*;
 import me.theentropyshard.pita.view.component.GradientLabel;
@@ -89,6 +90,7 @@ public class MailWritePanel extends JPanel {
         InfoPanel controlsPanel = new InfoPanel();
 
         List<String> receiverIds = new ArrayList<>();
+        List<File> files = new ArrayList<>();
 
         this.receiversPanel = new DataElementPanel();
         this.receiversPanel.setKey("Кому");
@@ -145,7 +147,7 @@ public class MailWritePanel extends JPanel {
                 this.setBorder(new EmptyBorder(5, 5, 5, 5));
             }
 
-            private final int border = 5;
+            private static final int BORDER = 5;
 
             @Override
             public void paint(Graphics g) {
@@ -158,9 +160,9 @@ public class MailWritePanel extends JPanel {
                 g2.setColor(c);
                 int ly = (getHeight() - 16) / 2;
                 g2.setColor(Color.GRAY);
-                g2.fillRoundRect(6, ly, 15, 15, this.border, this.border);
+                g2.fillRoundRect(6, ly, 15, 15, BORDER, BORDER);
                 g2.setColor(Color.WHITE);
-                g2.fillRoundRect(7, ly + 1, 13, 13, this.border, this.border);
+                g2.fillRoundRect(7, ly + 1, 13, 13, BORDER, BORDER);
                 if(isSelected()) {
                     //  Draw Check icon
                     int[] px = {8, 12, 18, 16, 12, 10};
@@ -211,14 +213,32 @@ public class MailWritePanel extends JPanel {
             View.getView().getFrame().getGlassPane().setVisible(true);
 
             FileUploadDialog dialog = new FileUploadDialog(View.getView().getFrame());
-            dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-            dialog.pack();
-            dialog.setLocationRelativeTo(null);
-            dialog.setVisible(true);
+            File file = dialog.getSelectedFile();
+
+            if(file == null) {
+                return;
+            }
+
+            UploadLimits uploadLimits;
+            try {
+                uploadLimits = NetSchoolAPI.I.getUploadLimits();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                uploadLimits = new UploadLimits() {{ this.fileSizeLimit = 8192; }};
+            }
+            if(file.length() >> 10 > uploadLimits.fileSizeLimit) {
+                View.getView().getFrame().getGlassPane().setVisible(true);
+
+                new MessageDialog("Ошибка", "Размер файла больше чем " + uploadLimits.fileSizeLimit + " КБ");
+
+                View.getView().getFrame().getGlassPane().setVisible(false);
+
+                return;
+            }
 
             View.getView().getFrame().getGlassPane().setVisible(false);
 
-            GradientLabel label = new GradientLabel(new Random().nextInt() + "", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+            GradientLabel label = new GradientLabel(file.getName(), UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
             label.setFont(new Font("JetBrains Mono", Font.BOLD, 12));
             label.setBorder(new EmptyBorder(0, 5, 3, 0));
             label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -226,10 +246,12 @@ public class MailWritePanel extends JPanel {
                 @Override
                 public void mousePressed(MouseEvent e) {
                     attachedFiles.remove(label);
+                    files.remove(file);
                     revalidate();
                 }
             });
             attachedFiles.add(label);
+            files.add(file);
             revalidate();
         });
 
@@ -240,9 +262,8 @@ public class MailWritePanel extends JPanel {
 
             boolean success = true;
 
-            List<File> files = new ArrayList<>();
             try {
-                NetSchoolAPI.I.sendMessage(receiverIds, files, subjectField.getText(), textArea.getText(), notifyCheckBox.isSelected(),
+                NetSchoolAPI.I.sendMessage(receiverIds, files, this.subjectField.getText(), this.textArea.getText(), notifyCheckBox.isSelected(),
                         e.getSource() == saveButton);
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -268,7 +289,7 @@ public class MailWritePanel extends JPanel {
         saveButton.addActionListener(buttonListener);
 
         attachedFilesPanel.addDataPanel(addNewFileButton);
-        attachedFilesPanel.addDataPanel(attachedFiles);
+        attachedFilesPanel.addDataPanel(this.attachedFiles);
 
         panel.add(attachedFilesPanel, "gapy 4 0");
     }

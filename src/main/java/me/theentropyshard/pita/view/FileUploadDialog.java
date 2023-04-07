@@ -24,8 +24,12 @@ import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.util.Objects;
 
 public class FileUploadDialog extends JDialog {
+    private File selectedFile;
+
     public FileUploadDialog(Frame frame) {
         super(frame, "Прикрепите файл", true);
 
@@ -40,26 +44,43 @@ public class FileUploadDialog extends JDialog {
 
         chooseFilePanel.addDataPanel(chooseFileButton);
 
-        GradientLabel fileNameLabel = new GradientLabel("", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+        GradientLabel fileNameLabel = new GradientLabel("Имя файла...", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+        fileNameLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
 
         chooseFilePanel.addDataPanel(fileNameLabel);
+
+        chooseFileButton.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            int result = fileChooser.showOpenDialog(this);
+            if(result == JFileChooser.APPROVE_OPTION) {
+                this.selectedFile = Objects.requireNonNull(fileChooser.getSelectedFile());
+                fileNameLabel.setText(this.selectedFile.getName());
+            }
+        });
 
         panel.add(chooseFilePanel, BorderLayout.CENTER);
 
         InfoPanel buttonsPanel = new InfoPanel();
-        buttonsPanel.getInternalInfoPanel().setLayout(new MigLayout("fillx", "[right][right]", ""));
+        buttonsPanel.getInternalInfoPanel().setLayout(new MigLayout("nogrid, fillx", "[right]", ""));
 
         SimpleButton addFileButton = new SimpleButton("Прикрепить файл");
         addFileButton.setRound(true);
-
-        SimpleButton cancelButton = new SimpleButton("Отменить");
-        cancelButton.setRound(true);
+        addFileButton.addActionListener(e -> this.dispose());
 
         buttonsPanel.addDataPanel(addFileButton);
-        buttonsPanel.addDataPanel(cancelButton);
 
         panel.add(buttonsPanel);
 
         this.add(panel, BorderLayout.CENTER);
+
+        this.getContentPane().setPreferredSize(new Dimension(628, 168));
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        this.pack();
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
+    }
+
+    public File getSelectedFile() {
+        return this.selectedFile;
     }
 }

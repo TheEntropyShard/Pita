@@ -17,6 +17,7 @@
 
 package me.theentropyshard.pita.view.mail;
 
+import me.theentropyshard.pita.netschoolapi.mail.MailBox;
 import me.theentropyshard.pita.view.MainPanel;
 import me.theentropyshard.pita.view.UIConstants;
 import me.theentropyshard.pita.view.View;
@@ -30,6 +31,7 @@ import javax.swing.*;
 import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 
 public class MailPanelHeader extends CustomPanel {
     public MailPanelHeader(ActionListener lbc) {
@@ -47,6 +49,28 @@ public class MailPanelHeader extends CustomPanel {
         comboBox.addItem("Отправленные");
         comboBox.addItem("Удаленные");
         comboBox.addItem("Черновики");
+
+        comboBox.addItemListener(e -> {
+            MailPanel mp = View.getView().getMainPanel().getMailPanel();
+            String item = (String) comboBox.getSelectedItem();
+            switch(Objects.requireNonNull(item)) {
+                case "Входящие":
+                    mp.setMailBox(MailBox.BOX_INCOMING);
+                    break;
+                case "Отправленные":
+                    mp.setMailBox(MailBox.BOX_SENT);
+                    break;
+                case "Удаленные":
+                    mp.setMailBox(MailBox.BOX_DELETED);
+                    break;
+                case "Черновики":
+                    mp.setMailBox(MailBox.BOX_DRAFTS);
+                    break;
+                default:
+                    throw new RuntimeException("Unreachable");
+            }
+            mp.loadData();
+        });
 
         this.add(comboBox, "cell 0 1");
 

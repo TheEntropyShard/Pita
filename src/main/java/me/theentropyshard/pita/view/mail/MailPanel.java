@@ -41,6 +41,10 @@ public class MailPanel extends JPanel {
     private final MailReadPanel mailReadPanel;
     private final MailWritePanel mailWritePanel;
 
+    private int page = 1;
+    private int pageSize = 20;
+    private MailBox mailBox = MailBox.BOX_INCOMING;
+
     private MailRecord[] rows;
 
     public MailPanel(MainPanel mainPanel) {
@@ -87,7 +91,7 @@ public class MailPanel extends JPanel {
         // кол-во страниц = (кол-во писем / размер страницы) + кол-во писем % размер страницы == 0 ? 0 : 1
         try {
             Set<Integer> unreadMessagesIds = NetSchoolAPI.I.getUnreadMessagesIds();
-            Mail mail = NetSchoolAPI.I.getMail(MailBox.BOX_INCOMING, MailHelper.getDefaultFields(), null, null, 1, 20);
+            Mail mail = NetSchoolAPI.I.getMail(this.mailBox, MailHelper.getDefaultFields(), null, null, this.page, this.pageSize);
             MailRecord[] rows = mail.rows;
             this.rows = rows;
             for(int i = 0; i < rows.length; i++) {
@@ -112,5 +116,29 @@ public class MailPanel extends JPanel {
 
     public MailRecord[] getRows() {
         return this.rows;
+    }
+
+    public int getPage() {
+        return this.page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
+
+    public int getPageSize() {
+        return this.pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public MailBox getMailBox() {
+        return this.mailBox;
+    }
+
+    public void setMailBox(MailBox mailBox) {
+        this.mailBox = mailBox;
     }
 }

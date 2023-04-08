@@ -270,12 +270,12 @@ public enum NetSchoolAPI {
         return this.mailService.getMail(mailBox, fields, order, search, page, pageSize);
     }
 
-    public Response sendMessage(List<String> receiverIds, List<File> files, String subject, String text, boolean notify, boolean draft) throws IOException {
-        return this.mailService.sendMessage(receiverIds, files, subject, text, notify, draft);
+    public Response sendMessage(Set<String> receiverIds, Set<File> files, Set<Integer> attachedFilesIds, String subject, String text, boolean notify, boolean draft) throws IOException {
+        return this.mailService.sendMessage(receiverIds, files, attachedFilesIds, subject, text, notify, draft);
     }
 
-    public MailEdit editMessage(MailEditAction action) throws IOException {
-        return this.mailService.editMessage(action);
+    public MailEdit editMessage(MailEditAction action, int messageId) throws IOException {
+        return this.mailService.editMessage(action, messageId);
     }
 
     public Message readMessage(int messageId) throws IOException {

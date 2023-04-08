@@ -21,10 +21,7 @@ import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
 import me.theentropyshard.pita.netschoolapi.models.UploadLimits;
 import me.theentropyshard.pita.netschoolapi.models.UserModel;
 import me.theentropyshard.pita.view.*;
-import me.theentropyshard.pita.view.component.GradientLabel;
-import me.theentropyshard.pita.view.component.PScrollBar;
-import me.theentropyshard.pita.view.component.PTextField;
-import me.theentropyshard.pita.view.component.SimpleButton;
+import me.theentropyshard.pita.view.component.*;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -42,11 +39,19 @@ import java.util.stream.Collectors;
 public class MailWritePanel extends JPanel {
     private final JTextArea textArea;
     private final PTextField subjectField;
-    private final JPanel attachedFiles;
+    private final JPanel attachedFilesPanel;
     private final DataElementPanel receiversPanel;
+
+    private final Set<String> receiverIds;
+    private final Set<File> attachedFiles;
+    private final Set<Integer> attachedFilesIds;
 
     public MailWritePanel() {
         super(new BorderLayout());
+
+        this.receiverIds = new HashSet<>();
+        this.attachedFiles = new HashSet<>();
+        this.attachedFilesIds = new HashSet<>();
 
         this.addHierarchyListener(e -> {
             JComponent component = (JComponent) e.getSource();
@@ -88,9 +93,6 @@ public class MailWritePanel extends JPanel {
 
         //
         InfoPanel controlsPanel = new InfoPanel();
-
-        List<String> receiverIds = new ArrayList<>();
-        List<File> files = new ArrayList<>();
 
         this.receiversPanel = new DataElementPanel();
         this.receiversPanel.setKey("Кому");
@@ -139,43 +141,10 @@ public class MailWritePanel extends JPanel {
         notifyPanel.setBackground(new Color(240, 240, 240));
         notifyPanel.setKey("Уведомить о прочтении");
 
-        // See https://github.com/DJ-Raven/raven-project/blob/main/src/checkbox/JCheckBoxCustom.java
-        JCheckBox notifyCheckBox = new JCheckBox() {
-            {
-                this.setCursor(new Cursor(Cursor.HAND_CURSOR));
-                this.setBackground(Color.WHITE);
-                this.setBorder(new EmptyBorder(5, 5, 5, 5));
-            }
-
-            private static final int BORDER = 5;
-
-            @Override
-            public void paint(Graphics g) {
-                super.paint(g);
-                Graphics2D g2 = (Graphics2D) g;
-                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                Color c = g2.getColor();
-                g2.setColor(new Color(240, 240, 240));
-                g2.fillRoundRect(0, 0, this.getWidth(), this.getHeight(), UIConstants.ARC_WIDTH, UIConstants.ARC_HEIGHT);
-                g2.setColor(c);
-                int ly = (getHeight() - 16) / 2;
-                g2.setColor(Color.GRAY);
-                g2.fillRoundRect(6, ly, 15, 15, BORDER, BORDER);
-                g2.setColor(Color.WHITE);
-                g2.fillRoundRect(7, ly + 1, 13, 13, BORDER, BORDER);
-                if(isSelected()) {
-                    //  Draw Check icon
-                    int[] px = {8, 12, 18, 16, 12, 10};
-                    int[] py = {ly + 7, ly + 13, ly + 4, ly + 2, ly + 9, ly + 5};
-                    g2.setPaint(new GradientPaint(0, 0, UIConstants.DARK_GREEN, g2.getFontMetrics().stringWidth(getText()), getHeight(), UIConstants.LIGHT_GREEN));
-                    g2.fillPolygon(px, py, px.length);
-                }
-                g2.dispose();
-            }
-        };
+        PCheckBox notifyCheckBox = new PCheckBox();
         notifyPanel.setValueComponent(notifyCheckBox);
 
-        controlsPanel.addDataPanel(receiversPanel, "growx, width 0:0:100%");
+        controlsPanel.addDataPanel(this.receiversPanel, "growx, width 0:0:100%");
         controlsPanel.addDataPanel(subjectPanel, "growx, width 0:0:100%");
         controlsPanel.addDataPanel(notifyPanel, "growx, width 0:0:100%");
 
@@ -196,9 +165,9 @@ public class MailWritePanel extends JPanel {
         SimpleButton addNewFileButton = new SimpleButton("Загрузить файл");
         addNewFileButton.setRound(true);
 
-        this.attachedFiles = new JPanel();
-        this.attachedFiles.setOpaque(false);
-        this.attachedFiles.setBorder(
+        this.attachedFilesPanel = new JPanel();
+        this.attachedFilesPanel.setOpaque(false);
+        this.attachedFilesPanel.setBorder(
                 BorderFactory.createTitledBorder(
                         BorderFactory.createLineBorder(UIConstants.DARK_GREEN, 1),
                         "Прикрепленные файлы",
@@ -207,7 +176,7 @@ public class MailWritePanel extends JPanel {
                         UIConstants.DARK_GREEN
                 )
         );
-        this.attachedFiles.setLayout(new BoxLayout(this.attachedFiles, BoxLayout.PAGE_AXIS));
+        this.attachedFilesPanel.setLayout(new BoxLayout(this.attachedFilesPanel, BoxLayout.PAGE_AXIS));
 
         addNewFileButton.addActionListener(e -> {
             View.getView().getFrame().getGlassPane().setVisible(true);
@@ -238,21 +207,7 @@ public class MailWritePanel extends JPanel {
 
             View.getView().getFrame().getGlassPane().setVisible(false);
 
-            GradientLabel label = new GradientLabel(file.getName(), UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
-            label.setFont(new Font("JetBrains Mono", Font.BOLD, 12));
-            label.setBorder(new EmptyBorder(0, 5, 3, 0));
-            label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-            label.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mousePressed(MouseEvent e) {
-                    attachedFiles.remove(label);
-                    files.remove(file);
-                    revalidate();
-                }
-            });
-            attachedFiles.add(label);
-            files.add(file);
-            revalidate();
+            this.attachFile(file);
         });
 
         ActionListener buttonListener = e -> {
@@ -263,7 +218,7 @@ public class MailWritePanel extends JPanel {
             boolean success = true;
 
             try {
-                NetSchoolAPI.I.sendMessage(receiverIds, files, this.subjectField.getText(), this.textArea.getText(), notifyCheckBox.isSelected(),
+                NetSchoolAPI.I.sendMessage(this.receiverIds, this.attachedFiles, this.attachedFilesIds, this.subjectField.getText(), this.textArea.getText(), notifyCheckBox.isSelected(),
                         e.getSource() == saveButton);
             } catch (IOException ex) {
                 ex.printStackTrace();
@@ -289,7 +244,7 @@ public class MailWritePanel extends JPanel {
         saveButton.addActionListener(buttonListener);
 
         attachedFilesPanel.addDataPanel(addNewFileButton);
-        attachedFilesPanel.addDataPanel(this.attachedFiles);
+        attachedFilesPanel.addDataPanel(this.attachedFilesPanel);
 
         panel.add(attachedFilesPanel, "gapy 4 0");
     }
@@ -311,11 +266,62 @@ public class MailWritePanel extends JPanel {
 
     }
 
+    public void attachFileById(String name, int id) {
+        this.attachedFilesIds.add(id);
+        GradientLabel label = new GradientLabel(name, UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+        label.setFont(new Font("JetBrains Mono", Font.BOLD, 12));
+        label.setBorder(new EmptyBorder(0, 5, 3, 0));
+        label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        label.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                attachedFilesPanel.remove(label);
+                attachedFilesIds.remove(id);
+                revalidate();
+            }
+        });
+        this.attachedFilesPanel.add(label);
+        this.attachedFilesIds.add(id);
+    }
+
+    public void attachFile(File file) {
+        GradientLabel label = new GradientLabel(file.getName(), UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+        label.setFont(new Font("JetBrains Mono", Font.BOLD, 12));
+        label.setBorder(new EmptyBorder(0, 5, 3, 0));
+        label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        label.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                attachedFilesPanel.remove(label);
+                attachedFiles.remove(file);
+                revalidate();
+            }
+        });
+        this.attachedFilesPanel.add(label);
+        this.attachedFiles.add(file);
+        revalidate();
+    }
+
     public void clearFields() {
         this.receiversPanel.setValue("");
         this.subjectField.setText("");
         this.textArea.setText("");
-        this.attachedFiles.removeAll();
+        this.attachedFilesPanel.removeAll();
+
+        this.receiverIds.clear();
+        this.attachedFiles.clear();
+    }
+
+    public void setReceivers(String receivers) {
+        this.receiversPanel.setValue(receivers);
+    }
+
+    public void setSubject(String subject) {
+        this.subjectField.setText(subject);
+    }
+
+    public void setMainText(String text) {
+        this.textArea.setText(text);
     }
 
     public static class DestUserPanel extends CustomPanel {

@@ -20,6 +20,8 @@ package me.theentropyshard.pita.view.mail;
 import me.theentropyshard.pita.Pita;
 import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
 import me.theentropyshard.pita.netschoolapi.diary.models.Attachment;
+import me.theentropyshard.pita.netschoolapi.mail.MailEditAction;
+import me.theentropyshard.pita.netschoolapi.mail.models.MailEdit;
 import me.theentropyshard.pita.netschoolapi.mail.models.MailRecord;
 import me.theentropyshard.pita.netschoolapi.mail.models.Message;
 import me.theentropyshard.pita.netschoolapi.models.UserModel;
@@ -100,6 +102,23 @@ public class MailReadPanel extends JPanel {
             }});
             this.add(new SimpleButton("Переслать сообщение") {{
                 this.setRound(true);
+                this.addActionListener(e -> {
+                    MainPanel mainPanel = View.getView().getMainPanel();
+                    MailWritePanel mailWritePanel = mainPanel.getMailWritePanel();
+                    MailEdit mailEdit;
+                    try {
+                        mailEdit = NetSchoolAPI.I.editMessage(MailEditAction.FORWARD, messageId);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                        return;
+                    }
+                    mailWritePanel.setSubject(mailEdit.subject);
+                    mailWritePanel.setMainText(mailEdit.text);
+                    for(Attachment attach : mailEdit.fileAttachments) {
+                        mailWritePanel.attachFileById(attach.name, attach.id);
+                    }
+                    mainPanel.getContentLayout().show(mainPanel.getContentPanel(), MailWritePanel.class.getSimpleName());
+                });
             }});
             this.add(new SimpleButton("Удалить") {{
                 this.setRound(true);

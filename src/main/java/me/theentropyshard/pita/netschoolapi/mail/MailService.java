@@ -73,7 +73,7 @@ public class MailService {
         }
     }
 
-    public Response sendMessage(List<String> receiverIds, List<File> files, String subject, String text, boolean notify, boolean draft) throws IOException {
+    public Response sendMessage(Set<String> receiverIds, Set<File> files, Set<Integer> fileAttachmentIds, String subject, String text, boolean notify, boolean draft) throws IOException {
         if(receiverIds == null || receiverIds.isEmpty()) {
             throw new IOException("receiverIds == null || receiverIds.length == 0");
         }
@@ -86,12 +86,14 @@ public class MailService {
             throw new IOException("Сообщение слишком большое (длина больше чем 65535 символов)");
         }
 
-        List<String> fileAttachmentIds = new ArrayList<>();
+        if(fileAttachmentIds == null) {
+            fileAttachmentIds = new HashSet<>();
+        }
 
         if(files != null) {
             for(File file : files) {
                 try(Response response = this.api.getClient().post(Urls.ATTACHMENTS, new Object[0], file.getAbsolutePath(), ContentType.MULTIPART_FORMDATA)) {
-                    fileAttachmentIds.add(Utils.readAsOneLine(Objects.requireNonNull(response.body()).byteStream()));
+                    fileAttachmentIds.add(Integer.parseInt(Utils.readAsOneLine(Objects.requireNonNull(response.body()).byteStream())));
                 }
             }
         }
@@ -110,8 +112,8 @@ public class MailService {
         }
     }
 
-    public MailEdit editMessage(MailEditAction action) throws IOException {
-        try(Response r = this.api.getClient().get(Urls.MAIL_EDIT, new Object[] {"action", action.getAction(), "userId", this.api.getStudentId()})) {
+    public MailEdit editMessage(MailEditAction action, int messageId) throws IOException {
+        try(Response r = this.api.getClient().get(String.format(Urls.MAIL_EDIT, messageId), new Object[] {"action", action.getAction(), "userId", this.api.getStudentId()})) {
             return this.gson.fromJson(Objects.requireNonNull(r.body()).charStream(), MailEdit.class);
         }
     }

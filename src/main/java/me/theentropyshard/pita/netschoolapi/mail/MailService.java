@@ -24,6 +24,7 @@ import me.theentropyshard.pita.netschoolapi.Urls;
 import me.theentropyshard.pita.netschoolapi.http.ContentType;
 import me.theentropyshard.pita.netschoolapi.mail.models.Mail;
 import me.theentropyshard.pita.netschoolapi.mail.models.MailEdit;
+import me.theentropyshard.pita.netschoolapi.mail.models.MailSend;
 import me.theentropyshard.pita.netschoolapi.mail.models.Message;
 import okhttp3.Response;
 
@@ -73,7 +74,7 @@ public class MailService {
         }
     }
 
-    public Response sendMessage(Set<String> receiverIds, Set<File> files, Set<Integer> fileAttachmentIds, String subject, String text, boolean notify, boolean draft) throws IOException {
+    public Response sendMessage(Set<String> receiverIds, Set<File> files, Set<String> fileAttachmentIds, String subject, String text, boolean notify, boolean draft) throws IOException {
         if(receiverIds == null || receiverIds.isEmpty()) {
             throw new IOException("receiverIds == null || receiverIds.length == 0");
         }
@@ -93,21 +94,17 @@ public class MailService {
         if(files != null) {
             for(File file : files) {
                 try(Response response = this.api.getClient().post(Urls.ATTACHMENTS, new Object[0], file.getAbsolutePath(), ContentType.MULTIPART_FORMDATA)) {
-                    fileAttachmentIds.add(Integer.parseInt(Utils.readAsOneLine(Objects.requireNonNull(response.body()).byteStream())));
+                    fileAttachmentIds.add(Utils.readAsOneLine(Objects.requireNonNull(response.body()).byteStream()));
                 }
             }
         }
 
-        String data = String.format("{\"subject\":\"%s\",\"text\":\"%s\",\"authorId\":%d,\"fileAttachmentIds\":%s,\"notify\":%b,\"to\":%s,\"draft\":%b}",
-                subject,
-                text,
-                this.api.getStudentId(),
-                fileAttachmentIds.stream().map(s -> "\"" + s + "\"").collect(Collectors.toList()),
-                notify,
-                receiverIds.stream().map(s -> "\"" + s + "\"").collect(Collectors.toList()),
-                draft);
+        MailSend mailSend = new MailSend(
+                subject, text, this.api.getStudentId(), new ArrayList<>(fileAttachmentIds),
+                notify, 0, new ArrayList<>(receiverIds), draft
+        );
 
-        try(Response response = this.api.getClient().post(Urls.MAIL_MESSAGES, new Object[0], data, ContentType.JSON)) {
+        try(Response response = this.api.getClient().post(Urls.MAIL_MESSAGES, new Object[0], this.gson.toJson(mailSend), ContentType.JSON)) {
             return response;
         }
     }

@@ -17,12 +17,14 @@
 
 package me.theentropyshard.pita.view.mail;
 
+import me.theentropyshard.pita.Utils;
 import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
 import me.theentropyshard.pita.netschoolapi.models.UploadLimits;
 import me.theentropyshard.pita.netschoolapi.models.UserModel;
 import me.theentropyshard.pita.view.*;
 import me.theentropyshard.pita.view.component.*;
 import net.miginfocom.swing.MigLayout;
+import okhttp3.Response;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -32,8 +34,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class MailWritePanel extends JPanel {
@@ -44,7 +46,7 @@ public class MailWritePanel extends JPanel {
 
     private final Set<String> receiverIds;
     private final Set<File> attachedFiles;
-    private final Set<Integer> attachedFilesIds;
+    private final Set<String> attachedFilesIds;
 
     public MailWritePanel() {
         super(new BorderLayout());
@@ -218,8 +220,10 @@ public class MailWritePanel extends JPanel {
             boolean success = true;
 
             try {
-                NetSchoolAPI.I.sendMessage(this.receiverIds, this.attachedFiles, this.attachedFilesIds, this.subjectField.getText(), this.textArea.getText(), notifyCheckBox.isSelected(),
+                System.out.println(receiverIds);
+                Response response = NetSchoolAPI.I.sendMessage(this.receiverIds, this.attachedFiles, this.attachedFilesIds, this.subjectField.getText(), this.textArea.getText(), notifyCheckBox.isSelected(),
                         e.getSource() == saveButton);
+                System.out.println(Utils.readAsOneLine(response.body().byteStream()));
             } catch (IOException ex) {
                 ex.printStackTrace();
                 success = false;
@@ -266,7 +270,7 @@ public class MailWritePanel extends JPanel {
 
     }
 
-    public void attachFileById(String name, int id) {
+    public void attachFileById(String name, String id) {
         this.attachedFilesIds.add(id);
         GradientLabel label = new GradientLabel(name, UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
         label.setFont(new Font("JetBrains Mono", Font.BOLD, 12));
@@ -312,8 +316,14 @@ public class MailWritePanel extends JPanel {
         this.attachedFiles.clear();
     }
 
-    public void setReceivers(String receivers) {
-        this.receiversPanel.setValue(receivers);
+    public void setReceivers(UserModel... models) {
+        StringJoiner joiner = new StringJoiner("; ");
+        for(UserModel model : models) {
+            joiner.add(model.name);
+        }
+        receiversPanel.getValueLabel().setText(joiner.toString());
+        List<String> collect = Arrays.stream(models).map(userModel -> userModel.id).collect(Collectors.toList());
+        receiverIds.addAll(collect);
     }
 
     public void setSubject(String subject) {

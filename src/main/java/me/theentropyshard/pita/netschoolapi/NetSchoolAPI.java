@@ -270,7 +270,7 @@ public enum NetSchoolAPI {
         return this.mailService.getMail(mailBox, fields, order, search, page, pageSize);
     }
 
-    public Response sendMessage(Set<String> receiverIds, Set<File> files, Set<Integer> attachedFilesIds, String subject, String text, boolean notify, boolean draft) throws IOException {
+    public Response sendMessage(Set<String> receiverIds, Set<File> files, Set<String> attachedFilesIds, String subject, String text, boolean notify, boolean draft) throws IOException {
         return this.mailService.sendMessage(receiverIds, files, attachedFilesIds, subject, text, notify, draft);
     }
 

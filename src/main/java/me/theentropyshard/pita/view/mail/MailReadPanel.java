@@ -99,6 +99,24 @@ public class MailReadPanel extends JPanel {
             this.setLayout(new FlowLayout(FlowLayout.LEFT));
             this.add(new SimpleButton("Ответить") {{
                 this.setRound(true);
+                this.addActionListener(e -> {
+                    MainPanel mainPanel = View.getView().getMainPanel();
+                    MailWritePanel mailWritePanel = mainPanel.getMailWritePanel();
+                    MailEdit mailEdit;
+                    try {
+                        mailEdit = NetSchoolAPI.I.editMessage(MailEditAction.REPLY, messageId);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                        return;
+                    }
+                    mailWritePanel.setReceivers(mailEdit.to);
+                    mailWritePanel.setSubject(mailEdit.subject);
+                    mailWritePanel.setMainText(mailEdit.text);
+                    for(Attachment attach : mailEdit.fileAttachments) {
+                        mailWritePanel.attachFileById(attach.name, String.valueOf(attach.id));
+                    }
+                    mainPanel.getContentLayout().show(mainPanel.getContentPanel(), MailWritePanel.class.getSimpleName());
+                });
             }});
             this.add(new SimpleButton("Переслать сообщение") {{
                 this.setRound(true);
@@ -115,7 +133,7 @@ public class MailReadPanel extends JPanel {
                     mailWritePanel.setSubject(mailEdit.subject);
                     mailWritePanel.setMainText(mailEdit.text);
                     for(Attachment attach : mailEdit.fileAttachments) {
-                        mailWritePanel.attachFileById(attach.name, attach.id);
+                        mailWritePanel.attachFileById(attach.name, String.valueOf(attach.id));
                     }
                     mainPanel.getContentLayout().show(mainPanel.getContentPanel(), MailWritePanel.class.getSimpleName());
                 });

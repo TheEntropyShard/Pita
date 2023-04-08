@@ -92,8 +92,6 @@ public class MailPanel extends JPanel {
         this.mailListPanel.addNewRecord("№", "От кого", "Тема", "Отправлено", false, true);
         this.mailListPanel.addNewRecord(" ", " ", " ", " ", false, true);
 
-        // TODO сделать выбор страниц
-        // кол-во страниц = (кол-во писем / размер страницы) + кол-во писем % размер страницы == 0 ? 0 : 1
         try {
             SimpleButton mailButton = View.getView().getMainPanel().getHeader().getMailButton();
 

@@ -26,7 +26,6 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 public class MailListPanel extends CustomPanel {

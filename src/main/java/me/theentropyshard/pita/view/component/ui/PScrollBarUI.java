@@ -19,12 +19,9 @@ package me.theentropyshard.pita.view.component.ui;
 
 import me.theentropyshard.pita.view.UIConstants;
 
-import java.awt.*;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JScrollBar;
+import javax.swing.*;
 import javax.swing.plaf.basic.BasicScrollBarUI;
+import java.awt.*;
 
 /**
  * Slightly modified version of https://github.com/DJ-Raven/java-swing-school-management-dashboard/blob/main/school-dashboard/src/com/raven/swing/scrollbar/ModernScrollBarUI.java

@@ -65,9 +65,12 @@ public class MailPanel extends JPanel {
 
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBorder(null);
-        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setViewportView(panel);
         scrollPane.setVerticalScrollBar(new PScrollBar());
+        scrollPane.setHorizontalScrollBar(new PScrollBar() {{
+            this.setOrientation(JScrollBar.HORIZONTAL);
+        }});
 
         this.add(scrollPane, BorderLayout.CENTER);
 

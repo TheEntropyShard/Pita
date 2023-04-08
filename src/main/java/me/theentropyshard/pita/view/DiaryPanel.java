@@ -22,22 +22,21 @@ import me.theentropyshard.pita.netschoolapi.diary.models.Assignment;
 import me.theentropyshard.pita.netschoolapi.diary.models.Day;
 import me.theentropyshard.pita.netschoolapi.diary.models.Diary;
 import me.theentropyshard.pita.netschoolapi.diary.models.Lesson;
-import me.theentropyshard.pita.view.component.ui.VerticalLabelUI;
+import me.theentropyshard.pita.view.component.GradientLabel;
+import me.theentropyshard.pita.view.component.PScrollBar;
+import me.theentropyshard.pita.view.mail.InfoPanel;
+import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class DiaryPanel extends JPanel {
     private static final DateTimeFormatter DAY_DATE_FORMATTER = DateTimeFormatter.ofPattern("EEEE',' dd MMMM yyyy 'г.'");
 
-    private final DiaryPanelElement[] days;
-    private final JPanel panel;
+    private final DiaryDay[] days;
+    private final JPanel daysPanel;
 
     private boolean verticalOrder;
 
@@ -45,30 +44,48 @@ public class DiaryPanel extends JPanel {
         super(new BorderLayout());
         this.setBackground(Color.WHITE);
 
-        this.panel = new JPanel();
-        this.panel.setBackground(Color.WHITE);
-        this.panel.setLayout(new GridLayout(3, 2));
+        JPanel panel = new JPanel();
+        panel.setBackground(Color.WHITE);
+        panel.setLayout(new MigLayout("fillx", "[0:0:100%, fill]", "[]"));
 
-        this.add(this.panel);
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setBorder(null);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setViewportView(panel);
+        scrollPane.setVerticalScrollBar(new PScrollBar());
+        scrollPane.setHorizontalScrollBar(new PScrollBar() {{
+            this.setOrientation(JScrollBar.HORIZONTAL);
+        }});
 
-        this.days = new DiaryPanelElement[6];
+        this.daysPanel = new JPanel();
+        this.daysPanel.setBackground(Color.WHITE);
+        this.daysPanel.setLayout(new GridLayout(3, 2, 5, 5));
+
+        InfoPanel infoPanel = new InfoPanel();
+        infoPanel.addDataPanel(this.daysPanel);
+
+        panel.add(infoPanel);
+
+        this.add(scrollPane);
+
+        this.days = new DiaryDay[6];
         for(int i = 0; i < this.days.length; i++) {
-            this.days[i] = new DiaryPanelElement();
+            this.days[i] = new DiaryDay();
         }
 
         this.arrangeDays(this.verticalOrder);
     }
 
     public void loadData() {
-        if(true) {
+        if(false) {
             try {
                 //Diary diary = NetSchoolAPI.I.getDiary("2023-02-13", "2023-02-19");
                 Diary diary = NetSchoolAPI.I.getDiary("", "");
                 for(int dayNum = 0; dayNum < diary.weekDays.length; dayNum++) {
                     Day day = diary.weekDays[dayNum];
-                    DiaryPanelElement element = this.days[dayNum];
-                    element.setDate(LocalDateTime.parse(day.date).format(DiaryPanel.DAY_DATE_FORMATTER));
-                    String[][] data = element.getRowData();
+                    DiaryDay element = this.days[dayNum];
+                    //element.setDate(LocalDateTime.parse(day.date).format(DiaryPanel.DAY_DATE_FORMATTER));
+                    String[][] data = new String[8][3];
                     for(int lessonNum = 0; lessonNum < Math.min(day.lessons.length, 8); lessonNum++) {
                         Lesson lesson = day.lessons[lessonNum];
                         String[] lessonArr = data[lesson.number - 1];
@@ -92,99 +109,73 @@ public class DiaryPanel extends JPanel {
 
     public void arrangeDays(boolean verticalOrder) {
         this.verticalOrder = verticalOrder;
-        this.panel.removeAll();
+        this.daysPanel.removeAll();
 
         if(verticalOrder) {
             for(int i = 0; i < this.days.length - 3; i++) {
-                this.panel.add(this.days[i]);
-                this.panel.add(this.days[i + 3]);
+                this.daysPanel.add(this.days[i]);
+                this.daysPanel.add(this.days[i + 3]);
             }
         } else {
-            for(DiaryPanelElement day : this.days) {
-                this.panel.add(day);
-            }
+            this.daysPanel.add(this.days[0], "cell 0 0, growx");
+            this.daysPanel.add(this.days[1], "cell 1 0, growx");
+            this.daysPanel.add(this.days[2], "cell 0 1, growx");
+            this.daysPanel.add(this.days[3], "cell 1 1, growx");
+            this.daysPanel.add(this.days[4], "cell 0 2, growx");
+            this.daysPanel.add(this.days[5], "cell 1 2, growx");
         }
     }
 
-    private static class DiaryPanelElement extends JPanel {
-        private final JLabel dateLabel;
-        private final String[][] rowData;
-        private final JTable table;
+    private static class DiaryDay extends JPanel {
+        public DiaryDay() {
+            this.setLayout(new MigLayout("fill", "[15%][70%][15%]", "[]"));
 
-        public DiaryPanelElement() {
-            this.setLayout(new BorderLayout());
+            this.addHeader(new DiaryLesson("Урок", "Домашнее задание", "Оценка"));
 
-            this.dateLabel = new JLabel() {
-                @Override
-                protected void paintComponent(Graphics g) {
-                    Graphics2D g2 = (Graphics2D) g;
-                    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                    g2.setPaint(new GradientPaint(0, 0, UIConstants.DARK_GREEN, this.getWidth(), this.getHeight(), UIConstants.LIGHT_GREEN));
-                    g2.fillRect(0, 0, this.getWidth(), this.getHeight());
-                    super.paintComponent(g2);
-                }
-            };
-            this.dateLabel.setHorizontalAlignment(JLabel.CENTER);
-            this.dateLabel.setForeground(Color.WHITE);
-            this.dateLabel.setUI(new VerticalLabelUI(false));
-            this.dateLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
-            this.add(this.dateLabel, BorderLayout.WEST);
-
-            JPanel panel = new JPanel(new BorderLayout());
-
-            this.setDate("Нет данных");
-
-            Object[] colNames = {"Урок", "Домашнее задание", "Оценка"};
-            this.rowData = new String[8][3];
             for(int i = 0; i < 8; i++) {
-                for(int j = 0; j < 3; j++) {
-                    this.rowData[i][j] = "";
-                }
+                this.add(new DiaryLesson("Урок " + i, "Задание", "Оценка " + i));
             }
-
-            DefaultTableModel tableModel = new DefaultTableModel(this.rowData, colNames) {
-                @Override
-                public int getColumnCount() {
-                    return 3;
-                }
-
-                @Override
-                public int getRowCount() {
-                    return 8;
-                }
-
-                @Override
-                public Object getValueAt(int row, int column) {
-                    return rowData[row][column];
-                }
-            };
-
-            this.table = new JTable(tableModel);
-            this.table.getColumn("Урок").setMinWidth(UIConstants.DEFAULT_MIN_WIDTH_COLUMN);
-            this.table.getColumn("Урок").setMaxWidth(UIConstants.DEFAULT_MAX_WIDTH_COLUMN);
-            this.dateLabel.addComponentListener(new ComponentAdapter() {
-                @Override
-                public void componentResized(ComponentEvent e) {
-                    Component component = e.getComponent();
-                    table.setRowHeight((component.getHeight() - table.getTableHeader().getHeight()) / 8);
-                }
-            });
-
-            panel.add(table, BorderLayout.CENTER);
-            panel.add(table.getTableHeader(), BorderLayout.NORTH);
-            this.add(panel, BorderLayout.CENTER);
         }
 
-        public void setDate(String date) {
-            this.dateLabel.setText(date);
+        public void addHeader(DiaryLesson lesson) {
+            this.add(lesson.getLessonNameLabel(), "center");
+            this.add(lesson.getHomeworkLabel(), "center");
+            this.add(lesson.getMarksLabel(), "center, wrap");
         }
 
-        public String[][] getRowData() {
-            return this.rowData;
+        public void add(DiaryLesson lesson) {
+            this.add(lesson.getLessonNameLabel(), "growx, width 0:0:100%");
+            this.add(lesson.getHomeworkLabel(), "growx, width 0:0:100%");
+            this.add(lesson.getMarksLabel(), "center, wrap");
+        }
+    }
+
+    private static class DiaryLesson {
+        private GradientLabel lessonNameLabel;
+        private GradientLabel homeworkLabel;
+        private GradientLabel marksLabel;
+
+        public DiaryLesson(String lessonName, String homework, String marks) {
+            this.lessonNameLabel = new GradientLabel(lessonName, UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+            this.lessonNameLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
+
+            this.homeworkLabel = new GradientLabel(homework, UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+            this.homeworkLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
+
+            this.marksLabel = new GradientLabel(marks, UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+            this.marksLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
         }
 
-        public JTable getTable() {
-            return this.table; //TODO изменять ширину колонок по содержимому
+        public GradientLabel getLessonNameLabel() {
+            return this.lessonNameLabel;
+        }
+
+        public GradientLabel getHomeworkLabel() {
+            return this.homeworkLabel;
+        }
+
+        public GradientLabel getMarksLabel() {
+            return this.marksLabel;
         }
     }
 }

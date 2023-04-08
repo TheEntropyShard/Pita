@@ -39,8 +39,11 @@ import java.util.Objects;
 import java.util.Set;
 
 public class MailPanelHeader extends JPanel {
+    private final GradientLabel pageLabel;
+    private final PTextField pageField;
+
     public MailPanelHeader(ActionListener lbc, MailPanel mailPanel) {
-        this.setLayout(new MigLayout("flowy", "[left]15[left]5[left]15[left]push", "[center][center][center]"));
+        this.setLayout(new MigLayout("flowy", "[left]15[left]5[left]15[left]15[left]push", "[center][center][center]"));
         this.setBackground(Color.WHITE);
 
         GradientLabel label = new GradientLabel("Почтовая папка", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
@@ -133,6 +136,18 @@ public class MailPanelHeader extends JPanel {
 
         this.add(numberField, "cell 3 1");
 
+        this.pageLabel = new GradientLabel("", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+        this.pageLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
+
+        this.add(this.pageLabel, "cell 4 0");
+
+        this.pageField = new PTextField();
+        this.pageField.setText("1");
+        this.pageField.setPreferredSize(new Dimension(250, searchField.getPreferredSize().height));
+        this.pageField.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
+
+        this.add(this.pageField, "cell 4 1");
+
         JPanel panel = new JPanel(new MigLayout("insets 0, fillx"));
         panel.setBackground(Color.WHITE);
 
@@ -147,6 +162,13 @@ public class MailPanelHeader extends JPanel {
 
             mailPanel.setPageSize(pageSize);
             mailPanel.setSearchText(searchField.getText());
+            int page = 1;
+            try {
+                page = Integer.parseInt(this.pageField.getText());
+            } catch (NumberFormatException ignored) {
+
+            }
+            mailPanel.setPage(page);
             lbc.actionPerformed(e);
         });
         loadButton.setRound(true);
@@ -213,5 +235,16 @@ public class MailPanelHeader extends JPanel {
         panel.add(deleteButton, "");
 
         this.add(panel, "cell 0 2, span");
+    }
+
+    public void loadData() {
+        MailPanel mailPanel = View.getView().getMainPanel().getMailPanel();
+
+        int totalMessages = mailPanel.getTotalMessages();
+        int pageSize = mailPanel.getPageSize();
+
+        int totalPages = (totalMessages / pageSize) + (totalMessages % pageSize == 0 ? 0 : 1);
+
+        this.pageLabel.setText("Всего страниц: " + totalPages + ", текущая: " + this.pageField.getText());
     }
 }

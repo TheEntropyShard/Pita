@@ -24,7 +24,6 @@ import me.theentropyshard.pita.netschoolapi.mail.MailHelper;
 import me.theentropyshard.pita.netschoolapi.mail.MailSearch;
 import me.theentropyshard.pita.netschoolapi.mail.models.Mail;
 import me.theentropyshard.pita.netschoolapi.mail.models.MailRecord;
-import me.theentropyshard.pita.view.MainPanel;
 import me.theentropyshard.pita.view.View;
 import me.theentropyshard.pita.view.component.PScrollBar;
 import me.theentropyshard.pita.view.component.SimpleButton;
@@ -42,9 +41,9 @@ public class MailPanel extends JPanel {
 
     private final MailListPanel mailListPanel;
 
-    private final MailReadPanel mailReadPanel;
-    private final MailWritePanel mailWritePanel;
+    private final MailPanelHeader header;
 
+    private int totalMessages;
     private int page = 1;
     private int pageSize = 20;
     private MailBox mailBox = MailBox.BOX_INCOMING;
@@ -53,11 +52,8 @@ public class MailPanel extends JPanel {
 
     private MailRecord[] rows;
 
-    public MailPanel(MainPanel mainPanel) {
+    public MailPanel() {
         super(new BorderLayout());
-
-        this.mailReadPanel = mainPanel.getMailReadPanel();
-        this.mailWritePanel = mainPanel.getMailWritePanel();
 
         JPanel panel = new JPanel();
         panel.setBackground(Color.WHITE);
@@ -76,8 +72,8 @@ public class MailPanel extends JPanel {
 
         InfoPanel headerPanel = new InfoPanel();
 
-        MailPanelHeader header = new MailPanelHeader(e -> this.loadData(), this);
-        headerPanel.addDataPanel(header);
+        this.header = new MailPanelHeader(e -> this.loadData(), this);
+        headerPanel.addDataPanel(this.header);
 
         this.mailListPanel = new MailListPanel();
         this.mailListPanel.addNewRecord("№", "Автор", "Тема", "Отправлено", false, true);
@@ -119,6 +115,7 @@ public class MailPanel extends JPanel {
             }
             Set<Integer> unreadMessagesIds = NetSchoolAPI.I.getUnreadMessagesIds();
             Mail mail = NetSchoolAPI.I.getMail(this.mailBox, MailHelper.getDefaultFields(), null, mailSearch, this.page, this.pageSize);
+            this.totalMessages = mail.totalItems;
             MailRecord[] rows = mail.rows;
             this.rows = rows;
             for(int i = 0; i < rows.length; i++) {
@@ -135,6 +132,8 @@ public class MailPanel extends JPanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        this.header.loadData();
     }
 
     public MailListPanel getMailListPanel() {
@@ -145,8 +144,8 @@ public class MailPanel extends JPanel {
         return this.rows;
     }
 
-    public int getPage() {
-        return this.page;
+    public int getTotalMessages() {
+        return this.totalMessages;
     }
 
     public void setPage(int page) {
@@ -161,24 +160,12 @@ public class MailPanel extends JPanel {
         this.pageSize = pageSize;
     }
 
-    public MailBox getMailBox() {
-        return this.mailBox;
-    }
-
     public void setMailBox(MailBox mailBox) {
         this.mailBox = mailBox;
     }
 
-    public String getSearchText() {
-        return this.searchText;
-    }
-
     public void setSearchText(String searchText) {
         this.searchText = searchText;
-    }
-
-    public MailField getSearchField() {
-        return this.searchField;
     }
 
     public void setSearchField(MailField searchField) {

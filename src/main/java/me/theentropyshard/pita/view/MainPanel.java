@@ -55,7 +55,7 @@ public class MainPanel extends JPanel {
         this.reportsPanel = new ReportsPanel();
         this.contentPanel.add(this.reportsPanel, ReportsPanel.class.getSimpleName());
 
-        this.mailPanel = new MailPanel(this);
+        this.mailPanel = new MailPanel();
         this.contentPanel.add(this.mailPanel, MailPanel.class.getSimpleName());
 
         this.mailReadPanel = new MailReadPanel(this.mailPanel);

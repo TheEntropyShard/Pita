@@ -22,13 +22,14 @@ import me.theentropyshard.pita.view.View;
 import me.theentropyshard.pita.view.component.GradientLabel;
 import net.miginfocom.swing.MigLayout;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashSet;
 import java.util.Set;
 
-public class MailListPanel extends CustomPanel {
+public class MailListPanel extends JPanel {
     private final Set<String> selectedRows = new HashSet<>();
 
     public MailListPanel() {

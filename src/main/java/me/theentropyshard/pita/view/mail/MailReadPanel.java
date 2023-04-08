@@ -94,7 +94,7 @@ public class MailReadPanel extends JPanel {
         this.add(scrollPane, BorderLayout.CENTER);
 
         InfoPanel buttonsPanel = new InfoPanel();
-        buttonsPanel.addDataPanel(new CustomPanel() {{
+        buttonsPanel.addDataPanel(new JPanel() {{
             this.setBackground(Color.WHITE);
             this.setLayout(new FlowLayout(FlowLayout.LEFT));
             this.add(new SimpleButton("Ответить") {{
@@ -295,7 +295,7 @@ public class MailReadPanel extends JPanel {
                 .replace("&amp;#187;", "»");
     }
 
-    public static class DataElementPanel extends CustomPanel {
+    public static class DataElementPanel extends JPanel {
         private final GradientLabel keyLabel;
         private final GradientLabel valueLabel;
 

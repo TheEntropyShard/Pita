@@ -17,25 +17,26 @@
 
 package me.theentropyshard.pita.view.mail;
 
-import me.theentropyshard.pita.Utils;
 import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
 import me.theentropyshard.pita.netschoolapi.models.UploadLimits;
 import me.theentropyshard.pita.netschoolapi.models.UserModel;
 import me.theentropyshard.pita.view.*;
 import me.theentropyshard.pita.view.component.*;
 import net.miginfocom.swing.MigLayout;
-import okhttp3.Response;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.plaf.basic.BasicTextFieldUI;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionListener;
+import java.awt.event.HierarchyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class MailWritePanel extends JPanel {
@@ -220,10 +221,8 @@ public class MailWritePanel extends JPanel {
             boolean success = true;
 
             try {
-                System.out.println(receiverIds);
-                Response response = NetSchoolAPI.I.sendMessage(this.receiverIds, this.attachedFiles, this.attachedFilesIds, this.subjectField.getText(), this.textArea.getText(), notifyCheckBox.isSelected(),
+                NetSchoolAPI.I.sendMessage(this.receiverIds, this.attachedFiles, this.attachedFilesIds, this.subjectField.getText(), this.textArea.getText(), notifyCheckBox.isSelected(),
                         e.getSource() == saveButton);
-                System.out.println(Utils.readAsOneLine(response.body().byteStream()));
             } catch (IOException ex) {
                 ex.printStackTrace();
                 success = false;
@@ -334,9 +333,8 @@ public class MailWritePanel extends JPanel {
         this.textArea.setText(text);
     }
 
-    public static class DestUserPanel extends CustomPanel {
+    public static class DestUserPanel extends JPanel {
         private final GradientLabel keyLabel;
-        private JComponent valueComponent;
 
         public DestUserPanel() {
             this.keyLabel = new GradientLabel("", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
@@ -356,21 +354,16 @@ public class MailWritePanel extends JPanel {
         }
 
         public void setValueComponent(JComponent component) {
-            this.valueComponent = component;
-            this.valueComponent.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
-            this.valueComponent.setBorder(new EmptyBorder(5, 5, 5, 5));
+            component.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
+            component.setBorder(new EmptyBorder(5, 5, 5, 5));
             if(this.getComponentCount() == 2) {
                 this.remove(1);
             }
-            this.add(this.valueComponent);
-        }
-
-        public JComponent getValueComponent() {
-            return this.valueComponent;
+            this.add(component);
         }
     }
 
-    public static class DataElementPanel extends CustomPanel {
+    public static class DataElementPanel extends JPanel {
         private final GradientLabel keyLabel;
         private final GradientLabel valueLabel;
 
@@ -407,10 +400,6 @@ public class MailWritePanel extends JPanel {
 
         public void setValue(String value) {
             this.valueLabel.setText(value);
-        }
-
-        public GradientLabel getKeyLabel() {
-            return this.keyLabel;
         }
 
         public GradientLabel getValueLabel() {

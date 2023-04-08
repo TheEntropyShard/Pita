@@ -20,7 +20,6 @@ package me.theentropyshard.pita.view.mail;
 import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
 import me.theentropyshard.pita.netschoolapi.mail.MailBox;
 import me.theentropyshard.pita.netschoolapi.mail.MailField;
-import me.theentropyshard.pita.netschoolapi.mail.models.Mail;
 import me.theentropyshard.pita.netschoolapi.mail.models.MailRecord;
 import me.theentropyshard.pita.view.MainPanel;
 import me.theentropyshard.pita.view.MessageDialog;
@@ -33,14 +32,13 @@ import me.theentropyshard.pita.view.component.SimpleButton;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
-import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Set;
 
-public class MailPanelHeader extends CustomPanel {
+public class MailPanelHeader extends JPanel {
     public MailPanelHeader(ActionListener lbc, MailPanel mailPanel) {
         this.setLayout(new MigLayout("flowy", "[left]15[left]5[left]15[left]push", "[center][center][center]"));
         this.setBackground(Color.WHITE);

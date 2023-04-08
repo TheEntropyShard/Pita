@@ -75,7 +75,7 @@ public class InfoPanel extends JPanel { //TODO попытаться сделат
         this.internalInfoPanel.add(component);
     }
 
-    public void addDataPanel(Component component, String constraints) {
+    public void addDataPanel(Component component, Object constraints) {
         this.internalInfoPanel.add(component, constraints);
     }
 

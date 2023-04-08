@@ -27,11 +27,9 @@ import me.theentropyshard.pita.netschoolapi.diary.models.Diary;
 import me.theentropyshard.pita.netschoolapi.exceptions.AuthException;
 import me.theentropyshard.pita.netschoolapi.exceptions.SchoolNotFoundException;
 import me.theentropyshard.pita.netschoolapi.http.HttpClientWrapper;
-import me.theentropyshard.pita.netschoolapi.mail.MailBox;
-import me.theentropyshard.pita.netschoolapi.mail.MailOrder;
-import me.theentropyshard.pita.netschoolapi.mail.MailSearch;
-import me.theentropyshard.pita.netschoolapi.mail.MailService;
+import me.theentropyshard.pita.netschoolapi.mail.*;
 import me.theentropyshard.pita.netschoolapi.mail.models.Mail;
+import me.theentropyshard.pita.netschoolapi.mail.models.MailEdit;
 import me.theentropyshard.pita.netschoolapi.mail.models.Message;
 import me.theentropyshard.pita.netschoolapi.models.*;
 import okhttp3.Cookie;
@@ -274,6 +272,10 @@ public enum NetSchoolAPI {
 
     public Response sendMessage(List<String> receiverIds, List<File> files, String subject, String text, boolean notify, boolean draft) throws IOException {
         return this.mailService.sendMessage(receiverIds, files, subject, text, notify, draft);
+    }
+
+    public MailEdit editMessage(MailEditAction action) throws IOException {
+        return this.mailService.editMessage(action);
     }
 
     public Message readMessage(int messageId) throws IOException {

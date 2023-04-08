@@ -84,6 +84,7 @@ public enum Urls {
     public static final String MAIL_REGISTRY        = "mail/registry";
     public static final String MAIL_RECIPIENTS      = "mail/recipients";
     public static final String MAIL_READ            = "mail/messages/%d/read";
+    public static final String MAIL_EDIT            = "mail/messages/%d/edit";
     public static final String MAIL_RESTORE         = "mail/messages/restore";
     public static final String MAIL_UNREAD          = "mail/messages/unread";
     public static final String MAIL_MARK_AS         = "mail/messages/mark-as";

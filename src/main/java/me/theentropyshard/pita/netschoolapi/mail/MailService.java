@@ -23,6 +23,7 @@ import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
 import me.theentropyshard.pita.netschoolapi.Urls;
 import me.theentropyshard.pita.netschoolapi.http.ContentType;
 import me.theentropyshard.pita.netschoolapi.mail.models.Mail;
+import me.theentropyshard.pita.netschoolapi.mail.models.MailEdit;
 import me.theentropyshard.pita.netschoolapi.mail.models.Message;
 import okhttp3.Response;
 
@@ -106,6 +107,12 @@ public class MailService {
 
         try(Response response = this.api.getClient().post(Urls.MAIL_MESSAGES, new Object[0], data, ContentType.JSON)) {
             return response;
+        }
+    }
+
+    public MailEdit editMessage(MailEditAction action) throws IOException {
+        try(Response r = this.api.getClient().get(Urls.MAIL_EDIT, new Object[] {"action", action.getAction(), "userId", this.api.getStudentId()})) {
+            return this.gson.fromJson(Objects.requireNonNull(r.body()).charStream(), MailEdit.class);
         }
     }
 

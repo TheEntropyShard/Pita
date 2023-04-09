@@ -166,7 +166,7 @@ public enum Utils {
      */
     public static String getCurrentWeekEnd() {
         LocalDate today = LocalDate.now();
-        LocalDate saturday = today.with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY));
+        LocalDate saturday = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.SATURDAY));
         return saturday.toString();
     }
 

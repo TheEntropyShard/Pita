@@ -32,6 +32,7 @@ public enum Urls {
     public static final String ANNOUNCEMENTS        = "announcements";
     public static final String YEARS_CURRENT        = "years/current";
     public static final String ACTIVE_SESSIONS      = "context/activeSessions";
+    public static final String TERMS_SEARCH         = "terms/search";
     public static final String ASSIGNMENT_TYPES     = "grade/assignment/types";
 
     /**

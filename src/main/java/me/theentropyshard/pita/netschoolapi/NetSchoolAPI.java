@@ -18,6 +18,7 @@
 package me.theentropyshard.pita.netschoolapi;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import me.theentropyshard.pita.Utils;
 import me.theentropyshard.pita.netschoolapi.diary.DiaryService;
@@ -54,6 +55,8 @@ public enum NetSchoolAPI {
     private final List<UserModel> classroomTeachers = new ArrayList<>();
     private final List<UserModel> teachers = new ArrayList<>();
     private final List<UserModel> classmates = new ArrayList<>();
+
+    private final List<Term> terms = new ArrayList<>();
 
     private final DiaryService diaryService = new DiaryService(this);
     private final MailService mailService = new MailService(this);
@@ -167,6 +170,10 @@ public enum NetSchoolAPI {
             }
 
             this.studentName = object.get("accountInfo").getAsJsonObject().get("user").getAsJsonObject().get("name").getAsString();
+        }
+
+        try(Response response = this.client.get(Urls.TERMS_SEARCH)) {
+            this.terms.addAll(Arrays.asList(this.gson.fromJson(Objects.requireNonNull(response.body()).charStream(), Term[].class)));
         }
 
         try(Response response = this.client.get(Urls.DIARY_INIT)) {
@@ -421,6 +428,10 @@ public enum NetSchoolAPI {
                 e.printStackTrace();
             }
         }
+    }
+
+    public List<Term> getTerms() {
+        return this.terms;
     }
 
     public SchoolModel getSchool() {

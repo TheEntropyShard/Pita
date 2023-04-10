@@ -31,9 +31,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DiaryPanel extends JPanel {
     private static final DateTimeFormatter DAY_DATE_FORMATTER = DateTimeFormatter.ofPattern("EEEE',' dd MMMM yyyy 'г.'");
+
+    public static final int TYPE_ID_LESSON_ANSWER = 10;
+    public static final int TYPE_ID_HOMEWORK = 3;
 
     private final DiaryDay[] days;
     private final JPanel daysPanel;
@@ -77,25 +82,28 @@ public class DiaryPanel extends JPanel {
     }
 
     public void loadData() {
-        if(false) {
+        if(true) {
             try {
                 //Diary diary = NetSchoolAPI.I.getDiary("2023-02-13", "2023-02-19");
-                Diary diary = NetSchoolAPI.I.getDiary("", "");
+                Diary diary = NetSchoolAPI.I.getDiary("2023-04-10", "2023-04-15");
                 for(int dayNum = 0; dayNum < diary.weekDays.length; dayNum++) {
-                    Day day = diary.weekDays[dayNum];
-                    DiaryDay element = this.days[dayNum];
-                    //element.setDate(LocalDateTime.parse(day.date).format(DiaryPanel.DAY_DATE_FORMATTER));
-                    String[][] data = new String[8][3];
-                    for(int lessonNum = 0; lessonNum < Math.min(day.lessons.length, 8); lessonNum++) {
-                        Lesson lesson = day.lessons[lessonNum];
-                        String[] lessonArr = data[lesson.number - 1];
-                        lessonArr[0] = lesson.number + ". " + lesson.subjectName;
+                    Day diaryDay = diary.weekDays[dayNum];
+                    DiaryDay dayElement = this.days[dayNum];
+                    for(int lessonNum = 0; lessonNum < diaryDay.lessons.length; lessonNum++) {
+                        Lesson lesson = diaryDay.lessons[lessonNum];
+                        DiaryLesson diaryLesson = new DiaryLesson(" ", " ");
+                        try {
+                            diaryLesson = dayElement.lessons.get(lesson.number - 1);
+                        } catch (IndexOutOfBoundsException e) {
+                            e.printStackTrace();
+                        }
+                        diaryLesson.lessonNameLabel.setText(diaryLesson.lessonNameLabel.getText() + lesson.subjectName);
                         if(lesson.assignments != null) {
-                            for(Assignment assign : lesson.assignments) {
-                                if(assign.mark != null) {
-                                    lessonArr[2] = String.valueOf(assign.mark.mark);
-                                } else {
-                                    lessonArr[1] = assign.assignmentName;
+                            for(Assignment assignment : lesson.assignments) {
+                                if(assignment.typeId == DiaryPanel.TYPE_ID_HOMEWORK) {
+                                    diaryLesson.homeworkLabel.setText(assignment.assignmentName);
+                                } else if(assignment.mark != null) {
+                                    diaryLesson.addMark(String.valueOf(assignment.mark.mark));
                                 }
                             }
                         }
@@ -112,14 +120,16 @@ public class DiaryPanel extends JPanel {
         this.daysPanel.removeAll();
 
         if(verticalOrder) {
-            for(int i = 0; i < this.days.length - 3; i++) {
-                this.daysPanel.add(this.days[i]);
-                this.daysPanel.add(this.days[i + 3]);
-            }
+            this.daysPanel.add(this.days[0], "cell 0 0, growx"); /* Пн | Чт */
+            this.daysPanel.add(this.days[1], "cell 0 1, growx"); /* Вт | Пт */
+            this.daysPanel.add(this.days[2], "cell 0 2, growx"); /* Ср | Сб */
+            this.daysPanel.add(this.days[3], "cell 1 0, growx");
+            this.daysPanel.add(this.days[4], "cell 1 1, growx");
+            this.daysPanel.add(this.days[5], "cell 1 2, growx");
         } else {
-            this.daysPanel.add(this.days[0], "cell 0 0, growx");
-            this.daysPanel.add(this.days[1], "cell 1 0, growx");
-            this.daysPanel.add(this.days[2], "cell 0 1, growx");
+            this.daysPanel.add(this.days[0], "cell 0 0, growx"); /* Пн | Вт */
+            this.daysPanel.add(this.days[1], "cell 1 0, growx"); /* Ср | Чт */
+            this.daysPanel.add(this.days[2], "cell 0 1, growx"); /* Пт | Сб */
             this.daysPanel.add(this.days[3], "cell 1 1, growx");
             this.daysPanel.add(this.days[4], "cell 0 2, growx");
             this.daysPanel.add(this.days[5], "cell 1 2, growx");
@@ -127,43 +137,68 @@ public class DiaryPanel extends JPanel {
     }
 
     private static class DiaryDay extends JPanel {
-        public DiaryDay() {
-            this.setLayout(new MigLayout("fill", "[15%][70%][15%]", "[]"));
+        private final List<DiaryLesson> lessons;
 
-            this.addHeader(new DiaryLesson("Урок", "Домашнее задание", "Оценка"));
+        public DiaryDay() {
+            this.lessons = new ArrayList<>();
+
+            this.setLayout(new MigLayout("fill", "[25%][60%][15%]", "[]"));
+
+            this.addHeader(new DiaryLesson("Урок", "Домашнее задание") {{
+                this.addMark("Оценка");
+            }});
 
             for(int i = 0; i < 8; i++) {
-                this.add(new DiaryLesson("Урок " + i, "Задание", "Оценка " + i));
+                this.add(new DiaryLesson((i + 1) + ". ", " "));
             }
         }
 
         public void addHeader(DiaryLesson lesson) {
             this.add(lesson.getLessonNameLabel(), "center");
             this.add(lesson.getHomeworkLabel(), "center");
-            this.add(lesson.getMarksLabel(), "center, wrap");
+            this.add(lesson.getMarksPanel(), "center, wrap");
         }
 
         public void add(DiaryLesson lesson) {
+            this.lessons.add(lesson);
             this.add(lesson.getLessonNameLabel(), "growx, width 0:0:100%");
             this.add(lesson.getHomeworkLabel(), "growx, width 0:0:100%");
-            this.add(lesson.getMarksLabel(), "center, wrap");
+            this.add(lesson.getMarksPanel(), "center, wrap");
+        }
+
+        public List<DiaryLesson> getLessons() {
+            return this.lessons;
         }
     }
 
     private static class DiaryLesson {
         private GradientLabel lessonNameLabel;
         private GradientLabel homeworkLabel;
-        private GradientLabel marksLabel;
+        private JPanel marksPanel;
 
-        public DiaryLesson(String lessonName, String homework, String marks) {
+        public DiaryLesson(String lessonName, String homework) {
             this.lessonNameLabel = new GradientLabel(lessonName, UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
             this.lessonNameLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
 
             this.homeworkLabel = new GradientLabel(homework, UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
             this.homeworkLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
 
-            this.marksLabel = new GradientLabel(marks, UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
-            this.marksLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
+            this.marksPanel = new JPanel(new MigLayout("insets 0", "[center]", "[center]"));
+        }
+
+        public void addMark(String mark) {
+            int iMark = 0;
+            try {
+                iMark = Integer.parseInt(mark);
+            } catch (NumberFormatException ignored) {
+
+            }
+            GradientLabel label = iMark >= 3 ? new GradientLabel(mark, UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN) :
+                    Character.isDigit(mark.charAt(0)) ?
+                    new GradientLabel(mark, new Color(105, 0, 0), new Color(168, 0, 0)) :
+                            new GradientLabel(mark, UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+            label.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
+            this.marksPanel.add(label);
         }
 
         public GradientLabel getLessonNameLabel() {
@@ -174,8 +209,8 @@ public class DiaryPanel extends JPanel {
             return this.homeworkLabel;
         }
 
-        public GradientLabel getMarksLabel() {
-            return this.marksLabel;
+        public JPanel getMarksPanel() {
+            return this.marksPanel;
         }
     }
 }

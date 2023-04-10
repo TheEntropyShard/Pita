@@ -44,6 +44,9 @@ public class DiaryService {
         if(weekStart == null || weekStart.isEmpty()) weekStart = Utils.getCurrentWeekStart();
         if(weekEnd == null || weekEnd.isEmpty()) weekEnd = Utils.getCurrentWeekEnd();
 
+        System.out.println(weekStart);
+        System.out.println(weekEnd);
+
         Object[] query = {
                 "studentId", this.api.getStudentId(), "vers", this.api.getVer(),
                 "weekStart", weekStart, "weekEnd", weekEnd, "yearId", this.api.getYearId(),

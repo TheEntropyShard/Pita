@@ -18,12 +18,12 @@
 package me.theentropyshard.pita.netschoolapi.models;
 
 public class Term {
-    public float id;
+    public int id;
     public String termName;
-    public float termTypeId;
+    public int termTypeId;
     public String startDate;
     public String endDate;
-    public float schoolYearId;
+    public int schoolYearId;
 
     @Override
     public String toString() {

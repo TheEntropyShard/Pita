@@ -39,7 +39,7 @@ public enum ResourceManager {
             return ResourceManager.ICON_CACHE.get(path);
         }
 
-        ImageIcon icon;
+        ImageIcon icon = null;
         try {
             InputStream is = Objects.requireNonNull(ResourceManager.class.getResourceAsStream(path));
             byte[] bytes = new byte[is.available()];
@@ -47,7 +47,7 @@ public enum ResourceManager {
             icon = new ImageIcon(bytes);
             ResourceManager.ICON_CACHE.put(path, icon);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            Pita.getPita().getLogger().warn("Unable to load icon", e);
         }
 
         return icon;
@@ -57,29 +57,39 @@ public enum ResourceManager {
         if(ResourceManager.IMAGE_CACHE.containsKey(path)) {
             return ResourceManager.IMAGE_CACHE.get(path);
         }
-        BufferedImage image;
+
+        BufferedImage image = null;
         try {
             image = ImageIO.read(Objects.requireNonNull(ResourceManager.class.getResourceAsStream("/images/" + path)));
             ResourceManager.IMAGE_CACHE.put(path, image);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            Pita.getPita().getLogger().warn("Unable to load image", e);
         }
 
         return image;
     }
 
-    public static Font registerFont(String path) {
+    public static Font getFont(String path) {
         if(ResourceManager.FONT_CACHE.containsKey(path)) {
             return ResourceManager.FONT_CACHE.get(path);
         }
+
+        Font font = null;
         try {
-            Font font = Font.createFont(Font.TRUETYPE_FONT, Objects.requireNonNull(ResourceManager.class.getResourceAsStream("/fonts/" + path)));
+            font = Font.createFont(Font.TRUETYPE_FONT, Objects.requireNonNull(ResourceManager.class.getResourceAsStream("/fonts/" + path)));
             ResourceManager.FONT_CACHE.put(path, font);
-            GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(font);
-            return font;
         } catch (FontFormatException | IOException e) {
-            e.printStackTrace();
+            Pita.getPita().getLogger().warn("Unable to load font", e);
         }
-        return null;
+
+        return font;
+    }
+
+    public static void registerFont(Font font) {
+        try {
+            GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(font);
+        } catch (NullPointerException e) {
+            Pita.getPita().getLogger().warn("Unable to register font", e);
+        }
     }
 }

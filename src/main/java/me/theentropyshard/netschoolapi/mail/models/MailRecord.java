@@ -1,4 +1,4 @@
-/*      Pita. A simple desktop client for NetSchool by irTech
+/*      NetSchoolAPI. A simple API client for NetSchool by irTech
  *      Copyright (C) 2022-2023 TheEntropyShard
  *
  *      This program is free software: you can redistribute it and/or modify
@@ -15,13 +15,23 @@
  *      along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.pita;
+package me.theentropyshard.netschoolapi.mail.models;
 
-public class Main {
-    public static void main(String[] args) {
-        ResourceManager.registerFont(ResourceManager.getFont("JetBrainsMono-Regular.ttf"));
-        ResourceManager.registerFont(ResourceManager.getFont("JetBrainsMono-Bold.ttf"));
+public class MailRecord {
+    public int id;
+    public String sent;
+    public String subject;
+    public String author;
+    public String toNames;
 
-        new Pita();
+    @Override
+    public String toString() {
+        return "MailRecord{" +
+                "id=" + id +
+                ", sent='" + sent + '\'' +
+                ", subject='" + subject + '\'' +
+                ", author='" + author + '\'' +
+                ", toNames='" + toNames + '\'' +
+                '}';
     }
 }

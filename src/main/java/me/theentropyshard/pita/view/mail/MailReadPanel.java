@@ -18,13 +18,13 @@
 package me.theentropyshard.pita.view.mail;
 
 import me.theentropyshard.pita.Pita;
-import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
-import me.theentropyshard.pita.netschoolapi.diary.models.Attachment;
-import me.theentropyshard.pita.netschoolapi.mail.MailEditAction;
-import me.theentropyshard.pita.netschoolapi.mail.models.MailEdit;
-import me.theentropyshard.pita.netschoolapi.mail.models.MailRecord;
-import me.theentropyshard.pita.netschoolapi.mail.models.Message;
-import me.theentropyshard.pita.netschoolapi.models.UserModel;
+import me.theentropyshard.netschoolapi.NetSchoolAPI;
+import me.theentropyshard.netschoolapi.diary.models.Attachment;
+import me.theentropyshard.netschoolapi.mail.MailEditAction;
+import me.theentropyshard.netschoolapi.mail.models.MailEdit;
+import me.theentropyshard.netschoolapi.mail.models.MailRecord;
+import me.theentropyshard.netschoolapi.mail.models.Message;
+import me.theentropyshard.netschoolapi.models.UserModel;
 import me.theentropyshard.pita.view.MainPanel;
 import me.theentropyshard.pita.view.MessageDialog;
 import me.theentropyshard.pita.view.UIConstants;

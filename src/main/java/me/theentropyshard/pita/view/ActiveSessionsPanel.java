@@ -17,8 +17,8 @@
 
 package me.theentropyshard.pita.view;
 
-import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
-import me.theentropyshard.pita.netschoolapi.models.UserSession;
+import me.theentropyshard.netschoolapi.NetSchoolAPI;
+import me.theentropyshard.netschoolapi.models.UserSession;
 import me.theentropyshard.pita.view.component.GradientLabel;
 import me.theentropyshard.pita.view.component.PScrollBar;
 import me.theentropyshard.pita.view.mail.InfoPanel;

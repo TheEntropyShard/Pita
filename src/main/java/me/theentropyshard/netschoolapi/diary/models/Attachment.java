@@ -15,13 +15,21 @@
  *      along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.pita;
+package me.theentropyshard.netschoolapi.diary.models;
 
-public class Main {
-    public static void main(String[] args) {
-        ResourceManager.registerFont(ResourceManager.getFont("JetBrainsMono-Regular.ttf"));
-        ResourceManager.registerFont(ResourceManager.getFont("JetBrainsMono-Bold.ttf"));
+public class Attachment {
+    public int id;
+    public String name;
+    public String originalFileName;
+    public String description;
 
-        new Pita();
+    @Override
+    public String toString() {
+        return "Attachment{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", originalFileName='" + originalFileName + '\'' +
+                ", description='" + description + '\'' +
+                '}';
     }
 }

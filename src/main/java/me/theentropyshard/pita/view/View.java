@@ -20,9 +20,9 @@ package me.theentropyshard.pita.view;
 import me.theentropyshard.pita.Credentials;
 import me.theentropyshard.pita.Pita;
 import me.theentropyshard.pita.Utils;
-import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
-import me.theentropyshard.pita.netschoolapi.exceptions.AuthException;
-import me.theentropyshard.pita.netschoolapi.exceptions.SchoolNotFoundException;
+import me.theentropyshard.netschoolapi.NetSchoolAPI;
+import me.theentropyshard.netschoolapi.exceptions.AuthException;
+import me.theentropyshard.netschoolapi.exceptions.SchoolNotFoundException;
 
 import javax.swing.*;
 import java.awt.*;

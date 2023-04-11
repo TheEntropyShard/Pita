@@ -1,4 +1,4 @@
-/*      Pita. A simple desktop client for NetSchool by irTech
+/*      NetSchoolAPI. A simple API client for NetSchool by irTech
  *      Copyright (C) 2022-2023 TheEntropyShard
  *
  *      This program is free software: you can redistribute it and/or modify
@@ -15,13 +15,25 @@
  *      along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.pita;
+package me.theentropyshard.netschoolapi.mail;
 
-public class Main {
-    public static void main(String[] args) {
-        ResourceManager.registerFont(ResourceManager.getFont("JetBrainsMono-Regular.ttf"));
-        ResourceManager.registerFont(ResourceManager.getFont("JetBrainsMono-Bold.ttf"));
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-        new Pita();
+public enum MailHelper {
+    ;
+
+    private static final List<String> DEFAULT_FIELDS = Collections.unmodifiableList(new ArrayList<String>() {{
+        this.add("author");
+        this.add("subject");
+        this.add("sent");
+    }});
+
+    /**
+     * @return Возвращает стандартные поля для получения почты
+     */
+    public static List<String> getDefaultFields() {
+        return MailHelper.DEFAULT_FIELDS;
     }
 }

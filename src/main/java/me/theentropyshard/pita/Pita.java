@@ -17,14 +17,17 @@
 
 package me.theentropyshard.pita;
 
-import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
+import me.theentropyshard.netschoolapi.NetSchoolAPI;
 import me.theentropyshard.pita.view.View;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import java.io.*;
 
 public final class Pita {
-    private final File pitaDir;
+    private final Logger logger;
+
     private final File credentialsFile;
     private final File attachmentsDir;
 
@@ -34,9 +37,16 @@ public final class Pita {
         }
         pita = this;
 
-        this.pitaDir = Utils.getAppDir("Pita");
-        this.credentialsFile = Utils.makeFile(new File(this.pitaDir, "credentials.dat"));
-        this.attachmentsDir = Utils.makeDirectory(new File(this.pitaDir, "Attachments"));
+        File pitaDir = Utils.getAppDir("Pita");
+
+        File logsDir = Utils.makeDirectory(new File(pitaDir, "Logs"));
+        System.setProperty("logPath", logsDir.toString());
+
+        this.credentialsFile = Utils.makeFile(new File(pitaDir, "credentials.dat"));
+        this.attachmentsDir = Utils.makeDirectory(new File(pitaDir, "Attachments"));
+
+        this.logger = LogManager.getLogger(Pita.class);
+        this.logger.info("Initialized directories");
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             synchronized (NetSchoolAPI.I) {
@@ -54,8 +64,7 @@ public final class Pita {
             oos.writeObject(c);
             oos.close();
         } catch (IOException e) {
-            System.err.println("Не удалось сохранить данные для входа:");
-            e.printStackTrace();
+            this.logger.warn("Не удалось сохранить данные для входа", e);
         }
     }
 
@@ -66,16 +75,15 @@ public final class Pita {
                 ObjectInputStream ois = new ObjectInputStream(fis);
                 return (Credentials) ois.readObject();
             } catch (IOException | ClassNotFoundException e) {
-                System.err.println("Не удалось загрузить данные для входа:");
-                e.printStackTrace();
+                this.logger.warn("Не удалось загрузить данные для входа", e);
             }
         }
 
         return null;
     }
 
-    public File getPitaDir() {
-        return this.pitaDir;
+    public Logger getLogger() {
+        return this.logger;
     }
 
     public File getAttachmentsDir() {

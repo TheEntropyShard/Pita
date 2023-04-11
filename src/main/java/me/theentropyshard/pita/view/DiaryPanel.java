@@ -17,11 +17,11 @@
 
 package me.theentropyshard.pita.view;
 
-import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
-import me.theentropyshard.pita.netschoolapi.diary.models.Assignment;
-import me.theentropyshard.pita.netschoolapi.diary.models.Day;
-import me.theentropyshard.pita.netschoolapi.diary.models.Diary;
-import me.theentropyshard.pita.netschoolapi.diary.models.Lesson;
+import me.theentropyshard.netschoolapi.NetSchoolAPI;
+import me.theentropyshard.netschoolapi.diary.models.Assignment;
+import me.theentropyshard.netschoolapi.diary.models.Day;
+import me.theentropyshard.netschoolapi.diary.models.Diary;
+import me.theentropyshard.netschoolapi.diary.models.Lesson;
 import me.theentropyshard.pita.view.component.GradientLabel;
 import me.theentropyshard.pita.view.component.PScrollBar;
 import me.theentropyshard.pita.view.mail.InfoPanel;
@@ -172,9 +172,9 @@ public class DiaryPanel extends JPanel {
     }
 
     private static class DiaryLesson {
-        private GradientLabel lessonNameLabel;
-        private GradientLabel homeworkLabel;
-        private JPanel marksPanel;
+        private final GradientLabel lessonNameLabel;
+        private final GradientLabel homeworkLabel;
+        private final JPanel marksPanel;
 
         public DiaryLesson(String lessonName, String homework) {
             this.lessonNameLabel = new GradientLabel(lessonName, UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);

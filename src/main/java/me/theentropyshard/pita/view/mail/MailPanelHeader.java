@@ -17,10 +17,10 @@
 
 package me.theentropyshard.pita.view.mail;
 
-import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
-import me.theentropyshard.pita.netschoolapi.mail.MailBox;
-import me.theentropyshard.pita.netschoolapi.mail.MailField;
-import me.theentropyshard.pita.netschoolapi.mail.models.MailRecord;
+import me.theentropyshard.netschoolapi.NetSchoolAPI;
+import me.theentropyshard.netschoolapi.mail.MailBox;
+import me.theentropyshard.netschoolapi.mail.MailField;
+import me.theentropyshard.netschoolapi.mail.models.MailRecord;
 import me.theentropyshard.pita.view.MainPanel;
 import me.theentropyshard.pita.view.MessageDialog;
 import me.theentropyshard.pita.view.UIConstants;

@@ -15,13 +15,23 @@
  *      along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.pita;
+package me.theentropyshard.netschoolapi.models;
 
-public class Main {
-    public static void main(String[] args) {
-        ResourceManager.registerFont(ResourceManager.getFont("JetBrainsMono-Regular.ttf"));
-        ResourceManager.registerFont(ResourceManager.getFont("JetBrainsMono-Bold.ttf"));
-
-        new Pita();
-    }
+public class UploadLimits {
+    public float fileSizeLimit;
+    public float maximumUploadRequestSizeLimit;
+    public float photoFileSizeLimit;
+    public float portfolioDocFileSizeLimit;
+    public float schoolDocFileSizeLimit;
+    public float laImportFileSizeLimit;
+    public float plannerDocFileNoteSizeLimit;
+    public float diaryFileResultSizeLimit;
+    public String diaryFileResultFileExts;
+    public float resizeAnswerImageWidth;
+    public float resizeAnswerImageQuality;
+    public float resizeAnswerImageMaxFileSize;
+    public float resizeMailImageWidth;
+    public float resizeMailImageMaxFileSize;
+    public float resizeAssignmentImageWidth;
+    public float resizeAssignmentImageMaxFileSize;
 }

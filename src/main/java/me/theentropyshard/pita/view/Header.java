@@ -18,13 +18,12 @@
 package me.theentropyshard.pita.view;
 
 import me.theentropyshard.pita.Utils;
-import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
-import me.theentropyshard.pita.netschoolapi.models.MySettings;
+import me.theentropyshard.netschoolapi.NetSchoolAPI;
+import me.theentropyshard.netschoolapi.models.MySettings;
 import me.theentropyshard.pita.view.component.GradientLabel;
 import me.theentropyshard.pita.view.component.SimpleButton;
 import me.theentropyshard.pita.view.mail.MailPanel;
 import net.miginfocom.swing.MigLayout;
-import sun.nio.ch.Net;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,8 +37,6 @@ public class Header extends JPanel {
 
     private final GradientLabel currentYearLabel;
     private final GradientLabel usernameLabel;
-    private final GradientLabel exitLabel;
-    private final JPanel panel;
     private final SimpleButton mailButton;
 
     public Header() {
@@ -116,10 +113,10 @@ public class Header extends JPanel {
             }
         });
 
-        this.exitLabel = new GradientLabel("Выход", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
-        this.exitLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        this.exitLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
-        this.exitLabel.addMouseListener(new MouseAdapter() {
+        GradientLabel exitLabel = new GradientLabel("Выход", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+        exitLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        exitLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
+        exitLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 NetSchoolAPI.I.logout();
@@ -127,17 +124,17 @@ public class Header extends JPanel {
             }
         });
 
-        this.panel = new JPanel();
-        this.panel.setBackground(Color.WHITE);
-        this.panel.add(this.currentYearLabel);
-        this.panel.add(new JSeparator(JSeparator.VERTICAL) {{
+        JPanel panel = new JPanel();
+        panel.setBackground(Color.WHITE);
+        panel.add(this.currentYearLabel);
+        panel.add(new JSeparator(JSeparator.VERTICAL) {{
             this.setPreferredSize(new Dimension(5, 20));
         }});
-        this.panel.add(this.usernameLabel);
-        this.panel.add(new JSeparator(JSeparator.VERTICAL) {{
+        panel.add(this.usernameLabel);
+        panel.add(new JSeparator(JSeparator.VERTICAL) {{
             this.setPreferredSize(new Dimension(5, 20));
         }});
-        this.panel.add(this.exitLabel);
+        panel.add(exitLabel);
 
         JPanel topPanel = new JPanel(new MigLayout("nogrid, fillx", "[]", ""));
         topPanel.setBackground(Color.WHITE);
@@ -146,7 +143,7 @@ public class Header extends JPanel {
         }}, "grow");
         topPanel.add(this.infoLabel, "wrap");
         topPanel.add(this.schoolNameLabel, "grow");
-        topPanel.add(this.panel);
+        topPanel.add(panel);
         this.add(topPanel, BorderLayout.CENTER);
 
         JPanel bottomPanel = new JPanel(new GridLayout(1, 4));

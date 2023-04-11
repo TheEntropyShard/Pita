@@ -95,7 +95,7 @@ public class MailReadPanel extends JPanel {
             this.setBackground(Color.WHITE);
             this.setLayout(new FlowLayout(FlowLayout.LEFT));
             this.add(new SimpleButton("Ответить") {{
-                this.setRound(true);
+                this.setRoundCorners(true);
                 this.addActionListener(e -> {
                     MainPanel mainPanel = View.getView().getMainPanel();
                     MailWritePanel mailWritePanel = mainPanel.getMailWritePanel();
@@ -116,7 +116,7 @@ public class MailReadPanel extends JPanel {
                 });
             }});
             this.add(new SimpleButton("Переслать сообщение") {{
-                this.setRound(true);
+                this.setRoundCorners(true);
                 this.addActionListener(e -> {
                     MainPanel mainPanel = View.getView().getMainPanel();
                     MailWritePanel mailWritePanel = mainPanel.getMailWritePanel();
@@ -136,7 +136,7 @@ public class MailReadPanel extends JPanel {
                 });
             }});
             this.add(new SimpleButton("Удалить") {{
-                this.setRound(true);
+                this.setRoundCorners(true);
                 this.addActionListener(e -> {
                     if(messageId != 0) {
                         View.getView().getFrame().getGlassPane().setVisible(true);

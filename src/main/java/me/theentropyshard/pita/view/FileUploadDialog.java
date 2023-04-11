@@ -39,7 +39,7 @@ public class FileUploadDialog extends JDialog {
         BorderPanel chooseFilePanel = new BorderPanel();
 
         SimpleButton chooseFileButton = new SimpleButton("Выбрать файл");
-        chooseFileButton.setRound(true);
+        chooseFileButton.setRoundCorners(true);
 
         chooseFilePanel.addComponent(chooseFileButton);
 
@@ -63,7 +63,7 @@ public class FileUploadDialog extends JDialog {
         buttonsPanel.getInternalPanel().setLayout(new MigLayout("nogrid, fillx", "[right]", ""));
 
         SimpleButton addFileButton = new SimpleButton("Прикрепить файл");
-        addFileButton.setRound(true);
+        addFileButton.setRoundCorners(true);
         addFileButton.addActionListener(e -> this.dispose());
 
         buttonsPanel.addComponent(addFileButton);

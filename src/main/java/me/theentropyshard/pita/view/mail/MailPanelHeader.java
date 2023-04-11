@@ -171,12 +171,12 @@ public class MailPanelHeader extends JPanel {
             mailPanel.setPage(page);
             lbc.actionPerformed(e);
         });
-        loadButton.setRound(true);
+        loadButton.setRoundCorners(true);
 
         panel.add(loadButton, "");
 
         SimpleButton writeButton = new SimpleButton("Написать");
-        writeButton.setRound(true);
+        writeButton.setRoundCorners(true);
         writeButton.addActionListener(e -> {
             View v = View.getView();
             MainPanel mp = v.getMainPanel();
@@ -186,7 +186,7 @@ public class MailPanelHeader extends JPanel {
         panel.add(writeButton, "");
 
         SimpleButton deleteButton = new SimpleButton("Удалить");
-        deleteButton.setRound(true);
+        deleteButton.setRoundCorners(true);
         deleteButton.addActionListener(e -> {
             Set<String> selectedRows = mailPanel.getMailListPanel().getSelectedRows();
             MailRecord[] rows = mailPanel.getRows();

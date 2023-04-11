@@ -24,6 +24,7 @@ import me.theentropyshard.netschoolapi.diary.models.Diary;
 import me.theentropyshard.netschoolapi.diary.models.Lesson;
 import me.theentropyshard.pita.view.component.GradientLabel;
 import me.theentropyshard.pita.view.component.PScrollBar;
+import me.theentropyshard.pita.view.component.SimpleButton;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -50,7 +51,7 @@ public class DiaryPanel extends JPanel {
 
         JPanel panel = new JPanel();
         panel.setBackground(Color.WHITE);
-        panel.setLayout(new MigLayout("fillx", "[0:0:100%, fill]", "[]"));
+        panel.setLayout(new MigLayout("fillx, flowy", "[0:0:100%, fill]", "[]"));
 
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBorder(null);
@@ -65,10 +66,29 @@ public class DiaryPanel extends JPanel {
         this.daysPanel.setBackground(Color.WHITE);
         this.daysPanel.setLayout(new GridLayout(3, 2, 5, 5));
 
-        BorderPanel borderPanel = new BorderPanel();
-        borderPanel.addComponent(this.daysPanel);
+        BorderPanel header = new BorderPanel();
 
-        panel.add(borderPanel);
+        JPanel panel1 = new JPanel(new MigLayout("insets 0"));
+
+        SimpleButton btn1 = new SimpleButton("<");
+        btn1.setRoundCorners(true);
+        btn1.setSquareSides(true);
+
+        SimpleButton btn2 = new SimpleButton(">");
+        btn2.setRoundCorners(true);
+        btn2.setSquareSides(true);
+
+        panel1.add(btn1);
+        panel1.add(btn2);
+
+        header.addComponent(panel1);
+
+        panel.add(header);
+
+        BorderPanel mainContent = new BorderPanel();
+        mainContent.addComponent(this.daysPanel);
+
+        panel.add(mainContent, "gapy 4 0");
 
         this.add(scrollPane);
 

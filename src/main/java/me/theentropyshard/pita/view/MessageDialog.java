@@ -50,14 +50,14 @@ public class MessageDialog extends JDialog {
             buttonsPanel.getInternalPanel().setLayout(new MigLayout("nogrid, fillx", "[right]", ""));
 
             SimpleButton okButton = new SimpleButton("ОК");
-            okButton.setRound(true);
+            okButton.setRoundCorners(true);
             okButton.addActionListener(e -> {
                 this.result = Result.OK;
                 this.dispose();
             });
 
             SimpleButton cancelButton = new SimpleButton("Отмена");
-            cancelButton.setRound(true);
+            cancelButton.setRoundCorners(true);
             cancelButton.addActionListener(e -> this.dispose());
 
             buttonsPanel.addComponent(cancelButton);

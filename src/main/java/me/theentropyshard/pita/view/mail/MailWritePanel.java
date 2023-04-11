@@ -84,10 +84,10 @@ public class MailWritePanel extends JPanel {
         internalButtonsPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
         SimpleButton sendButton = new SimpleButton("Отправить");
-        sendButton.setRound(true);
+        sendButton.setRoundCorners(true);
 
         SimpleButton saveButton = new SimpleButton("Сохранить");
-        saveButton.setRound(true);
+        saveButton.setRoundCorners(true);
 
         internalButtonsPanel.add(sendButton);
         internalButtonsPanel.add(saveButton);
@@ -166,7 +166,7 @@ public class MailWritePanel extends JPanel {
         BorderPanel attachedFilesPanel = new BorderPanel();
 
         SimpleButton addNewFileButton = new SimpleButton("Загрузить файл");
-        addNewFileButton.setRound(true);
+        addNewFileButton.setRoundCorners(true);
 
         this.attachedFilesPanel = new JPanel();
         this.attachedFilesPanel.setOpaque(false);

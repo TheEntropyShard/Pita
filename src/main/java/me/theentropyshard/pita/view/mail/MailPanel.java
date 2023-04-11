@@ -24,6 +24,7 @@ import me.theentropyshard.netschoolapi.mail.MailHelper;
 import me.theentropyshard.netschoolapi.mail.MailSearch;
 import me.theentropyshard.netschoolapi.mail.models.Mail;
 import me.theentropyshard.netschoolapi.mail.models.MailRecord;
+import me.theentropyshard.pita.view.InfoPanel;
 import me.theentropyshard.pita.view.View;
 import me.theentropyshard.pita.view.component.PScrollBar;
 import me.theentropyshard.pita.view.component.SimpleButton;

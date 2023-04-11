@@ -15,9 +15,8 @@
  *      along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.pita.view.mail;
+package me.theentropyshard.pita.view;
 
-import me.theentropyshard.pita.view.UIConstants;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;

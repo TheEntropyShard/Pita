@@ -21,7 +21,6 @@ import me.theentropyshard.netschoolapi.NetSchoolAPI;
 import me.theentropyshard.netschoolapi.models.UserSession;
 import me.theentropyshard.pita.view.component.GradientLabel;
 import me.theentropyshard.pita.view.component.PScrollBar;
-import me.theentropyshard.pita.view.mail.InfoPanel;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;

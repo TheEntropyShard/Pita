@@ -24,7 +24,6 @@ import me.theentropyshard.netschoolapi.diary.models.Diary;
 import me.theentropyshard.netschoolapi.diary.models.Lesson;
 import me.theentropyshard.pita.view.component.GradientLabel;
 import me.theentropyshard.pita.view.component.PScrollBar;
-import me.theentropyshard.pita.view.mail.InfoPanel;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;

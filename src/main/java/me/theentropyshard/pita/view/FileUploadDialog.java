@@ -19,7 +19,6 @@ package me.theentropyshard.pita.view;
 
 import me.theentropyshard.pita.view.component.GradientLabel;
 import me.theentropyshard.pita.view.component.SimpleButton;
-import me.theentropyshard.pita.view.mail.InfoPanel;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;

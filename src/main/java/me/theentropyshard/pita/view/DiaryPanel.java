@@ -204,10 +204,6 @@ public class DiaryPanel extends JPanel {
             this.addComponent(lesson.getMarksPanel(), "center, wrap");
         }
 
-        public List<DiaryLesson> getLessons() {
-            return this.lessons;
-        }
-
         public void clear() {
             this.lessons.clear();
             this.getInternalPanel().removeAll();
@@ -219,10 +215,8 @@ public class DiaryPanel extends JPanel {
         private final GradientLabel lessonNameLabel;
         private final GradientLabel homeworkLabel;
         private final JPanel marksPanel;
-        private final int number;
 
         public DiaryLesson(int number, String lessonName, String homework) {
-            this.number = number;
             if(number > 0) {
                 this.lessonNameLabel = new GradientLabel(number + ". " + lessonName, UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
             } else {
@@ -262,10 +256,6 @@ public class DiaryPanel extends JPanel {
 
         public JPanel getMarksPanel() {
             return this.marksPanel;
-        }
-
-        public int getNumber() {
-            return this.number;
         }
     }
 }

@@ -77,7 +77,7 @@ public class MailWritePanel extends JPanel {
         this.add(scrollPane, BorderLayout.CENTER);
 
         //
-        InfoPanel buttonsPanel = new InfoPanel();
+        BorderPanel buttonsPanel = new BorderPanel();
 
         JPanel internalButtonsPanel = new JPanel();
         internalButtonsPanel.setBackground(Color.WHITE);
@@ -91,11 +91,11 @@ public class MailWritePanel extends JPanel {
 
         internalButtonsPanel.add(sendButton);
         internalButtonsPanel.add(saveButton);
-        buttonsPanel.addDataPanel(internalButtonsPanel);
+        buttonsPanel.addComponent(internalButtonsPanel);
         panel.add(buttonsPanel);
 
         //
-        InfoPanel controlsPanel = new InfoPanel();
+        BorderPanel controlsPanel = new BorderPanel();
 
         this.receiversPanel = new DataElementPanel();
         this.receiversPanel.setKey("Кому");
@@ -147,23 +147,23 @@ public class MailWritePanel extends JPanel {
         PCheckBox notifyCheckBox = new PCheckBox();
         notifyPanel.setValueComponent(notifyCheckBox);
 
-        controlsPanel.addDataPanel(this.receiversPanel, "growx, width 0:0:100%");
-        controlsPanel.addDataPanel(subjectPanel, "growx, width 0:0:100%");
-        controlsPanel.addDataPanel(notifyPanel, "growx, width 0:0:100%");
+        controlsPanel.addComponent(this.receiversPanel, "growx, width 0:0:100%");
+        controlsPanel.addComponent(subjectPanel, "growx, width 0:0:100%");
+        controlsPanel.addComponent(notifyPanel, "growx, width 0:0:100%");
 
         panel.add(controlsPanel, "gapy 4 0");
 
         //
-        InfoPanel textAreaPanel = new InfoPanel();
+        BorderPanel textAreaPanel = new BorderPanel();
 
         this.textArea = new JTextArea();
         this.textArea.setPreferredSize(new Dimension(this.textArea.getPreferredSize().width, 244));
         this.textArea.setFont(new Font("JetBrains Mono", Font.PLAIN, 14));
-        textAreaPanel.addDataPanel(this.textArea);
+        textAreaPanel.addComponent(this.textArea);
 
         panel.add(textAreaPanel, "gapy 4 0");
 
-        InfoPanel attachedFilesPanel = new InfoPanel();
+        BorderPanel attachedFilesPanel = new BorderPanel();
 
         SimpleButton addNewFileButton = new SimpleButton("Загрузить файл");
         addNewFileButton.setRound(true);
@@ -246,8 +246,8 @@ public class MailWritePanel extends JPanel {
         sendButton.addActionListener(buttonListener);
         saveButton.addActionListener(buttonListener);
 
-        attachedFilesPanel.addDataPanel(addNewFileButton);
-        attachedFilesPanel.addDataPanel(this.attachedFilesPanel);
+        attachedFilesPanel.addComponent(addNewFileButton);
+        attachedFilesPanel.addComponent(this.attachedFilesPanel);
 
         panel.add(attachedFilesPanel, "gapy 4 0");
     }

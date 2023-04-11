@@ -36,17 +36,17 @@ public class FileUploadDialog extends JDialog {
         panel.setBackground(Color.WHITE);
         panel.setLayout(new MigLayout("fillx, flowy", "[fill]"));
 
-        InfoPanel chooseFilePanel = new InfoPanel();
+        BorderPanel chooseFilePanel = new BorderPanel();
 
         SimpleButton chooseFileButton = new SimpleButton("Выбрать файл");
         chooseFileButton.setRound(true);
 
-        chooseFilePanel.addDataPanel(chooseFileButton);
+        chooseFilePanel.addComponent(chooseFileButton);
 
         GradientLabel fileNameLabel = new GradientLabel("Имя файла...", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
         fileNameLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
 
-        chooseFilePanel.addDataPanel(fileNameLabel);
+        chooseFilePanel.addComponent(fileNameLabel);
 
         chooseFileButton.addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser();
@@ -59,14 +59,14 @@ public class FileUploadDialog extends JDialog {
 
         panel.add(chooseFilePanel, BorderLayout.CENTER);
 
-        InfoPanel buttonsPanel = new InfoPanel();
-        buttonsPanel.getInternalInfoPanel().setLayout(new MigLayout("nogrid, fillx", "[right]", ""));
+        BorderPanel buttonsPanel = new BorderPanel();
+        buttonsPanel.getInternalPanel().setLayout(new MigLayout("nogrid, fillx", "[right]", ""));
 
         SimpleButton addFileButton = new SimpleButton("Прикрепить файл");
         addFileButton.setRound(true);
         addFileButton.addActionListener(e -> this.dispose());
 
-        buttonsPanel.addDataPanel(addFileButton);
+        buttonsPanel.addComponent(addFileButton);
 
         panel.add(buttonsPanel);
 

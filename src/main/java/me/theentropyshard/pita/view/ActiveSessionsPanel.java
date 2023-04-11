@@ -30,14 +30,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ActiveSessionsPanel extends JPanel {
-    private final InfoPanel sessionsPanel;
+    private final BorderPanel sessionsPanel;
 
     private int activeSessions;
 
     public ActiveSessionsPanel() {
         super(new BorderLayout());
 
-        this.sessionsPanel = new InfoPanel();
+        this.sessionsPanel = new BorderPanel();
 
         JPanel panel = new JPanel();
         panel.setBackground(Color.WHITE);
@@ -51,14 +51,14 @@ public class ActiveSessionsPanel extends JPanel {
 
         this.add(scrollPane, BorderLayout.CENTER);
 
-        InfoPanel headerPanel = new InfoPanel();
+        BorderPanel headerPanel = new BorderPanel();
 
         UserInfoElement header = new UserInfoElement();
         header.setNumber("№");
         header.setDisplayName("Имя на экране");
         header.setRoles("Роли");
 
-        headerPanel.addDataPanel(header);
+        headerPanel.addComponent(header);
 
         panel.add(headerPanel);
         panel.add(this.sessionsPanel);
@@ -78,7 +78,7 @@ public class ActiveSessionsPanel extends JPanel {
             element.setNumber(String.valueOf(i + 1));
             element.setDisplayName(session.nickName);
             element.setRoles(session.roles);
-            this.sessionsPanel.addDataPanel(element);
+            this.sessionsPanel.addComponent(element);
         }
     }
 

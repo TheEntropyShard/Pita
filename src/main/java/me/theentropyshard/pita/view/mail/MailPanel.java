@@ -24,7 +24,7 @@ import me.theentropyshard.netschoolapi.mail.MailHelper;
 import me.theentropyshard.netschoolapi.mail.MailSearch;
 import me.theentropyshard.netschoolapi.mail.models.Mail;
 import me.theentropyshard.netschoolapi.mail.models.MailRecord;
-import me.theentropyshard.pita.view.InfoPanel;
+import me.theentropyshard.pita.view.BorderPanel;
 import me.theentropyshard.pita.view.View;
 import me.theentropyshard.pita.view.component.PScrollBar;
 import me.theentropyshard.pita.view.component.SimpleButton;
@@ -71,18 +71,18 @@ public class MailPanel extends JPanel {
 
         this.add(scrollPane, BorderLayout.CENTER);
 
-        InfoPanel headerPanel = new InfoPanel();
+        BorderPanel headerPanel = new BorderPanel();
 
         this.header = new MailPanelHeader(e -> this.loadData(), this);
-        headerPanel.addDataPanel(this.header);
+        headerPanel.addComponent(this.header);
 
         this.mailListPanel = new MailListPanel();
         this.mailListPanel.addNewRecord("№", "Автор", "Тема", "Отправлено", false, true);
         this.mailListPanel.addNewRecord(" ", " ", " ", " ", false, true);
 
-        InfoPanel mainContent = new InfoPanel();
+        BorderPanel mainContent = new BorderPanel();
 
-        mainContent.addDataPanel(this.mailListPanel);
+        mainContent.addComponent(this.mailListPanel);
 
         panel.add(headerPanel);
         panel.add(mainContent, "gapy 4 0");

@@ -19,7 +19,7 @@ package me.theentropyshard.pita.view.mail;
 
 import me.theentropyshard.netschoolapi.NetSchoolAPI;
 import me.theentropyshard.netschoolapi.models.UserModel;
-import me.theentropyshard.pita.view.InfoPanel;
+import me.theentropyshard.pita.view.BorderPanel;
 import me.theentropyshard.pita.view.UIConstants;
 import me.theentropyshard.pita.view.View;
 import me.theentropyshard.pita.view.component.GradientLabel;
@@ -49,8 +49,8 @@ public class MailChooseRecipientDialog extends JDialog {
         panel.setBackground(Color.WHITE);
         panel.setLayout(layout);
 
-        InfoPanel leftPanel = new InfoPanel();
-        InfoPanel rightPanel = new InfoPanel();
+        BorderPanel leftPanel = new BorderPanel();
+        BorderPanel rightPanel = new BorderPanel();
 
         PComboBox receiversCategory = new PComboBox();
         receiversCategory.addItem("Администраторы");
@@ -61,7 +61,7 @@ public class MailChooseRecipientDialog extends JDialog {
 
         receiversCategory.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
 
-        leftPanel.addDataPanel(receiversCategory);
+        leftPanel.addComponent(receiversCategory);
 
         JPanel selectableUsers = new JPanel();
         selectableUsers.setOpaque(false);
@@ -89,8 +89,8 @@ public class MailChooseRecipientDialog extends JDialog {
         );
         selectedUsers.setLayout(new BoxLayout(selectedUsers, BoxLayout.PAGE_AXIS));
 
-        leftPanel.addDataPanel(selectableUsers);
-        rightPanel.addDataPanel(selectedUsers);
+        leftPanel.addComponent(selectableUsers);
+        rightPanel.addComponent(selectedUsers);
 
         receiversCategory.setSelectedIndex(2);
 
@@ -151,7 +151,7 @@ public class MailChooseRecipientDialog extends JDialog {
             selectableUsers.revalidate();
         });
 
-        rightPanel.getInternalInfoPanel().setPreferredSize(leftPanel.getInternalInfoPanel().getPreferredSize());
+        rightPanel.getInternalPanel().setPreferredSize(leftPanel.getInternalPanel().getPreferredSize());
 
         panel.add(leftPanel);
         panel.add(rightPanel);

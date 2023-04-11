@@ -34,20 +34,20 @@ public class MessageDialog extends JDialog {
     public MessageDialog(String title, String message, boolean confirmDialog) {
         super(View.getView().getFrame(), title, true);
 
-        InfoPanel infoPanel = new InfoPanel();
+        BorderPanel borderPanel = new BorderPanel();
 
         JPanel panel = new JPanel();
         panel.setBackground(Color.WHITE);
         panel.setLayout(new MigLayout("fillx, flowy", "[fill]"));
-        panel.add(infoPanel);
+        panel.add(borderPanel);
 
         GradientLabel label = new GradientLabel(message, UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
         label.setFont(new Font("JetBrains Mono", Font.BOLD, 16));
-        infoPanel.addDataPanel(label);
+        borderPanel.addComponent(label);
 
         if(confirmDialog) {
-            InfoPanel buttonsPanel = new InfoPanel();
-            buttonsPanel.getInternalInfoPanel().setLayout(new MigLayout("nogrid, fillx", "[right]", ""));
+            BorderPanel buttonsPanel = new BorderPanel();
+            buttonsPanel.getInternalPanel().setLayout(new MigLayout("nogrid, fillx", "[right]", ""));
 
             SimpleButton okButton = new SimpleButton("ОК");
             okButton.setRound(true);
@@ -60,8 +60,8 @@ public class MessageDialog extends JDialog {
             cancelButton.setRound(true);
             cancelButton.addActionListener(e -> this.dispose());
 
-            buttonsPanel.addDataPanel(cancelButton);
-            buttonsPanel.addDataPanel(okButton);
+            buttonsPanel.addComponent(cancelButton);
+            buttonsPanel.addComponent(okButton);
 
             panel.add(buttonsPanel);
         }

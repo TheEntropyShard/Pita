@@ -65,10 +65,10 @@ public class DiaryPanel extends JPanel {
         this.daysPanel.setBackground(Color.WHITE);
         this.daysPanel.setLayout(new GridLayout(3, 2, 5, 5));
 
-        InfoPanel infoPanel = new InfoPanel();
-        infoPanel.addDataPanel(this.daysPanel);
+        BorderPanel borderPanel = new BorderPanel();
+        borderPanel.addComponent(this.daysPanel);
 
-        panel.add(infoPanel);
+        panel.add(borderPanel);
 
         this.add(scrollPane);
 

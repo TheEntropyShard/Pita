@@ -54,7 +54,7 @@ public class MailReadPanel extends JPanel {
     private final DataElementPanel sent;
     private final DataElementPanel subject;
 
-    private final InfoPanel mailBodyPanel;
+    private final BorderPanel mailBodyPanel;
 
     private int messageId;
 
@@ -90,8 +90,8 @@ public class MailReadPanel extends JPanel {
 
         this.add(scrollPane, BorderLayout.CENTER);
 
-        InfoPanel buttonsPanel = new InfoPanel();
-        buttonsPanel.addDataPanel(new JPanel() {{
+        BorderPanel buttonsPanel = new BorderPanel();
+        buttonsPanel.addComponent(new JPanel() {{
             this.setBackground(Color.WHITE);
             this.setLayout(new FlowLayout(FlowLayout.LEFT));
             this.add(new SimpleButton("Ответить") {{
@@ -173,15 +173,15 @@ public class MailReadPanel extends JPanel {
             }});
         }});
 
-        InfoPanel mailHeadersPanel = new InfoPanel();
-        mailHeadersPanel.addDataPanel(this.from, "growx, width 0:0:100%");
-        mailHeadersPanel.addDataPanel(this.to, "growx, width 0:0:100%");
-        mailHeadersPanel.addDataPanel(this.copy, "growx, width 0:0:100%");
-        mailHeadersPanel.addDataPanel(this.sent, "growx, width 0:0:100%");
-        mailHeadersPanel.addDataPanel(this.subject, "growx, width 0:0:100%");
+        BorderPanel mailHeadersPanel = new BorderPanel();
+        mailHeadersPanel.addComponent(this.from, "growx, width 0:0:100%");
+        mailHeadersPanel.addComponent(this.to, "growx, width 0:0:100%");
+        mailHeadersPanel.addComponent(this.copy, "growx, width 0:0:100%");
+        mailHeadersPanel.addComponent(this.sent, "growx, width 0:0:100%");
+        mailHeadersPanel.addComponent(this.subject, "growx, width 0:0:100%");
 
-        this.mailBodyPanel = new InfoPanel();
-        this.mailBodyPanel.getInternalInfoPanel().setLayout(new MigLayout("nogrid, fillx", "[]", ""));
+        this.mailBodyPanel = new BorderPanel();
+        this.mailBodyPanel.getInternalPanel().setLayout(new MigLayout("nogrid, fillx", "[]", ""));
 
         panel.add(buttonsPanel);
         panel.add(mailHeadersPanel);
@@ -244,7 +244,7 @@ public class MailReadPanel extends JPanel {
             });
 
             if(message.fileAttachments != null && message.fileAttachments.length != 0) {
-                this.mailBodyPanel.addDataPanel(mainTextPane, "w 100::98%, grow, wrap");
+                this.mailBodyPanel.addComponent(mainTextPane, "w 100::98%, grow, wrap");
 
                 JPanel attachedFiles = new JPanel();
                 attachedFiles.setOpaque(false);
@@ -273,9 +273,9 @@ public class MailReadPanel extends JPanel {
                     attachedFiles.add(label);
                 }
 
-                this.mailBodyPanel.addDataPanel(attachedFiles, "grow");
+                this.mailBodyPanel.addComponent(attachedFiles, "grow");
             } else {
-                this.mailBodyPanel.addDataPanel(mainTextPane, "w 100::98%, grow");
+                this.mailBodyPanel.addComponent(mainTextPane, "w 100::98%, grow");
             }
 
         } catch (IOException e) {

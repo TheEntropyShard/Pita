@@ -24,10 +24,10 @@ import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
-public class InfoPanel extends JPanel { //TODO попытаться сделать эти классы более generic, а не копипастить их
-    private final JPanel internalInfoPanel;
+public class BorderPanel extends JPanel {
+    private final JPanel internalPanel;
 
-    public InfoPanel() {
+    public BorderPanel() {
         this.setLayout(new MigLayout("nogrid, fillx", "[]", ""));
         this.setOpaque(false);
         this.addComponentListener(new ComponentAdapter() {
@@ -38,7 +38,7 @@ public class InfoPanel extends JPanel { //TODO попытаться сделат
         });
         this.setBorder(BorderFactory.createCompoundBorder(this.getBorder(), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
-        this.internalInfoPanel = new JPanel(new MigLayout("fillx, flowy", "[fill]")) {
+        this.internalPanel = new JPanel(new MigLayout("fillx, flowy", "[fill]")) {
             {
                 this.setOpaque(false);
                 this.addComponentListener(new ComponentAdapter() {
@@ -58,7 +58,7 @@ public class InfoPanel extends JPanel { //TODO попытаться сделат
                 super.paintComponent(g2);
             }
         };
-        this.add(this.internalInfoPanel, "grow");
+        this.add(this.internalPanel, "grow");
     }
 
     @Override
@@ -70,20 +70,20 @@ public class InfoPanel extends JPanel { //TODO попытаться сделат
         super.paintComponent(g2);
     }
 
-    public void addDataPanel(Component component) {
-        this.internalInfoPanel.add(component);
+    public void addComponent(Component component) {
+        this.internalPanel.add(component);
     }
 
-    public void addDataPanel(Component component, Object constraints) {
-        this.internalInfoPanel.add(component, constraints);
+    public void addComponent(Component component, Object constraints) {
+        this.internalPanel.add(component, constraints);
     }
 
     @Override
     public void removeAll() {
-        this.internalInfoPanel.removeAll();
+        this.internalPanel.removeAll();
     }
 
-    public JPanel getInternalInfoPanel() {
-        return this.internalInfoPanel;
+    public JPanel getInternalPanel() {
+        return this.internalPanel;
     }
 }

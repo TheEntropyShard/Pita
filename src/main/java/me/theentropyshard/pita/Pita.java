@@ -18,12 +18,16 @@
 package me.theentropyshard.pita;
 
 import me.theentropyshard.netschoolapi.NetSchoolAPI;
+import me.theentropyshard.netschoolapi.exceptions.AuthException;
+import me.theentropyshard.netschoolapi.exceptions.SchoolNotFoundException;
 import me.theentropyshard.pita.view.View;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.swing.*;
 import java.io.*;
+import java.net.UnknownHostException;
+import java.nio.charset.Charset;
 
 public final class Pita {
     private final Logger logger;
@@ -46,7 +50,6 @@ public final class Pita {
         this.attachmentsDir = Utils.makeDirectory(new File(pitaDir, "Attachments"));
 
         this.logger = LogManager.getLogger(Pita.class);
-        this.logger.info("Initialized directories");
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             synchronized (NetSchoolAPI.I) {
@@ -55,6 +58,33 @@ public final class Pita {
         }));
 
         SwingUtilities.invokeLater(View::new);
+    }
+
+    public LoginResult login(String address, String schoolName, String login, String password, boolean passwordHashed) {
+        try {
+            NetSchoolAPI.I.login(address, schoolName, login, password, passwordHashed);
+        } catch (UnknownHostException e) {
+            this.logger.warn(e);
+            return LoginResult.WRONG_ADDRESS;
+        } catch (AuthException e) {
+            this.logger.warn(e);
+            return LoginResult.WRONG_CREDENTIALS;
+        } catch (SchoolNotFoundException e) {
+            this.logger.warn(e);
+            return LoginResult.WRONG_SCHOOL_NAME;
+        } catch (IOException e) {
+            this.logger.warn(e);
+            return LoginResult.ERROR;
+        }
+
+        if(!passwordHashed) {
+            this.saveCredentials(new Credentials(
+                    address, schoolName, login, Utils.md5(password.getBytes(Charset.forName("windows-1251")))
+            ));
+            this.logger.info("Пароль сохранен");
+        }
+
+        return LoginResult.OK;
     }
 
     public void saveCredentials(Credentials c) {
@@ -80,6 +110,14 @@ public final class Pita {
         }
 
         return null;
+    }
+
+    public enum LoginResult {
+        OK,
+        ERROR,
+        WRONG_ADDRESS,
+        WRONG_SCHOOL_NAME,
+        WRONG_CREDENTIALS
     }
 
     public Logger getLogger() {

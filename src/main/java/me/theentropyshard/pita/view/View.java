@@ -17,18 +17,10 @@
 
 package me.theentropyshard.pita.view;
 
-import me.theentropyshard.pita.Credentials;
 import me.theentropyshard.pita.Pita;
-import me.theentropyshard.pita.Utils;
-import me.theentropyshard.netschoolapi.NetSchoolAPI;
-import me.theentropyshard.netschoolapi.exceptions.AuthException;
-import me.theentropyshard.netschoolapi.exceptions.SchoolNotFoundException;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
-import java.net.UnknownHostException;
-import java.nio.charset.Charset;
 
 public final class View {
     private final JFrame frame;
@@ -55,32 +47,38 @@ public final class View {
         this.root.add(this.mainPanel, MainPanel.class.getSimpleName());
 
         this.loginPanel = new LoginPanel();
+
         LoginPanel.LoginButtonCallback callback = (address, schoolName, login, password, passwordHashed) -> {
             Thread t = new Thread(() -> {
-                try {
-                    NetSchoolAPI.I.login(address, schoolName, login, password, passwordHashed);
-                    if(!passwordHashed) {
-                        Pita.getPita().saveCredentials(new Credentials(
-                                address, schoolName, login, Utils.md5(password.getBytes(Charset.forName("windows-1251")))
-                        ));
-                    }
-                    SwingUtilities.invokeLater(() -> {
-                        this.rootLayout.show(this.root, MainPanel.class.getSimpleName());
-                        this.mainPanel.showComponents();
-                        this.loginPanel.reset();
-                    });
-                } catch (UnknownHostException e) {
-                    this.loginPanel.wrongAddress();
-                } catch (SchoolNotFoundException e) {
-                    this.loginPanel.schoolNotFound();
-                } catch (AuthException e) {
-                    this.loginPanel.wrongCredentials();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                Pita.LoginResult result = Pita.getPita().login(address, schoolName, login, password, passwordHashed);
+
+                switch(result) {
+                    case OK:
+                        SwingUtilities.invokeLater(() -> {
+                            this.rootLayout.show(this.root, MainPanel.class.getSimpleName());
+                            this.mainPanel.showComponents();
+                            this.loginPanel.reset();
+                        });
+                        break;
+                    case ERROR:
+                        //TODO обрабатывать общую ошибку
+                        break;
+                    case WRONG_ADDRESS:
+                        this.loginPanel.wrongAddress();
+                        break;
+                    case WRONG_SCHOOL_NAME:
+                        this.loginPanel.schoolNotFound();
+                        break;
+                    case WRONG_CREDENTIALS:
+                        this.loginPanel.wrongCredentials();
+                        break;
+                    default:
+                        throw new RuntimeException("Unreachable");
                 }
             });
             t.start();
         };
+
         this.loginPanel.setLoginButtonPressedCallback(callback);
         this.root.add(this.loginPanel, LoginPanel.class.getSimpleName());
 

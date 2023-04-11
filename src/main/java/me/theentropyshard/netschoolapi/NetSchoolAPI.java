@@ -113,7 +113,7 @@ public enum NetSchoolAPI {
             for(SchoolModel schoolModel : schoolStubs) {
                 if(!schoolModel.getShortName().equals(schoolName)) continue;
                 this.school = schoolModel;
-                return;
+                break;
             }
         }
 
@@ -121,7 +121,6 @@ public enum NetSchoolAPI {
             throw new SchoolNotFoundException("Не удалось найти школу \"" + schoolName + "\"\n по адресу '" + address +
                     "', скопируйте название школы с сайта");
         }
-
 
         String data = Utils.toFormUrlEncoded(
                 "LoginType", 1,

@@ -21,6 +21,7 @@ import me.theentropyshard.netschoolapi.NetSchoolAPI;
 import me.theentropyshard.netschoolapi.exceptions.AuthException;
 import me.theentropyshard.netschoolapi.exceptions.SchoolNotFoundException;
 import me.theentropyshard.pita.view.View;
+import okhttp3.OkHttp;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -28,6 +29,7 @@ import javax.swing.*;
 import java.io.*;
 import java.net.UnknownHostException;
 import java.nio.charset.Charset;
+import java.util.logging.Level;
 
 public final class Pita {
     private final Logger logger;
@@ -49,6 +51,7 @@ public final class Pita {
         this.credentialsFile = Utils.makeFile(new File(pitaDir, "credentials.dat"));
         this.attachmentsDir = Utils.makeDirectory(new File(pitaDir, "Attachments"));
 
+        java.util.logging.Logger.getLogger(OkHttp.class.getSimpleName()).setLevel(Level.FINE);
         this.logger = LogManager.getLogger(Pita.class);
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {

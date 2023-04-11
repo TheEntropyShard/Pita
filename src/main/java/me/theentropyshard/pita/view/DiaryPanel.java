@@ -29,6 +29,7 @@ import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.HierarchyEvent;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -49,6 +50,14 @@ public class DiaryPanel extends JPanel {
         super(new BorderLayout());
         this.setBackground(Color.WHITE);
 
+        this.addHierarchyListener(e -> {
+            JComponent component = (JComponent) e.getSource();
+
+            if((HierarchyEvent.SHOWING_CHANGED & e.getChangeFlags()) != 0 && !component.isShowing()) {
+                this.clearDays();
+            }
+        });
+
         JPanel panel = new JPanel();
         panel.setBackground(Color.WHITE);
         panel.setLayout(new MigLayout("fillx, flowy", "[0:0:100%, fill]", "[]"));
@@ -68,7 +77,8 @@ public class DiaryPanel extends JPanel {
 
         BorderPanel header = new BorderPanel();
 
-        JPanel panel1 = new JPanel(new MigLayout("insets 0"));
+        JPanel buttonsPanel = new JPanel(new MigLayout("insets 0", "[center]"));
+        buttonsPanel.setBackground(Color.WHITE);
 
         SimpleButton btn1 = new SimpleButton("<");
         btn1.setRoundCorners(true);
@@ -78,10 +88,10 @@ public class DiaryPanel extends JPanel {
         btn2.setRoundCorners(true);
         btn2.setSquareSides(true);
 
-        panel1.add(btn1);
-        panel1.add(btn2);
+        buttonsPanel.add(btn1);
+        buttonsPanel.add(btn2);
 
-        header.addComponent(panel1);
+        header.addComponent(buttonsPanel);
 
         panel.add(header);
 
@@ -100,6 +110,12 @@ public class DiaryPanel extends JPanel {
         this.arrangeDays(this.verticalOrder);
     }
 
+    private void clearDays() {
+        for(DiaryDay diaryDay : this.days) {
+            diaryDay.clear();
+        }
+    }
+
     public void loadData() {
         if(true) {
             try {
@@ -110,7 +126,7 @@ public class DiaryPanel extends JPanel {
                     DiaryDay dayElement = this.days[dayNum];
                     for(int lessonNum = 0; lessonNum < diaryDay.lessons.length; lessonNum++) {
                         Lesson lesson = diaryDay.lessons[lessonNum];
-                        DiaryLesson diaryLesson = new DiaryLesson(" ", " ");
+                        DiaryLesson diaryLesson = new DiaryLesson(0, "", " ");
                         try {
                             diaryLesson = dayElement.lessons.get(lesson.number - 1);
                         } catch (IndexOutOfBoundsException e) {
@@ -155,38 +171,47 @@ public class DiaryPanel extends JPanel {
         }
     }
 
-    private static class DiaryDay extends JPanel {
+    private static class DiaryDay extends BorderPanel {
         private final List<DiaryLesson> lessons;
 
         public DiaryDay() {
             this.lessons = new ArrayList<>();
 
-            this.setLayout(new MigLayout("fill", "[25%][60%][15%]", "[]"));
+            this.setBackground(Color.WHITE);
+            this.getInternalPanel().setLayout(new MigLayout("fill", "[25%][60%][15%]", "[]"));
+        }
 
-            this.addHeader(new DiaryLesson("Урок", "Домашнее задание") {{
+        public void initLessons() {
+            this.addHeader(new DiaryLesson(0, "Урок", "Домашнее задание") {{
                 this.addMark("Оценка");
             }});
 
             for(int i = 0; i < 8; i++) {
-                this.add(new DiaryLesson((i + 1) + ". ", " "));
+                this.add(new DiaryLesson(i + 1, "", " "));
             }
         }
 
         public void addHeader(DiaryLesson lesson) {
-            this.add(lesson.getLessonNameLabel(), "center");
-            this.add(lesson.getHomeworkLabel(), "center");
-            this.add(lesson.getMarksPanel(), "center, wrap");
+            this.addComponent(lesson.getLessonNameLabel(), "center");
+            this.addComponent(lesson.getHomeworkLabel(), "center");
+            this.addComponent(lesson.getMarksPanel(), "center, wrap");
         }
 
         public void add(DiaryLesson lesson) {
             this.lessons.add(lesson);
-            this.add(lesson.getLessonNameLabel(), "growx, width 0:0:100%");
-            this.add(lesson.getHomeworkLabel(), "growx, width 0:0:100%");
-            this.add(lesson.getMarksPanel(), "center, wrap");
+            this.addComponent(lesson.getLessonNameLabel(), "growx, width 0:0:100%");
+            this.addComponent(lesson.getHomeworkLabel(), "growx, width 0:0:100%");
+            this.addComponent(lesson.getMarksPanel(), "center, wrap");
         }
 
         public List<DiaryLesson> getLessons() {
             return this.lessons;
+        }
+
+        public void clear() {
+            this.lessons.clear();
+            this.getInternalPanel().removeAll();
+            this.initLessons();
         }
     }
 
@@ -194,15 +219,22 @@ public class DiaryPanel extends JPanel {
         private final GradientLabel lessonNameLabel;
         private final GradientLabel homeworkLabel;
         private final JPanel marksPanel;
+        private final int number;
 
-        public DiaryLesson(String lessonName, String homework) {
-            this.lessonNameLabel = new GradientLabel(lessonName, UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+        public DiaryLesson(int number, String lessonName, String homework) {
+            this.number = number;
+            if(number > 0) {
+                this.lessonNameLabel = new GradientLabel(number + ". " + lessonName, UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+            } else {
+                this.lessonNameLabel = new GradientLabel(lessonName, UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+            }
             this.lessonNameLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
 
             this.homeworkLabel = new GradientLabel(homework, UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
             this.homeworkLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
 
             this.marksPanel = new JPanel(new MigLayout("insets 0", "[center]", "[center]"));
+            this.marksPanel.setBackground(Color.WHITE);
         }
 
         public void addMark(String mark) {
@@ -214,7 +246,7 @@ public class DiaryPanel extends JPanel {
             }
             GradientLabel label = iMark >= 3 ? new GradientLabel(mark, UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN) :
                     Character.isDigit(mark.charAt(0)) ?
-                    new GradientLabel(mark, new Color(105, 0, 0), new Color(168, 0, 0)) :
+                            new GradientLabel(mark, new Color(105, 0, 0), new Color(168, 0, 0)) :
                             new GradientLabel(mark, UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
             label.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
             this.marksPanel.add(label);
@@ -230,6 +262,10 @@ public class DiaryPanel extends JPanel {
 
         public JPanel getMarksPanel() {
             return this.marksPanel;
+        }
+
+        public int getNumber() {
+            return this.number;
         }
     }
 }

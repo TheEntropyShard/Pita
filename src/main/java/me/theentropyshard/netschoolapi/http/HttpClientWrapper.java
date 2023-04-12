@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class HttpClientWrapper {
@@ -38,6 +39,10 @@ public class HttpClientWrapper {
     public HttpClientWrapper(String baseUrl) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .cookieJar(new SimpleCookieJar())
+                .readTimeout(15L, TimeUnit.SECONDS)
+                .writeTimeout(15L, TimeUnit.SECONDS)
+                .connectTimeout(15L, TimeUnit.SECONDS)
+                .callTimeout(15L, TimeUnit.SECONDS)
                 .hostnameVerifier((hostname, session) -> baseUrl.contains(hostname));
 
         boolean disableSSL = Boolean.parseBoolean(System.getProperty("netschoolapi.disableSSL"));

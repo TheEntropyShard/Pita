@@ -39,7 +39,7 @@ public class PCheckBox extends JCheckBox {
             //  Draw Check icon
             int[] px = {8, 12, 18, 16, 12, 10};
             int[] py = {ly + 7, ly + 13, ly + 4, ly + 2, ly + 9, ly + 5};
-            g2.setPaint(new GradientPaint(0, 0, PitaColors.DARK_GREEN, g2.getFontMetrics().stringWidth(getText()), getHeight(), PitaColors.LIGHT_GREEN));
+            g2.setPaint(new GradientPaint(0, 0, PitaColors.DARK_COLOR, g2.getFontMetrics().stringWidth(getText()), getHeight(), PitaColors.LIGHT_COLOR));
             g2.fillPolygon(px, py, px.length);
         }
         g2.dispose();

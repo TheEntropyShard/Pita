@@ -94,7 +94,7 @@ public class LoginButton extends JButton implements ActionListener {
         BufferedImage img = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = img.createGraphics();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setPaint(new GradientPaint(0, 0, PitaColors.DARK_GREEN, this.getWidth(), this.getHeight(), PitaColors.LIGHT_GREEN));
+        g2.setPaint(new GradientPaint(0, 0, PitaColors.DARK_COLOR, this.getWidth(), this.getHeight(), PitaColors.LIGHT_COLOR));
         g2.fillRoundRect(0, 0, this.getWidth(), this.getHeight(), UIConstants.ARC_WIDTH, UIConstants.ARC_HEIGHT);
         if(this.pressedPoint != null && !this.loading) {
             g2.setColor(this.effectColor);

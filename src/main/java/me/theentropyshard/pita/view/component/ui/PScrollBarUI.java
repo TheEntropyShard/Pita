@@ -77,7 +77,7 @@ public class PScrollBarUI extends BasicScrollBarUI {
             x += 8;
             width -= 16;
         }
-        g2.setPaint(new GradientPaint(0, 0, PitaColors.DARK_GREEN, width, height, PitaColors.LIGHT_GREEN));
+        g2.setPaint(new GradientPaint(0, 0, PitaColors.DARK_COLOR, width, height, PitaColors.LIGHT_COLOR));
         g2.fillRoundRect(x, y, width, height, 1, 1);
     }
 

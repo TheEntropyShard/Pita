@@ -41,7 +41,7 @@ public class MessageDialog extends JDialog {
         panel.setLayout(new MigLayout("fillx, flowy", "[fill]"));
         panel.add(borderPanel);
 
-        GradientLabel label = new GradientLabel(message, PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN);
+        GradientLabel label = new GradientLabel(message, PitaColors.DARK_COLOR, PitaColors.LIGHT_COLOR);
         label.setFont(new Font("JetBrains Mono", Font.BOLD, 16));
         borderPanel.addComponent(label);
 

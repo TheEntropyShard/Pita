@@ -24,11 +24,23 @@ public enum PitaColors {
 
     public static final Color WRONG = new Color(243, 218, 218);
 
+    public static final Color DARK_RED = new Color(105, 0, 0);
+    public static final Color LIGHT_RED = new Color(168, 0, 0);
+    public static final Color ULTRA_LIGHT_RED = new Color(255, 240, 238);
+
+    public static final Color DARK_BLUE = new Color(0, 0, 105);
+    public static final Color LIGHT_BLUE = new Color(0, 0, 195);
+    public static final Color ULTRA_LIGHT_BLUE = new Color(240, 238, 255);
+
     public static final Color DARK_GREEN = new Color(6, 79, 10);
     public static final Color LIGHT_GREEN = new Color(34, 136, 41);
     public static final Color ULTRA_LIGHT_GREEN = new Color(240, 255, 238);
 
-    public static final Color DARK_RED = new Color(6, 79, 10);
-    public static final Color LIGHT_RED = new Color(34, 136, 41);
-    public static final Color ULTRA_LIGHT_RED = new Color(240, 255, 238);
+    public static final Color DARK_YELLOW = new Color(125, 125, 0);
+    public static final Color LIGHT_YELLOW = new Color(195, 195, 0);
+    public static final Color ULTRA_LIGHT_YELLOW = new Color(255, 254, 228);
+
+    public static final Color DARK_COLOR = PitaColors.DARK_GREEN;
+    public static final Color LIGHT_COLOR = PitaColors.LIGHT_GREEN;
+    public static final Color ULTRA_LIGHT_COLOR = PitaColors.ULTRA_LIGHT_GREEN;
 }

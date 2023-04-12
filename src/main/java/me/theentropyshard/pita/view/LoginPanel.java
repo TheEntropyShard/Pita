@@ -61,7 +61,7 @@ public class LoginPanel extends JPanel {
 
         c.gridx = 0;
         c.gridy = 0;
-        GradientLabel sgoLabel = new GradientLabel(PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN);
+        GradientLabel sgoLabel = new GradientLabel(PitaColors.DARK_COLOR, PitaColors.LIGHT_COLOR);
         sgoLabel.setText(LoginPanel.SGO_TEXT);
         sgoLabel.setFont(new Font(LoginPanel.SGO_LABEL_FONT_NAME, Font.BOLD, LoginPanel.SGO_TEXT_SIZE));
         this.add(sgoLabel, c);
@@ -110,7 +110,7 @@ public class LoginPanel extends JPanel {
         this.loadCredentials();
 
         c.gridy = 6;
-        this.errorLabel = new GradientLabel(new Color(105, 0, 0), new Color(168, 0, 0));
+        this.errorLabel = new GradientLabel(PitaColors.DARK_RED, PitaColors.LIGHT_RED);
         this.errorLabel.setFont(new Font(LoginPanel.ERROR_FONT_NAME, Font.BOLD, LoginPanel.ERROR_TEXT_SIZE));
         this.add(this.errorLabel, c);
 

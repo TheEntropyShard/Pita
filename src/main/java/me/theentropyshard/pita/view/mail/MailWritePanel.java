@@ -131,13 +131,13 @@ public class MailWritePanel extends JPanel {
                     super.paintSafely(g);
                     Graphics2D g2 = (Graphics2D) g;
                     g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-                    g2.setPaint(new GradientPaint(0, 0, PitaColors.DARK_GREEN, g2.getFontMetrics().stringWidth(getText()), getHeight(), PitaColors.LIGHT_GREEN));
+                    g2.setPaint(new GradientPaint(0, 0, PitaColors.DARK_COLOR, g2.getFontMetrics().stringWidth(getText()), getHeight(), PitaColors.LIGHT_COLOR));
                     g2.drawString(getText(), getInsets().left, getHeight() / 2 + g2.getFontMetrics().getAscent() / 2 - 2);
                 }
             });
         }};
         this.subjectField.setDefaultColor(new Color(240, 240, 240));
-        this.subjectField.setSelectionColor(PitaColors.ULTRA_LIGHT_GREEN);
+        this.subjectField.setSelectionColor(PitaColors.ULTRA_LIGHT_COLOR);
         subjectPanel.setValueComponent(this.subjectField);
 
         DestUserPanel notifyPanel = new DestUserPanel();
@@ -172,11 +172,11 @@ public class MailWritePanel extends JPanel {
         this.attachedFilesPanel.setOpaque(false);
         this.attachedFilesPanel.setBorder(
                 BorderFactory.createTitledBorder(
-                        BorderFactory.createLineBorder(PitaColors.DARK_GREEN, 1),
+                        BorderFactory.createLineBorder(PitaColors.DARK_COLOR, 1),
                         "Прикрепленные файлы",
                         TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
                         new Font("JetBrains Mono", Font.BOLD, 12),
-                        PitaColors.DARK_GREEN
+                        PitaColors.DARK_COLOR
                 )
         );
         this.attachedFilesPanel.setLayout(new BoxLayout(this.attachedFilesPanel, BoxLayout.PAGE_AXIS));
@@ -271,7 +271,7 @@ public class MailWritePanel extends JPanel {
 
     public void attachFileById(String name, String id) {
         this.attachedFilesIds.add(id);
-        GradientLabel label = new GradientLabel(name, PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN);
+        GradientLabel label = new GradientLabel(name, PitaColors.DARK_COLOR, PitaColors.LIGHT_COLOR);
         label.setFont(new Font("JetBrains Mono", Font.BOLD, 12));
         label.setBorder(new EmptyBorder(0, 5, 3, 0));
         label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -288,7 +288,7 @@ public class MailWritePanel extends JPanel {
     }
 
     public void attachFile(File file) {
-        GradientLabel label = new GradientLabel(file.getName(), PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN);
+        GradientLabel label = new GradientLabel(file.getName(), PitaColors.DARK_COLOR, PitaColors.LIGHT_COLOR);
         label.setFont(new Font("JetBrains Mono", Font.BOLD, 12));
         label.setBorder(new EmptyBorder(0, 5, 3, 0));
         label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -337,7 +337,7 @@ public class MailWritePanel extends JPanel {
         private final GradientLabel keyLabel;
 
         public DestUserPanel() {
-            this.keyLabel = new GradientLabel("", PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN);
+            this.keyLabel = new GradientLabel("", PitaColors.DARK_COLOR, PitaColors.LIGHT_COLOR);
             this.keyLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
 
             this.setLayout(new GridLayout(1, 1));
@@ -368,10 +368,10 @@ public class MailWritePanel extends JPanel {
         private final GradientLabel valueLabel;
 
         public DataElementPanel() {
-            this.keyLabel = new GradientLabel("", PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN);
+            this.keyLabel = new GradientLabel("", PitaColors.DARK_COLOR, PitaColors.LIGHT_COLOR);
             this.keyLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
 
-            this.valueLabel = new GradientLabel("", PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN) {
+            this.valueLabel = new GradientLabel("", PitaColors.DARK_COLOR, PitaColors.LIGHT_COLOR) {
                 @Override
                 protected void paintComponent(Graphics g) {
                     Color oldColor = g.getColor();

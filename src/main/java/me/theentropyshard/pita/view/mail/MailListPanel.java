@@ -38,22 +38,22 @@ public class MailListPanel extends JPanel {
     }
 
     public void addNewRecord(String number, String from, String subject, String sent, boolean isRead, boolean isSpecial) {
-        GradientLabel numberLabel = new GradientLabel(number, PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN);
+        GradientLabel numberLabel = new GradientLabel(number, PitaColors.DARK_COLOR, PitaColors.LIGHT_COLOR);
         numberLabel.setOpaque(true);
         numberLabel.setBackground(Color.WHITE);
         numberLabel.setFont(new Font("JetBrains Mono", Font.PLAIN, 14));
 
-        GradientLabel fromLabel = new GradientLabel(from, PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN);
+        GradientLabel fromLabel = new GradientLabel(from, PitaColors.DARK_COLOR, PitaColors.LIGHT_COLOR);
         fromLabel.setOpaque(true);
         fromLabel.setBackground(Color.WHITE);
         fromLabel.setFont(new Font("JetBrains Mono", Font.PLAIN, 14));
 
-        GradientLabel subjectLabel = new GradientLabel(subject, PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN);
+        GradientLabel subjectLabel = new GradientLabel(subject, PitaColors.DARK_COLOR, PitaColors.LIGHT_COLOR);
         subjectLabel.setOpaque(true);
         subjectLabel.setBackground(Color.WHITE);
         subjectLabel.setFont(new Font("JetBrains Mono", Font.PLAIN, 14));
 
-        GradientLabel sentLabel = new GradientLabel(sent, PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN);
+        GradientLabel sentLabel = new GradientLabel(sent, PitaColors.DARK_COLOR, PitaColors.LIGHT_COLOR);
         sentLabel.setOpaque(true);
         sentLabel.setBackground(Color.WHITE);
         sentLabel.setFont(new Font("JetBrains Mono", Font.PLAIN, 14));

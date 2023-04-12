@@ -218,13 +218,13 @@ public class DiaryPanel extends JPanel {
 
         public DiaryLesson(int number, String lessonName, String homework) {
             if(number > 0) {
-                this.lessonNameLabel = new GradientLabel(number + ". " + lessonName, PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN);
+                this.lessonNameLabel = new GradientLabel(number + ". " + lessonName, PitaColors.DARK_COLOR, PitaColors.LIGHT_COLOR);
             } else {
-                this.lessonNameLabel = new GradientLabel(lessonName, PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN);
+                this.lessonNameLabel = new GradientLabel(lessonName, PitaColors.DARK_COLOR, PitaColors.LIGHT_COLOR);
             }
             this.lessonNameLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
 
-            this.homeworkLabel = new GradientLabel(homework, PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN);
+            this.homeworkLabel = new GradientLabel(homework, PitaColors.DARK_COLOR, PitaColors.LIGHT_COLOR);
             this.homeworkLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
 
             this.marksPanel = new JPanel(new MigLayout("insets 0", "[center]", "[center]"));
@@ -238,10 +238,10 @@ public class DiaryPanel extends JPanel {
             } catch (NumberFormatException ignored) {
 
             }
-            GradientLabel label = iMark >= 3 ? new GradientLabel(mark, PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN) :
+            GradientLabel label = iMark >= 3 ? new GradientLabel(mark, PitaColors.DARK_COLOR, PitaColors.LIGHT_COLOR) :
                     Character.isDigit(mark.charAt(0)) ?
                             new GradientLabel(mark, new Color(105, 0, 0), new Color(168, 0, 0)) :
-                            new GradientLabel(mark, PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN);
+                            new GradientLabel(mark, PitaColors.DARK_COLOR, PitaColors.LIGHT_COLOR);
             label.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
             this.marksPanel.add(label);
         }

@@ -26,7 +26,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class PPassField extends JPasswordField {
-    private Color defaultColor = PitaColors.ULTRA_LIGHT_GREEN;
+    private Color defaultColor = PitaColors.ULTRA_LIGHT_COLOR;
     private Color wrongColor = PitaColors.WRONG;
 
     private Icon prefixIcon;

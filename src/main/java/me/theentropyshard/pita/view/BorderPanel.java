@@ -65,7 +65,7 @@ public class BorderPanel extends JPanel {
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setColor(PitaColors.ULTRA_LIGHT_GREEN);
+        g2.setColor(PitaColors.ULTRA_LIGHT_COLOR);
         g2.fillRoundRect(0, 0, this.getWidth(), this.getHeight(), UIConstants.ARC_WIDTH, UIConstants.ARC_HEIGHT);
         super.paintComponent(g2);
     }

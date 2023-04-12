@@ -92,13 +92,13 @@ public class ActiveSessionsPanel extends JPanel {
         private final GradientLabel rolesLabel;
 
         public UserInfoElement() {
-            this.numberLabel = new GradientLabel("", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+            this.numberLabel = new GradientLabel("", PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN);
             this.numberLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
 
-            this.displayNameLabel = new GradientLabel("", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+            this.displayNameLabel = new GradientLabel("", PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN);
             this.displayNameLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
 
-            this.rolesLabel = new GradientLabel("", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+            this.rolesLabel = new GradientLabel("", PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN);
             this.rolesLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
 
             this.setLayout(new GridLayout(1, 3));

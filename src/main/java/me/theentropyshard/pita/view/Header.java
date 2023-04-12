@@ -19,7 +19,6 @@ package me.theentropyshard.pita.view;
 
 import me.theentropyshard.pita.Utils;
 import me.theentropyshard.netschoolapi.NetSchoolAPI;
-import me.theentropyshard.netschoolapi.models.MySettings;
 import me.theentropyshard.pita.view.component.GradientLabel;
 import me.theentropyshard.pita.view.component.SimpleButton;
 import me.theentropyshard.pita.view.mail.MailPanel;
@@ -43,7 +42,7 @@ public class Header extends JPanel {
         this.setLayout(new BorderLayout());
         this.setBackground(Color.WHITE);
 
-        this.infoLabel = new GradientLabel(UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+        this.infoLabel = new GradientLabel(PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN);
         this.infoLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
         this.infoLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         this.infoLabel.addMouseListener(new MouseAdapter() {
@@ -75,7 +74,7 @@ public class Header extends JPanel {
             }
         });
 
-        this.schoolNameLabel = new GradientLabel(UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+        this.schoolNameLabel = new GradientLabel(PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN);
         this.schoolNameLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         this.schoolNameLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 16));
         this.schoolNameLabel.addMouseListener(new MouseAdapter() {
@@ -100,10 +99,10 @@ public class Header extends JPanel {
             }
         });
 
-        this.currentYearLabel = new GradientLabel(UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+        this.currentYearLabel = new GradientLabel(PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN);
         this.currentYearLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
 
-        this.usernameLabel = new GradientLabel(UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+        this.usernameLabel = new GradientLabel(PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN);
         this.usernameLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         this.usernameLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
         this.usernameLabel.addMouseListener(new MouseAdapter() {
@@ -113,7 +112,7 @@ public class Header extends JPanel {
             }
         });
 
-        GradientLabel exitLabel = new GradientLabel("Выход", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+        GradientLabel exitLabel = new GradientLabel("Выход", PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN);
         exitLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         exitLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
         exitLabel.addMouseListener(new MouseAdapter() {
@@ -138,7 +137,7 @@ public class Header extends JPanel {
 
         JPanel topPanel = new JPanel(new MigLayout("nogrid, fillx", "[]", ""));
         topPanel.setBackground(Color.WHITE);
-        topPanel.add(new GradientLabel("Сетевой город. Образование", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN) {{
+        topPanel.add(new GradientLabel("Сетевой город. Образование", PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN) {{
             this.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
         }}, "grow");
         topPanel.add(this.infoLabel, "wrap");

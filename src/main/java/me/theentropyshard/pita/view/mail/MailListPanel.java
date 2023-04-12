@@ -17,7 +17,7 @@
 
 package me.theentropyshard.pita.view.mail;
 
-import me.theentropyshard.pita.view.UIConstants;
+import me.theentropyshard.pita.view.PitaColors;
 import me.theentropyshard.pita.view.View;
 import me.theentropyshard.pita.view.component.GradientLabel;
 import net.miginfocom.swing.MigLayout;
@@ -38,22 +38,22 @@ public class MailListPanel extends JPanel {
     }
 
     public void addNewRecord(String number, String from, String subject, String sent, boolean isRead, boolean isSpecial) {
-        GradientLabel numberLabel = new GradientLabel(number, UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+        GradientLabel numberLabel = new GradientLabel(number, PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN);
         numberLabel.setOpaque(true);
         numberLabel.setBackground(Color.WHITE);
         numberLabel.setFont(new Font("JetBrains Mono", Font.PLAIN, 14));
 
-        GradientLabel fromLabel = new GradientLabel(from, UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+        GradientLabel fromLabel = new GradientLabel(from, PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN);
         fromLabel.setOpaque(true);
         fromLabel.setBackground(Color.WHITE);
         fromLabel.setFont(new Font("JetBrains Mono", Font.PLAIN, 14));
 
-        GradientLabel subjectLabel = new GradientLabel(subject, UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+        GradientLabel subjectLabel = new GradientLabel(subject, PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN);
         subjectLabel.setOpaque(true);
         subjectLabel.setBackground(Color.WHITE);
         subjectLabel.setFont(new Font("JetBrains Mono", Font.PLAIN, 14));
 
-        GradientLabel sentLabel = new GradientLabel(sent, UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+        GradientLabel sentLabel = new GradientLabel(sent, PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN);
         sentLabel.setOpaque(true);
         sentLabel.setBackground(Color.WHITE);
         sentLabel.setFont(new Font("JetBrains Mono", Font.PLAIN, 14));

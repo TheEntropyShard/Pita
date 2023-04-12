@@ -17,12 +17,18 @@
 
 package me.theentropyshard.pita.view;
 
-public enum UIConstants {
+import java.awt.*;
+
+public enum PitaColors {
     ;
 
-    public static final int DEFAULT_WIDTH = 1280;
-    public static final int DEFAULT_HEIGHT = 720;
+    public static final Color WRONG = new Color(243, 218, 218);
 
-    public static final int ARC_WIDTH = 7;
-    public static final int ARC_HEIGHT = 7;
+    public static final Color DARK_GREEN = new Color(6, 79, 10);
+    public static final Color LIGHT_GREEN = new Color(34, 136, 41);
+    public static final Color ULTRA_LIGHT_GREEN = new Color(240, 255, 238);
+
+    public static final Color DARK_RED = new Color(6, 79, 10);
+    public static final Color LIGHT_RED = new Color(34, 136, 41);
+    public static final Color ULTRA_LIGHT_RED = new Color(240, 255, 238);
 }

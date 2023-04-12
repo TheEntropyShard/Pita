@@ -17,6 +17,7 @@
 
 package me.theentropyshard.pita.view.component;
 
+import me.theentropyshard.pita.view.PitaColors;
 import me.theentropyshard.pita.view.UIConstants;
 
 import javax.swing.*;
@@ -45,7 +46,7 @@ public class SimpleButton extends JButton {
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setPaint(new GradientPaint(0, 0, UIConstants.DARK_GREEN, this.getWidth(), this.getHeight(), UIConstants.LIGHT_GREEN));
+        g2.setPaint(new GradientPaint(0, 0, PitaColors.DARK_GREEN, this.getWidth(), this.getHeight(), PitaColors.LIGHT_GREEN));
         if(this.roundCorners) {
             g2.fillRoundRect(0, 0, this.getWidth(), this.getHeight(), UIConstants.ARC_WIDTH, UIConstants.ARC_HEIGHT);
         } else {

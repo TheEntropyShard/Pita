@@ -48,7 +48,7 @@ public class SchoolInfoPanel extends JPanel {
         /// Common info
         panel.add(new JPanel() {{
             this.setBackground(Color.WHITE);
-            this.add(new GradientLabel("Основная информация", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN) {{
+            this.add(new GradientLabel("Основная информация", PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN) {{
                 this.setFont(new Font("JetBrains Mono", Font.BOLD, 18));
             }});
         }});
@@ -71,7 +71,7 @@ public class SchoolInfoPanel extends JPanel {
         /// Management info
         panel.add(new JPanel() {{
             this.setBackground(Color.WHITE);
-            this.add(new GradientLabel("Управление", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN) {{
+            this.add(new GradientLabel("Управление", PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN) {{
                 this.setFont(new Font("JetBrains Mono", Font.BOLD, 18));
             }});
         }});
@@ -79,7 +79,7 @@ public class SchoolInfoPanel extends JPanel {
         // Contact info
         panel.add(new JPanel() {{
             this.setBackground(Color.WHITE);
-            this.add(new GradientLabel("Контактная информация", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN) {{
+            this.add(new GradientLabel("Контактная информация", PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN) {{
                 this.setFont(new Font("JetBrains Mono", Font.BOLD, 18));
             }});
         }});
@@ -87,7 +87,7 @@ public class SchoolInfoPanel extends JPanel {
         // Other info
         panel.add(new JPanel() {{
             this.setBackground(Color.WHITE);
-            this.add(new GradientLabel("Другая информация", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN) {{
+            this.add(new GradientLabel("Другая информация", PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN) {{
                 this.setFont(new Font("JetBrains Mono", Font.BOLD, 18));
             }});
         }});
@@ -95,7 +95,7 @@ public class SchoolInfoPanel extends JPanel {
         // Food payment
         panel.add(new JPanel() {{
             this.setBackground(Color.WHITE);
-            this.add(new GradientLabel("Оплата питания", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN) {{
+            this.add(new GradientLabel("Оплата питания", PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN) {{
                 this.setFont(new Font("JetBrains Mono", Font.BOLD, 18));
             }});
         }});
@@ -103,7 +103,7 @@ public class SchoolInfoPanel extends JPanel {
         // Internet connection info
         panel.add(new JPanel() {{
             this.setBackground(Color.WHITE);
-            this.add(new GradientLabel("Информация об интернет-соединении", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN) {{
+            this.add(new GradientLabel("Информация об интернет-соединении", PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN) {{
                 this.setFont(new Font("JetBrains Mono", Font.BOLD, 18));
             }});
         }});
@@ -125,10 +125,10 @@ public class SchoolInfoPanel extends JPanel {
         private final GradientLabel valueLabel;
 
         public DataElementPanel() {
-            this.keyLabel = new GradientLabel("", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+            this.keyLabel = new GradientLabel("", PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN);
             this.keyLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
 
-            this.valueLabel = new GradientLabel("", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN) {
+            this.valueLabel = new GradientLabel("", PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN) {
                 @Override
                 protected void paintComponent(Graphics g) {
                     Color oldColor = g.getColor();

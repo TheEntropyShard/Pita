@@ -227,7 +227,7 @@ public class MailReadPanel extends JPanel {
             String txt = MailReadPanel.fixHTMLEntities(message.text);
             mainTextPane.setText("<html><head><style> a { color: #2a5885; } p { font-family: \"JetBrains Mono\"; } </style></head><p>" + txt + "</p></html>");
             mainTextPane.setForeground(new Color(120, 120, 120));
-            mainTextPane.setSelectionColor(UIConstants.NEAR_WHITE);
+            mainTextPane.setSelectionColor(PitaColors.ULTRA_LIGHT_GREEN);
             mainTextPane.setOpaque(false);
             mainTextPane.setEditable(false);
             mainTextPane.setMargin(new Insets(-10, 5, 5, 5));
@@ -250,17 +250,17 @@ public class MailReadPanel extends JPanel {
                 attachedFiles.setOpaque(false);
                 attachedFiles.setBorder(
                         BorderFactory.createTitledBorder(
-                                BorderFactory.createLineBorder(UIConstants.DARK_GREEN, 1),
+                                BorderFactory.createLineBorder(PitaColors.DARK_GREEN, 1),
                                 "Прикрепленные файлы",
                                 TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
                                 new Font("JetBrains Mono", Font.BOLD, 12),
-                                UIConstants.DARK_GREEN
+                                PitaColors.DARK_GREEN
                         )
                 );
                 attachedFiles.setLayout(new BoxLayout(attachedFiles, BoxLayout.PAGE_AXIS));
 
                 for(Attachment attach : message.fileAttachments) {
-                    GradientLabel label = new GradientLabel(attach.name, UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+                    GradientLabel label = new GradientLabel(attach.name, PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN);
                     label.setFont(new Font("JetBrains Mono", Font.BOLD, 12));
                     label.setBorder(new EmptyBorder(0, 5, 3, 0));
                     label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -297,10 +297,10 @@ public class MailReadPanel extends JPanel {
         private final GradientLabel valueLabel;
 
         public DataElementPanel() {
-            this.keyLabel = new GradientLabel("", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+            this.keyLabel = new GradientLabel("", PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN);
             this.keyLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
 
-            this.valueLabel = new GradientLabel("", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN) {
+            this.valueLabel = new GradientLabel("", PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN) {
                 @Override
                 protected void paintComponent(Graphics g) {
                     Color oldColor = g.getColor();

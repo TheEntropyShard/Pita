@@ -43,7 +43,7 @@ public class FileUploadDialog extends JDialog {
 
         chooseFilePanel.addComponent(chooseFileButton);
 
-        GradientLabel fileNameLabel = new GradientLabel("Имя файла...", UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+        GradientLabel fileNameLabel = new GradientLabel("Имя файла...", PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN);
         fileNameLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
 
         chooseFilePanel.addComponent(fileNameLabel);

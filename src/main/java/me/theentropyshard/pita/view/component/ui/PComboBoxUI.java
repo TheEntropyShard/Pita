@@ -17,6 +17,7 @@
 
 package me.theentropyshard.pita.view.component.ui;
 
+import me.theentropyshard.pita.view.PitaColors;
 import me.theentropyshard.pita.view.UIConstants;
 
 import javax.swing.*;
@@ -42,7 +43,7 @@ public class PComboBoxUI extends BasicComboBoxUI {
             protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g;
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g2.setColor(UIConstants.NEAR_WHITE);
+                g2.setColor(PitaColors.ULTRA_LIGHT_GREEN);
                 g2.fillRoundRect(0, 0, this.getWidth(), this.getHeight(), UIConstants.ARC_WIDTH, UIConstants.ARC_HEIGHT);
                 int[] xPoints = new int[]{(int) (0.25 * getWidth()), (int) (0.5 * getWidth()), (int) (0.75 * getWidth())};
                 int[] yPoints;

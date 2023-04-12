@@ -61,7 +61,7 @@ public class LoginPanel extends JPanel {
 
         c.gridx = 0;
         c.gridy = 0;
-        GradientLabel sgoLabel = new GradientLabel(UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+        GradientLabel sgoLabel = new GradientLabel(PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN);
         sgoLabel.setText(LoginPanel.SGO_TEXT);
         sgoLabel.setFont(new Font(LoginPanel.SGO_LABEL_FONT_NAME, Font.BOLD, LoginPanel.SGO_TEXT_SIZE));
         this.add(sgoLabel, c);
@@ -133,7 +133,7 @@ public class LoginPanel extends JPanel {
             if(com instanceof JTextField) {
                 JTextField t = (JTextField) com;
                 if(t.getText().isEmpty()) {
-                    com.setBackground(UIConstants.WRONG);
+                    com.setBackground(PitaColors.WRONG);
                     if(t instanceof PTextField) {
                         ((PTextField) t).setWrong(true);
                     } else if(t instanceof PPassField) {

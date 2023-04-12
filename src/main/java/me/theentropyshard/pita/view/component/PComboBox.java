@@ -17,6 +17,7 @@
 
 package me.theentropyshard.pita.view.component;
 
+import me.theentropyshard.pita.view.PitaColors;
 import me.theentropyshard.pita.view.UIConstants;
 import me.theentropyshard.pita.view.component.ui.PComboBoxUI;
 
@@ -33,7 +34,7 @@ public class PComboBox extends JComboBox<String> {
 
     public PComboBox() {
         this.setUI(new PComboBoxUI());
-        this.setBackground(UIConstants.NEAR_WHITE);
+        this.setBackground(PitaColors.ULTRA_LIGHT_GREEN);
         this.setEditable(false);
         this.setOpaque(false);
 
@@ -61,16 +62,16 @@ public class PComboBox extends JComboBox<String> {
                     this.setBackground(new Color(250, 250, 250));
                     this.setForeground(list.getSelectionForeground());
                 } else {
-                    this.setBackground(UIConstants.NEAR_WHITE);
+                    this.setBackground(PitaColors.ULTRA_LIGHT_GREEN);
                     this.setForeground(list.getForeground());
                 }
-                list.setBackground(UIConstants.NEAR_WHITE);
+                list.setBackground(PitaColors.ULTRA_LIGHT_GREEN);
                 return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
             }
         });
 
         BasicComboPopup popup = (BasicComboPopup) this.getAccessibleContext().getAccessibleChild(0);
-        popup.setBorder(new LineBorder(UIConstants.DARK_GREEN, 2, true) {
+        popup.setBorder(new LineBorder(PitaColors.DARK_GREEN, 2, true) {
             @Override
             public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
                 if((this.thickness > 0) && (g instanceof Graphics2D)) {
@@ -78,7 +79,7 @@ public class PComboBox extends JComboBox<String> {
                     g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                     g2.setStroke(new BasicStroke(2));
                     //g2.setPaint(new GradientPaint(0, 0, UIConstants.DARK_GREEN, width, height, UIConstants.LIGHT_GREEN));
-                    g2.setColor(UIConstants.NEAR_WHITE);
+                    g2.setColor(PitaColors.ULTRA_LIGHT_GREEN);
                     g2.fillRoundRect(0, 0, width - 1, height - 1, UIConstants.ARC_WIDTH, UIConstants.ARC_HEIGHT);
                     g2.drawRoundRect(0, 0, width - 1, height - 1, UIConstants.ARC_WIDTH, UIConstants.ARC_HEIGHT);
                 }
@@ -93,7 +94,7 @@ public class PComboBox extends JComboBox<String> {
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setColor(UIConstants.NEAR_WHITE);
+        g2.setColor(PitaColors.ULTRA_LIGHT_GREEN);
         g2.fillRoundRect(0, 0, this.getWidth(), this.getHeight(), UIConstants.ARC_WIDTH, UIConstants.ARC_HEIGHT);
         this.paintIcon(g);
     }
@@ -103,7 +104,7 @@ public class PComboBox extends JComboBox<String> {
         super.paint(g);
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setPaint(new GradientPaint(0, 0, UIConstants.DARK_GREEN, this.getWidth(), this.getHeight(), UIConstants.LIGHT_GREEN));
+        g2.setPaint(new GradientPaint(0, 0, PitaColors.DARK_GREEN, this.getWidth(), this.getHeight(), PitaColors.LIGHT_GREEN));
         g2.drawString(String.valueOf(this.getSelectedItem()), this.getInsets().left, this.getHeight() / 2 + g.getFontMetrics().getAscent() / 2 - 2);
     }
 

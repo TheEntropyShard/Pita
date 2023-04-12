@@ -90,7 +90,7 @@ public class AnnouncementsPanel extends JPanel {
             protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g;
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g2.setColor(UIConstants.NEAR_WHITE);
+                g2.setColor(PitaColors.ULTRA_LIGHT_GREEN);
                 g2.fillRoundRect(0, 0, this.getWidth(), this.getHeight(), UIConstants.ARC_WIDTH, UIConstants.ARC_HEIGHT);
                 super.paintComponent(g2);
             }
@@ -105,17 +105,17 @@ public class AnnouncementsPanel extends JPanel {
         });
         container.setBorder(BorderFactory.createCompoundBorder(container.getBorder(), BorderFactory.createEmptyBorder(0, 5, 5, 5)));
 
-        GradientLabel topicLabel = new GradientLabel(UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+        GradientLabel topicLabel = new GradientLabel(PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN);
         topicLabel.setText("Тема: " + a.name);
         topicLabel.setFont(labelFont);
         container.add(topicLabel, "grow");
 
-        GradientLabel timeLabel = new GradientLabel(UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+        GradientLabel timeLabel = new GradientLabel(PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN);
         timeLabel.setText(LocalDateTime.parse(a.postDate).format(AnnouncementsPanel.TO_POST_TIME_FORMATTER));
         timeLabel.setFont(labelFont);
         container.add(timeLabel, "wrap");
 
-        GradientLabel authorLabel = new GradientLabel(UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+        GradientLabel authorLabel = new GradientLabel(PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN);
         authorLabel.setText("Автор: " + a.author.nickName);
         authorLabel.setFont(labelFont);
         container.add(authorLabel, "wrap");
@@ -157,7 +157,7 @@ public class AnnouncementsPanel extends JPanel {
         mainTextPane.setText("<html><head><style> a { color: #2a5885; } p { font-family: \"JetBrains Mono\"; } </style></head>" + txt + "</html>");
         mainTextPane.setOpaque(false);
         mainTextPane.setForeground(new Color(120, 120, 120));
-        mainTextPane.setSelectionColor(UIConstants.NEAR_WHITE);
+        mainTextPane.setSelectionColor(PitaColors.ULTRA_LIGHT_GREEN);
         mainTextPane.setOpaque(false);
         mainTextPane.setEditable(false);
         mainTextPane.setFont(textPaneFont);
@@ -181,17 +181,17 @@ public class AnnouncementsPanel extends JPanel {
             attachedFiles.setOpaque(false);
             attachedFiles.setBorder(
                     BorderFactory.createTitledBorder(
-                            BorderFactory.createLineBorder(UIConstants.DARK_GREEN, 1),
+                            BorderFactory.createLineBorder(PitaColors.DARK_GREEN, 1),
                             "Прикрепленные файлы",
                             TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
                             new Font("JetBrains Mono", Font.BOLD, 12),
-                            UIConstants.DARK_GREEN
+                            PitaColors.DARK_GREEN
                     )
             );
             attachedFiles.setLayout(new BoxLayout(attachedFiles, BoxLayout.PAGE_AXIS));
 
             for(Attachment attach : a.attachments) {
-                GradientLabel label = new GradientLabel(attach.name, UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+                GradientLabel label = new GradientLabel(attach.name, PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN);
                 label.setFont(new Font("JetBrains Mono", Font.BOLD, 12));
                 label.setBorder(new EmptyBorder(0, 5, 3, 0));
                 label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

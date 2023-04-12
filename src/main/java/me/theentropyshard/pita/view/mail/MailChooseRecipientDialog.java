@@ -20,7 +20,7 @@ package me.theentropyshard.pita.view.mail;
 import me.theentropyshard.netschoolapi.NetSchoolAPI;
 import me.theentropyshard.netschoolapi.models.UserModel;
 import me.theentropyshard.pita.view.BorderPanel;
-import me.theentropyshard.pita.view.UIConstants;
+import me.theentropyshard.pita.view.PitaColors;
 import me.theentropyshard.pita.view.View;
 import me.theentropyshard.pita.view.component.GradientLabel;
 import me.theentropyshard.pita.view.component.PComboBox;
@@ -67,11 +67,11 @@ public class MailChooseRecipientDialog extends JDialog {
         selectableUsers.setOpaque(false);
         selectableUsers.setBorder(
                 BorderFactory.createTitledBorder(
-                        BorderFactory.createLineBorder(UIConstants.DARK_GREEN, 1),
+                        BorderFactory.createLineBorder(PitaColors.DARK_GREEN, 1),
                         "Выберите получателей из списка",
                         TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
                         new Font("JetBrains Mono", Font.BOLD, 12),
-                        UIConstants.DARK_GREEN
+                        PitaColors.DARK_GREEN
                 )
         );
         selectableUsers.setLayout(new BoxLayout(selectableUsers, BoxLayout.PAGE_AXIS));
@@ -80,11 +80,11 @@ public class MailChooseRecipientDialog extends JDialog {
         selectedUsers.setOpaque(false);
         selectedUsers.setBorder(
                 BorderFactory.createTitledBorder(
-                        BorderFactory.createLineBorder(UIConstants.DARK_GREEN, 1),
+                        BorderFactory.createLineBorder(PitaColors.DARK_GREEN, 1),
                         "Выбранные получатели",
                         TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION,
                         new Font("JetBrains Mono", Font.BOLD, 12),
-                        UIConstants.DARK_GREEN
+                        PitaColors.DARK_GREEN
                 )
         );
         selectedUsers.setLayout(new BoxLayout(selectedUsers, BoxLayout.PAGE_AXIS));
@@ -118,14 +118,14 @@ public class MailChooseRecipientDialog extends JDialog {
                     break;
             }
             for(UserModel user : users) {
-                GradientLabel label = new GradientLabel(user.name, UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+                GradientLabel label = new GradientLabel(user.name, PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN);
                 label.setFont(new Font("JetBrains Mono", Font.BOLD, 12));
                 label.setBorder(new EmptyBorder(0, 5, 3, 0));
                 label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                 label.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mousePressed(MouseEvent e) {
-                        GradientLabel label = new GradientLabel(user.name, UIConstants.DARK_GREEN, UIConstants.LIGHT_GREEN);
+                        GradientLabel label = new GradientLabel(user.name, PitaColors.DARK_GREEN, PitaColors.LIGHT_GREEN);
                         label.setFont(new Font("JetBrains Mono", Font.BOLD, 12));
                         label.setBorder(new EmptyBorder(0, 5, 3, 0));
                         label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

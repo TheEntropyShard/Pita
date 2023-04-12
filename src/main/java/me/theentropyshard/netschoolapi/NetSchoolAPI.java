@@ -236,9 +236,8 @@ public enum NetSchoolAPI {
 
     public void downloadAttachment(File file, Attachment attachment) {
         long start = System.currentTimeMillis();
-        String fileName = null;
+        String fileName = attachment.name != null ? attachment.name : attachment.originalFileName;
         try {
-            fileName = attachment.name != null ? attachment.name : attachment.originalFileName;
             if(file == null) {
                 file = new File(System.getProperty("user.dir") + "/attachments", fileName);
                 if(!file.exists()) {
@@ -258,7 +257,7 @@ public enum NetSchoolAPI {
                 Files.copy(Objects.requireNonNull(response.body()).byteStream(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            this.logger.warn("Не удалось скачать прикрепленный файл", e);
         }
         this.logger.info("Скачан прикрепленный файл {}, заняло {} мс", fileName,System.currentTimeMillis() - start);
     }

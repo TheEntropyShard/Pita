@@ -226,13 +226,7 @@ public class Header extends JPanel {
             this.currentYearLabel.setText("ОШИБКА");
         }
 
-        try {
-            MySettings mySettings = NetSchoolAPI.I.getMySettings();
-            this.usernameLabel.setText(mySettings.firstName + " " + mySettings.lastName);
-        } catch (IOException e) {
-            e.printStackTrace();
-            this.usernameLabel.setText("ОШИБКА");
-        }
+        this.usernameLabel.setText(NetSchoolAPI.I.getStudentName());
 
         int num = 0;
         try {

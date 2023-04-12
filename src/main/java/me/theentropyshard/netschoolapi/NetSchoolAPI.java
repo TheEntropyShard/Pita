@@ -31,10 +31,11 @@ import me.theentropyshard.netschoolapi.mail.models.Mail;
 import me.theentropyshard.netschoolapi.mail.models.MailEdit;
 import me.theentropyshard.netschoolapi.mail.models.Message;
 import me.theentropyshard.netschoolapi.models.*;
-import me.theentropyshard.netschoolapi.Utils;
+import me.theentropyshard.pita.Pita;
 import okhttp3.Cookie;
 import okhttp3.CookieJar;
 import okhttp3.Response;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,6 +49,7 @@ public enum NetSchoolAPI {
 
     private final Gson gson = new Gson();
     private final Timer timer = new Timer("PingTimer", true);
+    private final Logger logger = Pita.getPita().getLogger();
 
     private final List<UserModel> admins = new ArrayList<>();
     private final List<UserModel> headTeachers = new ArrayList<>();
@@ -141,6 +143,8 @@ public enum NetSchoolAPI {
             boolean pingSGO = Boolean.parseBoolean(System.getProperty("pita.pingSGO"));
 
             if(pingSGO) {
+                this.logger.info("Пингование СГО включено");
+
                 String finalAddress = address;
                 this.timer.schedule(new TimerTask() {
                     private final HttpClientWrapper httpClient = new HttpClientWrapper(finalAddress + "/webapi/");
@@ -156,8 +160,8 @@ public enum NetSchoolAPI {
                     public void run() {
                         try {
                             httpClient.get(Urls.SGO_PING);
-                        } catch (IOException ignored) {
-
+                        } catch (IOException e) {
+                            logger.warn("Не удалось отправить запрос к " + Urls.SGO_PING, e);
                         }
                     }
                 }, 0L, object.get("timeOut").getAsLong() - 60000L);
@@ -232,8 +236,9 @@ public enum NetSchoolAPI {
 
     public void downloadAttachment(File file, Attachment attachment) {
         long start = System.currentTimeMillis();
+        String fileName = null;
         try {
-            String fileName = attachment.name != null ? attachment.name : attachment.originalFileName;
+            fileName = attachment.name != null ? attachment.name : attachment.originalFileName;
             if(file == null) {
                 file = new File(System.getProperty("user.dir") + "/attachments", fileName);
                 if(!file.exists()) {
@@ -255,7 +260,7 @@ public enum NetSchoolAPI {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("Downloaded attachment, took " + (System.currentTimeMillis() - start) + " ms");
+        this.logger.info("Скачан прикрепленный файл {}, заняло {} мс", fileName,System.currentTimeMillis() - start);
     }
 
     public int getUnreadMessagesCount() throws IOException {
@@ -313,7 +318,7 @@ public enum NetSchoolAPI {
             try(Response response = this.client.get(Urls.MAIL_RECIPIENTS, params)) {
                 this.admins.addAll(Arrays.asList(this.gson.fromJson(Objects.requireNonNull(response.body()).charStream(), UserModel[].class)));
             } catch (IOException e) {
-                e.printStackTrace();
+                this.logger.warn("Не удалось получить список администраторов", e);
             }
         }
 
@@ -333,7 +338,7 @@ public enum NetSchoolAPI {
             try(Response response = this.client.get(Urls.MAIL_RECIPIENTS, params)) {
                 this.headTeachers.addAll(Arrays.asList(this.gson.fromJson(Objects.requireNonNull(response.body()).charStream(), UserModel[].class)));
             } catch (IOException e) {
-                e.printStackTrace();
+                this.logger.warn("Не удалось получить список завучей", e);
             }
         }
 
@@ -353,7 +358,7 @@ public enum NetSchoolAPI {
             try(Response response = this.client.get(Urls.MAIL_RECIPIENTS, params)) {
                 this.classroomTeachers.addAll(Arrays.asList(this.gson.fromJson(Objects.requireNonNull(response.body()).charStream(), UserModel[].class)));
             } catch (IOException e) {
-                e.printStackTrace();
+                this.logger.warn("Не удалось получить список классных руководителей", e);
             }
         }
 
@@ -373,7 +378,7 @@ public enum NetSchoolAPI {
             try(Response response = this.client.get(Urls.MAIL_RECIPIENTS, params)) {
                 this.teachers.addAll(Arrays.asList(this.gson.fromJson(Objects.requireNonNull(response.body()).charStream(), UserModel[].class)));
             } catch (IOException e) {
-                e.printStackTrace();
+                this.logger.warn("Не удалось получить список учителей", e);
             }
         }
 
@@ -393,7 +398,7 @@ public enum NetSchoolAPI {
             try(Response response = this.client.get(Urls.MAIL_RECIPIENTS, params)) {
                 this.classmates.addAll(Arrays.asList(this.gson.fromJson(Objects.requireNonNull(response.body()).charStream(), UserModel[].class)));
             } catch (IOException e) {
-                e.printStackTrace();
+                this.logger.warn("Не удалось получить список одноклассников", e);
             }
         }
 
@@ -418,7 +423,7 @@ public enum NetSchoolAPI {
                     sc.close();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                this.logger.warn("Произошла ошибка во время выхода из системы", e);
             }
         }
     }
@@ -435,44 +440,26 @@ public enum NetSchoolAPI {
         return this.client;
     }
 
-    /**
-     * @return Id года
-     */
     public int getYearId() {
         return this.yearId;
     }
 
-    /**
-     * @return Номер года, например: 23 (2023)
-     */
     public int getGlobalYearId() {
         return this.globalYearId;
     }
 
-    /**
-     * @return Id ученика
-     */
     public int getStudentId() {
         return this.studentId;
     }
 
-    /**
-     * @return Фамилия-Имя ученика
-     */
     public String getStudentName() {
         return this.studentName;
     }
 
-    /**
-     * @return Id класса ученика
-     */
     public String getClassId() {
         return this.classId;
     }
 
-    /**
-     * @return Имя класса ученика
-     */
     public String getClassName() {
         return this.className;
     }

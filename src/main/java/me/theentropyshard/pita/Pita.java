@@ -84,7 +84,7 @@ public final class Pita {
             this.saveCredentials(new Credentials(
                     address, schoolName, login, Utils.md5(password.getBytes(Charset.forName("windows-1251")))
             ));
-            this.logger.info("Пароль сохранен");
+            this.logger.info("Данные для входа сохранены");
         }
 
         return LoginResult.OK;

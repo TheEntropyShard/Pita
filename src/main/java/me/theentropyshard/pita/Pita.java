@@ -67,16 +67,16 @@ public final class Pita {
         try {
             NetSchoolAPI.I.login(address, schoolName, login, password, passwordHashed);
         } catch (UnknownHostException e) {
-            this.logger.warn(e);
+            this.logger.warn("Неизвестный хост", e);
             return LoginResult.WRONG_ADDRESS;
         } catch (AuthException e) {
-            this.logger.warn(e);
+            this.logger.warn("Неверные логин или пароль", e);
             return LoginResult.WRONG_CREDENTIALS;
         } catch (SchoolNotFoundException e) {
-            this.logger.warn(e);
+            this.logger.warn("Указанная школа не была найдена", e);
             return LoginResult.WRONG_SCHOOL_NAME;
-        } catch (IOException e) {
-            this.logger.warn(e);
+        } catch (Exception e) {
+            this.logger.warn("Неизвестная ошибка", e);
             return LoginResult.ERROR;
         }
 

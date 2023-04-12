@@ -61,7 +61,13 @@ public final class View {
                         });
                         break;
                     case ERROR:
-                        //TODO обрабатывать общую ошибку
+                        this.frame.getGlassPane().setVisible(true);
+
+                        this.loginPanel.resetFields(false, true);
+                        this.loginPanel.resetLoginButton();
+                        new MessageDialog("Ошибка", "Произошла неизвестная ошибка");
+
+                        this.frame.getGlassPane().setVisible(false);
                         break;
                     case WRONG_ADDRESS:
                         this.loginPanel.wrongAddress();
@@ -76,6 +82,7 @@ public final class View {
                         throw new RuntimeException("Unreachable");
                 }
             });
+            t.setName("LoginThread");
             t.start();
         };
 

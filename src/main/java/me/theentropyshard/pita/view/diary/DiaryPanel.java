@@ -15,13 +15,15 @@
  *      along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.pita.view;
+package me.theentropyshard.pita.view.diary;
 
 import me.theentropyshard.netschoolapi.NetSchoolAPI;
 import me.theentropyshard.netschoolapi.diary.models.Assignment;
 import me.theentropyshard.netschoolapi.diary.models.Day;
 import me.theentropyshard.netschoolapi.diary.models.Diary;
 import me.theentropyshard.netschoolapi.diary.models.Lesson;
+import me.theentropyshard.pita.view.BorderPanel;
+import me.theentropyshard.pita.view.PitaColors;
 import me.theentropyshard.pita.view.component.GradientLabel;
 import me.theentropyshard.pita.view.component.PScrollBar;
 import me.theentropyshard.pita.view.component.SimpleButton;
@@ -77,21 +79,9 @@ public class DiaryPanel extends JPanel {
 
         BorderPanel header = new BorderPanel();
 
-        JPanel buttonsPanel = new JPanel(new MigLayout("insets 0", "[center]"));
-        buttonsPanel.setBackground(Color.WHITE);
+        DiaryPanelHeader diaryPanelHeader = new DiaryPanelHeader(this);
 
-        SimpleButton btn1 = new SimpleButton("<");
-        btn1.setRoundCorners(true);
-        btn1.setSquareSides(true);
-
-        SimpleButton btn2 = new SimpleButton(">");
-        btn2.setRoundCorners(true);
-        btn2.setSquareSides(true);
-
-        buttonsPanel.add(btn1);
-        buttonsPanel.add(btn2);
-
-        header.addComponent(buttonsPanel);
+        header.addComponent(diaryPanelHeader);
 
         panel.add(header);
 

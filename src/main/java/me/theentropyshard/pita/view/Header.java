@@ -21,6 +21,7 @@ import me.theentropyshard.pita.Utils;
 import me.theentropyshard.netschoolapi.NetSchoolAPI;
 import me.theentropyshard.pita.view.component.GradientLabel;
 import me.theentropyshard.pita.view.component.SimpleButton;
+import me.theentropyshard.pita.view.diary.DiaryPanel;
 import me.theentropyshard.pita.view.mail.MailPanel;
 import net.miginfocom.swing.MigLayout;
 

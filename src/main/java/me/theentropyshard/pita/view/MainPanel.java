@@ -17,6 +17,7 @@
 
 package me.theentropyshard.pita.view;
 
+import me.theentropyshard.pita.view.diary.DiaryPanel;
 import me.theentropyshard.pita.view.mail.MailPanel;
 import me.theentropyshard.pita.view.mail.MailReadPanel;
 import me.theentropyshard.pita.view.mail.MailWritePanel;

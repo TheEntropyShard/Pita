@@ -36,16 +36,11 @@ public class LoginPanel extends JPanel {
     public static final String SGO_LABEL_FONT_NAME = "sansserif";
     public static final int SGO_TEXT_SIZE = 30;
 
-    public static final String ERROR_OCCURRED_TEXT = "Произошла ошибка: ";
-    public static final String ERROR_FONT_NAME = "sansserif";
-    public static final int ERROR_TEXT_SIZE = 18;
-
     private final PTextField sgoAddressField;
     private final PTextField schoolNameField;
     private final PTextField loginField;
     private final PPassField passwordField;
     private final LoginButton loginButton;
-    private final GradientLabel errorLabel;
 
     private LoginButtonCallback callback;
     private boolean passwordHashed;
@@ -108,11 +103,6 @@ public class LoginPanel extends JPanel {
         this.add(this.loginButton, c);
 
         this.loadCredentials();
-
-        c.gridy = 6;
-        this.errorLabel = new GradientLabel(PitaColors.DARK_RED, PitaColors.LIGHT_RED);
-        this.errorLabel.setFont(new Font(LoginPanel.ERROR_FONT_NAME, Font.BOLD, LoginPanel.ERROR_TEXT_SIZE));
-        this.add(this.errorLabel, c);
 
         this.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "ENTER");
         this.getActionMap().put("ENTER", new AbstractAction() {

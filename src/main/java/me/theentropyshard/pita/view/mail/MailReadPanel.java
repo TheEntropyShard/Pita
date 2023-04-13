@@ -206,11 +206,7 @@ public class MailReadPanel extends JPanel {
 
             this.mailBodyPanel.removeAll();
 
-            JTextPane mainTextPane = new JTextPane() {
-                {
-                    this.setOpaque(false);
-                }
-
+            JTextPane textPane = new JTextPane() {
                 @Override
                 protected void paintComponent(Graphics g) {
                     Graphics2D g2 = (Graphics2D) g;
@@ -222,16 +218,16 @@ public class MailReadPanel extends JPanel {
             };
 
             Font textPaneFont = new Font("JetBrains Mono", Font.PLAIN, 14);
-            mainTextPane.setFont(textPaneFont);
-            mainTextPane.setContentType("text/html");
+            textPane.setFont(textPaneFont);
+            textPane.setContentType("text/html");
             String txt = MailReadPanel.fixHTMLEntities(message.text);
-            mainTextPane.setText("<html><head><style> a { color: #2a5885; } p { font-family: \"JetBrains Mono\"; } </style></head><p>" + txt + "</p></html>");
-            mainTextPane.setForeground(new Color(120, 120, 120));
-            mainTextPane.setSelectionColor(PitaColors.ULTRA_LIGHT_COLOR);
-            mainTextPane.setOpaque(false);
-            mainTextPane.setEditable(false);
-            mainTextPane.setMargin(new Insets(-10, 5, 5, 5));
-            mainTextPane.addHyperlinkListener(e -> {
+            textPane.setText("<html><head><style> a { color: #2a5885; } p { font-family: \"JetBrains Mono\"; } </style></head><p>" + txt + "</p></html>");
+            textPane.setForeground(new Color(120, 120, 120));
+            textPane.setSelectionColor(PitaColors.ULTRA_LIGHT_COLOR);
+            textPane.setOpaque(false);
+            textPane.setEditable(false);
+            textPane.setMargin(new Insets(-10, 5, 5, 5));
+            textPane.addHyperlinkListener(e -> {
                 if(e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
                     if(Desktop.isDesktopSupported()) {
                         try {
@@ -244,7 +240,7 @@ public class MailReadPanel extends JPanel {
             });
 
             if(message.fileAttachments != null && message.fileAttachments.length != 0) {
-                this.mailBodyPanel.addComponent(mainTextPane, "w 100::98%, grow, wrap");
+                this.mailBodyPanel.addComponent(textPane, "w 100::98%, grow, wrap");
 
                 JPanel attachedFiles = new JPanel();
                 attachedFiles.setOpaque(false);
@@ -275,7 +271,7 @@ public class MailReadPanel extends JPanel {
 
                 this.mailBodyPanel.addComponent(attachedFiles, "grow");
             } else {
-                this.mailBodyPanel.addComponent(mainTextPane, "w 100::98%, grow");
+                this.mailBodyPanel.addComponent(textPane, "w 100::98%, grow");
             }
 
         } catch (IOException e) {

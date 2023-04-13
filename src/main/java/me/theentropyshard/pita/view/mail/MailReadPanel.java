@@ -184,8 +184,8 @@ public class MailReadPanel extends JPanel {
         this.mailBodyPanel.getInternalPanel().setLayout(new MigLayout("nogrid, fillx", "[]", ""));
 
         panel.add(buttonsPanel);
-        panel.add(mailHeadersPanel);
-        panel.add(this.mailBodyPanel);
+        panel.add(mailHeadersPanel, "gapy 4 0");
+        panel.add(this.mailBodyPanel, "gapy 4 0");
     }
 
     public void loadData(int index) {

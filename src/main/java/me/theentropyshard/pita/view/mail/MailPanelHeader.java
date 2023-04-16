@@ -43,7 +43,7 @@ public class MailPanelHeader extends JPanel {
         this.setLayout(new MigLayout("flowy", "[left]15[left]5[left]15[left]15[left]push", "[center][center][center]"));
         this.setBackground(Color.WHITE);
 
-        GradientLabel label = new GradientLabel("Почтовая папка", PitaColors.DARK_COLOR, PitaColors.LIGHT_COLOR);
+        GradientLabel label = new GradientLabel("Почтовая папка");
         label.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
         this.add(label, "cell 0 0");
 
@@ -78,7 +78,7 @@ public class MailPanelHeader extends JPanel {
 
         this.add(comboBox, "cell 0 1");
 
-        GradientLabel searchLabel = new GradientLabel("Поиск", PitaColors.DARK_COLOR, PitaColors.LIGHT_COLOR);
+        GradientLabel searchLabel = new GradientLabel("Поиск");
         searchLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
         this.add(searchLabel, "cell 1 0");
 
@@ -121,7 +121,7 @@ public class MailPanelHeader extends JPanel {
 
         searchCB.setPreferredSize(comboBox.getPreferredSize());
 
-        GradientLabel numberLabel = new GradientLabel("Число записей на странице", PitaColors.DARK_COLOR, PitaColors.LIGHT_COLOR);
+        GradientLabel numberLabel = new GradientLabel("Число записей на странице");
         numberLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
 
         this.add(numberLabel, "cell 3 0");
@@ -133,7 +133,7 @@ public class MailPanelHeader extends JPanel {
 
         this.add(numberField, "cell 3 1");
 
-        this.pageLabel = new GradientLabel("", PitaColors.DARK_COLOR, PitaColors.LIGHT_COLOR);
+        this.pageLabel = new GradientLabel("");
         this.pageLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
 
         this.add(this.pageLabel, "cell 4 0");

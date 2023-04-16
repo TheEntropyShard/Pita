@@ -22,11 +22,15 @@ import me.theentropyshard.netschoolapi.diary.models.Assignment;
 import me.theentropyshard.netschoolapi.diary.models.Day;
 import me.theentropyshard.netschoolapi.diary.models.Diary;
 import me.theentropyshard.netschoolapi.diary.models.Lesson;
+import me.theentropyshard.pita.Pita;
 import me.theentropyshard.pita.view.BorderPanel;
 import me.theentropyshard.pita.view.PitaColors;
+import me.theentropyshard.pita.view.ThemeManager;
 import me.theentropyshard.pita.view.component.GradientLabel;
+import me.theentropyshard.pita.view.component.MarkLabel;
 import me.theentropyshard.pita.view.component.PScrollBar;
 import me.theentropyshard.pita.view.component.SimpleButton;
+import me.theentropyshard.pita.view.component.ui.MarkLabelUI;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -50,7 +54,9 @@ public class DiaryPanel extends JPanel {
 
     public DiaryPanel() {
         super(new BorderLayout());
-        this.setBackground(Color.WHITE);
+
+        ThemeManager tm = Pita.getPita().getThemeManager();
+        this.setBackground(tm.getColor("mainColor"));
 
         this.addHierarchyListener(e -> {
             JComponent component = (JComponent) e.getSource();
@@ -61,7 +67,7 @@ public class DiaryPanel extends JPanel {
         });
 
         JPanel panel = new JPanel();
-        panel.setBackground(Color.WHITE);
+        panel.setBackground(tm.getColor("mainColor"));
         panel.setLayout(new MigLayout("fillx, flowy", "[0:0:100%, fill]", "[]"));
 
         JScrollPane scrollPane = new JScrollPane();
@@ -74,7 +80,7 @@ public class DiaryPanel extends JPanel {
         }});
 
         this.daysPanel = new JPanel();
-        this.daysPanel.setBackground(Color.WHITE);
+        this.daysPanel.setBackground(tm.getColor("mainColor"));
         this.daysPanel.setLayout(new GridLayout(3, 2, 5, 5));
 
         BorderPanel header = new BorderPanel();
@@ -167,7 +173,9 @@ public class DiaryPanel extends JPanel {
         public DiaryDay() {
             this.lessons = new ArrayList<>();
 
-            this.setBackground(Color.WHITE);
+            ThemeManager tm = Pita.getPita().getThemeManager();
+
+            this.setBackground(tm.getColor("mainColor"));
             this.getInternalPanel().setLayout(new MigLayout("fill", "[25%][60%][15%]", "[]"));
         }
 
@@ -208,17 +216,19 @@ public class DiaryPanel extends JPanel {
 
         public DiaryLesson(int number, String lessonName, String homework) {
             if(number > 0) {
-                this.lessonNameLabel = new GradientLabel(number + ". " + lessonName, PitaColors.DARK_COLOR, PitaColors.LIGHT_COLOR);
+                this.lessonNameLabel = new GradientLabel(number + ". " + lessonName);
             } else {
-                this.lessonNameLabel = new GradientLabel(lessonName, PitaColors.DARK_COLOR, PitaColors.LIGHT_COLOR);
+                this.lessonNameLabel = new GradientLabel(lessonName);
             }
             this.lessonNameLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
 
-            this.homeworkLabel = new GradientLabel(homework, PitaColors.DARK_COLOR, PitaColors.LIGHT_COLOR);
+            this.homeworkLabel = new GradientLabel(homework);
             this.homeworkLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
 
+            ThemeManager tm = Pita.getPita().getThemeManager();
+
             this.marksPanel = new JPanel(new MigLayout("insets 0", "[center]", "[center]"));
-            this.marksPanel.setBackground(Color.WHITE);
+            this.marksPanel.setBackground(tm.getColor("mainColor"));
         }
 
         public void addMark(String mark) {
@@ -228,10 +238,7 @@ public class DiaryPanel extends JPanel {
             } catch (NumberFormatException ignored) {
 
             }
-            GradientLabel label = iMark >= 3 ? new GradientLabel(mark, PitaColors.DARK_COLOR, PitaColors.LIGHT_COLOR) :
-                    Character.isDigit(mark.charAt(0)) ?
-                            new GradientLabel(mark, new Color(105, 0, 0), new Color(168, 0, 0)) :
-                            new GradientLabel(mark, PitaColors.DARK_COLOR, PitaColors.LIGHT_COLOR);
+            MarkLabel label = new MarkLabel(iMark);
             label.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
             this.marksPanel.add(label);
         }

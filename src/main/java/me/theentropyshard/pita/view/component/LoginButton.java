@@ -17,7 +17,8 @@
 
 package me.theentropyshard.pita.view.component;
 
-import me.theentropyshard.pita.view.PitaColors;
+import me.theentropyshard.pita.Pita;
+import me.theentropyshard.pita.view.ThemeManager;
 import me.theentropyshard.pita.view.UIConstants;
 import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.TimingTargetAdapter;
@@ -33,6 +34,7 @@ import java.awt.image.BufferedImage;
 
 public class LoginButton extends JButton implements ActionListener {
     private final Animator animator;
+    private final ThemeManager tm;
 
     private int targetSize;
     private float animationSize;
@@ -53,7 +55,10 @@ public class LoginButton extends JButton implements ActionListener {
         this.setContentAreaFilled(false);
         this.setBorder(new EmptyBorder(0, 0, 0, 0));
         this.setForeground(new Color(250, 250, 250));
-        this.setBackground(Color.WHITE);
+
+        this.tm = Pita.getPita().getThemeManager();
+
+        this.setBackground(this.tm.getColor("mainColor"));
         this.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         this.timer = new Timer(100, this);
@@ -94,7 +99,7 @@ public class LoginButton extends JButton implements ActionListener {
         BufferedImage img = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2 = img.createGraphics();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setPaint(new GradientPaint(0, 0, PitaColors.DARK_COLOR, this.getWidth(), this.getHeight(), PitaColors.LIGHT_COLOR));
+        g2.setPaint(new GradientPaint(0, 0, this.tm.getColor("darkAccentColor"), this.getWidth(), this.getHeight(), this.tm.getColor("lightAccentColor")));
         g2.fillRoundRect(0, 0, this.getWidth(), this.getHeight(), UIConstants.ARC_WIDTH, UIConstants.ARC_HEIGHT);
         if(this.pressedPoint != null && !this.loading) {
             g2.setColor(this.effectColor);

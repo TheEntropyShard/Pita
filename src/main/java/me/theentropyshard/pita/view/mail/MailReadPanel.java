@@ -256,7 +256,7 @@ public class MailReadPanel extends JPanel {
                 attachedFiles.setLayout(new BoxLayout(attachedFiles, BoxLayout.PAGE_AXIS));
 
                 for(Attachment attach : message.fileAttachments) {
-                    GradientLabel label = new GradientLabel(attach.name, PitaColors.DARK_COLOR, PitaColors.LIGHT_COLOR);
+                    GradientLabel label = new GradientLabel(attach.name);
                     label.setFont(new Font("JetBrains Mono", Font.BOLD, 12));
                     label.setBorder(new EmptyBorder(0, 5, 3, 0));
                     label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -293,10 +293,10 @@ public class MailReadPanel extends JPanel {
         private final GradientLabel valueLabel;
 
         public DataElementPanel() {
-            this.keyLabel = new GradientLabel("", PitaColors.DARK_COLOR, PitaColors.LIGHT_COLOR);
+            this.keyLabel = new GradientLabel("");
             this.keyLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
 
-            this.valueLabel = new GradientLabel("", PitaColors.DARK_COLOR, PitaColors.LIGHT_COLOR) {
+            this.valueLabel = new GradientLabel("") {
                 @Override
                 protected void paintComponent(Graphics g) {
                     Color oldColor = g.getColor();

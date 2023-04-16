@@ -21,6 +21,8 @@ import me.theentropyshard.pita.Pita;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 
 public final class View {
     private final JFrame frame;
@@ -37,12 +39,23 @@ public final class View {
         }
         view = this;
 
+        UIDefaults uiDefaults = UIManager.getDefaults();
+        uiDefaults.put("activeCaption", new javax.swing.plaf.ColorUIResource(Color.gray));
+        uiDefaults.put("activeCaptionText", new javax.swing.plaf.ColorUIResource(Color.white));
+
         this.frame = new JFrame("Pita");
         this.rootLayout = new CardLayout();
         this.root = new JPanel(this.rootLayout);
 
         this.root.setPreferredSize(new Dimension(UIConstants.DEFAULT_WIDTH, UIConstants.DEFAULT_HEIGHT));
-
+        this.root.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0), "F1");
+        this.root.getActionMap().put("F1", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Pita.getPita().getThemeManager().hotReload();
+                View.getView().getRoot().repaint();
+            }
+        });
         this.mainPanel = new MainPanel();
         this.root.add(this.mainPanel, MainPanel.class.getSimpleName());
 

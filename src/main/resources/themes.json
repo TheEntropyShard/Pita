@@ -1,0 +1,43 @@
+{
+  "selectedTheme": "green",
+  "themes": {
+    "red": {
+      "mainColor": "#FFFFFF",
+      "darkAccentColor": "#690000",
+      "lightAccentColor": "#A80000",
+      "ultraLightAccentColor": "#FFF0EE"
+    },
+    "green": {
+      "mainColor": "#FFFFFF",
+      "darkAccentColor": "#064F0A",
+      "lightAccentColor": "#228829",
+      "ultraLightAccentColor": "#F0FFEE",
+      "goodMarkColor1": "#064F0A",
+      "goodMarkColor2": "#228829",
+      "badMarkColor1": "#690000",
+      "badMarkColor2": "#A80000"
+    },
+    "blue": {
+      "mainColor": "#FFFFFF",
+      "darkAccentColor": "#000069",
+      "lightAccentColor": "#0000C3",
+      "ultraLightAccentColor": "#F0EEFF"
+    },
+    "yellow": {
+      "mainColor": "#FFFFFF",
+      "darkAccentColor": "#7D7D00",
+      "lightAccentColor": "#C3C300",
+      "ultraLightAccentColor": "#FFFEE4"
+    },
+    "dark": {
+      "mainColor": "#1D2225",
+      "darkAccentColor": "#7D7D00",
+      "lightAccentColor": "#C3C300",
+      "ultraLightAccentColor": "#F0F0F0",
+      "goodMarkColor1": "#064F0A",
+      "goodMarkColor2": "#228829",
+      "badMarkColor1": "#690000",
+      "badMarkColor2": "#A80000"
+    }
+  }
+}

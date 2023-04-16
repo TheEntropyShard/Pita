@@ -105,17 +105,17 @@ public class AnnouncementsPanel extends JPanel {
         });
         container.setBorder(BorderFactory.createCompoundBorder(container.getBorder(), BorderFactory.createEmptyBorder(0, 5, 5, 5)));
 
-        GradientLabel topicLabel = new GradientLabel(PitaColors.DARK_COLOR, PitaColors.LIGHT_COLOR);
+        GradientLabel topicLabel = new GradientLabel();
         topicLabel.setText("Тема: " + a.name);
         topicLabel.setFont(labelFont);
         container.add(topicLabel, "grow");
 
-        GradientLabel timeLabel = new GradientLabel(PitaColors.DARK_COLOR, PitaColors.LIGHT_COLOR);
+        GradientLabel timeLabel = new GradientLabel();
         timeLabel.setText(LocalDateTime.parse(a.postDate).format(AnnouncementsPanel.TO_POST_TIME_FORMATTER));
         timeLabel.setFont(labelFont);
         container.add(timeLabel, "wrap");
 
-        GradientLabel authorLabel = new GradientLabel(PitaColors.DARK_COLOR, PitaColors.LIGHT_COLOR);
+        GradientLabel authorLabel = new GradientLabel();
         authorLabel.setText("Автор: " + a.author.nickName);
         authorLabel.setFont(labelFont);
         container.add(authorLabel, "wrap");
@@ -191,7 +191,7 @@ public class AnnouncementsPanel extends JPanel {
             attachedFiles.setLayout(new BoxLayout(attachedFiles, BoxLayout.PAGE_AXIS));
 
             for(Attachment attach : a.attachments) {
-                GradientLabel label = new GradientLabel(attach.name, PitaColors.DARK_COLOR, PitaColors.LIGHT_COLOR);
+                GradientLabel label = new GradientLabel(attach.name);
                 label.setFont(new Font("JetBrains Mono", Font.BOLD, 12));
                 label.setBorder(new EmptyBorder(0, 5, 3, 0));
                 label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

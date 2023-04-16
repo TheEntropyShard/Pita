@@ -17,6 +17,7 @@
 
 package me.theentropyshard.pita.view;
 
+import me.theentropyshard.pita.Pita;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -53,7 +54,7 @@ public class BorderPanel extends JPanel {
             protected void paintComponent(Graphics g) {
                 Graphics2D g2 = (Graphics2D) g;
                 g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g2.setColor(Color.WHITE);
+                g2.setColor(Pita.getPita().getThemeManager().getColor("mainColor"));
                 g2.fillRoundRect(0, 0, this.getWidth(), this.getHeight(), UIConstants.ARC_WIDTH, UIConstants.ARC_HEIGHT);
                 super.paintComponent(g2);
             }
@@ -65,7 +66,7 @@ public class BorderPanel extends JPanel {
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setColor(PitaColors.ULTRA_LIGHT_COLOR);
+        g2.setColor(Pita.getPita().getThemeManager().getColor("ultraLightAccentColor"));
         g2.fillRoundRect(0, 0, this.getWidth(), this.getHeight(), UIConstants.ARC_WIDTH, UIConstants.ARC_HEIGHT);
         super.paintComponent(g2);
     }

@@ -20,6 +20,7 @@ package me.theentropyshard.pita;
 import me.theentropyshard.netschoolapi.NetSchoolAPI;
 import me.theentropyshard.netschoolapi.exceptions.AuthException;
 import me.theentropyshard.netschoolapi.exceptions.SchoolNotFoundException;
+import me.theentropyshard.pita.view.ThemeManager;
 import me.theentropyshard.pita.view.View;
 import okhttp3.OkHttp;
 import org.apache.logging.log4j.LogManager;
@@ -34,8 +35,13 @@ import java.util.logging.Level;
 public final class Pita {
     private final Logger logger;
 
+    private final File configFile;
     private final File credentialsFile;
     private final File attachmentsDir;
+    private final File themesDir;
+
+    private final ThemeManager themeManager;
+    private final File pitaDir;
 
     public Pita() {
         if(pita != null) {
@@ -43,16 +49,23 @@ public final class Pita {
         }
         pita = this;
 
-        File pitaDir = Utils.getAppDir("Pita");
+        this.pitaDir = Utils.getAppDir("Pita");
 
-        File logsDir = Utils.makeDirectory(new File(pitaDir, "Logs"));
+        File logsDir = Utils.makeDirectory(new File(this.pitaDir, "Logs"));
         System.setProperty("logPath", logsDir.toString());
 
-        this.credentialsFile = Utils.makeFile(new File(pitaDir, "credentials.dat"));
-        this.attachmentsDir = Utils.makeDirectory(new File(pitaDir, "Attachments"));
+        this.configFile = Utils.makeFile(new File(this.pitaDir, "config.json"));
+        this.credentialsFile = Utils.makeFile(new File(this.pitaDir, "credentials.dat"));
+        this.attachmentsDir = Utils.makeDirectory(new File(this.pitaDir, "Attachments"));
+        this.themesDir = Utils.makeDirectory(new File(this.pitaDir, "Themes"));
 
         java.util.logging.Logger.getLogger(OkHttp.class.getSimpleName()).setLevel(Level.FINE);
         this.logger = LogManager.getLogger(Pita.class);
+
+        Config.load();
+
+        this.themeManager = new ThemeManager();
+        this.themeManager.loadTheme(Config.getString("selectedTheme"));
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             synchronized (NetSchoolAPI.I) {
@@ -115,20 +128,37 @@ public final class Pita {
         return null;
     }
 
+
+
     public enum LoginResult {
         OK,
         ERROR,
         WRONG_ADDRESS,
         WRONG_SCHOOL_NAME,
-        WRONG_CREDENTIALS
+        WRONG_CREDENTIALS;
     }
-
     public Logger getLogger() {
         return this.logger;
     }
 
+    public File getPitaDir() {
+        return this.pitaDir;
+    }
+
+    public File getConfigFile() {
+        return this.configFile;
+    }
+
     public File getAttachmentsDir() {
         return this.attachmentsDir;
+    }
+
+    public File getThemesDir() {
+        return this.themesDir;
+    }
+
+    public ThemeManager getThemeManager() {
+        return this.themeManager;
     }
 
     private static Pita pita;

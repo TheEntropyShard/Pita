@@ -17,6 +17,7 @@
 
 package me.theentropyshard.pita.view.component;
 
+import me.theentropyshard.pita.Pita;
 import me.theentropyshard.pita.view.PitaColors;
 import me.theentropyshard.pita.view.UIConstants;
 
@@ -26,7 +27,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class PPassField extends JPasswordField {
-    private Color defaultColor = PitaColors.ULTRA_LIGHT_COLOR;
+    private Color defaultColor = Pita.getPita().getThemeManager().getColor("ultraLightAccentColor");
     private Color wrongColor = PitaColors.WRONG;
 
     private Icon prefixIcon;

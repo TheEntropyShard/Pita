@@ -2,7 +2,8 @@
 
 package me.theentropyshard.pita.view.component;
 
-import me.theentropyshard.pita.view.PitaColors;
+import me.theentropyshard.pita.Pita;
+import me.theentropyshard.pita.view.ThemeManager;
 import me.theentropyshard.pita.view.UIConstants;
 
 import javax.swing.*;
@@ -39,7 +40,8 @@ public class PCheckBox extends JCheckBox {
             //  Draw Check icon
             int[] px = {8, 12, 18, 16, 12, 10};
             int[] py = {ly + 7, ly + 13, ly + 4, ly + 2, ly + 9, ly + 5};
-            g2.setPaint(new GradientPaint(0, 0, PitaColors.DARK_COLOR, g2.getFontMetrics().stringWidth(getText()), getHeight(), PitaColors.LIGHT_COLOR));
+            ThemeManager tm = Pita.getPita().getThemeManager();
+            g2.setPaint(new GradientPaint(0, 0, tm.getColor("darkAccentColor"), g2.getFontMetrics().stringWidth(getText()), getHeight(), tm.getColor("lightAccentColor")));
             g2.fillPolygon(px, py, px.length);
         }
         g2.dispose();

@@ -17,13 +17,16 @@
 
 package me.theentropyshard.pita.view.component;
 
+import me.theentropyshard.pita.Pita;
 import me.theentropyshard.pita.view.PitaColors;
+import me.theentropyshard.pita.view.ThemeManager;
 import me.theentropyshard.pita.view.UIConstants;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class SimpleButton extends JButton {
+    private final ThemeManager tm;
     private boolean roundCorners;
     private boolean squareSides;
 
@@ -32,7 +35,9 @@ public class SimpleButton extends JButton {
         this.setFocusPainted(false);
         this.setContentAreaFilled(false);
         this.setForeground(new Color(250, 250, 250));
-        this.setBackground(Color.WHITE);
+
+        this.tm = Pita.getPita().getThemeManager();
+        this.setBackground(this.tm.getColor("mainColor"));
         this.setFont(new Font("JetBrains Mono", Font.BOLD, 12));
         this.setCursor(new Cursor(Cursor.HAND_CURSOR));
     }
@@ -46,7 +51,8 @@ public class SimpleButton extends JButton {
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2.setPaint(new GradientPaint(0, 0, PitaColors.DARK_COLOR, this.getWidth(), this.getHeight(), PitaColors.LIGHT_COLOR));
+
+        g2.setPaint(new GradientPaint(0, 0, this.tm.getColor("darkAccentColor"), this.getWidth(), this.getHeight(), this.tm.getColor("lightAccentColor")));
         if(this.roundCorners) {
             g2.fillRoundRect(0, 0, this.getWidth(), this.getHeight(), UIConstants.ARC_WIDTH, UIConstants.ARC_HEIGHT);
         } else {

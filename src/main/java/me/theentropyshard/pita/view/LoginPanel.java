@@ -47,7 +47,9 @@ public class LoginPanel extends JPanel {
 
     public LoginPanel() {
         this.setLayout(new GridBagLayout());
-        this.setBackground(Color.WHITE);
+
+        ThemeManager tm = Pita.getPita().getThemeManager();
+        this.setBackground(tm.getColor("mainColor"));
 
         GridBagConstraints c = new GridBagConstraints();
         c.insets = new Insets(5, 0, 5, 0);
@@ -56,7 +58,8 @@ public class LoginPanel extends JPanel {
 
         c.gridx = 0;
         c.gridy = 0;
-        GradientLabel sgoLabel = new GradientLabel(PitaColors.DARK_COLOR, PitaColors.LIGHT_COLOR);
+
+        GradientLabel sgoLabel = new GradientLabel();
         sgoLabel.setText(LoginPanel.SGO_TEXT);
         sgoLabel.setFont(new Font(LoginPanel.SGO_LABEL_FONT_NAME, Font.BOLD, LoginPanel.SGO_TEXT_SIZE));
         this.add(sgoLabel, c);
@@ -115,6 +118,13 @@ public class LoginPanel extends JPanel {
                 }
             }
         });
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        ThemeManager tm = Pita.getPita().getThemeManager();
+        this.setBackground(tm.getColor("mainColor"));
+        super.paintComponent(g);
     }
 
     private void loginButtonPressed(LoginButtonCallback callback) {

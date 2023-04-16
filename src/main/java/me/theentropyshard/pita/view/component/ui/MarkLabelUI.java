@@ -19,23 +19,27 @@ package me.theentropyshard.pita.view.component.ui;
 
 import me.theentropyshard.pita.Pita;
 import me.theentropyshard.pita.view.ThemeManager;
-import me.theentropyshard.pita.view.component.GradientLabel;
+import me.theentropyshard.pita.view.component.MarkLabel;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicLabelUI;
 import java.awt.*;
 
-/**
- * @see <a href="https://stackoverflow.com/a/65133451/19857533">Redrawing a JLabel to get a Gradient Painted Text</a>
- */
-public class PGradientLabelUI extends BasicLabelUI {
+public class MarkLabelUI extends BasicLabelUI {
     @Override
     protected void paintEnabledText(JLabel l, Graphics g, String s, int x, int y) {
-        if(l instanceof GradientLabel) {
+        if(l instanceof MarkLabel) {
+            MarkLabel ml = (MarkLabel) l;
             Graphics2D g2 = (Graphics2D) g;
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             ThemeManager tm = Pita.getPita().getThemeManager();
-            g2.setPaint(new GradientPaint(0, 0, tm.getColor("darkAccentColor"), g2.getFontMetrics().stringWidth(s), l.getHeight(), tm.getColor("lightAccentColor")));
+            Color c1 = ml.isGoodMark() ? tm.getColor("goodMarkColor1") : tm.getColor("badMarkColor1");
+            Color c2 = ml.isGoodMark() ? tm.getColor("goodMarkColor2") : tm.getColor("badMarkColor2");
+            if(ml.getText().equalsIgnoreCase("Оценка")) {
+                c1 = tm.getColor("darkAccentColor");
+                c2 = tm.getColor("lightAccentColor");
+            }
+            g2.setPaint(new GradientPaint(0, 0, c1, g2.getFontMetrics().stringWidth(s), l.getHeight(), c2));
             g2.drawString(s, x, y);
         } else {
             super.paintEnabledText(l, g, s, x, y);

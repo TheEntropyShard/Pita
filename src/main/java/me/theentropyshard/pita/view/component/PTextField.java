@@ -17,6 +17,7 @@
 
 package me.theentropyshard.pita.view.component;
 
+import me.theentropyshard.pita.Pita;
 import me.theentropyshard.pita.view.PitaColors;
 import me.theentropyshard.pita.view.UIConstants;
 
@@ -30,7 +31,7 @@ public class PTextField extends JTextField {
     public static final Color TEXT_FIELD_TEXT_COLOR = Color.decode("#7A8C8D");
     public static final int TEXT_FIELD_FONT_SIZE = 16;
 
-    private Color defaultColor = PitaColors.ULTRA_LIGHT_COLOR;
+    private Color defaultColor = Pita.getPita().getThemeManager().getColor("ultraLightAccentColor");
     private Color wrongColor = PitaColors.WRONG;
 
     private Icon prefixIcon;

@@ -246,6 +246,16 @@ public enum Utils {
         return lines;
     }
 
+    public static String readFile(InputStream is) {
+        StringBuilder builder = new StringBuilder();
+        Scanner sc = new Scanner(is);
+        while(sc.hasNextLine()) {
+            builder.append(sc.nextLine()).append("\n");
+        }
+        sc.close();
+        return builder.substring(0, builder.length() - 1);
+    }
+
     /**
      * Reads an InputStream to a String
      *

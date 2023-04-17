@@ -26,7 +26,7 @@ import me.theentropyshard.netschoolapi.mail.models.Mail;
 import me.theentropyshard.netschoolapi.mail.models.MailRecord;
 import me.theentropyshard.pita.view.BorderPanel;
 import me.theentropyshard.pita.view.View;
-import me.theentropyshard.pita.view.component.PScrollBar;
+import me.theentropyshard.pita.view.component.ScrollBar;
 import me.theentropyshard.pita.view.component.SimpleButton;
 import net.miginfocom.swing.MigLayout;
 
@@ -64,8 +64,8 @@ public class MailPanel extends JPanel {
         scrollPane.setBorder(null);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setViewportView(panel);
-        scrollPane.setVerticalScrollBar(new PScrollBar());
-        scrollPane.setHorizontalScrollBar(new PScrollBar() {{
+        scrollPane.setVerticalScrollBar(new ScrollBar());
+        scrollPane.setHorizontalScrollBar(new ScrollBar() {{
             this.setOrientation(JScrollBar.HORIZONTAL);
         }});
 

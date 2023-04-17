@@ -22,7 +22,7 @@ import me.theentropyshard.netschoolapi.NetSchoolAPI;
 import me.theentropyshard.netschoolapi.diary.models.Announcement;
 import me.theentropyshard.netschoolapi.diary.models.Attachment;
 import me.theentropyshard.pita.view.component.GradientLabel;
-import me.theentropyshard.pita.view.component.PScrollBar;
+import me.theentropyshard.pita.view.component.ScrollBar;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -55,7 +55,7 @@ public class AnnouncementsPanel extends JPanel {
         this.scrollPane.setBorder(null);
         this.scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         this.scrollPane.setViewportView(this.panel);
-        this.scrollPane.setVerticalScrollBar(new PScrollBar());
+        this.scrollPane.setVerticalScrollBar(new ScrollBar());
 
         this.setLayout(new BorderLayout());
         this.add(this.scrollPane, BorderLayout.CENTER);

@@ -23,8 +23,8 @@ import me.theentropyshard.netschoolapi.mail.MailField;
 import me.theentropyshard.netschoolapi.mail.models.MailRecord;
 import me.theentropyshard.pita.view.*;
 import me.theentropyshard.pita.view.component.GradientLabel;
-import me.theentropyshard.pita.view.component.PComboBox;
-import me.theentropyshard.pita.view.component.PTextField;
+import me.theentropyshard.pita.view.component.ComboBox;
+import me.theentropyshard.pita.view.component.TextField;
 import me.theentropyshard.pita.view.component.SimpleButton;
 import net.miginfocom.swing.MigLayout;
 
@@ -37,7 +37,7 @@ import java.util.Set;
 
 public class MailPanelHeader extends JPanel {
     private final GradientLabel pageLabel;
-    private final PTextField pageField;
+    private final TextField pageField;
 
     public MailPanelHeader(ActionListener lbc, MailPanel mailPanel) {
         this.setLayout(new MigLayout("flowy", "[left]15[left]5[left]15[left]15[left]push", "[center][center][center]"));
@@ -47,7 +47,7 @@ public class MailPanelHeader extends JPanel {
         label.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
         this.add(label, "cell 0 0");
 
-        PComboBox comboBox = new PComboBox();
+        ComboBox comboBox = new ComboBox();
         comboBox.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
         comboBox.setBorder(BorderFactory.createEmptyBorder(5, 12, 5, 5));
         comboBox.addItem("Входящие");
@@ -82,7 +82,7 @@ public class MailPanelHeader extends JPanel {
         searchLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
         this.add(searchLabel, "cell 1 0");
 
-        PComboBox searchCB = new PComboBox();
+        ComboBox searchCB = new ComboBox();
         searchCB.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
         searchCB.setBorder(BorderFactory.createEmptyBorder(5, 12, 5, 5));
         searchCB.addItem("От кого");
@@ -106,7 +106,7 @@ public class MailPanelHeader extends JPanel {
             }
         });
 
-        PTextField searchField = new PTextField();
+        TextField searchField = new TextField();
         searchField.setHint("Введите текст...");
         searchField.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
 
@@ -126,7 +126,7 @@ public class MailPanelHeader extends JPanel {
 
         this.add(numberLabel, "cell 3 0");
 
-        PTextField numberField = new PTextField();
+        TextField numberField = new TextField();
         numberField.setPreferredSize(new Dimension(250, searchField.getPreferredSize().height));
         numberField.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
         numberField.setText("20");
@@ -138,7 +138,7 @@ public class MailPanelHeader extends JPanel {
 
         this.add(this.pageLabel, "cell 4 0");
 
-        this.pageField = new PTextField();
+        this.pageField = new TextField();
         this.pageField.setText("1");
         this.pageField.setPreferredSize(new Dimension(250, searchField.getPreferredSize().height));
         this.pageField.setFont(new Font("JetBrains Mono", Font.BOLD, 14));

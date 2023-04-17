@@ -22,6 +22,7 @@ import me.theentropyshard.netschoolapi.models.UploadLimits;
 import me.theentropyshard.netschoolapi.models.UserModel;
 import me.theentropyshard.pita.view.*;
 import me.theentropyshard.pita.view.component.*;
+import me.theentropyshard.pita.view.component.TextField;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -41,7 +42,7 @@ import java.util.stream.Collectors;
 
 public class MailWritePanel extends JPanel {
     private final JTextArea textArea;
-    private final PTextField subjectField;
+    private final TextField subjectField;
     private final JPanel attachedFilesPanel;
     private final DataElementPanel receiversPanel;
 
@@ -72,7 +73,7 @@ public class MailWritePanel extends JPanel {
         scrollPane.setBorder(null);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setViewportView(panel);
-        scrollPane.setVerticalScrollBar(new PScrollBar());
+        scrollPane.setVerticalScrollBar(new ScrollBar());
 
         this.add(scrollPane, BorderLayout.CENTER);
 
@@ -124,7 +125,7 @@ public class MailWritePanel extends JPanel {
         DestUserPanel subjectPanel = new DestUserPanel();
         subjectPanel.setKey("Тема");
 
-        this.subjectField = new PTextField() {{
+        this.subjectField = new TextField() {{
             this.setUI(new BasicTextFieldUI() {
                 @Override
                 protected void paintSafely(Graphics g) {
@@ -144,7 +145,7 @@ public class MailWritePanel extends JPanel {
         notifyPanel.setBackground(new Color(240, 240, 240));
         notifyPanel.setKey("Уведомить о прочтении");
 
-        PCheckBox notifyCheckBox = new PCheckBox();
+        CheckBox notifyCheckBox = new CheckBox();
         notifyPanel.setValueComponent(notifyCheckBox);
 
         controlsPanel.addComponent(this.receiversPanel, "growx, width 0:0:100%");

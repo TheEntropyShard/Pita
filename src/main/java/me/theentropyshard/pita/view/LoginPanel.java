@@ -22,8 +22,8 @@ import me.theentropyshard.pita.Pita;
 import me.theentropyshard.pita.ResourceManager;
 import me.theentropyshard.pita.view.component.GradientLabel;
 import me.theentropyshard.pita.view.component.LoginButton;
-import me.theentropyshard.pita.view.component.PPassField;
-import me.theentropyshard.pita.view.component.PTextField;
+import me.theentropyshard.pita.view.component.PassField;
+import me.theentropyshard.pita.view.component.TextField;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,10 +36,10 @@ public class LoginPanel extends JPanel {
     public static final String SGO_LABEL_FONT_NAME = "sansserif";
     public static final int SGO_TEXT_SIZE = 30;
 
-    private final PTextField sgoAddressField;
-    private final PTextField schoolNameField;
-    private final PTextField loginField;
-    private final PPassField passwordField;
+    private final TextField sgoAddressField;
+    private final TextField schoolNameField;
+    private final TextField loginField;
+    private final PassField passwordField;
     private final LoginButton loginButton;
 
     private LoginButtonCallback callback;
@@ -65,28 +65,28 @@ public class LoginPanel extends JPanel {
         this.add(sgoLabel, c);
 
         c.gridy = 1;
-        this.sgoAddressField = new PTextField();
+        this.sgoAddressField = new TextField();
         this.sgoAddressField.setPrefixIcon(ResourceManager.getIcon("/images/browser.png"));
         this.sgoAddressField.setHint("Сайт дневника");
         this.sgoAddressField.setPreferredSize(new Dimension(sgoLabel.getPreferredSize().width, this.sgoAddressField.getPreferredSize().height));
         this.add(this.sgoAddressField, c);
 
         c.gridy = 2;
-        this.schoolNameField = new PTextField();
+        this.schoolNameField = new TextField();
         this.schoolNameField.setPrefixIcon(ResourceManager.getIcon("/images/school.png"));
         this.schoolNameField.setHint("Имя школы");
         this.schoolNameField.setPreferredSize(new Dimension(sgoLabel.getPreferredSize().width, this.sgoAddressField.getPreferredSize().height));
         this.add(this.schoolNameField, c);
 
         c.gridy = 3;
-        this.loginField = new PTextField();
+        this.loginField = new TextField();
         loginField.setPrefixIcon(ResourceManager.getIcon("/images/mail.png"));
         loginField.setHint("Логин");
         loginField.setPreferredSize(new Dimension(sgoLabel.getPreferredSize().width, this.sgoAddressField.getPreferredSize().height));
         this.add(loginField, c);
 
         c.gridy = 4;
-        this.passwordField = new PPassField();
+        this.passwordField = new PassField();
         this.passwordField.setPrefixIcon(ResourceManager.getIcon("/images/pass.png"));
         this.passwordField.setHint("Пароль");
         this.passwordField.setPreferredSize(new Dimension(sgoLabel.getPreferredSize().width, this.sgoAddressField.getPreferredSize().height));
@@ -134,10 +134,10 @@ public class LoginPanel extends JPanel {
                 JTextField t = (JTextField) com;
                 if(t.getText().isEmpty()) {
                     com.setBackground(PitaColors.WRONG);
-                    if(t instanceof PTextField) {
-                        ((PTextField) t).setWrong(true);
-                    } else if(t instanceof PPassField) {
-                        ((PPassField) t).setWrong(true);
+                    if(t instanceof TextField) {
+                        ((TextField) t).setWrong(true);
+                    } else if(t instanceof PassField) {
+                        ((PassField) t).setWrong(true);
                     }
                     com.requestFocus();
                     return;

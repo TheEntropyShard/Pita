@@ -23,8 +23,8 @@ import me.theentropyshard.pita.view.BorderPanel;
 import me.theentropyshard.pita.view.PitaColors;
 import me.theentropyshard.pita.view.View;
 import me.theentropyshard.pita.view.component.GradientLabel;
-import me.theentropyshard.pita.view.component.PComboBox;
-import me.theentropyshard.pita.view.component.PScrollBar;
+import me.theentropyshard.pita.view.component.ComboBox;
+import me.theentropyshard.pita.view.component.ScrollBar;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -52,7 +52,7 @@ public class MailChooseRecipientDialog extends JDialog {
         BorderPanel leftPanel = new BorderPanel();
         BorderPanel rightPanel = new BorderPanel();
 
-        PComboBox receiversCategory = new PComboBox();
+        ComboBox receiversCategory = new ComboBox();
         receiversCategory.addItem("Администраторы");
         receiversCategory.addItem("Завучи");
         receiversCategory.addItem("Классные руководители");
@@ -160,7 +160,7 @@ public class MailChooseRecipientDialog extends JDialog {
         scrollPane.setBorder(null);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setViewportView(panel);
-        scrollPane.setVerticalScrollBar(new PScrollBar());
+        scrollPane.setVerticalScrollBar(new ScrollBar());
 
         this.add(scrollPane);
         this.getContentPane().setPreferredSize(new Dimension(800, 522));

@@ -26,7 +26,11 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class PPassField extends JPasswordField {
+public class TextField extends JTextField {
+    public static final String TEXT_FIELD_FONT = "JetBrains Mono";
+    public static final Color TEXT_FIELD_TEXT_COLOR = Color.decode("#7A8C8D");
+    public static final int TEXT_FIELD_FONT_SIZE = 16;
+
     private Color defaultColor = Pita.getPita().getThemeManager().getColor("ultraLightAccentColor");
     private Color wrongColor = PitaColors.WRONG;
 
@@ -34,11 +38,11 @@ public class PPassField extends JPasswordField {
     private String hint = "";
     private boolean isWrong;
 
-    public PPassField() {
+    public TextField() {
         this.setOpaque(false);
         this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        this.setForeground(PTextField.TEXT_FIELD_TEXT_COLOR);
-        this.setFont(new Font(PTextField.TEXT_FIELD_FONT, Font.BOLD, PTextField.TEXT_FIELD_FONT_SIZE));
+        this.setForeground(TextField.TEXT_FIELD_TEXT_COLOR);
+        this.setFont(new Font(TextField.TEXT_FIELD_FONT, Font.BOLD, TextField.TEXT_FIELD_FONT_SIZE));
         this.setSelectionColor(new Color(75, 175, 152));
         this.addKeyListener(new KeyAdapter() {
             @Override
@@ -69,9 +73,9 @@ public class PPassField extends JPasswordField {
     @Override
     public void paint(Graphics g) {
         super.paint(g);
-        if(this.getPassword().length == 0) {
+        if(this.getText().length() == 0) {
             ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-            g.setColor(PTextField.TEXT_FIELD_TEXT_COLOR);
+            g.setColor(TextField.TEXT_FIELD_TEXT_COLOR);
             g.drawString(this.hint, this.getInsets().left, this.getHeight() / 2 + g.getFontMetrics().getAscent() / 2 - 2);
         }
     }
@@ -91,6 +95,7 @@ public class PPassField extends JPasswordField {
         }
         this.setBorder(BorderFactory.createEmptyBorder(10, left, 10, 15));
     }
+
 
     public Color getDefaultColor() {
         return this.defaultColor;

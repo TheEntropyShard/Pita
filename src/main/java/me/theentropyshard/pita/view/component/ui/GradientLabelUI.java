@@ -28,7 +28,7 @@ import java.awt.*;
 /**
  * @see <a href="https://stackoverflow.com/a/65133451/19857533">Redrawing a JLabel to get a Gradient Painted Text</a>
  */
-public class PGradientLabelUI extends BasicLabelUI {
+public class GradientLabelUI extends BasicLabelUI {
     @Override
     protected void paintEnabledText(JLabel l, Graphics g, String s, int x, int y) {
         if(l instanceof GradientLabel) {

@@ -25,7 +25,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 import java.awt.*;
 
-public class PComboBoxUI extends BasicComboBoxUI {
+public class ComboBoxUI extends BasicComboBoxUI {
     public static final Color TRIANGLE_COLOR = Color.decode("#7A8C8D");
 
     @Override
@@ -55,7 +55,7 @@ public class PComboBoxUI extends BasicComboBoxUI {
                 }
 
                 int nPoints = 3;
-                g2.setColor(PComboBoxUI.TRIANGLE_COLOR);
+                g2.setColor(ComboBoxUI.TRIANGLE_COLOR);
                 g2.fillPolygon(xPoints, yPoints, nPoints);
                 super.paintComponent(g2);
             }

@@ -17,14 +17,14 @@
 
 package me.theentropyshard.pita.view.component;
 
-import me.theentropyshard.pita.view.component.ui.PScrollBarUI;
+import me.theentropyshard.pita.view.component.ui.ScrollBarUI;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class PScrollBar extends JScrollBar {
-    public PScrollBar() {
-        this.setUI(new PScrollBarUI());
+public class ScrollBar extends JScrollBar {
+    public ScrollBar() {
+        this.setUI(new ScrollBarUI());
         this.setPreferredSize(new Dimension(5, 5));
         this.setUnitIncrement(25);
         this.setBackground(Color.WHITE);

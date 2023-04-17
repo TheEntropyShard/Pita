@@ -24,13 +24,10 @@ import me.theentropyshard.netschoolapi.diary.models.Diary;
 import me.theentropyshard.netschoolapi.diary.models.Lesson;
 import me.theentropyshard.pita.Pita;
 import me.theentropyshard.pita.view.BorderPanel;
-import me.theentropyshard.pita.view.PitaColors;
 import me.theentropyshard.pita.view.ThemeManager;
 import me.theentropyshard.pita.view.component.GradientLabel;
 import me.theentropyshard.pita.view.component.MarkLabel;
-import me.theentropyshard.pita.view.component.PScrollBar;
-import me.theentropyshard.pita.view.component.SimpleButton;
-import me.theentropyshard.pita.view.component.ui.MarkLabelUI;
+import me.theentropyshard.pita.view.component.ScrollBar;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -74,8 +71,8 @@ public class DiaryPanel extends JPanel {
         scrollPane.setBorder(null);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setViewportView(panel);
-        scrollPane.setVerticalScrollBar(new PScrollBar());
-        scrollPane.setHorizontalScrollBar(new PScrollBar() {{
+        scrollPane.setVerticalScrollBar(new ScrollBar());
+        scrollPane.setHorizontalScrollBar(new ScrollBar() {{
             this.setOrientation(JScrollBar.HORIZONTAL);
         }});
 

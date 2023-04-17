@@ -20,7 +20,7 @@ package me.theentropyshard.pita.view;
 import me.theentropyshard.netschoolapi.NetSchoolAPI;
 import me.theentropyshard.netschoolapi.models.SchoolCard;
 import me.theentropyshard.pita.view.component.GradientLabel;
-import me.theentropyshard.pita.view.component.PScrollBar;
+import me.theentropyshard.pita.view.component.ScrollBar;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -41,7 +41,7 @@ public class SchoolInfoPanel extends JPanel {
         scrollPane.setBorder(null);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setViewportView(panel);
-        scrollPane.setVerticalScrollBar(new PScrollBar());
+        scrollPane.setVerticalScrollBar(new ScrollBar());
 
         this.add(scrollPane, BorderLayout.CENTER);
 

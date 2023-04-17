@@ -13,10 +13,10 @@ import java.awt.*;
 /**
  * @see <a href="https://github.com/DJ-Raven/raven-project/blob/main/src/checkbox/JCheckBoxCustom.java">Raven Project</a>
  */
-public class PCheckBox extends JCheckBox {
+public class CheckBox extends JCheckBox {
     private static final int BORDER = 5;
 
-    public PCheckBox() {
+    public CheckBox() {
         this.setCursor(new Cursor(Cursor.HAND_CURSOR));
         this.setBackground(Color.WHITE);
         this.setBorder(new EmptyBorder(5, 5, 5, 5));

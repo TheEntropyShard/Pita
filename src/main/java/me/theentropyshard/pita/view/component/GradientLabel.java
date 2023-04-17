@@ -17,15 +17,14 @@
 
 package me.theentropyshard.pita.view.component;
 
-import me.theentropyshard.pita.view.component.ui.PGradientLabelUI;
+import me.theentropyshard.pita.view.component.ui.GradientLabelUI;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class GradientLabel extends JLabel {
     public GradientLabel() {
         this.setOpaque(false);
-        this.setUI(new PGradientLabelUI());
+        this.setUI(new GradientLabelUI());
     }
 
     public GradientLabel(String text) {

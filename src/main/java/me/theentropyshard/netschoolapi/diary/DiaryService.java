@@ -17,7 +17,7 @@
 
 package me.theentropyshard.netschoolapi.diary;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import me.theentropyshard.netschoolapi.Urls;
 import me.theentropyshard.netschoolapi.diary.models.Assignment;
 import me.theentropyshard.netschoolapi.diary.models.DetailedAssignment;
@@ -33,11 +33,11 @@ import java.util.Objects;
 
 public class DiaryService {
     private final NetSchoolAPI api;
-    private final Gson gson;
+    private final ObjectMapper mapper;
 
     public DiaryService(NetSchoolAPI api) {
         this.api = api;
-        this.gson = new Gson();
+        this.mapper = new ObjectMapper();
     }
 
     public Diary getDiary(String weekStart, String weekEnd) throws IOException {
@@ -54,7 +54,7 @@ public class DiaryService {
         };
 
         try(Response response = this.api.getClient().get(Urls.DIARY, query)) {
-            return this.gson.fromJson(Objects.requireNonNull(response.body()).charStream(), Diary.class);
+            return this.mapper.readValue(Objects.requireNonNull(response.body()).charStream(), Diary.class);
         }
     }
 
@@ -68,14 +68,14 @@ public class DiaryService {
         };
 
         try(Response response = this.api.getClient().get(Urls.OVERDUE, query)) {
-            return Arrays.asList(this.gson.fromJson(Objects.requireNonNull(response.body()).charStream(), Assignment[].class));
+            return Arrays.asList(this.mapper.readValue(Objects.requireNonNull(response.body()).charStream(), Assignment[].class));
         }
     }
 
     public DetailedAssignment getDetailedAssignment(int assignmentId) throws IOException {
         String query = "?studentId=" + this.api.getStudentId();
         try(Response response = this.api.getClient().get(Urls.ASSIGNS + "/" + assignmentId, new Object[] {"studentId", this.api.getStudentId()})) {
-            return this.gson.fromJson(Objects.requireNonNull(response.body()).charStream(), DetailedAssignment.class);
+            return this.mapper.readValue(Objects.requireNonNull(response.body()).charStream(), DetailedAssignment.class);
         }
     }
 }

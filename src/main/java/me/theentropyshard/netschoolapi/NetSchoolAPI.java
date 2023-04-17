@@ -17,8 +17,8 @@
 
 package me.theentropyshard.netschoolapi;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import me.theentropyshard.netschoolapi.diary.DiaryService;
 import me.theentropyshard.netschoolapi.diary.models.Announcement;
 import me.theentropyshard.netschoolapi.diary.models.Attachment;
@@ -47,7 +47,7 @@ import java.util.*;
 public enum NetSchoolAPI {
     I;
 
-    private final Gson gson = new Gson();
+    private final ObjectMapper mapper = new ObjectMapper();
     private final Timer timer = new Timer("PingTimer", true);
     private final Logger logger = Pita.getPita().getLogger();
 
@@ -90,13 +90,13 @@ public enum NetSchoolAPI {
         String lt;
 
         try(Response response = this.client.post(Urls.GET_DATA, "")) {
-            JsonObject json = this.gson.fromJson(Objects.requireNonNull(response.body()).charStream(), JsonObject.class);
+            JsonNode json = this.mapper.readValue(Objects.requireNonNull(response.body()).byteStream(), JsonNode.class);
             if(!json.has("salt")) {
                 throw new AuthException("Не удалось получить salt:\n" + Utils.readAsOneLine(Objects.requireNonNull(response.body()).byteStream()));
             }
-            this.ver = json.get("ver").getAsString();
-            salt = json.get("salt").getAsString();
-            lt = json.get("lt").getAsString();
+            this.ver = json.get("ver").asText();
+            salt = json.get("salt").asText();
+            lt = json.get("lt").asText();
         }
 
         String pw2;
@@ -110,7 +110,7 @@ public enum NetSchoolAPI {
         }
 
         try(Response response = this.client.get(Urls.SCHOOLS_SEARCH)) {
-            SchoolModel[] schoolStubs = this.gson.fromJson(Objects.requireNonNull(response.body()).charStream(), SchoolModel[].class);
+            SchoolModel[] schoolStubs = this.mapper.readValue(Objects.requireNonNull(response.body()).charStream(), SchoolModel[].class);
             if(Utils.isBadArray(schoolStubs)) throw new IOException("Школы не найдены: " + address);
             for(SchoolModel schoolModel : schoolStubs) {
                 if(!schoolModel.getShortName().equals(schoolName)) continue;
@@ -134,11 +134,11 @@ public enum NetSchoolAPI {
         );
 
         try(Response response = this.client.post(Urls.LOGIN, data)) {
-            JsonObject object = this.gson.fromJson(Objects.requireNonNull(response.body()).charStream(), JsonObject.class);
+            JsonNode object = this.mapper.readValue(Objects.requireNonNull(response.body()).charStream(), JsonNode.class);
             if(!object.has("at")) {
                 throw new AuthException("Не удалось получить at:" + Utils.readAsOneLine(Objects.requireNonNull(response.body()).byteStream()));
             }
-            this.client.addHeader("at", this.at = object.get("at").getAsString());
+            this.client.addHeader("at", this.at = object.get("at").asText());
 
             boolean pingSGO = Boolean.parseBoolean(System.getProperty("pita.pingSGO"));
 
@@ -164,37 +164,34 @@ public enum NetSchoolAPI {
                             logger.warn("Не удалось отправить запрос к " + Urls.SGO_PING, e);
                         }
                     }
-                }, 0L, object.get("timeOut").getAsLong() - 60000L);
+                }, 0L, object.get("timeOut").asLong() - 60000L);
             }
 
-            this.studentName = object.get("accountInfo").getAsJsonObject().get("user").getAsJsonObject().get("name").getAsString();
+            this.studentName = object.get("accountInfo").get("user").get("name").asText();
         }
 
         try(Response response = this.client.get(Urls.TERMS_SEARCH)) {
-            this.terms.addAll(Arrays.asList(this.gson.fromJson(Objects.requireNonNull(response.body()).charStream(), Term[].class)));
+            this.terms.addAll(Arrays.asList(this.mapper.readValue(Objects.requireNonNull(response.body()).charStream(), Term[].class)));
         }
 
         try(Response response = this.client.get(Urls.DIARY_INIT)) {
-            JsonObject object = this.gson.fromJson(Objects.requireNonNull(response.body()).charStream(), JsonObject.class);
-            int currentStudentId = object.get("currentStudentId").getAsInt();
-            this.studentId = object.get("students").getAsJsonArray().get(currentStudentId).getAsJsonObject().get("studentId").getAsInt();
+            JsonNode object = this.mapper.readValue(Objects.requireNonNull(response.body()).charStream(), JsonNode.class);
+            int currentStudentId = object.get("currentStudentId").asInt();
+            this.studentId = object.get("students").get(currentStudentId).get("studentId").asInt();
         }
 
         try(Response response = this.client.get(Urls.YEARS_CURRENT)) {
-            JsonObject object = this.gson.fromJson(Objects.requireNonNull(response.body()).charStream(), JsonObject.class);
-            this.yearId = object.get("id").getAsInt();
-            this.globalYearId = object.get("globalYearId").getAsInt();
+            JsonNode object = this.mapper.readValue(Objects.requireNonNull(response.body()).charStream(), JsonNode.class);
+            this.yearId = object.get("id").asInt();
+            this.globalYearId = object.get("globalYearId").asInt();
         }
 
         try(Response response = this.client.get(Urls.REPORTS + "/studenttotal")) {
-            JsonObject object = this.gson.fromJson(Objects.requireNonNull(response.body()).charStream(), JsonObject.class);
+            JsonNode object = this.mapper.readValue(Objects.requireNonNull(response.body()).charStream(), JsonNode.class);
             this.classId = object
-                    .get("filterSources").getAsJsonArray().get(1)
-                    .getAsJsonObject().get("defaultValue").getAsString();
+                    .get("filterSources").get(1).get("defaultValue").asText();
             this.className = object
-                    .get("filterSources").getAsJsonArray().get(1)
-                    .getAsJsonObject().get("items").getAsJsonArray().get(0)
-                    .getAsJsonObject().get("title").getAsString();
+                    .get("filterSources").get(1).get("items").get(0).get("title").asText();
         }
 
         this.loggedIn = true;
@@ -206,31 +203,31 @@ public enum NetSchoolAPI {
 
     public List<Announcement> getAnnouncements(int take) throws IOException {
         try(Response response = this.client.get(Urls.ANNOUNCEMENTS, new Object[]{"take", take})) {
-            return Arrays.asList(this.gson.fromJson(Objects.requireNonNull(response.body()).charStream(), Announcement[].class));
+            return Arrays.asList(this.mapper.readValue(Objects.requireNonNull(response.body()).charStream(), Announcement[].class));
         }
     }
 
     public List<UserSession> getActiveSessions() throws IOException {
         try(Response response = this.client.get(Urls.ACTIVE_SESSIONS)) {
-            return Arrays.asList(this.gson.fromJson(Objects.requireNonNull(response.body()).charStream(), UserSession[].class));
+            return Arrays.asList(this.mapper.readValue(Objects.requireNonNull(response.body()).charStream(), UserSession[].class));
         }
     }
 
     public IntIdName[] getYearlist() throws IOException {
         try(Response r = this.client.get(Urls.YEAR_LIST)) {
-            return this.gson.fromJson(Objects.requireNonNull(r.body()).charStream(), IntIdName[].class);
+            return this.mapper.readValue(Objects.requireNonNull(r.body()).charStream(), IntIdName[].class);
         }
     }
 
     public MySettings getMySettings() throws IOException {
         try(Response r = this.client.get(Urls.MY_SETTINGS)) {
-            return this.gson.fromJson(Objects.requireNonNull(r.body()).charStream(), MySettings.class);
+            return this.mapper.readValue(Objects.requireNonNull(r.body()).charStream(), MySettings.class);
         }
     }
 
     public SchoolCard getSchoolInfo() throws IOException {
         try(Response response = this.client.get(String.format(Urls.SCHOOL_INFO, this.school.getId()))) {
-            return this.gson.fromJson(Objects.requireNonNull(response.body()).charStream(), SchoolCard.class);
+            return this.mapper.readValue(Objects.requireNonNull(response.body()).charStream(), SchoolCard.class);
         }
     }
 
@@ -300,7 +297,7 @@ public enum NetSchoolAPI {
 
     public UploadLimits getUploadLimits() throws IOException {
         try(Response response = this.client.get(Urls.UPLOAD_LIMITS)) {
-            return this.gson.fromJson(Objects.requireNonNull(response.body()).charStream(), UploadLimits.class);
+            return this.mapper.readValue(Objects.requireNonNull(response.body()).charStream(), UploadLimits.class);
         }
     }
 
@@ -315,7 +312,7 @@ public enum NetSchoolAPI {
             };
 
             try(Response response = this.client.get(Urls.MAIL_RECIPIENTS, params)) {
-                this.admins.addAll(Arrays.asList(this.gson.fromJson(Objects.requireNonNull(response.body()).charStream(), UserModel[].class)));
+                this.admins.addAll(Arrays.asList(this.mapper.readValue(Objects.requireNonNull(response.body()).charStream(), UserModel[].class)));
             } catch (IOException e) {
                 this.logger.warn("Не удалось получить список администраторов", e);
             }
@@ -335,7 +332,7 @@ public enum NetSchoolAPI {
             };
 
             try(Response response = this.client.get(Urls.MAIL_RECIPIENTS, params)) {
-                this.headTeachers.addAll(Arrays.asList(this.gson.fromJson(Objects.requireNonNull(response.body()).charStream(), UserModel[].class)));
+                this.headTeachers.addAll(Arrays.asList(this.mapper.readValue(Objects.requireNonNull(response.body()).charStream(), UserModel[].class)));
             } catch (IOException e) {
                 this.logger.warn("Не удалось получить список завучей", e);
             }
@@ -355,7 +352,7 @@ public enum NetSchoolAPI {
             };
 
             try(Response response = this.client.get(Urls.MAIL_RECIPIENTS, params)) {
-                this.classroomTeachers.addAll(Arrays.asList(this.gson.fromJson(Objects.requireNonNull(response.body()).charStream(), UserModel[].class)));
+                this.classroomTeachers.addAll(Arrays.asList(this.mapper.readValue(Objects.requireNonNull(response.body()).charStream(), UserModel[].class)));
             } catch (IOException e) {
                 this.logger.warn("Не удалось получить список классных руководителей", e);
             }
@@ -375,7 +372,7 @@ public enum NetSchoolAPI {
             };
 
             try(Response response = this.client.get(Urls.MAIL_RECIPIENTS, params)) {
-                this.teachers.addAll(Arrays.asList(this.gson.fromJson(Objects.requireNonNull(response.body()).charStream(), UserModel[].class)));
+                this.teachers.addAll(Arrays.asList(this.mapper.readValue(Objects.requireNonNull(response.body()).charStream(), UserModel[].class)));
             } catch (IOException e) {
                 this.logger.warn("Не удалось получить список учителей", e);
             }
@@ -395,7 +392,7 @@ public enum NetSchoolAPI {
             };
 
             try(Response response = this.client.get(Urls.MAIL_RECIPIENTS, params)) {
-                this.classmates.addAll(Arrays.asList(this.gson.fromJson(Objects.requireNonNull(response.body()).charStream(), UserModel[].class)));
+                this.classmates.addAll(Arrays.asList(this.mapper.readValue(Objects.requireNonNull(response.body()).charStream(), UserModel[].class)));
             } catch (IOException e) {
                 this.logger.warn("Не удалось получить список одноклассников", e);
             }

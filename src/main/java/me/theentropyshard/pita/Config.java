@@ -17,9 +17,11 @@
 
 package me.theentropyshard.pita;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Map;
@@ -38,9 +40,9 @@ public final class Config {
         }
 
         try {
-            Config.config = new Gson().fromJson(new FileReader(Config.configFile), Map.class);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            Config.config = new ObjectMapper().readValue(Config.configFile, Map.class);
+        } catch (IOException e) {
+            Pita.getPita().getLogger().warn("Не удалось загрузить конфиг", e);
         }
     }
 
@@ -55,6 +57,10 @@ public final class Config {
         } catch (IOException e) {
             Pita.getPita().getLogger().warn("Не удалось сохранить стандартный конфиг", e);
         }
+    }
+
+    public static boolean getBoolean(String s) {
+        return (boolean) Config.config.get(s);
     }
 
     public static int getInt(String s) {

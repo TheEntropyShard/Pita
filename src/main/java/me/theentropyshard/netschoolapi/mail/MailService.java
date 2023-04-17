@@ -17,7 +17,7 @@
 
 package me.theentropyshard.netschoolapi.mail;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import me.theentropyshard.netschoolapi.NetSchoolAPI;
 import me.theentropyshard.netschoolapi.Urls;
 import me.theentropyshard.netschoolapi.http.ContentType;
@@ -35,11 +35,11 @@ import java.util.stream.Collectors;
 
 public class MailService {
     private final NetSchoolAPI api;
-    private final Gson gson;
+    private final ObjectMapper mapper;
 
     public MailService(NetSchoolAPI api) {
         this.api = api;
-        this.gson = new Gson();
+        this.mapper = new ObjectMapper();
     }
 
     public int getUnreadMessagesCount() throws IOException {
@@ -50,7 +50,7 @@ public class MailService {
 
     public Set<Integer> getUnreadMessagesIds() throws IOException {
         try(Response response = this.api.getClient().get(Urls.MAIL_UNREAD, new Object[]{"userId", this.api.getStudentId()})) {
-            return new HashSet<>(Arrays.asList(this.gson.fromJson(Objects.requireNonNull(response.body()).charStream(), Integer[].class)));
+            return new HashSet<>(Arrays.asList(this.mapper.readValue(Objects.requireNonNull(response.body()).charStream(), Integer[].class)));
         }
     }
 
@@ -64,13 +64,13 @@ public class MailService {
                 search == null ? "null" : search.getJsonString(),
                 order == null ? "{\"fieldId\":\"sent\",\"ascending\":false}" : order.getJsonString());
         try(Response response = this.api.getClient().post(Urls.MAIL_REGISTRY, new Object[0], data, ContentType.JSON)) {
-            return this.gson.fromJson(Objects.requireNonNull(response.body()).charStream(), Mail.class);
+            return this.mapper.readValue(Objects.requireNonNull(response.body()).charStream(), Mail.class);
         }
     }
 
     public Message readMessage(int messageId) throws IOException {
         try(Response response = this.api.getClient().get(String.format(Urls.MAIL_READ, messageId), new Object[]{"userId", this.api.getStudentId()})) {
-            return this.gson.fromJson(Objects.requireNonNull(response.body()).charStream(), Message.class);
+            return this.mapper.readValue(Objects.requireNonNull(response.body()).charStream(), Message.class);
         }
     }
 
@@ -104,14 +104,14 @@ public class MailService {
                 notify, 0, new ArrayList<>(receiverIds), draft
         );
 
-        try(Response response = this.api.getClient().post(Urls.MAIL_MESSAGES, new Object[0], this.gson.toJson(mailSend), ContentType.JSON)) {
+        try(Response response = this.api.getClient().post(Urls.MAIL_MESSAGES, new Object[0], this.mapper.writeValueAsString(mailSend), ContentType.JSON)) {
             return response;
         }
     }
 
     public MailEdit editMessage(MailEditAction action, int messageId) throws IOException {
         try(Response r = this.api.getClient().get(String.format(Urls.MAIL_EDIT, messageId), new Object[] {"action", action.getAction(), "userId", this.api.getStudentId()})) {
-            return this.gson.fromJson(Objects.requireNonNull(r.body()).charStream(), MailEdit.class);
+            return this.mapper.readValue(Objects.requireNonNull(r.body()).charStream(), MailEdit.class);
         }
     }
 

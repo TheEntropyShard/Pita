@@ -59,6 +59,7 @@ public class PassField extends JPasswordField {
         if(this.isWrong) {
             g2.setColor(this.wrongColor);
         } else {
+            this.defaultColor = Pita.getPita().getThemeManager().getColor("ultraLightAccentColor");
             g2.setColor(this.defaultColor);
         }
         g2.fillRoundRect(0, 0, this.getWidth(), this.getHeight(), UIConstants.ARC_WIDTH, UIConstants.ARC_HEIGHT);

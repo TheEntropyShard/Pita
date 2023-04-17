@@ -44,6 +44,10 @@ public final class Config {
         }
     }
 
+    public static void reload() {
+        Config.load();
+    }
+
     public static void saveDefault() {
         InputStream configDefault = Objects.requireNonNull(Config.class.getResourceAsStream("/config.json"));
         try {

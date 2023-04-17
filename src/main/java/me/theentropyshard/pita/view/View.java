@@ -17,6 +17,7 @@
 
 package me.theentropyshard.pita.view;
 
+import me.theentropyshard.pita.Config;
 import me.theentropyshard.pita.Pita;
 
 import javax.swing.*;
@@ -53,6 +54,15 @@ public final class View {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Pita.getPita().getThemeManager().hotReload();
+                View.getView().getRoot().repaint();
+            }
+        });
+        this.root.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0), "F2");
+        this.root.getActionMap().put("F2", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Config.reload();
+                Pita.getPita().getThemeManager().loadTheme(Config.getString("selectedTheme"));
                 View.getView().getRoot().repaint();
             }
         });

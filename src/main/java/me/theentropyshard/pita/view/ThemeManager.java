@@ -49,7 +49,7 @@ public class ThemeManager {
         File themeFile = new File(Pita.getPita().getThemesDir(), themeName + ".json");
         if(!themeFile.exists()) {
             Pita.getPita().getLogger().warn("Тема {} не существует (файл {})", themeName, themeFile);
-            if(this.saveDefaultTheme()) {
+            if(this.saveDefaultThemes()) {
                 Pita.getPita().getLogger().warn("Была сохранена стандартная тема");
                 this.loadTheme("green");
             }
@@ -81,16 +81,19 @@ public class ThemeManager {
         this.loadTheme(this.lastTheme);
     }
 
-    public boolean saveDefaultTheme() {
-        String json = Utils.readFile(ThemeManager.class.getResourceAsStream("/themes/green.json"));
-        try {
-            File file = Utils.makeFile(new File(Pita.getPita().getThemesDir(), "green.json"));
-            Files.write(file.toPath(), json.getBytes(StandardCharsets.UTF_8), StandardOpenOption.WRITE);
-            return true;
-        } catch (IOException e) {
-            Pita.getPita().getLogger().warn("Не удалось записать стандартную тему", e);
-            return false;
+    public boolean saveDefaultThemes() {
+        String[] themes = {"blue", "dark", "green", "red", "yellow"};
+        for(String theme : themes) {
+            String json = Utils.readFile(ThemeManager.class.getResourceAsStream("/themes/" + theme + ".json"));
+            try {
+                File file = Utils.makeFile(new File(Pita.getPita().getThemesDir(), theme + ".json"));
+                Files.write(file.toPath(), json.getBytes(StandardCharsets.UTF_8), StandardOpenOption.WRITE);
+            } catch (IOException e) {
+                Pita.getPita().getLogger().warn("Не удалось записать стандартную тему", e);
+                return false;
+            }
         }
+        return true;
     }
 
     public Color getColor(String name) {

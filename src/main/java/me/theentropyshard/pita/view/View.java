@@ -48,7 +48,10 @@ public final class View {
         this.rootLayout = new CardLayout();
         this.root = new JPanel(this.rootLayout);
 
-        this.root.setPreferredSize(new Dimension(UIConstants.DEFAULT_WIDTH, UIConstants.DEFAULT_HEIGHT));
+        boolean startMaximized = Config.getBoolean("startMaximized");
+        if(!startMaximized) {
+            this.root.setPreferredSize(new Dimension(Config.getInt("defaultWidth"), Config.getInt("defaultHeight")));
+        }
         this.root.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0), "F1");
         this.root.getActionMap().put("F1", new AbstractAction() {
             @Override
@@ -124,7 +127,11 @@ public final class View {
         });
         this.frame.add(this.root, BorderLayout.CENTER);
         this.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.frame.pack();
+        if(startMaximized) {
+            this.frame.setExtendedState(this.frame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+        } else {
+            this.frame.pack();
+        }
         this.frame.setLocationRelativeTo(null);
         this.frame.setVisible(true);
     }

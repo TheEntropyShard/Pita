@@ -17,10 +17,7 @@
 
 package me.theentropyshard.pita.view;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import me.theentropyshard.pita.Pita;
 import me.theentropyshard.pita.Utils;
 
@@ -35,44 +32,40 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ThemeManager {
-    private Map<String, Color> colors;
+    private final Map<String, Color> colors;
     private String lastTheme;
 
     public ThemeManager() {
         this.colors = new HashMap<>();
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"rawtypes"})
     public void loadTheme(String themeName) {
         this.colors.clear();
 
         File themeFile = new File(Pita.getPita().getThemesDir(), themeName + ".json");
         if(!themeFile.exists()) {
-            Pita.getPita().getLogger().warn("Тема {} не существует (файл {})", themeName, themeFile);
+            Pita.getPita().getLogger().warn("Тема '{}' не существует (файл {})", themeName, themeFile);
             if(this.saveDefaultThemes()) {
-                Pita.getPita().getLogger().warn("Была сохранена стандартная тема");
+                Pita.getPita().getLogger().info("Были сохранены стандартные темы");
                 this.loadTheme("green");
+            } else {
+                return;
             }
         }
 
-        JsonDeserializer<Map<String, Color>> deserializer = (element, type, context) -> {
-            Map<String, Color> colors = new HashMap<>();
-
-            for(Map.Entry<String, JsonElement> entry : element.getAsJsonObject().entrySet()) {
-                colors.put(entry.getKey(), Color.decode(entry.getValue().getAsString()));
-            }
-
-            return colors;
-        };
-
         try(FileReader reader = new FileReader(themeFile)) {
-            Gson gson = new GsonBuilder().registerTypeAdapter(Map.class, deserializer).create();
-            this.colors = gson.fromJson(reader, Map.class);
+            Map map = new ObjectMapper().readValue(reader, Map.class);
+            for(Object entry : map.entrySet()) {
+                Object key = ((Map.Entry) entry).getKey();
+                Object value = ((Map.Entry) entry).getValue();
+
+                this.colors.put((String) key, Color.decode((String) value));
+            }
         } catch (IOException e) {
             Pita.getPita().getLogger().warn("Не удалось загрузить тему", e);
             return;
         }
-
 
         this.lastTheme = themeName;
     }

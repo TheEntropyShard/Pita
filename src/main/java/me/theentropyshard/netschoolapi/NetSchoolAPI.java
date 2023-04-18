@@ -417,7 +417,7 @@ public enum NetSchoolAPI {
 
                     Scanner sc = new Scanner(Objects.requireNonNull(response.body()).byteStream());
                     while(sc.hasNextLine()) {
-                        System.out.println(sc.nextLine());
+                        this.logger.warn(sc.nextLine());
                     }
                     sc.close();
                 }

@@ -155,14 +155,6 @@ public enum Utils {
         return null;
     }
 
-    public static List<LocalDate> getDatesBetween(LocalDate startDate, LocalDate endDate) {
-        long numOfDaysBetween = ChronoUnit.DAYS.between(startDate, endDate);
-        return IntStream.iterate(0, i -> i + 1)
-                .limit(numOfDaysBetween)
-                .mapToObj(startDate::plusDays)
-                .collect(Collectors.toList());
-    }
-
     /**
      * @return The start date of the current week in format 2022-10-17 (fullyear-month-day)
      */

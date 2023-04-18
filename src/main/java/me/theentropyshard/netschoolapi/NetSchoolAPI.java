@@ -33,6 +33,7 @@ import me.theentropyshard.netschoolapi.mail.models.MailEdit;
 import me.theentropyshard.netschoolapi.mail.models.Message;
 import me.theentropyshard.netschoolapi.models.*;
 import me.theentropyshard.pita.Pita;
+import me.theentropyshard.pita.Utils;
 import okhttp3.Cookie;
 import okhttp3.CookieJar;
 import okhttp3.Response;

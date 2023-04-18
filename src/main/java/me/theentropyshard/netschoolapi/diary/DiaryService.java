@@ -17,6 +17,7 @@
 
 package me.theentropyshard.netschoolapi.diary;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.theentropyshard.netschoolapi.Urls;
 import me.theentropyshard.netschoolapi.diary.models.Assignment;
@@ -37,7 +38,8 @@ public class DiaryService {
 
     public DiaryService(NetSchoolAPI api) {
         this.api = api;
-        this.mapper = new ObjectMapper();
+        this.mapper = new ObjectMapper()
+                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
     public Diary getDiary(String weekStart, String weekEnd) throws IOException {

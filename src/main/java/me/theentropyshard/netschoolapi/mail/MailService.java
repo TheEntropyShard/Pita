@@ -17,6 +17,7 @@
 
 package me.theentropyshard.netschoolapi.mail;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.theentropyshard.netschoolapi.NetSchoolAPI;
 import me.theentropyshard.netschoolapi.Urls;
@@ -39,7 +40,8 @@ public class MailService {
 
     public MailService(NetSchoolAPI api) {
         this.api = api;
-        this.mapper = new ObjectMapper();
+        this.mapper = new ObjectMapper()
+                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
     public int getUnreadMessagesCount() throws IOException {

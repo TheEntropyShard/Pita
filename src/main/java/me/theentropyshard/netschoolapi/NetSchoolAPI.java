@@ -17,6 +17,7 @@
 
 package me.theentropyshard.netschoolapi;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.theentropyshard.netschoolapi.diary.DiaryService;
@@ -47,7 +48,8 @@ import java.util.*;
 public enum NetSchoolAPI {
     I;
 
-    private final ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper = new ObjectMapper()
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     private final Timer timer = new Timer("PingTimer", true);
     private final Logger logger = Pita.getPita().getLogger();
 

@@ -72,8 +72,8 @@ public class DiaryService {
     }
 
     public DetailedAssignment getDetailedAssignment(int assignmentId) throws IOException {
-        String query = "?studentId=" + this.api.getStudentId();
-        try(Response response = this.api.getClient().get(Urls.ASSIGNS + "/" + assignmentId, new Object[] {"studentId", this.api.getStudentId()})) {
+        Object[] query = {"studentId", this.api.getStudentId()};
+        try(Response response = this.api.getClient().get(Urls.ASSIGNS + "/" + assignmentId, query)) {
             return this.mapper.readValue(Objects.requireNonNull(response.body()).charStream(), DetailedAssignment.class);
         }
     }

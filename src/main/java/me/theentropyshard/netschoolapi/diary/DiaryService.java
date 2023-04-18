@@ -25,6 +25,7 @@ import me.theentropyshard.netschoolapi.diary.models.DetailedAssignment;
 import me.theentropyshard.netschoolapi.diary.models.Diary;
 import me.theentropyshard.pita.Utils;
 import me.theentropyshard.netschoolapi.NetSchoolAPI;
+import me.theentropyshard.pita.date.DateUtils;
 import okhttp3.Response;
 
 import java.io.IOException;
@@ -42,13 +43,24 @@ public class DiaryService {
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
+    private static String[] checkDates(String weekStart, String weekEnd) {
+        if(weekStart == null || weekStart.isEmpty()) {
+            weekStart = DateUtils.getCurrentWeekStart();
+        }
+
+        if(weekEnd == null || weekEnd.isEmpty()) {
+            weekEnd = DateUtils.getCurrentWeekEnd();
+        }
+
+        return new String[] {weekStart, weekEnd};
+    }
+
     public Diary getDiary(String weekStart, String weekEnd) throws IOException {
-        if(weekStart == null || weekStart.isEmpty()) weekStart = Utils.getCurrentWeekStart();
-        if(weekEnd == null || weekEnd.isEmpty()) weekEnd = Utils.getCurrentWeekEnd();
+        String[] dates = DiaryService.checkDates(weekStart, weekEnd);
 
         Object[] query = {
                 "studentId", this.api.getStudentId(), "vers", this.api.getVer(),
-                "weekStart", weekStart, "weekEnd", weekEnd, "yearId", this.api.getYearId(),
+                "weekStart", dates[0], "weekEnd", dates[1], "yearId", this.api.getYearId(),
                 "withLaAssigns", true
         };
 
@@ -58,12 +70,11 @@ public class DiaryService {
     }
 
     public List<Assignment> getOverdueJobs(String weekStart, String weekEnd) throws IOException {
-        if(weekStart == null || weekStart.isEmpty()) weekStart = Utils.getCurrentWeekStart();
-        if(weekEnd == null || weekEnd.isEmpty()) weekEnd = Utils.getCurrentWeekEnd();
+        String[] dates = DiaryService.checkDates(weekStart, weekEnd);
 
         Object[] query = {
                 "studentId", this.api.getStudentId(), "vers", this.api.getVer(),
-                "weekStart", weekStart, "weekEnd", weekEnd, "yearId", this.api.getYearId(),
+                "weekStart", dates[0], "weekEnd", dates[1], "yearId", this.api.getYearId(),
         };
 
         try(Response response = this.api.getClient().get(Urls.OVERDUE, query)) {

@@ -18,7 +18,7 @@
 package me.theentropyshard.pita.date;
 
 import java.time.DayOfWeek;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
@@ -27,18 +27,35 @@ import java.util.List;
 public enum DateUtils {
     ;
 
-    public static LocalDateTime startOfWeek(String date) {
-        return LocalDateTime.parse(date).with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+    public static String getCurrentWeekStart() {
+        LocalDate today = LocalDate.now();
+        LocalDate monday = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        return monday.toString();
     }
 
-    public static LocalDateTime endOfWeek(String date) {
-        return LocalDateTime.parse(date).with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+    public static String getCurrentWeekEnd() {
+        LocalDate today = LocalDate.now();
+        LocalDate saturday = today.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+        return saturday.toString();
+    }
+
+    public static LocalDate startOfWeek(String date) {
+        if(date.contains("T")) date = date.split("T")[0];
+        return LocalDate.parse(date).with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+    }
+
+    public static LocalDate endOfWeek(String date) {
+        if(date.contains("T")) date = date.split("T")[0];
+        return LocalDate.parse(date).with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
     }
 
     public static List<Week> getWeeks(String startDate, String endDate) {
+        if(startDate.contains("T")) startDate = startDate.split("T")[0];
+        if(endDate.contains("T")) endDate = endDate.split("T")[0];
+
         List<Week> weeks = new ArrayList<>();
 
-        LocalDateTime start = DateUtils.startOfWeek(startDate);
+        LocalDate start = DateUtils.startOfWeek(startDate);
         long days = ChronoUnit.DAYS.between(start, DateUtils.endOfWeek(endDate));
         for(int i = 0; i < days; i++) {
             if(i % 7 == 0) {

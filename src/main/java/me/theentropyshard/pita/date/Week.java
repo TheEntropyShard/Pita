@@ -17,12 +17,12 @@
 
 package me.theentropyshard.pita.date;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Week {
-    public List<LocalDateTime> days = new ArrayList<>();
+    public List<LocalDate> days = new ArrayList<>();
 
     @Override
     public String toString() {

@@ -156,24 +156,6 @@ public enum Utils {
     }
 
     /**
-     * @return The start date of the current week in format 2022-10-17 (fullyear-month-day)
-     */
-    public static String getCurrentWeekStart() {
-        LocalDate today = LocalDate.now();
-        LocalDate monday = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
-        return monday.toString();
-    }
-
-    /**
-     * @return The end date of the current week in format 2022-10-17 (fullyear-month-day)
-     */
-    public static String getCurrentWeekEnd() {
-        LocalDate today = LocalDate.now();
-        LocalDate saturday = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.SATURDAY));
-        return saturday.toString();
-    }
-
-    /**
      * Checks whether an object array is bad
      *
      * @param array The array to be validated

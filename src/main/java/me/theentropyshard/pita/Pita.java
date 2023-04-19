@@ -59,7 +59,7 @@ public final class Pita {
         this.attachmentsDir = Utils.makeDirectory(new File(this.pitaDir, "Attachments"));
         this.themesDir = Utils.makeDirectory(new File(this.pitaDir, "Themes"));
 
-        java.util.logging.Logger.getLogger(OkHttpClient.class.getSimpleName()).setLevel(Level.FINE);
+        java.util.logging.Logger.getLogger(OkHttpClient.class.getName()).setLevel(Level.FINE);
         this.logger = LogManager.getLogger(Pita.class);
 
         Config.load();

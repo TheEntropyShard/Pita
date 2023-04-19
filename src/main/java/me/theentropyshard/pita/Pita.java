@@ -22,7 +22,7 @@ import me.theentropyshard.netschoolapi.exceptions.AuthException;
 import me.theentropyshard.netschoolapi.exceptions.SchoolNotFoundException;
 import me.theentropyshard.pita.view.ThemeManager;
 import me.theentropyshard.pita.view.View;
-import okhttp3.OkHttp;
+import okhttp3.OkHttpClient;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -59,7 +59,7 @@ public final class Pita {
         this.attachmentsDir = Utils.makeDirectory(new File(this.pitaDir, "Attachments"));
         this.themesDir = Utils.makeDirectory(new File(this.pitaDir, "Themes"));
 
-        java.util.logging.Logger.getLogger(OkHttp.class.getSimpleName()).setLevel(Level.FINE);
+        java.util.logging.Logger.getLogger(OkHttpClient.class.getSimpleName()).setLevel(Level.FINE);
         this.logger = LogManager.getLogger(Pita.class);
 
         Config.load();

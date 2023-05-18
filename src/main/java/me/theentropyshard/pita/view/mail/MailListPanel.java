@@ -17,7 +17,10 @@
 
 package me.theentropyshard.pita.view.mail;
 
+import me.theentropyshard.pita.Pita;
+import me.theentropyshard.pita.view.MainPanel;
 import me.theentropyshard.pita.view.PitaColors;
+import me.theentropyshard.pita.view.ThemeManager;
 import me.theentropyshard.pita.view.View;
 import me.theentropyshard.pita.view.component.GradientLabel;
 import net.miginfocom.swing.MigLayout;
@@ -38,24 +41,26 @@ public class MailListPanel extends JPanel {
     }
 
     public void addNewRecord(String number, String from, String subject, String sent, boolean isRead, boolean isSpecial) {
+        ThemeManager tm = Pita.getPita().getThemeManager();
+
         GradientLabel numberLabel = new GradientLabel(number);
         numberLabel.setOpaque(true);
-        numberLabel.setBackground(Color.WHITE);
+        numberLabel.setBackground(tm.getColor("mainColor"));
         numberLabel.setFont(new Font("JetBrains Mono", Font.PLAIN, 14));
 
         GradientLabel fromLabel = new GradientLabel(from);
         fromLabel.setOpaque(true);
-        fromLabel.setBackground(Color.WHITE);
+        fromLabel.setBackground(tm.getColor("mainColor"));
         fromLabel.setFont(new Font("JetBrains Mono", Font.PLAIN, 14));
 
         GradientLabel subjectLabel = new GradientLabel(subject);
         subjectLabel.setOpaque(true);
-        subjectLabel.setBackground(Color.WHITE);
+        subjectLabel.setBackground(tm.getColor("mainColor"));
         subjectLabel.setFont(new Font("JetBrains Mono", Font.PLAIN, 14));
 
         GradientLabel sentLabel = new GradientLabel(sent);
         sentLabel.setOpaque(true);
-        sentLabel.setBackground(Color.WHITE);
+        sentLabel.setBackground(tm.getColor("mainColor"));
         sentLabel.setFont(new Font("JetBrains Mono", Font.PLAIN, 14));
 
         if(!isRead) {
@@ -65,106 +70,72 @@ public class MailListPanel extends JPanel {
             sentLabel.setFont(sentLabel.getFont().deriveFont(Font.BOLD));
         }
 
+        MouseAdapter mouseAdapter = new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                Object source = e.getSource();
+                if(source == fromLabel || source == subjectLabel) {
+                    MainPanel mp = View.getView().getMainPanel();
+                    mp.getContentLayout().show(mp.getContentPanel(), MailReadPanel.class.getSimpleName());
+                    mp.getMailReadPanel().loadData(Integer.parseInt(number) - 1);
+                } else if(source == numberLabel || source == sentLabel) {
+                    ThemeManager tm = Pita.getPita().getThemeManager();
+                    Color mainColor = tm.getColor("mainColor");
+                    Color c = sentLabel.getBackground();
+                    if(c.equals(mainColor) || c.equals(tm.getColor("ultraLightAccentColor"))) {
+                        numberLabel.setBackground(Color.LIGHT_GRAY);
+                        fromLabel.setBackground(Color.LIGHT_GRAY);
+                        subjectLabel.setBackground(Color.LIGHT_GRAY);
+                        sentLabel.setBackground(Color.LIGHT_GRAY);
+                        selectedRows.add(number);
+                    } else {
+                        numberLabel.setBackground(mainColor);
+                        fromLabel.setBackground(mainColor);
+                        subjectLabel.setBackground(mainColor);
+                        sentLabel.setBackground(mainColor);
+                        selectedRows.remove(number);
+                    }
+                    repaint();
+                }
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                if(!selectedRows.contains(number)) {
+                    ThemeManager tm = Pita.getPita().getThemeManager();
+                    Color ultraLightAccentColor = tm.getColor("ultraLightAccentColor");
+                    numberLabel.setBackground(ultraLightAccentColor);
+                    fromLabel.setBackground(ultraLightAccentColor);
+                    subjectLabel.setBackground(ultraLightAccentColor);
+                    sentLabel.setBackground(ultraLightAccentColor);
+                }
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                if(!selectedRows.contains(number)) {
+                    ThemeManager tm = Pita.getPita().getThemeManager();
+                    Color mainColor = tm.getColor("mainColor");
+                    numberLabel.setBackground(mainColor);
+                    fromLabel.setBackground(mainColor);
+                    subjectLabel.setBackground(mainColor);
+                    sentLabel.setBackground(mainColor);
+                }
+            }
+        };
+
         if(!isSpecial) {
-            numberLabel.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mousePressed(MouseEvent e) {
-                    Color c = sentLabel.getBackground();
-                    if(c == Color.WHITE) {
-                        numberLabel.setBackground(Color.LIGHT_GRAY);
-                        fromLabel.setBackground(Color.LIGHT_GRAY);
-                        subjectLabel.setBackground(Color.LIGHT_GRAY);
-                        sentLabel.setBackground(Color.LIGHT_GRAY);
-                        selectedRows.add(number);
-                    } else {
-                        numberLabel.setBackground(Color.WHITE);
-                        fromLabel.setBackground(Color.WHITE);
-                        subjectLabel.setBackground(Color.WHITE);
-                        sentLabel.setBackground(Color.WHITE);
-                        selectedRows.remove(number);
-                    }
-                    repaint();
-                }
+            numberLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            numberLabel.addMouseListener(mouseAdapter);
 
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    numberLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                }
+            fromLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            fromLabel.addMouseListener(mouseAdapter);
 
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    numberLabel.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-                }
-            });
+            subjectLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            subjectLabel.addMouseListener(mouseAdapter);
 
-            fromLabel.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mousePressed(MouseEvent e) {
-                    View v = View.getView();
-                    v.getMainPanel().getContentLayout().show(v.getMainPanel().getContentPanel(), MailReadPanel.class.getSimpleName());
-                    v.getMainPanel().getMailReadPanel().loadData(Integer.parseInt(number) - 1);
-                }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    fromLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    fromLabel.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-                }
-            });
-
-            subjectLabel.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mousePressed(MouseEvent e) {
-                    View v = View.getView();
-                    v.getMainPanel().getContentLayout().show(v.getMainPanel().getContentPanel(), MailReadPanel.class.getSimpleName());
-                    v.getMainPanel().getMailReadPanel().loadData(Integer.parseInt(number) - 1);
-                }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    subjectLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    subjectLabel.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-                }
-            });
-
-            sentLabel.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mousePressed(MouseEvent e) {
-                    Color c = sentLabel.getBackground();
-                    if(c == Color.WHITE) {
-                        numberLabel.setBackground(Color.LIGHT_GRAY);
-                        fromLabel.setBackground(Color.LIGHT_GRAY);
-                        subjectLabel.setBackground(Color.LIGHT_GRAY);
-                        sentLabel.setBackground(Color.LIGHT_GRAY);
-                        selectedRows.add(number);
-                    } else {
-                        numberLabel.setBackground(Color.WHITE);
-                        fromLabel.setBackground(Color.WHITE);
-                        subjectLabel.setBackground(Color.WHITE);
-                        sentLabel.setBackground(Color.WHITE);
-                        selectedRows.remove(number);
-                    }
-                    repaint();
-                }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    sentLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    sentLabel.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-                }
-            });
+            sentLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            sentLabel.addMouseListener(mouseAdapter);
         }
 
         this.add(numberLabel);

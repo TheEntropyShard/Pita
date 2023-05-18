@@ -39,10 +39,10 @@ public class HttpClientWrapper {
     public HttpClientWrapper(String baseUrl) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .cookieJar(new SimpleCookieJar())
-                .readTimeout(15L, TimeUnit.SECONDS)
-                .writeTimeout(15L, TimeUnit.SECONDS)
-                .connectTimeout(15L, TimeUnit.SECONDS)
-                .callTimeout(15L, TimeUnit.SECONDS)
+                .readTimeout(60L, TimeUnit.SECONDS)
+                .writeTimeout(60L, TimeUnit.SECONDS)
+                .connectTimeout(60L, TimeUnit.SECONDS)
+                .callTimeout(60L, TimeUnit.SECONDS)
                 .hostnameVerifier((hostname, session) -> baseUrl.contains(hostname));
 
         boolean disableSSL = Boolean.parseBoolean(System.getProperty("netschoolapi.disableSSL"));

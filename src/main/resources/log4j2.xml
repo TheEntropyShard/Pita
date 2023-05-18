@@ -1,30 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="error" strict="true" name="config" packages="me.theentropyshard.pita">
-    <Filter type="ThresholdFilter" level="trace"/>
-
+<Configuration status="WARN">
     <Appenders>
-        <Console name="STDOUT">
-            <Layout type="PatternLayout" pattern="%d %p %c [%t] - %m%n"/>
+        <Console name="ConsoleLogger" target="SYSTEM_OUT">
+            <PatternLayout disableAnsi="false" pattern="%highlight{%d{HH:mm:ss} [%t] %-level %logger{36} - %msg%n}{INFO=default}" />
         </Console>
 
-        <RollingFile
-                name="rollingFile"
-                fileName="${sys:logPath}/Pita.log"
-                filePattern="${sys:logPath}/$${date:yyyy-MM}/Pita-%d{MM-dd-yyyy}-%i.log.gz">
-            <PatternLayout>
-                <Pattern>%d %p %c [%t] - %m%n</Pattern>
-            </PatternLayout>
+        <RollingRandomAccessFile name="FileLogger"
+                                 fileName="${sys:logPath}/Pita.log"
+                                 filePattern="${sys:logPath}/$${date:yyyy-MM}/Pita-%d{MM-dd-yyyy}-%i.log.gz">
+            <PatternLayout pattern="%d{HH:mm:ss} [%t] %-5level %logger{36} - %msg%n" charset="866" />
             <Policies>
-                <TimeBasedTriggeringPolicy interval="1"/>
-                <SizeBasedTriggeringPolicy size="25 MB"/>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
             </Policies>
-        </RollingFile>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingRandomAccessFile>
     </Appenders>
-
     <Loggers>
-        <Root level="INFO">
-            <AppenderRef ref="STDOUT"/>
-            <AppenderRef ref="rollingFile"/>
-        </Root>
+        <!-- avoid duplicated logs with additivity=false -->
+        <Logger name="me.theentropyshard.pita" level="debug" additivity="false">
+            <AppenderRef ref="ConsoleLogger"/>
+            <AppenderRef ref="FileLogger"/>
+        </Logger>
+
+        <Root></Root>
     </Loggers>
 </Configuration>

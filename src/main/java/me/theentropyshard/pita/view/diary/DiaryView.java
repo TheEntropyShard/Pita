@@ -39,7 +39,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DiaryPanel extends JPanel {
+public class DiaryView extends JPanel {
     private static final DateTimeFormatter DAY_DATE_FORMATTER = DateTimeFormatter.ofPattern("EEEE',' dd MMMM yyyy 'г.'");
 
     public static final int TYPE_ID_LESSON_ANSWER = 10;
@@ -50,7 +50,7 @@ public class DiaryPanel extends JPanel {
 
     private boolean verticalOrder;
 
-    public DiaryPanel() {
+    public DiaryView() {
         super(new BorderLayout());
 
         ThemeManager tm = Pita.getPita().getThemeManager();
@@ -59,7 +59,7 @@ public class DiaryPanel extends JPanel {
         this.addHierarchyListener(e -> {
             JComponent component = (JComponent) e.getSource();
 
-            if((HierarchyEvent.SHOWING_CHANGED & e.getChangeFlags()) != 0 && !component.isShowing()) {
+            if ((HierarchyEvent.SHOWING_CHANGED & e.getChangeFlags()) != 0 && !component.isShowing()) {
                 this.clearDays();
             }
         });
@@ -83,7 +83,7 @@ public class DiaryPanel extends JPanel {
 
         BorderPanel header = new BorderPanel();
 
-        DiaryPanelHeader diaryPanelHeader = new DiaryPanelHeader(this);
+        DiaryViewHeader diaryPanelHeader = new DiaryViewHeader(this);
 
         header.addComponent(diaryPanelHeader);
 
@@ -97,7 +97,7 @@ public class DiaryPanel extends JPanel {
         this.add(scrollPane);
 
         this.days = new DiaryDay[6];
-        for(int i = 0; i < this.days.length; i++) {
+        for (int i = 0; i < this.days.length; i++) {
             this.days[i] = new DiaryDay();
         }
 
@@ -105,20 +105,20 @@ public class DiaryPanel extends JPanel {
     }
 
     private void clearDays() {
-        for(DiaryDay diaryDay : this.days) {
+        for (DiaryDay diaryDay : this.days) {
             diaryDay.clear();
         }
     }
 
     public void loadData() {
         try {
-            //Diary diary = NetSchoolAPI.I.getDiary("2023-02-13", "2023-02-19");
-            Diary diary = NetSchoolAPI.I.getDiary("2023-04-10", "2023-04-15");
-            for(int dayNum = 0; dayNum < diary.weekDays.length; dayNum++) {
+            Diary diary = NetSchoolAPI.I.getDiary("2023-02-13", "2023-02-19");
+            //Diary diary = NetSchoolAPI.I.getDiary("2023-04-10", "2023-04-15");
+            for (int dayNum = 0; dayNum < diary.weekDays.length; dayNum++) {
                 Day diaryDay = diary.weekDays[dayNum];
                 DiaryDay dayElement = this.days[dayNum];
-                dayElement.setDate(LocalDateTime.parse(diaryDay.date).format(DiaryPanel.DAY_DATE_FORMATTER));
-                for(int lessonNum = 0; lessonNum < diaryDay.lessons.length; lessonNum++) {
+                dayElement.setDate(LocalDateTime.parse(diaryDay.date).format(DiaryView.DAY_DATE_FORMATTER));
+                for (int lessonNum = 0; lessonNum < diaryDay.lessons.length; lessonNum++) {
                     Lesson lesson = diaryDay.lessons[lessonNum];
                     DiaryLesson diaryLesson = new DiaryLesson(0, "", " ");
                     try {
@@ -127,11 +127,11 @@ public class DiaryPanel extends JPanel {
                         e.printStackTrace();
                     }
                     diaryLesson.lessonNameLabel.setText(diaryLesson.lessonNameLabel.getText() + lesson.subjectName);
-                    if(lesson.assignments != null) {
-                        for(Assignment assignment : lesson.assignments) {
-                            if(assignment.typeId == DiaryPanel.TYPE_ID_HOMEWORK) {
+                    if (lesson.assignments != null) {
+                        for (Assignment assignment : lesson.assignments) {
+                            if (assignment.typeId == DiaryView.TYPE_ID_HOMEWORK) {
                                 diaryLesson.homeworkLabel.setText(assignment.assignmentName);
-                            } else if(assignment.mark != null) {
+                            } else if (assignment.mark != null) {
                                 diaryLesson.addMark(String.valueOf(assignment.mark.mark));
                             }
                         }
@@ -147,7 +147,7 @@ public class DiaryPanel extends JPanel {
         this.verticalOrder = verticalOrder;
         this.daysPanel.removeAll();
 
-        if(verticalOrder) {
+        if (verticalOrder) {
             this.daysPanel.add(this.days[0], "cell 0 0, growx"); /* Пн | Чт */
             this.daysPanel.add(this.days[1], "cell 0 1, growx"); /* Вт | Пт */
             this.daysPanel.add(this.days[2], "cell 0 2, growx"); /* Ср | Сб */
@@ -187,7 +187,7 @@ public class DiaryPanel extends JPanel {
                 this.addMark("Оценка");
             }});
 
-            for(int i = 0; i < 8; i++) {
+            for (int i = 0; i < 8; i++) {
                 this.add(new DiaryLesson(i + 1, "", " "));
             }
         }
@@ -223,7 +223,7 @@ public class DiaryPanel extends JPanel {
         private final JPanel marksPanel;
 
         public DiaryLesson(int number, String lessonName, String homework) {
-            if(number > 0) {
+            if (number > 0) {
                 this.lessonNameLabel = new GradientLabel(number + ". " + lessonName);
             } else {
                 this.lessonNameLabel = new GradientLabel(lessonName);

@@ -124,6 +124,24 @@ public class ComboBox extends JComboBox<String> {
         this.setBorder(BorderFactory.createEmptyBorder(10, left, 10, 15));
     }
 
+    public void selectPrev() {
+        int index = this.getSelectedIndex();
+        if(index == 0) {
+            return;
+        }
+        this.setSelectedIndex(index - 1);
+        this.repaint();
+    }
+
+    public void selectNext() {
+        int index = this.getSelectedIndex();
+        if(index == this.getItemCount() - 1) {
+            return;
+        }
+        this.setSelectedIndex(index + 1);
+        this.repaint();
+    }
+
     public void setPrefixIcon(Icon prefixIcon) {
         this.prefixIcon = prefixIcon;
         this.initBorder();

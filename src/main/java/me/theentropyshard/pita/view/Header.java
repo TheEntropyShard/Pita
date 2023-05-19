@@ -22,7 +22,7 @@ import me.theentropyshard.pita.utils.Utils;
 import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
 import me.theentropyshard.pita.view.component.GradientLabel;
 import me.theentropyshard.pita.view.component.SimpleButton;
-import me.theentropyshard.pita.view.diary.DiaryPanel;
+import me.theentropyshard.pita.view.diary.DiaryView;
 import me.theentropyshard.pita.view.mail.MailPanel;
 import net.miginfocom.swing.MigLayout;
 
@@ -154,12 +154,12 @@ public class Header extends JPanel {
         bottomPanel.add(new SimpleButton("Дневник") {{
             this.addActionListener(e -> {
                 MainPanel mp = View.getView().getMainPanel();
-                DiaryPanel diaryPanel = mp.getDiaryPanel();
-                if(!diaryPanel.isVisible()) {
-                    diaryPanel.loadData();
+                DiaryView diaryView = mp.getDiaryPanel();
+                if(!diaryView.isVisible()) {
+                    diaryView.loadData();
                     mp.getContentLayout().show(
                             mp.getContentPanel(),
-                            DiaryPanel.class.getSimpleName()
+                            DiaryView.class.getSimpleName()
                     );
                 }
             });

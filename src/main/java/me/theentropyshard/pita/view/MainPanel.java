@@ -17,7 +17,7 @@
 
 package me.theentropyshard.pita.view;
 
-import me.theentropyshard.pita.view.diary.DiaryPanel;
+import me.theentropyshard.pita.view.diary.DiaryView;
 import me.theentropyshard.pita.view.mail.MailPanel;
 import me.theentropyshard.pita.view.mail.MailReadPanel;
 import me.theentropyshard.pita.view.mail.MailWritePanel;
@@ -31,7 +31,7 @@ public class MainPanel extends JPanel {
     private final CardLayout contentLayout;
     private final JPanel contentPanel;
 
-    private final DiaryPanel diaryPanel;
+    private final DiaryView diaryView;
     private final ReportsPanel reportsPanel;
 
     private final MailPanel mailPanel;
@@ -50,8 +50,8 @@ public class MainPanel extends JPanel {
         this.contentPanel = new JPanel(this.contentLayout);
         this.add(this.contentPanel, BorderLayout.CENTER);
 
-        this.diaryPanel = new DiaryPanel();
-        this.contentPanel.add(this.diaryPanel, DiaryPanel.class.getSimpleName());
+        this.diaryView = new DiaryView();
+        this.contentPanel.add(this.diaryView, DiaryView.class.getSimpleName());
 
         this.reportsPanel = new ReportsPanel();
         this.contentPanel.add(this.reportsPanel, ReportsPanel.class.getSimpleName());
@@ -71,8 +71,8 @@ public class MainPanel extends JPanel {
 
     public void showComponents() {
         this.header.loadData();
-        this.diaryPanel.loadData();
-        this.contentLayout.show(this.contentPanel, DiaryPanel.class.getSimpleName());
+        this.diaryView.loadData();
+        this.contentLayout.show(this.contentPanel, DiaryView.class.getSimpleName());
     }
 
     public Header getHeader() {
@@ -87,8 +87,8 @@ public class MainPanel extends JPanel {
         return this.contentPanel;
     }
 
-    public DiaryPanel getDiaryPanel() {
-        return this.diaryPanel;
+    public DiaryView getDiaryPanel() {
+        return this.diaryView;
     }
 
     public ReportsPanel getReportsPanel() {

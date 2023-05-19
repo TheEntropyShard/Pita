@@ -17,11 +17,11 @@
 
 package me.theentropyshard.pita.view.diary;
 
-import me.theentropyshard.netschoolapi.NetSchoolAPI;
-import me.theentropyshard.netschoolapi.diary.models.Assignment;
-import me.theentropyshard.netschoolapi.diary.models.Day;
-import me.theentropyshard.netschoolapi.diary.models.Diary;
-import me.theentropyshard.netschoolapi.diary.models.Lesson;
+import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
+import me.theentropyshard.pita.netschoolapi.diary.models.Assignment;
+import me.theentropyshard.pita.netschoolapi.diary.models.Day;
+import me.theentropyshard.pita.netschoolapi.diary.models.Diary;
+import me.theentropyshard.pita.netschoolapi.diary.models.Lesson;
 import me.theentropyshard.pita.Pita;
 import me.theentropyshard.pita.view.BorderPanel;
 import me.theentropyshard.pita.view.ThemeManager;

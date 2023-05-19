@@ -15,15 +15,9 @@
  *      along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.pita;
+package me.theentropyshard.pita.netschoolapi.diary.models;
 
-import me.theentropyshard.pita.utils.ResourceManager;
+//TODO i dont know what is this, in my case in json it is always empty
+public class LaAssign {
 
-public class Main {
-    public static void main(String[] args) {
-        ResourceManager.registerFont(ResourceManager.getFont("JetBrainsMono-Regular.ttf"));
-        ResourceManager.registerFont(ResourceManager.getFont("JetBrainsMono-Bold.ttf"));
-
-        new Pita();
-    }
 }

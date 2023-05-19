@@ -17,9 +17,10 @@
 
 package me.theentropyshard.pita;
 
-import me.theentropyshard.netschoolapi.NetSchoolAPI;
-import me.theentropyshard.netschoolapi.exceptions.AuthException;
-import me.theentropyshard.netschoolapi.exceptions.SchoolNotFoundException;
+import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
+import me.theentropyshard.pita.netschoolapi.exceptions.AuthException;
+import me.theentropyshard.pita.netschoolapi.exceptions.SchoolNotFoundException;
+import me.theentropyshard.pita.utils.Utils;
 import me.theentropyshard.pita.view.ThemeManager;
 import me.theentropyshard.pita.view.View;
 import okhttp3.OkHttpClient;

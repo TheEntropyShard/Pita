@@ -17,8 +17,8 @@
 
 package me.theentropyshard.pita.view;
 
-import me.theentropyshard.netschoolapi.NetSchoolAPI;
-import me.theentropyshard.netschoolapi.models.SchoolCard;
+import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
+import me.theentropyshard.pita.netschoolapi.models.SchoolCard;
 import me.theentropyshard.pita.view.component.GradientLabel;
 import me.theentropyshard.pita.view.component.ScrollBar;
 import net.miginfocom.swing.MigLayout;

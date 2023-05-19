@@ -18,8 +18,8 @@
 package me.theentropyshard.pita.view;
 
 import me.theentropyshard.pita.Pita;
-import me.theentropyshard.pita.Utils;
-import me.theentropyshard.netschoolapi.NetSchoolAPI;
+import me.theentropyshard.pita.utils.Utils;
+import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
 import me.theentropyshard.pita.view.component.GradientLabel;
 import me.theentropyshard.pita.view.component.SimpleButton;
 import me.theentropyshard.pita.view.diary.DiaryPanel;

@@ -15,15 +15,19 @@
  *      along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.pita;
+package me.theentropyshard.pita.netschoolapi.mail;
 
-import me.theentropyshard.pita.utils.ResourceManager;
+public enum MailEditAction {
+    FORWARD("Forward"),
+    REPLY("Reply");
 
-public class Main {
-    public static void main(String[] args) {
-        ResourceManager.registerFont(ResourceManager.getFont("JetBrainsMono-Regular.ttf"));
-        ResourceManager.registerFont(ResourceManager.getFont("JetBrainsMono-Bold.ttf"));
+    private final String action;
 
-        new Pita();
+    MailEditAction(String action) {
+        this.action = action;
+    }
+
+    public String getAction() {
+        return this.action;
     }
 }

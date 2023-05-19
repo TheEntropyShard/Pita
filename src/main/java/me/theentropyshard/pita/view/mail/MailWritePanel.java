@@ -17,9 +17,9 @@
 
 package me.theentropyshard.pita.view.mail;
 
-import me.theentropyshard.netschoolapi.NetSchoolAPI;
-import me.theentropyshard.netschoolapi.models.UploadLimits;
-import me.theentropyshard.netschoolapi.models.UserModel;
+import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
+import me.theentropyshard.pita.netschoolapi.models.UploadLimits;
+import me.theentropyshard.pita.netschoolapi.models.UserModel;
 import me.theentropyshard.pita.view.*;
 import me.theentropyshard.pita.view.component.*;
 import me.theentropyshard.pita.view.component.TextField;

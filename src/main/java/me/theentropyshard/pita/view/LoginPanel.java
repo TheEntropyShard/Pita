@@ -19,7 +19,7 @@ package me.theentropyshard.pita.view;
 
 import me.theentropyshard.pita.Credentials;
 import me.theentropyshard.pita.Pita;
-import me.theentropyshard.pita.ResourceManager;
+import me.theentropyshard.pita.utils.ResourceManager;
 import me.theentropyshard.pita.view.component.GradientLabel;
 import me.theentropyshard.pita.view.component.LoginButton;
 import me.theentropyshard.pita.view.component.PassField;

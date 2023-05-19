@@ -15,15 +15,21 @@
  *      along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.pita;
+package me.theentropyshard.pita.netschoolapi.diary.models;
 
-import me.theentropyshard.pita.utils.ResourceManager;
+public class AssignmentType {
+    public String abbr;
+    public int id;
+    public String name;
+    public int order;
 
-public class Main {
-    public static void main(String[] args) {
-        ResourceManager.registerFont(ResourceManager.getFont("JetBrainsMono-Regular.ttf"));
-        ResourceManager.registerFont(ResourceManager.getFont("JetBrainsMono-Bold.ttf"));
-
-        new Pita();
+    @Override
+    public String toString() {
+        return "AssignmentType{" +
+                "abbr='" + abbr + '\'' +
+                ", id=" + id +
+                ", name='" + name + '\'' +
+                ", order=" + order +
+                '}';
     }
 }

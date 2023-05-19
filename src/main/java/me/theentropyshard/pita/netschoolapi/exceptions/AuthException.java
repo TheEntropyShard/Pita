@@ -15,15 +15,26 @@
  *      along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.pita;
+package me.theentropyshard.pita.netschoolapi.exceptions;
 
-import me.theentropyshard.pita.utils.ResourceManager;
+public class AuthException extends Exception {
+    public AuthException() {
+        super();
+    }
 
-public class Main {
-    public static void main(String[] args) {
-        ResourceManager.registerFont(ResourceManager.getFont("JetBrainsMono-Regular.ttf"));
-        ResourceManager.registerFont(ResourceManager.getFont("JetBrainsMono-Bold.ttf"));
+    public AuthException(String message) {
+        super(message);
+    }
 
-        new Pita();
+    public AuthException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public AuthException(Throwable cause) {
+        super(cause);
+    }
+
+    protected AuthException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
     }
 }

@@ -15,15 +15,17 @@
  *      along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.pita;
+package me.theentropyshard.pita.netschoolapi.mail.models;
 
-import me.theentropyshard.pita.utils.ResourceManager;
+import me.theentropyshard.pita.netschoolapi.diary.models.Attachment;
+import me.theentropyshard.pita.netschoolapi.models.IntIdName;
+import me.theentropyshard.pita.netschoolapi.models.UserModel;
 
-public class Main {
-    public static void main(String[] args) {
-        ResourceManager.registerFont(ResourceManager.getFont("JetBrainsMono-Regular.ttf"));
-        ResourceManager.registerFont(ResourceManager.getFont("JetBrainsMono-Bold.ttf"));
-
-        new Pita();
-    }
+public class MailEdit {
+    public IntIdName author;
+    public Attachment[] fileAttachments;
+    public float id;
+    public String subject;
+    public String text;
+    public UserModel[] to;
 }

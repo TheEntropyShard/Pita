@@ -15,15 +15,21 @@
  *      along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.pita;
+package me.theentropyshard.pita.utils;
 
-import me.theentropyshard.pita.utils.ResourceManager;
+public enum EnumOS {
+    WINDOWS,
+    LINUX,
+    MACOS,
+    SOLARIS,
+    UNKNOWN;
 
-public class Main {
-    public static void main(String[] args) {
-        ResourceManager.registerFont(ResourceManager.getFont("JetBrainsMono-Regular.ttf"));
-        ResourceManager.registerFont(ResourceManager.getFont("JetBrainsMono-Bold.ttf"));
-
-        new Pita();
+    public static EnumOS getOS() {
+        String osName = System.getProperty("os.name").toLowerCase();
+        if(osName.contains("win")) return EnumOS.WINDOWS;
+        if(osName.contains("mac")) return EnumOS.MACOS;
+        if(osName.contains("solaris") || osName.contains("sunos")) return EnumOS.SOLARIS;
+        if(osName.contains("linux") || osName.contains("unix")) return EnumOS.LINUX;
+        return EnumOS.UNKNOWN;
     }
 }

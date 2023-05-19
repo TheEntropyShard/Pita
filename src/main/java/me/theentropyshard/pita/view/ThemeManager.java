@@ -19,7 +19,7 @@ package me.theentropyshard.pita.view;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import me.theentropyshard.pita.Pita;
-import me.theentropyshard.pita.Utils;
+import me.theentropyshard.pita.utils.Utils;
 
 import java.awt.*;
 import java.io.File;

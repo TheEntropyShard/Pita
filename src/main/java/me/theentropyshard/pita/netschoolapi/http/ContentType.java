@@ -15,15 +15,22 @@
  *      along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.pita;
+package me.theentropyshard.pita.netschoolapi.http;
 
-import me.theentropyshard.pita.utils.ResourceManager;
+import okhttp3.MediaType;
 
-public class Main {
-    public static void main(String[] args) {
-        ResourceManager.registerFont(ResourceManager.getFont("JetBrainsMono-Regular.ttf"));
-        ResourceManager.registerFont(ResourceManager.getFont("JetBrainsMono-Bold.ttf"));
+public enum ContentType {
+    JSON("application/json; charset=utf-8"),
+    FORM_URLENCODED("application/x-www-form-urlencoded; charset=utf-8"),
+    MULTIPART_FORMDATA("application/octet-stream");
 
-        new Pita();
+    private final MediaType mediaType;
+
+    ContentType(String contentType) {
+        this.mediaType = MediaType.get(contentType);
+    }
+
+    public MediaType getMediaType() {
+        return this.mediaType;
     }
 }

@@ -15,15 +15,19 @@
  *      along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.pita;
+package me.theentropyshard.pita.netschoolapi.diary.models;
 
-import me.theentropyshard.pita.utils.ResourceManager;
+import java.util.Arrays;
 
-public class Main {
-    public static void main(String[] args) {
-        ResourceManager.registerFont(ResourceManager.getFont("JetBrainsMono-Regular.ttf"));
-        ResourceManager.registerFont(ResourceManager.getFont("JetBrainsMono-Bold.ttf"));
+public class Day {
+    public String date;
+    public Lesson[] lessons;
 
-        new Pita();
+    @Override
+    public String toString() {
+        return "Day{" +
+                "date='" + date + '\'' +
+                ", lessons=" + Arrays.toString(lessons) +
+                '}';
     }
 }

@@ -18,10 +18,10 @@
 package me.theentropyshard.pita.view;
 
 import me.theentropyshard.pita.Pita;
-import me.theentropyshard.netschoolapi.NetSchoolAPI;
-import me.theentropyshard.netschoolapi.diary.models.Announcement;
-import me.theentropyshard.netschoolapi.diary.models.Attachment;
-import me.theentropyshard.pita.Utils;
+import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
+import me.theentropyshard.pita.netschoolapi.diary.models.Announcement;
+import me.theentropyshard.pita.netschoolapi.diary.models.Attachment;
+import me.theentropyshard.pita.utils.Utils;
 import me.theentropyshard.pita.view.component.GradientLabel;
 import me.theentropyshard.pita.view.component.ScrollBar;
 import net.miginfocom.swing.MigLayout;

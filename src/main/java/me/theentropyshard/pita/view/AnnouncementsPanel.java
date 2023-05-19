@@ -21,6 +21,7 @@ import me.theentropyshard.pita.Pita;
 import me.theentropyshard.netschoolapi.NetSchoolAPI;
 import me.theentropyshard.netschoolapi.diary.models.Announcement;
 import me.theentropyshard.netschoolapi.diary.models.Attachment;
+import me.theentropyshard.pita.Utils;
 import me.theentropyshard.pita.view.component.GradientLabel;
 import me.theentropyshard.pita.view.component.ScrollBar;
 import net.miginfocom.swing.MigLayout;
@@ -106,7 +107,9 @@ public class AnnouncementsPanel extends JPanel {
         container.setBorder(BorderFactory.createCompoundBorder(container.getBorder(), BorderFactory.createEmptyBorder(0, 5, 5, 5)));
 
         GradientLabel topicLabel = new GradientLabel();
-        topicLabel.setText("Тема: " + a.name);
+
+        String topic = Utils.ellipsize(a.name, 125);
+        topicLabel.setText("Тема: " + topic);
         topicLabel.setFont(labelFont);
         container.add(topicLabel, "grow");
 

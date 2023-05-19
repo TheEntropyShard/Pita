@@ -128,8 +128,6 @@ public final class Pita {
         return null;
     }
 
-
-
     public enum LoginResult {
         OK,
         ERROR,

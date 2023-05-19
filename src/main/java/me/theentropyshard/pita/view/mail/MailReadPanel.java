@@ -41,6 +41,8 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.StringJoiner;
 
 public class MailReadPanel extends JPanel {
@@ -55,6 +57,7 @@ public class MailReadPanel extends JPanel {
     private final DataElementPanel subject;
 
     private final BorderPanel mailBodyPanel;
+    private final List<String> toNames;
 
     private int messageId;
 
@@ -62,6 +65,7 @@ public class MailReadPanel extends JPanel {
         super(new BorderLayout());
 
         this.mailPanel = mailPanel;
+        this.toNames = new ArrayList<>();
 
         this.from = new DataElementPanel();
         this.from.setKey("От кого");
@@ -77,6 +81,27 @@ public class MailReadPanel extends JPanel {
 
         this.subject = new DataElementPanel();
         this.subject.setKey("Тема");
+
+        this.to.getValueLabel().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                View.getView().getFrame().getGlassPane().setVisible(true);
+
+                new MailRecipientsDialog(toNames.toArray(new String[0]));
+
+                View.getView().getFrame().getGlassPane().setVisible(false);
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+            }
+        });
 
         JPanel panel = new JPanel();
         panel.setBackground(Color.WHITE);
@@ -193,8 +218,10 @@ public class MailReadPanel extends JPanel {
         try {
             Message message = NetSchoolAPI.I.readMessage(mailRecord.id);
             this.messageId = message.id;
+            this.toNames.clear();
             StringJoiner joiner = new StringJoiner("; ");
             for(UserModel model : message.to) {
+                this.toNames.add(model.name);
                 joiner.add(model.name);
             }
 
@@ -325,6 +352,14 @@ public class MailReadPanel extends JPanel {
 
         public void setValue(String value) {
             this.valueLabel.setText(value);
+        }
+
+        public GradientLabel getKeyLabel() {
+            return this.keyLabel;
+        }
+
+        public GradientLabel getValueLabel() {
+            return this.valueLabel;
         }
     }
 }

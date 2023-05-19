@@ -189,6 +189,7 @@ public class MailWritePanel extends JPanel {
             File file = dialog.getSelectedFile();
 
             if(file == null) {
+                View.getView().getFrame().getGlassPane().setVisible(false);
                 return;
             }
 

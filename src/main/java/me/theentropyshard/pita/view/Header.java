@@ -65,7 +65,7 @@ public class Header extends JPanel {
                 panel.revalidate();
 
                 Dimension preferredSize = panel.getPreferredSize();
-                if(preferredSize.height > UIConstants.DEFAULT_HEIGHT) {
+                if (preferredSize.height > UIConstants.DEFAULT_HEIGHT) {
                     panel.setPreferredSize(new Dimension(preferredSize.width, UIConstants.DEFAULT_HEIGHT));
                 }
 
@@ -124,7 +124,7 @@ public class Header extends JPanel {
             @Override
             public void mousePressed(MouseEvent e) {
                 NetSchoolAPI.I.logout();
-                View.getView().getRootLayout().show(View.getView().getRoot(), LoginPanel.class.getSimpleName());
+                View.getView().getRootLayout().show(View.getView().getRoot(), LoginView.class.getSimpleName());
             }
         });
 
@@ -156,7 +156,7 @@ public class Header extends JPanel {
             this.addActionListener(e -> {
                 MainPanel mp = View.getView().getMainPanel();
                 DiaryView diaryView = mp.getDiaryPanel();
-                if(!diaryView.isVisible()) {
+                if (!diaryView.isVisible()) {
                     diaryView.loadData();
                     mp.getContentLayout().show(
                             mp.getContentPanel(),
@@ -169,7 +169,7 @@ public class Header extends JPanel {
             this.addActionListener(e -> {
                 MainPanel mp = View.getView().getMainPanel();
                 ReportsPanel reportsPanel = mp.getReportsPanel();
-                if(!reportsPanel.isVisible()) {
+                if (!reportsPanel.isVisible()) {
                     reportsPanel.loadData();
                     mp.getContentLayout().show(
                             mp.getContentPanel(),
@@ -182,7 +182,7 @@ public class Header extends JPanel {
             this.addActionListener(e -> {
                 MainPanel mp = View.getView().getMainPanel();
                 MailPanel mailPanel = mp.getMailPanel();
-                if(!mailPanel.isVisible()) {
+                if (!mailPanel.isVisible()) {
                     mailPanel.loadData();
                     mp.getContentLayout().show(
                             mp.getContentPanel(),
@@ -196,7 +196,7 @@ public class Header extends JPanel {
             this.addActionListener(e -> {
                 MainPanel mp = View.getView().getMainPanel();
                 AnnouncementsView annPanel = mp.getAnnPanel();
-                if(!annPanel.isVisible()) {
+                if (!annPanel.isVisible()) {
                     annPanel.loadData();
                     mp.getContentLayout().show(
                             mp.getContentPanel(),
@@ -215,7 +215,7 @@ public class Header extends JPanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if(umc > 0) {
+        if (umc > 0) {
             this.mailButton.setText("Почта - " + umc + " непрочитанных");
         } else {
             this.mailButton.setText("Почта");

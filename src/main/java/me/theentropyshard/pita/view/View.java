@@ -31,7 +31,7 @@ public final class View {
     private final CardLayout rootLayout;
     private final JPanel root;
 
-    private final LoginPanel loginPanel;
+    private final LoginView loginView;
     private final MainPanel mainPanel;
 
     public View() {
@@ -72,9 +72,9 @@ public final class View {
         this.mainPanel = new MainPanel();
         this.root.add(this.mainPanel, MainPanel.class.getSimpleName());
 
-        this.loginPanel = new LoginPanel();
+        this.loginView = new LoginView();
 
-        LoginPanel.LoginButtonCallback callback = (address, schoolName, login, password, passwordHashed) -> {
+        LoginView.LoginButtonCallback callback = (address, schoolName, login, password, passwordHashed) -> {
             Thread t = new Thread(() -> {
                 Pita.LoginResult result = Pita.getPita().login(address, schoolName, login, password, passwordHashed);
 
@@ -83,26 +83,26 @@ public final class View {
                         SwingUtilities.invokeLater(() -> {
                             this.rootLayout.show(this.root, MainPanel.class.getSimpleName());
                             this.mainPanel.showComponents();
-                            this.loginPanel.reset();
+                            this.loginView.reset();
                         });
                         break;
                     case ERROR:
                         this.frame.getGlassPane().setVisible(true);
 
-                        this.loginPanel.resetFields(false, true);
-                        this.loginPanel.resetLoginButton();
+                        this.loginView.resetFields(false, true);
+                        this.loginView.resetLoginButton();
                         new MessageDialog("Ошибка", "Произошла неизвестная ошибка");
 
                         this.frame.getGlassPane().setVisible(false);
                         break;
                     case WRONG_ADDRESS:
-                        this.loginPanel.wrongAddress();
+                        this.loginView.wrongAddress();
                         break;
                     case WRONG_SCHOOL_NAME:
-                        this.loginPanel.schoolNotFound();
+                        this.loginView.schoolNotFound();
                         break;
                     case WRONG_CREDENTIALS:
-                        this.loginPanel.wrongCredentials();
+                        this.loginView.wrongCredentials();
                         break;
                     default:
                         throw new RuntimeException("Unreachable");
@@ -112,10 +112,10 @@ public final class View {
             t.start();
         };
 
-        this.loginPanel.setLoginButtonPressedCallback(callback);
-        this.root.add(this.loginPanel, LoginPanel.class.getSimpleName());
+        this.loginView.setLoginButtonPressedCallback(callback);
+        this.root.add(this.loginView, LoginView.class.getSimpleName());
 
-        this.rootLayout.show(this.root, LoginPanel.class.getSimpleName());
+        this.rootLayout.show(this.root, LoginView.class.getSimpleName());
 
         this.frame.getRootPane().setGlassPane(new JComponent() {
             @Override

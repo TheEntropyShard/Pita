@@ -31,7 +31,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class LoginPanel extends JPanel {
+public class LoginView extends JPanel {
     public static final String SGO_TEXT = "Сетевой Город. Образование";
     public static final String SGO_LABEL_FONT_NAME = "sansserif";
     public static final int SGO_TEXT_SIZE = 30;
@@ -45,7 +45,7 @@ public class LoginPanel extends JPanel {
     private LoginButtonCallback callback;
     private boolean passwordHashed;
 
-    public LoginPanel() {
+    public LoginView() {
         this.setLayout(new GridBagLayout());
 
         ThemeManager tm = Pita.getPita().getThemeManager();
@@ -60,8 +60,8 @@ public class LoginPanel extends JPanel {
         c.gridy = 0;
 
         GradientLabel sgoLabel = new GradientLabel();
-        sgoLabel.setText(LoginPanel.SGO_TEXT);
-        sgoLabel.setFont(new Font(LoginPanel.SGO_LABEL_FONT_NAME, Font.BOLD, LoginPanel.SGO_TEXT_SIZE));
+        sgoLabel.setText(LoginView.SGO_TEXT);
+        sgoLabel.setFont(new Font(LoginView.SGO_LABEL_FONT_NAME, Font.BOLD, LoginView.SGO_TEXT_SIZE));
         this.add(sgoLabel, c);
 
         c.gridy = 1;

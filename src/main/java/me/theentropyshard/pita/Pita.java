@@ -45,7 +45,7 @@ public final class Pita {
     private final File pitaDir;
 
     public Pita() {
-        if(pita != null) {
+        if (pita != null) {
             throw new IllegalStateException("Only one Pita instance can exist at a time");
         }
         pita = this;
@@ -94,7 +94,7 @@ public final class Pita {
             return LoginResult.ERROR;
         }
 
-        if(!passwordHashed) {
+        if (!passwordHashed) {
             this.saveCredentials(new Credentials(
                     address, schoolName, login, Utils.md5(password.getBytes(Charset.forName("windows-1251")))
             ));
@@ -116,7 +116,7 @@ public final class Pita {
     }
 
     public Credentials loadCredentials() {
-        if(this.credentialsFile.length() != 0L) {
+        if (this.credentialsFile.length() != 0L) {
             try {
                 FileInputStream fis = new FileInputStream(this.credentialsFile);
                 ObjectInputStream ois = new ObjectInputStream(fis);
@@ -136,6 +136,7 @@ public final class Pita {
         WRONG_SCHOOL_NAME,
         WRONG_CREDENTIALS;
     }
+
     public Logger getLogger() {
         return this.logger;
     }

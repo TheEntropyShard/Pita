@@ -17,6 +17,7 @@
 
 package me.theentropyshard.pita.view;
 
+import me.theentropyshard.pita.view.announcements.AnnouncementsView;
 import me.theentropyshard.pita.view.diary.DiaryView;
 import me.theentropyshard.pita.view.mail.MailPanel;
 import me.theentropyshard.pita.view.mail.MailReadPanel;
@@ -38,7 +39,7 @@ public class MainPanel extends JPanel {
     private final MailReadPanel mailReadPanel;
     private final MailWritePanel mailWritePanel;
 
-    private final AnnouncementsPanel annPanel;
+    private final AnnouncementsView annPanel;
 
     public MainPanel() {
         this.setLayout(new BorderLayout());
@@ -65,8 +66,8 @@ public class MainPanel extends JPanel {
         this.mailWritePanel = new MailWritePanel();
         this.contentPanel.add(this.mailWritePanel, MailWritePanel.class.getSimpleName());
 
-        this.annPanel = new AnnouncementsPanel();
-        this.contentPanel.add(this.annPanel, AnnouncementsPanel.class.getSimpleName());
+        this.annPanel = new AnnouncementsView();
+        this.contentPanel.add(this.annPanel, AnnouncementsView.class.getSimpleName());
     }
 
     public void showComponents() {
@@ -107,7 +108,7 @@ public class MainPanel extends JPanel {
         return this.mailWritePanel;
     }
 
-    public AnnouncementsPanel getAnnPanel() {
+    public AnnouncementsView getAnnPanel() {
         return this.annPanel;
     }
 }

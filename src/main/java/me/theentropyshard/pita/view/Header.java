@@ -20,6 +20,7 @@ package me.theentropyshard.pita.view;
 import me.theentropyshard.pita.Pita;
 import me.theentropyshard.pita.utils.Utils;
 import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
+import me.theentropyshard.pita.view.announcements.AnnouncementsView;
 import me.theentropyshard.pita.view.component.GradientLabel;
 import me.theentropyshard.pita.view.component.SimpleButton;
 import me.theentropyshard.pita.view.diary.DiaryView;
@@ -194,12 +195,12 @@ public class Header extends JPanel {
         bottomPanel.add(new SimpleButton("Объявления") {{
             this.addActionListener(e -> {
                 MainPanel mp = View.getView().getMainPanel();
-                AnnouncementsPanel annPanel = mp.getAnnPanel();
+                AnnouncementsView annPanel = mp.getAnnPanel();
                 if(!annPanel.isVisible()) {
                     annPanel.loadData();
                     mp.getContentLayout().show(
                             mp.getContentPanel(),
-                            AnnouncementsPanel.class.getSimpleName()
+                            AnnouncementsView.class.getSimpleName()
                     );
                 }
             });

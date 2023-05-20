@@ -15,13 +15,15 @@
  *      along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.pita.view;
+package me.theentropyshard.pita.view.announcements;
 
 import me.theentropyshard.pita.Pita;
 import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
 import me.theentropyshard.pita.netschoolapi.diary.models.Announcement;
 import me.theentropyshard.pita.netschoolapi.diary.models.Attachment;
 import me.theentropyshard.pita.utils.Utils;
+import me.theentropyshard.pita.view.PitaColors;
+import me.theentropyshard.pita.view.UIConstants;
 import me.theentropyshard.pita.view.component.GradientLabel;
 import me.theentropyshard.pita.view.component.ScrollBar;
 import net.miginfocom.swing.MigLayout;
@@ -38,7 +40,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AnnouncementsPanel extends JPanel {
+public class AnnouncementsView extends JPanel {
     private static final DateTimeFormatter TO_POST_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
 
     private final JScrollPane scrollPane;
@@ -46,7 +48,7 @@ public class AnnouncementsPanel extends JPanel {
 
     private int numAnnouncements;
 
-    public AnnouncementsPanel() {
+    public AnnouncementsView() {
         this.scrollPane = new JScrollPane();
         this.panel = new JPanel();
         this.panel.setBackground(Color.WHITE);
@@ -114,7 +116,7 @@ public class AnnouncementsPanel extends JPanel {
         container.add(topicLabel, "grow");
 
         GradientLabel timeLabel = new GradientLabel();
-        timeLabel.setText(LocalDateTime.parse(a.postDate).format(AnnouncementsPanel.TO_POST_TIME_FORMATTER));
+        timeLabel.setText(LocalDateTime.parse(a.postDate).format(AnnouncementsView.TO_POST_TIME_FORMATTER));
         timeLabel.setFont(labelFont);
         container.add(timeLabel, "wrap");
 
@@ -156,7 +158,7 @@ public class AnnouncementsPanel extends JPanel {
         };
 
         mainTextPane.setContentType("text/html");
-        String txt = AnnouncementsPanel.fixHTMLEntities(a.description);
+        String txt = AnnouncementsView.fixHTMLEntities(a.description);
         mainTextPane.setText("<html><head><style> a { color: #2a5885; } p { font-family: \"JetBrains Mono\"; } </style></head>" + txt + "</html>");
         mainTextPane.setOpaque(false);
         mainTextPane.setForeground(new Color(120, 120, 120));

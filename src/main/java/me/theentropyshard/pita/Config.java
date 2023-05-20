@@ -36,7 +36,7 @@ public final class Config {
     public static void load() {
         File dir = Pita.getPita().getPitaDir();
         Config.configFile = Utils.makeFile(new File(dir, "config.json"));
-        if(Config.configFile.length() == 0L) {
+        if (Config.configFile.length() == 0L) {
             Config.saveDefault();
         }
 

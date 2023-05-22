@@ -26,9 +26,6 @@ import me.theentropyshard.pita.view.component.TextField;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 public class LoginView extends JPanel {
     public static final String SGO_TEXT = "Сетевой Город. Образование";

@@ -18,7 +18,6 @@
 package me.theentropyshard.pita.view.component;
 
 import me.theentropyshard.pita.Pita;
-import me.theentropyshard.pita.view.PitaColors;
 import me.theentropyshard.pita.view.ThemeManager;
 import me.theentropyshard.pita.view.UIConstants;
 

@@ -119,8 +119,7 @@ public class LoginController {
     }
 
     private void wrongField(String msg, JTextField textField) {
-
-
+        LoginController.showErrorDialog(msg);
         textField.setText("");
         this.resetFields(false, true);
         this.makeFieldInvalid(textField);

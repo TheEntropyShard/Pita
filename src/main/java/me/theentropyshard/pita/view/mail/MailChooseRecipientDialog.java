@@ -17,7 +17,7 @@
 
 package me.theentropyshard.pita.view.mail;
 
-import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
+import me.theentropyshard.pita.netschoolapi.NetSchoolAPI_old;
 import me.theentropyshard.pita.netschoolapi.models.UserModel;
 import me.theentropyshard.pita.view.BorderPanel;
 import me.theentropyshard.pita.view.PitaColors;
@@ -102,19 +102,19 @@ public class MailChooseRecipientDialog extends JDialog {
             System.out.println(item);
             switch(Objects.requireNonNull(item)) {
                 case "Администраторы":
-                    users.addAll(NetSchoolAPI.I.getAdmins());
+                    users.addAll(NetSchoolAPI_old.I.getAdmins());
                     break;
                 case "Завучи":
-                    users.addAll(NetSchoolAPI.I.getHeadTeachers());
+                    users.addAll(NetSchoolAPI_old.I.getHeadTeachers());
                     break;
                 case "Классные руководители":
-                    users.addAll(NetSchoolAPI.I.getClassroomTeachers());
+                    users.addAll(NetSchoolAPI_old.I.getClassroomTeachers());
                     break;
                 case "Учителя":
-                    users.addAll(NetSchoolAPI.I.getTeachers());
+                    users.addAll(NetSchoolAPI_old.I.getTeachers());
                     break;
                 case "Ученики":
-                    users.addAll(NetSchoolAPI.I.getClassmates());
+                    users.addAll(NetSchoolAPI_old.I.getClassmates());
                     break;
             }
             for(UserModel user : users) {

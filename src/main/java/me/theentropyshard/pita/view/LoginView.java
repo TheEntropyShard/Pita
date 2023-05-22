@@ -17,7 +17,6 @@
 
 package me.theentropyshard.pita.view;
 
-import me.theentropyshard.pita.Credentials;
 import me.theentropyshard.pita.Pita;
 import me.theentropyshard.pita.utils.ResourceManager;
 import me.theentropyshard.pita.view.component.GradientLabel;
@@ -41,9 +40,6 @@ public class LoginView extends JPanel {
     private final TextField loginField;
     private final PassField passwordField;
     private final LoginButton loginButton;
-
-    private LoginButtonCallback callback;
-    private boolean passwordHashed;
 
     public LoginView() {
         this.setLayout(new GridBagLayout());
@@ -90,34 +86,13 @@ public class LoginView extends JPanel {
         this.passwordField.setPrefixIcon(ResourceManager.getIcon("/images/pass.png"));
         this.passwordField.setHint("Пароль");
         this.passwordField.setPreferredSize(new Dimension(sgoLabel.getPreferredSize().width, this.sgoAddressField.getPreferredSize().height));
-        this.passwordField.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent e) {
-                passwordHashed = false;
-            }
-        });
         this.add(this.passwordField, c);
 
         c.gridy = 5;
         this.loginButton = new LoginButton("Войти");
         this.loginButton.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
         this.loginButton.setPreferredSize(new Dimension(sgoLabel.getPreferredSize().width, this.sgoAddressField.getPreferredSize().height));
-        this.loginButton.addActionListener(e -> this.loginButtonPressed(this.callback));
         this.add(this.loginButton, c);
-
-        this.loadCredentials();
-
-        this.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "ENTER");
-        this.getActionMap().put("ENTER", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                KeyboardFocusManager m = KeyboardFocusManager.getCurrentKeyboardFocusManager();
-                m.focusNextComponent();
-                if(m.getFocusOwner() == passwordField || passwordHashed) {
-                    loginButtonPressed(callback);
-                }
-            }
-        });
     }
 
     @Override
@@ -127,104 +102,23 @@ public class LoginView extends JPanel {
         super.paintComponent(g);
     }
 
-    private void loginButtonPressed(LoginButtonCallback callback) {
-        for(int i = 1; i < 5; i++) {
-            Component com = this.getComponent(i);
-            if(com instanceof JTextField) {
-                JTextField t = (JTextField) com;
-                if(t.getText().isEmpty()) {
-                    com.setBackground(PitaColors.WRONG);
-                    if(t instanceof TextField) {
-                        ((TextField) t).setWrong(true);
-                    } else if(t instanceof PassField) {
-                        ((PassField) t).setWrong(true);
-                    }
-                    com.requestFocus();
-                    return;
-                }
-            }
-        }
-
-        for(int i = 1; i < 5; i++) {
-            JTextField t = (JTextField) this.getComponent(i);
-            t.setEditable(false);
-        }
-
-        this.loginButton.setLoading(true);
-        this.loginButton.setEnabled(false);
-
-        callback.buttonPressed(
-                this.sgoAddressField.getText(), this.schoolNameField.getText(),
-                this.loginField.getText(), new String(this.passwordField.getPassword()),
-                this.passwordHashed
-        );
+    public LoginButton getLoginButton() {
+        return this.loginButton;
     }
 
-    private void loadCredentials() {
-        Credentials creds = Pita.getPita().loadCredentials();
-        if(creds != null) {
-            this.sgoAddressField.setText(creds.getSchoolAddress());
-            this.schoolNameField.setText(creds.getSchoolName());
-            this.loginField.setText(creds.getLogin());
-            this.passwordField.setText(creds.getPasswordHash());
-            this.passwordHashed = true;
-        }
+    public TextField getSgoAddressField() {
+        return this.sgoAddressField;
     }
 
-    public void reset() {
-        this.passwordHashed = false;
-        this.resetFields(true, true);
-        this.resetLoginButton();
+    public TextField getSchoolNameField() {
+        return this.schoolNameField;
     }
 
-    public void resetFields(boolean clear, boolean editable) {
-        for(int i = 1; i < 5; i++) {
-            JTextField t = (JTextField) this.getComponent(i);
-            t.setEditable(editable);
-            if(clear) {
-                t.setText("");
-            }
-        }
+    public TextField getLoginField() {
+        return this.loginField;
     }
 
-    public void resetLoginButton() {
-        this.loginButton.setLoading(false);
-        this.loginButton.setEnabled(true);
-    }
-
-    public void wrongAddress() {
-        this.sgoAddressField.setWrong(true);
-        this.sgoAddressField.setEditable(true);
-        this.sgoAddressField.requestFocus();
-        this.resetLoginButton();
-        this.repaint();
-    }
-
-    public void schoolNotFound() {
-        this.schoolNameField.setWrong(true);
-        this.schoolNameField.setEditable(true);
-        this.schoolNameField.requestFocus();
-        this.resetLoginButton();
-        this.repaint();
-    }
-
-    public void wrongCredentials() {
-        this.loginField.setWrong(true);
-        this.loginField.setEditable(true);
-        this.loginField.requestFocus();
-        this.passwordField.setWrong(true);
-        this.passwordField.setEditable(true);
-        this.passwordField.setText("");
-        this.resetLoginButton();
-        this.repaint();
-    }
-
-    public void setLoginButtonPressedCallback(LoginButtonCallback callback) {
-        this.callback = callback;
-    }
-
-    @FunctionalInterface
-    public interface LoginButtonCallback {
-        void buttonPressed(String address, String schoolName, String login, String password, boolean passwordHashed);
+    public PassField getPasswordField() {
+        return this.passwordField;
     }
 }

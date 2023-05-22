@@ -17,7 +17,7 @@
 
 package me.theentropyshard.pita.view.mail;
 
-import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
+import me.theentropyshard.pita.netschoolapi.NetSchoolAPI_old;
 import me.theentropyshard.pita.netschoolapi.mail.MailBox;
 import me.theentropyshard.pita.netschoolapi.mail.MailField;
 import me.theentropyshard.pita.netschoolapi.mail.MailHelper;
@@ -98,7 +98,7 @@ public class MailPanel extends JPanel {
 
             int umc = 0;
             try {
-                umc = NetSchoolAPI.I.getUnreadMessagesCount();
+                umc = NetSchoolAPI_old.I.getUnreadMessagesCount();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -112,8 +112,8 @@ public class MailPanel extends JPanel {
             if(this.searchText != null && !this.searchText.isEmpty() && this.searchField != null) {
                 mailSearch = MailSearch.of(this.searchField, this.searchText);
             }
-            Set<Integer> unreadMessagesIds = NetSchoolAPI.I.getUnreadMessagesIds();
-            Mail mail = NetSchoolAPI.I.getMail(this.mailBox, MailHelper.getDefaultFields(), null, mailSearch, this.page, this.pageSize);
+            Set<Integer> unreadMessagesIds = NetSchoolAPI_old.I.getUnreadMessagesIds();
+            Mail mail = NetSchoolAPI_old.I.getMail(this.mailBox, MailHelper.getDefaultFields(), null, mailSearch, this.page, this.pageSize);
             this.totalMessages = mail.totalItems;
             MailRecord[] rows = mail.rows;
             this.rows = rows;

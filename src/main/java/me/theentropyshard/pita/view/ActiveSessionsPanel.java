@@ -17,7 +17,7 @@
 
 package me.theentropyshard.pita.view;
 
-import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
+import me.theentropyshard.pita.netschoolapi.NetSchoolAPI_old;
 import me.theentropyshard.pita.netschoolapi.models.UserSession;
 import me.theentropyshard.pita.view.component.GradientLabel;
 import me.theentropyshard.pita.view.component.ScrollBar;
@@ -67,7 +67,7 @@ public class ActiveSessionsPanel extends JPanel {
     public void loadData() {
         List<UserSession> activeSessions = new ArrayList<>();
         try {
-            activeSessions.addAll(NetSchoolAPI.I.getActiveSessions());
+            activeSessions.addAll(NetSchoolAPI_old.I.getActiveSessions());
         } catch (IOException e) {
             e.printStackTrace();
         }

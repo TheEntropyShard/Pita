@@ -18,7 +18,7 @@
 package me.theentropyshard.pita.view.mail;
 
 import me.theentropyshard.pita.Pita;
-import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
+import me.theentropyshard.pita.netschoolapi.NetSchoolAPI_old;
 import me.theentropyshard.pita.netschoolapi.diary.models.Attachment;
 import me.theentropyshard.pita.netschoolapi.mail.MailEditAction;
 import me.theentropyshard.pita.netschoolapi.mail.models.MailEdit;
@@ -122,11 +122,11 @@ public class MailReadPanel extends JPanel {
             this.add(new SimpleButton("Ответить") {{
                 this.setRoundCorners(true);
                 this.addActionListener(e -> {
-                    MainPanel mainPanel = View.getView().getMainPanel();
-                    MailWritePanel mailWritePanel = mainPanel.getMailWritePanel();
+                    StudentView studentView = View.getView().getMainPanel();
+                    MailWritePanel mailWritePanel = studentView.getMailWritePanel();
                     MailEdit mailEdit;
                     try {
-                        mailEdit = NetSchoolAPI.I.editMessage(MailEditAction.REPLY, messageId);
+                        mailEdit = NetSchoolAPI_old.I.editMessage(MailEditAction.REPLY, messageId);
                     } catch (IOException ex) {
                         ex.printStackTrace();
                         return;
@@ -137,17 +137,17 @@ public class MailReadPanel extends JPanel {
                     for(Attachment attach : mailEdit.fileAttachments) {
                         mailWritePanel.attachFileById(attach.name, String.valueOf(attach.id));
                     }
-                    mainPanel.getContentLayout().show(mainPanel.getContentPanel(), MailWritePanel.class.getSimpleName());
+                    studentView.getContentLayout().show(studentView.getContentPanel(), MailWritePanel.class.getSimpleName());
                 });
             }});
             this.add(new SimpleButton("Переслать сообщение") {{
                 this.setRoundCorners(true);
                 this.addActionListener(e -> {
-                    MainPanel mainPanel = View.getView().getMainPanel();
-                    MailWritePanel mailWritePanel = mainPanel.getMailWritePanel();
+                    StudentView studentView = View.getView().getMainPanel();
+                    MailWritePanel mailWritePanel = studentView.getMailWritePanel();
                     MailEdit mailEdit;
                     try {
-                        mailEdit = NetSchoolAPI.I.editMessage(MailEditAction.FORWARD, messageId);
+                        mailEdit = NetSchoolAPI_old.I.editMessage(MailEditAction.FORWARD, messageId);
                     } catch (IOException ex) {
                         ex.printStackTrace();
                         return;
@@ -157,7 +157,7 @@ public class MailReadPanel extends JPanel {
                     for(Attachment attach : mailEdit.fileAttachments) {
                         mailWritePanel.attachFileById(attach.name, String.valueOf(attach.id));
                     }
-                    mainPanel.getContentLayout().show(mainPanel.getContentPanel(), MailWritePanel.class.getSimpleName());
+                    studentView.getContentLayout().show(studentView.getContentPanel(), MailWritePanel.class.getSimpleName());
                 });
             }});
             this.add(new SimpleButton("Удалить") {{
@@ -176,7 +176,7 @@ public class MailReadPanel extends JPanel {
                             boolean success = true;
 
                             try {
-                                NetSchoolAPI.I.deleteMessages(false, messageId);
+                                NetSchoolAPI_old.I.deleteMessages(false, messageId);
                             } catch (IOException ex) {
                                 ex.printStackTrace();
                                 success = false;
@@ -184,9 +184,9 @@ public class MailReadPanel extends JPanel {
 
                             if(success) {
                                 new MessageDialog("Внимание", "Ваше письмо помещено в папку \"Удаленные\"", true);
-                                MainPanel mainPanel = View.getView().getMainPanel();
-                                mainPanel.getMailPanel().loadData();
-                                mainPanel.getContentLayout().show(mainPanel.getContentPanel(), MailPanel.class.getSimpleName());
+                                StudentView studentView = View.getView().getMainPanel();
+                                studentView.getMailPanel().loadData();
+                                studentView.getContentLayout().show(studentView.getContentPanel(), MailPanel.class.getSimpleName());
                             } else {
                                 new MessageDialog("Ошибка", "Не удалось поместить письмо в папку \"Удаленные\"", true);
                             }
@@ -216,7 +216,7 @@ public class MailReadPanel extends JPanel {
     public void loadData(int index) {
         MailRecord mailRecord = this.mailPanel.getRows()[index];
         try {
-            Message message = NetSchoolAPI.I.readMessage(mailRecord.id);
+            Message message = NetSchoolAPI_old.I.readMessage(mailRecord.id);
             this.messageId = message.id;
             this.toNames.clear();
             StringJoiner joiner = new StringJoiner("; ");
@@ -290,7 +290,7 @@ public class MailReadPanel extends JPanel {
                     label.addMouseListener(new MouseAdapter() {
                         @Override
                         public void mousePressed(MouseEvent e) {
-                            NetSchoolAPI.I.downloadAttachment(Pita.getPita().getAttachmentsDir(), attach);
+                            NetSchoolAPI_old.I.downloadAttachment(Pita.getPita().getAttachmentsDir(), attach);
                         }
                     });
                     attachedFiles.add(label);

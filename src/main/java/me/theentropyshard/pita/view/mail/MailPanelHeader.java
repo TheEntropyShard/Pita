@@ -17,7 +17,7 @@
 
 package me.theentropyshard.pita.view.mail;
 
-import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
+import me.theentropyshard.pita.netschoolapi.NetSchoolAPI_old;
 import me.theentropyshard.pita.netschoolapi.mail.MailBox;
 import me.theentropyshard.pita.netschoolapi.mail.MailField;
 import me.theentropyshard.pita.netschoolapi.mail.models.MailRecord;
@@ -176,7 +176,7 @@ public class MailPanelHeader extends JPanel {
         writeButton.setRoundCorners(true);
         writeButton.addActionListener(e -> {
             View v = View.getView();
-            MainPanel mp = v.getMainPanel();
+            StudentView mp = v.getMainPanel();
             mp.getContentLayout().show(mp.getContentPanel(), MailWritePanel.class.getSimpleName());
         });
 
@@ -209,7 +209,7 @@ public class MailPanelHeader extends JPanel {
                     boolean success = true;
 
                     try {
-                        NetSchoolAPI.I.deleteMessages(false, messageIds);
+                        NetSchoolAPI_old.I.deleteMessages(false, messageIds);
                     } catch (IOException ex) {
                         ex.printStackTrace();
                         success = false;
@@ -217,9 +217,9 @@ public class MailPanelHeader extends JPanel {
 
                     if(success) {
                         new MessageDialog("Внимание", "Ваши письма помещены в папку \"Удаленные\"", true);
-                        MainPanel mainPanel = View.getView().getMainPanel();
-                        mainPanel.getMailPanel().loadData();
-                        mainPanel.getContentLayout().show(mainPanel.getContentPanel(), MailPanel.class.getSimpleName());
+                        StudentView studentView = View.getView().getMainPanel();
+                        studentView.getMailPanel().loadData();
+                        studentView.getContentLayout().show(studentView.getContentPanel(), MailPanel.class.getSimpleName());
                     } else {
                         new MessageDialog("Ошибка", "Не удалось поместить письма в папку \"Удаленные\"", true);
                     }

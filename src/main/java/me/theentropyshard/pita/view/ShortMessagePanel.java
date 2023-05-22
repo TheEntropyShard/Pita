@@ -15,33 +15,24 @@
  *      along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.pita;
+package me.theentropyshard.pita.view;
 
-import me.theentropyshard.pita.utils.ResourceManager;
+import me.theentropyshard.pita.view.component.GradientLabel;
+import net.miginfocom.swing.MigLayout;
 
+import javax.swing.*;
 import java.awt.*;
 
-public class Main {
-    public static void exit() {
-        System.exit(0);
-    }
+public class ShortMessagePanel extends JPanel {
+    public ShortMessagePanel(String message) {
+        GradientLabel label = new GradientLabel(message);
+        label.setFont(new Font("JetBrains Mono", Font.BOLD, 16));
 
-    private static void initGUI() {
-        if (GraphicsEnvironment.isHeadless()) {
-            System.err.println("Your graphics environment is headless");
-            Main.exit();
-        }
+        BorderPanel borderPanel = new BorderPanel();
+        borderPanel.addComponent(label);
 
-        System.setProperty("sun.java2d.d3d", "false");
-        System.setProperty("sun.java2d.noddraw", "true");
-
-        ResourceManager.registerFont(ResourceManager.getFont("JetBrainsMono-Regular.ttf"));
-        ResourceManager.registerFont(ResourceManager.getFont("JetBrainsMono-Bold.ttf"));
-    }
-
-    public static void main(String[] args) {
-        Main.initGUI();
-
-        new Pita();
+        this.setBackground(Color.WHITE); // TODO: replace with ThemeManager.getColor("main");
+        this.setLayout(new MigLayout("fillx, flowy", "[fill]"));
+        this.add(borderPanel);
     }
 }

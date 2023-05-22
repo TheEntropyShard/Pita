@@ -17,7 +17,7 @@
 
 package me.theentropyshard.pita.view.mail;
 
-import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
+import me.theentropyshard.pita.netschoolapi.NetSchoolAPI_old;
 import me.theentropyshard.pita.netschoolapi.models.UploadLimits;
 import me.theentropyshard.pita.netschoolapi.models.UserModel;
 import me.theentropyshard.pita.view.*;
@@ -195,7 +195,7 @@ public class MailWritePanel extends JPanel {
 
             UploadLimits uploadLimits;
             try {
-                uploadLimits = NetSchoolAPI.I.getUploadLimits();
+                uploadLimits = NetSchoolAPI_old.I.getUploadLimits();
             } catch (IOException ex) {
                 ex.printStackTrace();
                 uploadLimits = new UploadLimits() {{ this.fileSizeLimit = 8192; }};
@@ -223,16 +223,16 @@ public class MailWritePanel extends JPanel {
             boolean success = true;
 
             try {
-                NetSchoolAPI.I.sendMessage(this.receiverIds, this.attachedFiles, this.attachedFilesIds, this.subjectField.getText(), this.textArea.getText(), notifyCheckBox.isSelected(),
+                NetSchoolAPI_old.I.sendMessage(this.receiverIds, this.attachedFiles, this.attachedFilesIds, this.subjectField.getText(), this.textArea.getText(), notifyCheckBox.isSelected(),
                         e.getSource() == saveButton);
             } catch (IOException ex) {
                 ex.printStackTrace();
                 success = false;
             }
 
-            MainPanel mainPanel = View.getView().getMainPanel();
-            mainPanel.getMailPanel().loadData();
-            mainPanel.getContentLayout().show(mainPanel.getContentPanel(), MailPanel.class.getSimpleName());
+            StudentView studentView = View.getView().getMainPanel();
+            studentView.getMailPanel().loadData();
+            studentView.getContentLayout().show(studentView.getContentPanel(), MailPanel.class.getSimpleName());
 
             View.getView().getFrame().getGlassPane().setVisible(true);
 

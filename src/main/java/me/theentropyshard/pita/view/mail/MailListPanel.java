@@ -18,8 +18,7 @@
 package me.theentropyshard.pita.view.mail;
 
 import me.theentropyshard.pita.Pita;
-import me.theentropyshard.pita.view.MainPanel;
-import me.theentropyshard.pita.view.PitaColors;
+import me.theentropyshard.pita.view.StudentView;
 import me.theentropyshard.pita.view.ThemeManager;
 import me.theentropyshard.pita.view.View;
 import me.theentropyshard.pita.view.component.GradientLabel;
@@ -75,7 +74,7 @@ public class MailListPanel extends JPanel {
             public void mousePressed(MouseEvent e) {
                 Object source = e.getSource();
                 if(source == fromLabel || source == subjectLabel) {
-                    MainPanel mp = View.getView().getMainPanel();
+                    StudentView mp = View.getView().getMainPanel();
                     mp.getContentLayout().show(mp.getContentPanel(), MailReadPanel.class.getSimpleName());
                     mp.getMailReadPanel().loadData(Integer.parseInt(number) - 1);
                 } else if(source == numberLabel || source == sentLabel) {

@@ -18,8 +18,8 @@
 package me.theentropyshard.pita.view.announcements;
 
 import me.theentropyshard.pita.Pita;
-import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
-import me.theentropyshard.pita.netschoolapi.diary.models.Announcement;
+import me.theentropyshard.pita.netschoolapi.NetSchoolAPI_old;
+import me.theentropyshard.pita.netschoolapi.announcements.models.Announcement;
 import me.theentropyshard.pita.netschoolapi.diary.models.Attachment;
 import me.theentropyshard.pita.utils.Utils;
 import me.theentropyshard.pita.view.PitaColors;
@@ -203,7 +203,7 @@ public class AnnouncementsView extends JPanel {
                 label.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mousePressed(MouseEvent e) {
-                        NetSchoolAPI.I.downloadAttachment(Pita.getPita().getAttachmentsDir(), attach);
+                        NetSchoolAPI_old.I.downloadAttachment(Pita.getPita().getAttachmentsDir(), attach);
                     }
                 });
                 attachedFiles.add(label);
@@ -243,15 +243,13 @@ public class AnnouncementsView extends JPanel {
         this.numAnnouncements = 0;
         this.panel.removeAll();
 
-        List<Announcement> announcements = new ArrayList<>();
-        try {
-            announcements.addAll(NetSchoolAPI.I.getAnnouncements(-1));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        for(Announcement a : announcements) {
-            this.addNewAnnouncement(a);
-        }
-        this.scrollToTop();
+    }
+
+    public void setNumAnnouncements(int numAnnouncements) {
+        this.numAnnouncements = numAnnouncements;
+    }
+
+    public JPanel getPanel() {
+        return this.panel;
     }
 }

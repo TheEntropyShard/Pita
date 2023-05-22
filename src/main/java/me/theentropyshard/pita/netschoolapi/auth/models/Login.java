@@ -15,33 +15,33 @@
  *      along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.pita;
+package me.theentropyshard.pita.netschoolapi.auth.models;
 
-import me.theentropyshard.pita.utils.ResourceManager;
+public class Login {
+    public String accessToken;
+    Object accountInfo;
+    public String at;
+    Object code;
+    public String entryPoint;
+    Object errorMessage;
+    public String refreshToken;
+    Object requestData;
+    public int timeOut;
+    public String tokenType;
 
-import java.awt.*;
+    public Login() {
 
-public class Main {
-    public static void exit() {
-        System.exit(0);
     }
 
-    private static void initGUI() {
-        if (GraphicsEnvironment.isHeadless()) {
-            System.err.println("Your graphics environment is headless");
-            Main.exit();
-        }
-
-        System.setProperty("sun.java2d.d3d", "false");
-        System.setProperty("sun.java2d.noddraw", "true");
-
-        ResourceManager.registerFont(ResourceManager.getFont("JetBrainsMono-Regular.ttf"));
-        ResourceManager.registerFont(ResourceManager.getFont("JetBrainsMono-Bold.ttf"));
-    }
-
-    public static void main(String[] args) {
-        Main.initGUI();
-
-        new Pita();
+    @Override
+    public String toString() {
+        return "Login{" +
+                "accessToken='" + this.accessToken + '\'' +
+                ", at='" + this.at + '\'' +
+                ", entryPoint='" + this.entryPoint + '\'' +
+                ", refreshToken='" + this.refreshToken + '\'' +
+                ", timeOut=" + this.timeOut +
+                ", tokenType='" + this.tokenType + '\'' +
+                '}';
     }
 }

@@ -15,33 +15,31 @@
  *      along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.pita;
+package me.theentropyshard.pita.netschoolapi.auth;
 
-import me.theentropyshard.pita.utils.ResourceManager;
+import me.theentropyshard.pita.netschoolapi.Urls;
+import me.theentropyshard.pita.netschoolapi.auth.models.GetData;
+import me.theentropyshard.pita.netschoolapi.auth.models.Login;
+import retrofit2.Call;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.POST;
 
-import java.awt.*;
+public interface AuthAPI {
+    @POST(Urls.GET_DATA)
+    Call<GetData> getData();
 
-public class Main {
-    public static void exit() {
-        System.exit(0);
-    }
+    @POST(Urls.LOGIN)
+    @FormUrlEncoded
+    Call<Login> login(
+            @Field("LoginType") int loginType,
+            @Field("scid") int scid,
+            @Field("UN") String un,
+            @Field("lt") String lt,
+            @Field("pw2") String pw2,
+            @Field("ver") String ver
+    );
 
-    private static void initGUI() {
-        if (GraphicsEnvironment.isHeadless()) {
-            System.err.println("Your graphics environment is headless");
-            Main.exit();
-        }
-
-        System.setProperty("sun.java2d.d3d", "false");
-        System.setProperty("sun.java2d.noddraw", "true");
-
-        ResourceManager.registerFont(ResourceManager.getFont("JetBrainsMono-Regular.ttf"));
-        ResourceManager.registerFont(ResourceManager.getFont("JetBrainsMono-Bold.ttf"));
-    }
-
-    public static void main(String[] args) {
-        Main.initGUI();
-
-        new Pita();
-    }
+    @POST(Urls.LOGOUT)
+    Call<Void> logout();
 }

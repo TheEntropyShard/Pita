@@ -19,7 +19,7 @@ package me.theentropyshard.pita.view;
 
 import me.theentropyshard.pita.Pita;
 import me.theentropyshard.pita.utils.Utils;
-import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
+import me.theentropyshard.pita.netschoolapi.NetSchoolAPI_old;
 import me.theentropyshard.pita.view.announcements.AnnouncementsView;
 import me.theentropyshard.pita.view.component.GradientLabel;
 import me.theentropyshard.pita.view.component.SimpleButton;
@@ -123,7 +123,7 @@ public class Header extends JPanel {
         exitLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                NetSchoolAPI.I.logout();
+                NetSchoolAPI_old.I.logout();
                 View.getView().getRootLayout().show(View.getView().getRoot(), LoginView.class.getSimpleName());
             }
         });
@@ -154,7 +154,7 @@ public class Header extends JPanel {
         bottomPanel.setBackground(tm.getColor("mainColor"));
         bottomPanel.add(new SimpleButton("Дневник") {{
             this.addActionListener(e -> {
-                MainPanel mp = View.getView().getMainPanel();
+                StudentView mp = View.getView().getMainPanel();
                 DiaryView diaryView = mp.getDiaryPanel();
                 if (!diaryView.isVisible()) {
                     diaryView.loadData();
@@ -167,7 +167,7 @@ public class Header extends JPanel {
         }});
         bottomPanel.add(new SimpleButton("Отчеты") {{
             this.addActionListener(e -> {
-                MainPanel mp = View.getView().getMainPanel();
+                StudentView mp = View.getView().getMainPanel();
                 ReportsPanel reportsPanel = mp.getReportsPanel();
                 if (!reportsPanel.isVisible()) {
                     reportsPanel.loadData();
@@ -180,7 +180,7 @@ public class Header extends JPanel {
         }});
         this.mailButton = new SimpleButton("Почта") {{
             this.addActionListener(e -> {
-                MainPanel mp = View.getView().getMainPanel();
+                StudentView mp = View.getView().getMainPanel();
                 MailPanel mailPanel = mp.getMailPanel();
                 if (!mailPanel.isVisible()) {
                     mailPanel.loadData();
@@ -194,8 +194,8 @@ public class Header extends JPanel {
         bottomPanel.add(this.mailButton);
         bottomPanel.add(new SimpleButton("Объявления") {{
             this.addActionListener(e -> {
-                MainPanel mp = View.getView().getMainPanel();
-                AnnouncementsView annPanel = mp.getAnnPanel();
+                StudentView mp = View.getView().getMainPanel();
+                AnnouncementsView annPanel = mp.getAnnouncementsView();
                 if (!annPanel.isVisible()) {
                     annPanel.loadData();
                     mp.getContentLayout().show(
@@ -211,7 +211,7 @@ public class Header extends JPanel {
     public void loadData() {
         int umc = 0;
         try {
-            umc = NetSchoolAPI.I.getUnreadMessagesCount();
+            umc = NetSchoolAPI_old.I.getUnreadMessagesCount();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -221,20 +221,20 @@ public class Header extends JPanel {
             this.mailButton.setText("Почта");
         }
 
-        this.schoolNameLabel.setText(NetSchoolAPI.I.getSchool().getShortName());
+        this.schoolNameLabel.setText(NetSchoolAPI_old.I.getSchool().getShortName());
 
         try {
-            this.currentYearLabel.setText("текущий " + NetSchoolAPI.I.getYearlist()[0].name + " уч.год");
+            this.currentYearLabel.setText("текущий " + NetSchoolAPI_old.I.getYearlist()[0].name + " уч.год");
         } catch (IOException e) {
             e.printStackTrace();
             this.currentYearLabel.setText("ОШИБКА");
         }
 
-        this.usernameLabel.setText(NetSchoolAPI.I.getStudentName());
+        this.usernameLabel.setText(NetSchoolAPI_old.I.getStudentName());
 
         int num = 0;
         try {
-            num = NetSchoolAPI.I.getActiveSessions().size();
+            num = NetSchoolAPI_old.I.getActiveSessions().size();
         } catch (IOException e) {
             e.printStackTrace();
         }

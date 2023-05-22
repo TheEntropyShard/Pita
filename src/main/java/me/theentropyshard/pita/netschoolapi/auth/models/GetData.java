@@ -15,33 +15,23 @@
  *      along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.pita;
+package me.theentropyshard.pita.netschoolapi.auth.models;
 
-import me.theentropyshard.pita.utils.ResourceManager;
+public class GetData {
+    public String lt;
+    public String salt;
+    public String ver;
 
-import java.awt.*;
+    public GetData() {
 
-public class Main {
-    public static void exit() {
-        System.exit(0);
     }
 
-    private static void initGUI() {
-        if (GraphicsEnvironment.isHeadless()) {
-            System.err.println("Your graphics environment is headless");
-            Main.exit();
-        }
-
-        System.setProperty("sun.java2d.d3d", "false");
-        System.setProperty("sun.java2d.noddraw", "true");
-
-        ResourceManager.registerFont(ResourceManager.getFont("JetBrainsMono-Regular.ttf"));
-        ResourceManager.registerFont(ResourceManager.getFont("JetBrainsMono-Bold.ttf"));
-    }
-
-    public static void main(String[] args) {
-        Main.initGUI();
-
-        new Pita();
+    @Override
+    public String toString() {
+        return "GetData{" +
+                "lt='" + this.lt + '\'' +
+                ", salt='" + this.salt + '\'' +
+                ", ver='" + this.ver + '\'' +
+                '}';
     }
 }

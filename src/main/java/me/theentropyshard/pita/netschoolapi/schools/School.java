@@ -15,33 +15,33 @@
  *      along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.pita;
+package me.theentropyshard.pita.netschoolapi.schools;
 
-import me.theentropyshard.pita.utils.ResourceManager;
+public class School {
+    public int provinceId;
+    public int cityId;
+    public String inn;
+    public String ogrn;
+    public String address;
+    public String shortName;
+    public int id;
+    public String name;
 
-import java.awt.*;
+    public School() {
 
-public class Main {
-    public static void exit() {
-        System.exit(0);
     }
 
-    private static void initGUI() {
-        if (GraphicsEnvironment.isHeadless()) {
-            System.err.println("Your graphics environment is headless");
-            Main.exit();
-        }
-
-        System.setProperty("sun.java2d.d3d", "false");
-        System.setProperty("sun.java2d.noddraw", "true");
-
-        ResourceManager.registerFont(ResourceManager.getFont("JetBrainsMono-Regular.ttf"));
-        ResourceManager.registerFont(ResourceManager.getFont("JetBrainsMono-Bold.ttf"));
-    }
-
-    public static void main(String[] args) {
-        Main.initGUI();
-
-        new Pita();
+    @Override
+    public String toString() {
+        return "SchoolModel{" +
+                "provinceId=" + provinceId +
+                ", cityId=" + cityId +
+                ", inn='" + inn + '\'' +
+                ", ogrn='" + ogrn + '\'' +
+                ", address='" + address + '\'' +
+                ", shortName='" + shortName + '\'' +
+                ", id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

@@ -15,33 +15,29 @@
  *      along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.pita;
+package me.theentropyshard.pita.utils;
 
-import me.theentropyshard.pita.utils.ResourceManager;
+import me.theentropyshard.pita.view.AppWindow;
 
+import javax.swing.*;
 import java.awt.*;
 
-public class Main {
-    public static void exit() {
-        System.exit(0);
+public class SwingUtils {
+    public static JDialog newDialog(String title, boolean modal, JPanel content) {
+        JDialog dialog = new JDialog(AppWindow.window, title, modal);
+        dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        dialog.add(content, BorderLayout.CENTER);
+        dialog.pack();
+        dialog.setLocationRelativeTo(null);
+
+        return dialog;
     }
 
-    private static void initGUI() {
-        if (GraphicsEnvironment.isHeadless()) {
-            System.err.println("Your graphics environment is headless");
-            Main.exit();
-        }
-
-        System.setProperty("sun.java2d.d3d", "false");
-        System.setProperty("sun.java2d.noddraw", "true");
-
-        ResourceManager.registerFont(ResourceManager.getFont("JetBrainsMono-Regular.ttf"));
-        ResourceManager.registerFont(ResourceManager.getFont("JetBrainsMono-Bold.ttf"));
+    public static void later(Runnable r) {
+        SwingUtilities.invokeLater(r);
     }
 
-    public static void main(String[] args) {
-        Main.initGUI();
-
-        new Pita();
+    private SwingUtils() {
+        throw new UnsupportedOperationException("Class SwingUtils should not be instantiated");
     }
 }

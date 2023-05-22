@@ -26,7 +26,7 @@ import me.theentropyshard.pita.view.mail.MailWritePanel;
 import javax.swing.*;
 import java.awt.*;
 
-public class MainPanel extends JPanel {
+public class StudentView extends JPanel {
     private final Header header;
 
     private final CardLayout contentLayout;
@@ -41,7 +41,7 @@ public class MainPanel extends JPanel {
 
     private final AnnouncementsView annPanel;
 
-    public MainPanel() {
+    public StudentView() {
         this.setLayout(new BorderLayout());
 
         this.header = new Header();
@@ -52,28 +52,28 @@ public class MainPanel extends JPanel {
         this.add(this.contentPanel, BorderLayout.CENTER);
 
         this.diaryView = new DiaryView();
-        this.contentPanel.add(this.diaryView, DiaryView.class.getSimpleName());
+        this.contentPanel.add(this.diaryView, DiaryView.class.getName());
 
         this.reportsPanel = new ReportsPanel();
-        this.contentPanel.add(this.reportsPanel, ReportsPanel.class.getSimpleName());
+        this.contentPanel.add(this.reportsPanel, ReportsPanel.class.getName());
 
         this.mailPanel = new MailPanel();
-        this.contentPanel.add(this.mailPanel, MailPanel.class.getSimpleName());
+        this.contentPanel.add(this.mailPanel, MailPanel.class.getName());
 
         this.mailReadPanel = new MailReadPanel(this.mailPanel);
-        this.contentPanel.add(this.mailReadPanel, MailReadPanel.class.getSimpleName());
+        this.contentPanel.add(this.mailReadPanel, MailReadPanel.class.getName());
 
         this.mailWritePanel = new MailWritePanel();
-        this.contentPanel.add(this.mailWritePanel, MailWritePanel.class.getSimpleName());
+        this.contentPanel.add(this.mailWritePanel, MailWritePanel.class.getName());
 
         this.annPanel = new AnnouncementsView();
-        this.contentPanel.add(this.annPanel, AnnouncementsView.class.getSimpleName());
+        this.contentPanel.add(this.annPanel, AnnouncementsView.class.getName());
     }
 
     public void showComponents() {
         this.header.loadData();
         this.diaryView.loadData();
-        this.contentLayout.show(this.contentPanel, DiaryView.class.getSimpleName());
+        this.contentLayout.show(this.contentPanel, DiaryView.class.getName());
     }
 
     public Header getHeader() {
@@ -108,7 +108,7 @@ public class MainPanel extends JPanel {
         return this.mailWritePanel;
     }
 
-    public AnnouncementsView getAnnPanel() {
+    public AnnouncementsView getAnnouncementsView() {
         return this.annPanel;
     }
 }

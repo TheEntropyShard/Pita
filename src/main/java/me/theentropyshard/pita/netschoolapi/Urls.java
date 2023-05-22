@@ -28,9 +28,9 @@ public enum Urls {
     public static final String SGO_PING             = "settings/firstLetter";
     public static final String MY_SETTINGS          = "mysettings";
     public static final String YEAR_LIST            = "mysettings/yearlist";
-    public static final String SCHOOLS_SEARCH       = "schools/search";
+    public static final String SCHOOLS_SEARCH       = "webapi/schools/search";
     public static final String SCHOOL_INFO          = "schools/%d/card";
-    public static final String ANNOUNCEMENTS        = "announcements";
+    public static final String ANNOUNCEMENTS        = "webapi/announcements";
     public static final String YEARS_CURRENT        = "years/current";
     public static final String ACTIVE_SESSIONS      = "context/activeSessions";
     public static final String TERMS_SEARCH         = "terms/search";
@@ -39,9 +39,9 @@ public enum Urls {
     /**
      * Auth
      */
-    public static final String GET_DATA             = "auth/getdata";
-    public static final String LOGIN                = "login";
-    public static final String LOGOUT               = "auth/logout";
+    public static final String GET_DATA             = "webapi/auth/getdata";
+    public static final String LOGIN                = "webapi/login";
+    public static final String LOGOUT               = "webapi/auth/logout";
 
     /**
      * SignalR

@@ -17,7 +17,7 @@
 
 package me.theentropyshard.pita.view;
 
-import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
+import me.theentropyshard.pita.netschoolapi.NetSchoolAPI_old;
 import me.theentropyshard.pita.netschoolapi.models.SchoolCard;
 import me.theentropyshard.pita.view.component.GradientLabel;
 import me.theentropyshard.pita.view.component.ScrollBar;
@@ -112,7 +112,7 @@ public class SchoolInfoPanel extends JPanel {
     public void loadData() {
         if(false) {
             try {
-                SchoolCard card = NetSchoolAPI.I.getSchoolInfo();
+                SchoolCard card = NetSchoolAPI_old.I.getSchoolInfo();
                 System.out.println(card);
             } catch (IOException e) {
                 e.printStackTrace();

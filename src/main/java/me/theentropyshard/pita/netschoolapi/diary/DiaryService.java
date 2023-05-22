@@ -23,7 +23,7 @@ import me.theentropyshard.pita.netschoolapi.Urls;
 import me.theentropyshard.pita.netschoolapi.diary.models.Assignment;
 import me.theentropyshard.pita.netschoolapi.diary.models.DetailedAssignment;
 import me.theentropyshard.pita.netschoolapi.diary.models.Diary;
-import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
+import me.theentropyshard.pita.netschoolapi.NetSchoolAPI_old;
 import me.theentropyshard.pita.date.DateUtils;
 import okhttp3.Response;
 
@@ -33,10 +33,10 @@ import java.util.List;
 import java.util.Objects;
 
 public class DiaryService {
-    private final NetSchoolAPI api;
+    private final NetSchoolAPI_old api;
     private final ObjectMapper mapper;
 
-    public DiaryService(NetSchoolAPI api) {
+    public DiaryService(NetSchoolAPI_old api) {
         this.api = api;
         this.mapper = new ObjectMapper()
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);

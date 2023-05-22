@@ -18,7 +18,7 @@ package me.theentropyshard.pita.view.diary;
 import me.theentropyshard.pita.Pita;
 import me.theentropyshard.pita.date.DateUtils;
 import me.theentropyshard.pita.date.Week;
-import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
+import me.theentropyshard.pita.netschoolapi.NetSchoolAPI_old;
 import me.theentropyshard.pita.netschoolapi.models.Term;
 import me.theentropyshard.pita.view.ThemeManager;
 import me.theentropyshard.pita.view.component.ComboBox;
@@ -77,7 +77,7 @@ public class DiaryViewHeader extends JPanel {
         this.add(this.nextButton);
     }
     public void loadData() {
-        List<Term> terms = NetSchoolAPI.I.getTerms();
+        List<Term> terms = NetSchoolAPI_old.I.getTerms();
         Term term = terms.get(3);// четвертая четверть
         List<Week> weeks = DateUtils.getWeeks(term.startDate, term.endDate);
         Week current = null;

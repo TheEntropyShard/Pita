@@ -15,33 +15,13 @@
  *      along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.pita;
+package me.theentropyshard.pita.netschoolapi.schools;
 
-import me.theentropyshard.pita.utils.ResourceManager;
+import me.theentropyshard.pita.netschoolapi.Urls;
+import retrofit2.Call;
+import retrofit2.http.GET;
 
-import java.awt.*;
-
-public class Main {
-    public static void exit() {
-        System.exit(0);
-    }
-
-    private static void initGUI() {
-        if (GraphicsEnvironment.isHeadless()) {
-            System.err.println("Your graphics environment is headless");
-            Main.exit();
-        }
-
-        System.setProperty("sun.java2d.d3d", "false");
-        System.setProperty("sun.java2d.noddraw", "true");
-
-        ResourceManager.registerFont(ResourceManager.getFont("JetBrainsMono-Regular.ttf"));
-        ResourceManager.registerFont(ResourceManager.getFont("JetBrainsMono-Bold.ttf"));
-    }
-
-    public static void main(String[] args) {
-        Main.initGUI();
-
-        new Pita();
-    }
+public interface SchoolsAPI {
+    @GET(Urls.SCHOOLS_SEARCH)
+    Call<School[]> getSchools();
 }

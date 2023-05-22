@@ -17,12 +17,13 @@
 
 package me.theentropyshard.pita;
 
-import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
+import me.theentropyshard.pita.netschoolapi.NetSchoolAPI_old;
 import me.theentropyshard.pita.netschoolapi.exceptions.AuthException;
 import me.theentropyshard.pita.netschoolapi.exceptions.SchoolNotFoundException;
 import me.theentropyshard.pita.utils.Utils;
+import me.theentropyshard.pita.view.AppWindow;
+import me.theentropyshard.pita.view.LoginView;
 import me.theentropyshard.pita.view.ThemeManager;
-import me.theentropyshard.pita.view.View;
 import okhttp3.OkHttpClient;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -69,17 +70,21 @@ public final class Pita {
         this.themeManager.loadTheme(Config.getString("selectedTheme"));
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            synchronized (NetSchoolAPI.I) {
-                NetSchoolAPI.I.logout();
+            synchronized (NetSchoolAPI_old.I) {
+                NetSchoolAPI_old.I.logout();
             }
         }));
 
-        SwingUtilities.invokeLater(View::new);
+        SwingUtilities.invokeLater(() -> {
+            AppWindow appWindow = new AppWindow();
+            appWindow.switchView(LoginView.class.getName());
+            appWindow.setVisible(true);
+        });
     }
 
     public LoginResult login(String address, String schoolName, String login, String password, boolean passwordHashed) {
         try {
-            NetSchoolAPI.I.login(address, schoolName, login, password, passwordHashed);
+            NetSchoolAPI_old.I.login(address, schoolName, login, password, passwordHashed);
         } catch (UnknownHostException e) {
             this.logger.warn("Неизвестный хост", e);
             return LoginResult.WRONG_ADDRESS;
@@ -104,6 +109,7 @@ public final class Pita {
         return LoginResult.OK;
     }
 
+    // TODO: move to CredentialsManager
     public void saveCredentials(Credentials c) {
         try {
             FileOutputStream fos = new FileOutputStream(this.credentialsFile);
@@ -115,6 +121,7 @@ public final class Pita {
         }
     }
 
+    // TODO: move to CredentialsManager
     public Credentials loadCredentials() {
         if (this.credentialsFile.length() != 0L) {
             try {

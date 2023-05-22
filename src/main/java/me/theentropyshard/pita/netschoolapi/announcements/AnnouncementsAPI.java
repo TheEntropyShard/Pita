@@ -15,33 +15,15 @@
  *      along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.pita;
+package me.theentropyshard.pita.netschoolapi.announcements;
 
-import me.theentropyshard.pita.utils.ResourceManager;
+import me.theentropyshard.pita.netschoolapi.Urls;
+import me.theentropyshard.pita.netschoolapi.announcements.models.Announcement;
+import retrofit2.Call;
+import retrofit2.http.GET;
+import retrofit2.http.Query;
 
-import java.awt.*;
-
-public class Main {
-    public static void exit() {
-        System.exit(0);
-    }
-
-    private static void initGUI() {
-        if (GraphicsEnvironment.isHeadless()) {
-            System.err.println("Your graphics environment is headless");
-            Main.exit();
-        }
-
-        System.setProperty("sun.java2d.d3d", "false");
-        System.setProperty("sun.java2d.noddraw", "true");
-
-        ResourceManager.registerFont(ResourceManager.getFont("JetBrainsMono-Regular.ttf"));
-        ResourceManager.registerFont(ResourceManager.getFont("JetBrainsMono-Bold.ttf"));
-    }
-
-    public static void main(String[] args) {
-        Main.initGUI();
-
-        new Pita();
-    }
+public interface AnnouncementsAPI {
+    @GET(Urls.ANNOUNCEMENTS)
+    Call<Announcement[]> getAnnouncements(@Query("take") int take);
 }

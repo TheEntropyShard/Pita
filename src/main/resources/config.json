@@ -2,5 +2,6 @@
     "defaultWidth": 1280,
     "defaultHeight": 720,
     "startMaximized": false,
-    "selectedTheme": "green"
+    "selectedTheme": "green",
+    "preferredView": "announcements"
 }

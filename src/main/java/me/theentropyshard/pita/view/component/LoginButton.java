@@ -51,6 +51,9 @@ public class LoginButton extends JButton implements ActionListener {
 
     public LoginButton(String text) {
         super(text);
+
+        this.oldText = text;
+
         this.setFocusPainted(false);
         this.setContentAreaFilled(false);
         this.setBorder(new EmptyBorder(0, 0, 0, 0));

@@ -60,15 +60,39 @@ public final class Config {
         }
     }
 
+    public static boolean getBoolean(String s, boolean def) {
+        Object o = Config.config.get(s);
+        if(o == null) {
+            return def;
+        }
+        return (boolean) o;
+    }
+
     public static boolean getBoolean(String s) {
-        return (boolean) Config.config.get(s);
+        return Config.getBoolean(s, false);
+    }
+
+    public static int getInt(String s, int def) {
+        Object o = Config.config.get(s);
+        if(o == null) {
+            return def;
+        }
+        return (int) o;
     }
 
     public static int getInt(String s) {
-        return (int) Config.config.get(s);
+        return Config.getInt(s, 0);
+    }
+
+    public static String getString(String s, String def) {
+        Object o = Config.config.get(s);
+        if(o == null) {
+            return def;
+        }
+        return (String) o;
     }
 
     public static String getString(String s) {
-        return (String) Config.config.get(s);
+        return Config.getString(s, "");
     }
 }

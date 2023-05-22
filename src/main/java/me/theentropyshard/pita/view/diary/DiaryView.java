@@ -17,7 +17,7 @@
 
 package me.theentropyshard.pita.view.diary;
 
-import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
+import me.theentropyshard.pita.netschoolapi.NetSchoolAPI_old;
 import me.theentropyshard.pita.netschoolapi.diary.models.Assignment;
 import me.theentropyshard.pita.netschoolapi.diary.models.Day;
 import me.theentropyshard.pita.netschoolapi.diary.models.Diary;
@@ -112,7 +112,7 @@ public class DiaryView extends JPanel {
 
     public void loadData() {
         try {
-            Diary diary = NetSchoolAPI.I.getDiary("2023-02-13", "2023-02-19");
+            Diary diary = NetSchoolAPI_old.I.getDiary("2023-02-13", "2023-02-19");
             //Diary diary = NetSchoolAPI.I.getDiary("2023-04-10", "2023-04-15");
             for (int dayNum = 0; dayNum < diary.weekDays.length; dayNum++) {
                 Day diaryDay = diary.weekDays[dayNum];

@@ -19,7 +19,7 @@ package me.theentropyshard.pita.netschoolapi.mail;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
+import me.theentropyshard.pita.netschoolapi.NetSchoolAPI_old;
 import me.theentropyshard.pita.netschoolapi.Urls;
 import me.theentropyshard.pita.netschoolapi.http.ContentType;
 import me.theentropyshard.pita.netschoolapi.mail.models.Mail;
@@ -35,10 +35,10 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class MailService {
-    private final NetSchoolAPI api;
+    private final NetSchoolAPI_old api;
     private final ObjectMapper mapper;
 
-    public MailService(NetSchoolAPI api) {
+    public MailService(NetSchoolAPI_old api) {
         this.api = api;
         this.mapper = new ObjectMapper()
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);

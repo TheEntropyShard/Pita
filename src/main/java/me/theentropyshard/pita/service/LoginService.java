@@ -17,6 +17,9 @@
 
 package me.theentropyshard.pita.service;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import me.theentropyshard.pita.controller.LoginController;
 import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
 import me.theentropyshard.pita.netschoolapi.auth.models.GetData;
 import me.theentropyshard.pita.netschoolapi.auth.models.Login;
@@ -27,11 +30,18 @@ import me.theentropyshard.pita.utils.SwingUtils;
 import me.theentropyshard.pita.utils.Utils;
 import me.theentropyshard.pita.view.AppWindow;
 import me.theentropyshard.pita.view.StudentView;
+import okhttp3.ResponseBody;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 import retrofit2.Call;
+import retrofit2.Response;
 
+import java.net.URL;
+import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
+import java.util.Scanner;
 
 public class LoginService {
     private static final Logger LOG = LogManager.getLogger(LoginService.class);
@@ -68,8 +78,32 @@ public class LoginService {
                     break;
                 }
             }
+
+            if (NetSchoolAPI.school == null) {
+                LoginController.showErrorDialog("Школа '" + this.schoolName + "' не найдена");
+                LoginController loginController = AppWindow.window.getLoginController();
+                loginController.resetLoginButton();
+                loginController.resetFields(false, true);
+                return;
+            }
+
             Call<GetData> getDataCall = NetSchoolAPI.authAPI.getData();
             getDataCall.enqueue(new GetDataCallback(this.login, this.passHash));
+        }
+
+        @Override
+        public void onFailure(@NotNull Call<School[]> c, @NotNull Throwable t) {
+            if (t instanceof UnknownHostException) {
+                URL url = c.request().url().url();
+                String baseUrl = url.getProtocol() + "://" + url.getHost();
+                LoginController.showErrorDialog("Некорректный URL-адрес: " + baseUrl);
+                LoginController loginController = AppWindow.window.getLoginController();
+                loginController.resetLoginButton();
+                loginController.resetFields(false, true);
+                return;
+            }
+
+            super.onFailure(c, t);
         }
     }
 
@@ -106,10 +140,38 @@ public class LoginService {
 
         @Override
         public void handleResponse(Login login) {
-            NetSchoolAPI.at = login.at;
-            NetSchoolAPI.userName = login.accountInfo.user.name;
+            try {
+                NetSchoolAPI.at = login.at;
+                NetSchoolAPI.userName = login.accountInfo.user.name;
+            } catch (Exception e) {
+                LOG.error(e);
+            }
             Call<DiaryInit> diaryInitCall = NetSchoolAPI.diaryAPI.diaryInit();
             diaryInitCall.enqueue(new DiaryInitCallback());
+        }
+
+        @Override
+        public void onResponse(@NotNull Call<Login> c, @NotNull Response<Login> r) {
+            ResponseBody body = r.errorBody();
+            if (body != null) {
+                Scanner s = new Scanner(Objects.requireNonNull(body).charStream());
+                StringBuilder b = new StringBuilder();
+                while (s.hasNextLine()) {
+                    b.append(s.nextLine());
+                }
+                body.close();
+                s.close();
+
+                String message = new Gson().fromJson(b.toString(), JsonObject.class).get("message").getAsString();
+                LoginController.showErrorDialog(message);
+                LoginController loginController = AppWindow.window.getLoginController();
+                loginController.resetLoginButton();
+                loginController.resetFields(false, true);
+
+                return;
+            }
+
+            super.onResponse(c, r);
         }
     }
 
@@ -120,7 +182,11 @@ public class LoginService {
 
         @Override
         public void handleResponse(DiaryInit diaryInit) {
-            NetSchoolAPI.userId = diaryInit.students.get(diaryInit.currentStudentId).studentId;
+            try {
+                NetSchoolAPI.userId = diaryInit.students.get(diaryInit.currentStudentId).studentId;
+            } catch (Exception e) {
+                LOG.error(e);
+            }
             SwingUtils.later(() -> AppWindow.window.switchView(StudentView.class.getName()));
         }
     }

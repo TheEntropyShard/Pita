@@ -99,4 +99,12 @@ public class AppWindow extends JFrame {
         this.lastView = name;
         this.rootLayout.show(this.root, name);
     }
+
+    public LoginController getLoginController() {
+        return this.loginController;
+    }
+
+    public StudentController getStudentController() {
+        return this.studentController;
+    }
 }

@@ -194,7 +194,7 @@ public class LoginController {
         }
     }
 
-    private static void showErrorDialog(String msg) {
+    public static void showErrorDialog(String msg) {
         ShortMessagePanel smp = new ShortMessagePanel(msg);
         AppWindow.window.getGlassPane().setVisible(true);
         SwingUtils.newDialog("Ошибка", true, smp).setVisible(true);

@@ -17,11 +17,11 @@
 
 package me.theentropyshard.pita.controller;
 
-import me.theentropyshard.pita.Credentials;
-import me.theentropyshard.pita.Pita;
 import me.theentropyshard.pita.service.LoginService;
 import me.theentropyshard.pita.utils.SwingUtils;
 import me.theentropyshard.pita.utils.Utils;
+import me.theentropyshard.pita.utils.credentials.Credentials;
+import me.theentropyshard.pita.utils.credentials.CredentialsManager;
 import me.theentropyshard.pita.view.AppWindow;
 import me.theentropyshard.pita.view.LoginView;
 import me.theentropyshard.pita.view.PitaColors;
@@ -90,7 +90,7 @@ public class LoginController {
     }
 
     public void loadCredentials() {
-        Credentials c = Pita.getPita().loadCredentials();
+        Credentials c = CredentialsManager.loadCredentials();
         if (c != null) {
             this.loginView.getSgoAddressField().setText(c.getSchoolAddress());
             this.loginView.getSchoolNameField().setText(c.getSchoolName());
@@ -178,7 +178,7 @@ public class LoginController {
                 return;
             }
 
-            Pita.getPita().saveCredentials(new Credentials(baseUrl, schoolName, login, passHash));
+            CredentialsManager.saveCredentials(new Credentials(baseUrl, schoolName, login, passHash));
             this.loginService.login(baseUrl, schoolName, login, passHash);
         } else {
             this.loginService.login(baseUrl, schoolName, login, pass);

@@ -66,12 +66,6 @@ public final class Pita {
         this.themeManager = new ThemeManager();
         this.themeManager.loadTheme(Config.getString("selectedTheme"));
 
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            synchronized (NetSchoolAPI_old.I) {
-                NetSchoolAPI_old.I.logout();
-            }
-        }));
-
         SwingUtilities.invokeLater(() -> {
             AppWindow appWindow = new AppWindow();
             appWindow.switchView(LoginView.class.getName());

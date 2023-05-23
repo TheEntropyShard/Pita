@@ -47,7 +47,7 @@ import java.util.Scanner;
  * Различные утилиты
  */
 public final class Utils {
-    private static final Logger LOG = LogManager.getLogger(Utils.class);
+    //private static final Logger LOG = LogManager.getLogger(Utils.class);
 
     public static final Charset UTF_8 = Charset.forName("UTF-8");
 
@@ -183,7 +183,7 @@ public final class Utils {
             }
             return sb.toString();
         } catch (NoSuchAlgorithmException e) {
-            LOG.debug(e);
+           // LOG.debug(e);
             return null;
         }
     }
@@ -198,7 +198,7 @@ public final class Utils {
         try {
             return URLEncoder.encode(s, "UTF-8");
         } catch (UnsupportedEncodingException e) {
-            LOG.debug(e);
+           // LOG.debug(e);
         }
         return null;
     }

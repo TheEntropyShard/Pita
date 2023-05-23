@@ -50,7 +50,7 @@ public class Header extends JPanel {
         this.infoLabel = new GradientLabel();
         this.infoLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
         this.infoLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        this.infoLabel.addMouseListener(new MouseAdapter() {
+        /*this.infoLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 View.getView().getFrame().getGlassPane().setVisible(true);
@@ -77,12 +77,12 @@ public class Header extends JPanel {
 
                 View.getView().getFrame().getGlassPane().setVisible(false);
             }
-        });
+        });*/
 
         this.schoolNameLabel = new GradientLabel();
         this.schoolNameLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         this.schoolNameLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 16));
-        this.schoolNameLabel.addMouseListener(new MouseAdapter() {
+        /*this.schoolNameLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 View.getView().getFrame().getGlassPane().setVisible(true);
@@ -102,7 +102,7 @@ public class Header extends JPanel {
 
                 View.getView().getFrame().getGlassPane().setVisible(false);
             }
-        });
+        });*/
 
         this.currentYearLabel = new GradientLabel();
         this.currentYearLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
@@ -110,23 +110,23 @@ public class Header extends JPanel {
         this.usernameLabel = new GradientLabel();
         this.usernameLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         this.usernameLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
-        this.usernameLabel.addMouseListener(new MouseAdapter() {
+        /*this.usernameLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 System.out.println("Show my settings");
             }
-        });
+        });*/
 
         GradientLabel exitLabel = new GradientLabel("Выход");
         exitLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         exitLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
-        exitLabel.addMouseListener(new MouseAdapter() {
+        /*exitLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 NetSchoolAPI_old.I.logout();
                 View.getView().getRootLayout().show(View.getView().getRoot(), LoginView.class.getSimpleName());
             }
-        });
+        });*/
 
         JPanel panel = new JPanel();
         panel.setBackground(tm.getColor("mainColor"));
@@ -152,7 +152,7 @@ public class Header extends JPanel {
 
         JPanel bottomPanel = new JPanel(new GridLayout(1, 4));
         bottomPanel.setBackground(tm.getColor("mainColor"));
-        bottomPanel.add(new SimpleButton("Дневник") {{
+        /*bottomPanel.add(new SimpleButton("Дневник") {{
             this.addActionListener(e -> {
                 StudentView mp = View.getView().getMainPanel();
                 DiaryView diaryView = mp.getDiaryPanel();
@@ -177,9 +177,9 @@ public class Header extends JPanel {
                     );
                 }
             });
-        }});
+        }});*/
         this.mailButton = new SimpleButton("Почта") {{
-            this.addActionListener(e -> {
+            /*this.addActionListener(e -> {
                 StudentView mp = View.getView().getMainPanel();
                 MailPanel mailPanel = mp.getMailPanel();
                 if (!mailPanel.isVisible()) {
@@ -189,11 +189,11 @@ public class Header extends JPanel {
                             MailPanel.class.getSimpleName()
                     );
                 }
-            });
+            });*/
         }};
         bottomPanel.add(this.mailButton);
         bottomPanel.add(new SimpleButton("Объявления") {{
-            this.addActionListener(e -> {
+            /*this.addActionListener(e -> {
                 StudentView mp = View.getView().getMainPanel();
                 AnnouncementsView annPanel = mp.getAnnouncementsView();
                 if (!annPanel.isVisible()) {
@@ -203,7 +203,7 @@ public class Header extends JPanel {
                             AnnouncementsView.class.getSimpleName()
                     );
                 }
-            });
+            });*/
         }});
         this.add(bottomPanel, BorderLayout.SOUTH);
     }
@@ -243,5 +243,21 @@ public class Header extends JPanel {
 
     public SimpleButton getMailButton() {
         return this.mailButton;
+    }
+
+    public GradientLabel getSchoolNameLabel() {
+        return this.schoolNameLabel;
+    }
+
+    public GradientLabel getCurrentYearLabel() {
+        return this.currentYearLabel;
+    }
+
+    public GradientLabel getUsernameLabel() {
+        return this.usernameLabel;
+    }
+
+    public GradientLabel getInfoLabel() {
+        return this.infoLabel;
     }
 }

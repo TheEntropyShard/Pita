@@ -21,12 +21,16 @@ import me.theentropyshard.pita.netschoolapi.Urls;
 import me.theentropyshard.pita.netschoolapi.models.MySettings;
 import me.theentropyshard.pita.netschoolapi.models.SchoolCard;
 import me.theentropyshard.pita.netschoolapi.models.UploadLimits;
+import me.theentropyshard.pita.netschoolapi.models.UserSession;
 import me.theentropyshard.pita.netschoolapi.utils.models.IntIdName;
 import me.theentropyshard.pita.netschoolapi.utils.models.Term;
 import retrofit2.Call;
 import retrofit2.http.GET;
 
 public interface UtilsAPI {
+    @GET(Urls.ACTIVE_SESSIONS)
+    Call<UserSession[]> getActiveSessions();
+
     @GET(Urls.TERMS_SEARCH)
     Call<Term[]> getTerms();
 

@@ -17,31 +17,15 @@
 
 package me.theentropyshard.pita.netschoolapi.auth.models;
 
-public class Login {
-    public String accessToken;
-    public AccountInfo accountInfo;
-    public String at;
-    Object code;
-    public String entryPoint;
-    Object errorMessage;
-    public String refreshToken;
-    Object requestData;
-    public int timeOut;
-    public String tokenType;
-
-    public Login() {
-
-    }
+public class CurrentOrganization {
+    public int id;
+    public String name;
 
     @Override
     public String toString() {
-        return "Login{" +
-                "accessToken='" + this.accessToken + '\'' +
-                ", at='" + this.at + '\'' +
-                ", entryPoint='" + this.entryPoint + '\'' +
-                ", refreshToken='" + this.refreshToken + '\'' +
-                ", timeOut=" + this.timeOut +
-                ", tokenType='" + this.tokenType + '\'' +
+        return "CurrentOrganization{" +
+                "id=" + this.id +
+                ", name='" + this.name + '\'' +
                 '}';
     }
 }

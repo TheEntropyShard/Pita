@@ -17,7 +17,7 @@
 
 package me.theentropyshard.pita.controller;
 
-import me.theentropyshard.pita.Config;
+import me.theentropyshard.pita.view.Header;
 import me.theentropyshard.pita.view.StudentView;
 import me.theentropyshard.pita.view.announcements.AnnouncementsView;
 import org.apache.logging.log4j.LogManager;
@@ -30,27 +30,36 @@ public class StudentController {
 
     private final StudentView studentView;
 
+    private final HeaderController headerController;
     private final AnnouncementsController announcementsController;
 
     public StudentController(StudentView studentView) {
         this.studentView = studentView;
 
+        Header header = studentView.getHeader();
+        this.headerController = new HeaderController(header);
+
         AnnouncementsView announcementsView = studentView.getAnnouncementsView();
         this.announcementsController = new AnnouncementsController(announcementsView);
     }
 
-    public void showPreferredView() {
-        System.out.println("in showPreferredView");
+    public void loadHeader() {
+        this.headerController.loadData();
+    }
 
-        String preferredView = Config.getString("preferredView", "announcements");
-        switch (preferredView) {
+    public void switchView(String name) {
+        this.loadHeader();
+
+        switch (name) {
             case "announcements":
                 CardLayout layout = this.studentView.getContentLayout();
                 layout.show(this.studentView.getContentPanel(), AnnouncementsView.class.getName());
                 this.announcementsController.loadAnnouncements();
                 break;
+            case "diary":
+                break;
             default:
-                LOG.warn("Unknown view: '{}'", preferredView);
+                LOG.warn("Unknown view: '{}'", name);
                 break;
         }
     }

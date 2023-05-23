@@ -138,6 +138,7 @@ public class LoginService {
             Login login = r.body();
             if (login != null) {
                 NetSchoolAPI.at = login.at;
+                NetSchoolAPI.userName = login.accountInfo.user.name;
                 Call<DiaryInit> diaryInitCall = NetSchoolAPI.diaryAPI.diaryInit();
                 diaryInitCall.enqueue(new DiaryInitCallback());
             } else {

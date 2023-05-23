@@ -47,6 +47,7 @@ public class NetSchoolAPI {
     public static String ver = "";
     public static School school;
     public static int userId;
+    public static String userName;
 
     public static SchoolsAPI schoolsAPI;
     public static AuthAPI authAPI;

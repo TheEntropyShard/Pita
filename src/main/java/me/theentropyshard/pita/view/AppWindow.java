@@ -92,7 +92,8 @@ public class AppWindow extends JFrame {
                 this.loginController.loadCredentials();
             }
         } else if (StudentView.class.getName().equals(name)) {
-            this.studentController.showPreferredView();
+            String preferredView = Config.getString("preferredView", "announcements");
+            this.studentController.switchView(preferredView);
         }
 
         this.lastView = name;

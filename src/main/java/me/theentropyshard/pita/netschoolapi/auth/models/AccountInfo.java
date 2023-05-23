@@ -1,0 +1,51 @@
+/*      Pita. A simple desktop client for NetSchool by irTech
+ *      Copyright (C) 2022-2023 TheEntropyShard
+ *
+ *      This program is free software: you can redistribute it and/or modify
+ *      it under the terms of the GNU General Public License as published by
+ *      the Free Software Foundation, either version 3 of the License, or
+ *      (at your option) any later version.
+ *
+ *      This program is distributed in the hope that it will be useful,
+ *      but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *      GNU General Public License for more details.
+ *
+ *      You should have received a copy of the GNU General Public License
+ *      along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+package me.theentropyshard.pita.netschoolapi.auth.models;
+
+import java.util.List;
+
+public class AccountInfo {
+    public Object activeToken;
+    public String secureActiveToken;
+    public CurrentOrganization currentOrganization;
+    public User user;
+    public List<Object> userRoles;
+    public List<Organization> organizations;
+    public String loginTime;
+    public boolean active;
+    public boolean canLogin;
+    public boolean storeTokens;
+    public String accessToken;
+
+    @Override
+    public String toString() {
+        return "AccountInfo{" +
+                "activeToken=" + this.activeToken +
+                ", secureActiveToken='" + this.secureActiveToken + '\'' +
+                ", currentOrganization=" + this.currentOrganization +
+                ", user=" + this.user +
+                ", userRoles=" + this.userRoles +
+                ", organizations=" + this.organizations +
+                ", loginTime='" + this.loginTime + '\'' +
+                ", active=" + this.active +
+                ", canLogin=" + this.canLogin +
+                ", storeTokens=" + this.storeTokens +
+                ", accessToken='" + this.accessToken + '\'' +
+                '}';
+    }
+}

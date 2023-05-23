@@ -25,16 +25,16 @@ public enum Urls {
 
     //@formatter:off
 
-    public static final String SGO_PING             = "settings/firstLetter";
-    public static final String MY_SETTINGS          = "mysettings";
-    public static final String YEAR_LIST            = "mysettings/yearlist";
+    public static final String SGO_PING             = "webapi/settings/firstLetter";
+    public static final String MY_SETTINGS          = "webapi/mysettings";
+    public static final String YEAR_LIST            = "webapi/mysettings/yearlist";
     public static final String SCHOOLS_SEARCH       = "webapi/schools/search";
-    public static final String SCHOOL_INFO          = "schools/%d/card";
+    public static final String SCHOOL_INFO          = "webapi/schools/%d/card";
     public static final String ANNOUNCEMENTS        = "webapi/announcements";
-    public static final String YEARS_CURRENT        = "years/current";
-    public static final String ACTIVE_SESSIONS      = "context/activeSessions";
-    public static final String TERMS_SEARCH         = "terms/search";
-    public static final String ASSIGNMENT_TYPES     = "grade/assignment/types";
+    public static final String YEARS_CURRENT        = "webapi/years/current";
+    public static final String ACTIVE_SESSIONS      = "webapi/context/activeSessions";
+    public static final String TERMS_SEARCH         = "webapi/terms/search";
+    public static final String ASSIGNMENT_TYPES     = "webapi/grade/assignment/types";
 
     /**
      * Auth
@@ -46,38 +46,39 @@ public enum Urls {
     /**
      * SignalR
      */
-    public static final String NEGOTIATE            = "signalr/negotiate";
-    public static final String START                = "signalr/start";
-    public static final String ABORT                = "signalr/abort";
-    public static final String SEND                 = "signalr/send";
-    public static final String CONNECT              = "signalr/connect";
+    public static final String NEGOTIATE            = "webapi/signalr/negotiate";
+    public static final String START                = "webapi/signalr/start";
+    public static final String ABORT                = "webapi/signalr/abort";
+    public static final String SEND                 = "webapi/signalr/send";
+    public static final String CONNECT              = "webapi/signalr/connect";
 
     /**
      * Reports
      */
-    public static final String REPORTS              = "reports/";
+    public static final String REPORTS              = "webapi/reports/";
 
     /**
      * Diary
      */
-    public static final String DIARY                = "student/diary";
-    public static final String DIARY_INIT           = "student/diary/init";
-    public static final String ASSIGNS              = "student/diary/assigns";
-    public static final String OVERDUE              = "student/diary/pastMandatory";
-    public static final String GET_ATTACHMENTS      = "student/diary/get-attachments";
+    public static final String DIARY                = "webapi/student/diary";
+    public static final String DIARY_INIT           = "webapi/student/diary/init";
+    public static final String ASSIGNS              = "webapi/student/diary/assigns";
+    public static final String OVERDUE              = "webapi/student/diary/pastMandatory";
+    public static final String GET_ATTACHMENTS      = "webapi/student/diary/get-attachments";
 
     /**
      * Attachments
      */
-    public static final String ATTACHMENTS          = "attachments/";
-    public static final String ATTACHMENTS_DOWNLOAD = "attachments/%d";
-    public static final String UPLOAD_LIMITS        = "attachments/uploadLimits";
+    public static final String ATTACHMENTS          = "webapi/attachments/";
+    public static final String ATTACHMENTS_DOWNLOAD = "webapi/attachments/%d";
+    public static final String UPLOAD_LIMITS        = "webapi/attachments/uploadLimits";
 
     /**
      * Users
      */
-    public static final String USERS_STUDENT_LIST   = "users/studentlist";
-    public static final String USERS_STAFF          = "users/staff";
+    public static final String USER_SETTINGS        = "webapi/usersettings";
+    public static final String USERS_STUDENT_LIST   = "webapi/users/studentlist";
+    public static final String USERS_STAFF          = "webapi/users/staff";
 
     /**
      * Mail

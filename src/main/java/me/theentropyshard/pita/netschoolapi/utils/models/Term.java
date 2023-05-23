@@ -15,14 +15,25 @@
  *      along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.pita.netschoolapi.diary;
+package me.theentropyshard.pita.netschoolapi.utils.models;
 
-import me.theentropyshard.pita.netschoolapi.Urls;
-import me.theentropyshard.pita.netschoolapi.diary.models.DiaryInit;
-import retrofit2.Call;
-import retrofit2.http.GET;
+public class Term {
+    public int id;
+    public String termName;
+    public int termTypeId;
+    public String startDate;
+    public String endDate;
+    public int schoolYearId;
 
-public interface DiaryAPI {
-    @GET(Urls.DIARY_INIT)
-    Call<DiaryInit> diaryInit();
+    @Override
+    public String toString() {
+        return "Term{" +
+                "id=" + this.id +
+                ", termName='" + this.termName + '\'' +
+                ", termTypeId=" + this.termTypeId +
+                ", startDate='" + this.startDate + '\'' +
+                ", endDate='" + this.endDate + '\'' +
+                ", schoolYearId=" + this.schoolYearId +
+                '}';
+    }
 }

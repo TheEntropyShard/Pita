@@ -15,14 +15,36 @@
  *      along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.pita.netschoolapi.diary;
+package me.theentropyshard.pita.netschoolapi.utils;
 
 import me.theentropyshard.pita.netschoolapi.Urls;
-import me.theentropyshard.pita.netschoolapi.diary.models.DiaryInit;
+import me.theentropyshard.pita.netschoolapi.models.MySettings;
+import me.theentropyshard.pita.netschoolapi.models.SchoolCard;
+import me.theentropyshard.pita.netschoolapi.models.UploadLimits;
+import me.theentropyshard.pita.netschoolapi.utils.models.IntIdName;
+import me.theentropyshard.pita.netschoolapi.utils.models.Term;
 import retrofit2.Call;
 import retrofit2.http.GET;
 
-public interface DiaryAPI {
-    @GET(Urls.DIARY_INIT)
-    Call<DiaryInit> diaryInit();
+public interface UtilsAPI {
+    @GET(Urls.TERMS_SEARCH)
+    Call<Term[]> getTerms();
+
+    @GET(Urls.YEARS_CURRENT)
+    Call<Object> yearsCurrent();
+
+    @GET(Urls.REPORTS + "/studenttotal")
+    Call<Object> reportsTotal();
+
+    @GET(Urls.YEAR_LIST)
+    Call<IntIdName[]> getYearlist();
+
+    @GET(Urls.MY_SETTINGS)
+    Call<MySettings> getMySettings();
+
+    @GET(Urls.SCHOOL_INFO)
+    Call<SchoolCard> getSchoolInfo();
+
+    @GET(Urls.UPLOAD_LIMITS)
+    Call<UploadLimits> getUploadLimits();
 }

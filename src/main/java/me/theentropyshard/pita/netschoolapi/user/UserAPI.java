@@ -15,14 +15,15 @@
  *      along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.pita.netschoolapi.diary;
+package me.theentropyshard.pita.netschoolapi.user;
 
 import me.theentropyshard.pita.netschoolapi.Urls;
-import me.theentropyshard.pita.netschoolapi.diary.models.DiaryInit;
+import me.theentropyshard.pita.netschoolapi.user.models.UserSettings;
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Query;
 
-public interface DiaryAPI {
-    @GET(Urls.DIARY_INIT)
-    Call<DiaryInit> diaryInit();
+public interface UserAPI {
+    @GET(Urls.USER_SETTINGS)
+    Call<UserSettings> getUserSettings(@Query("userId") int userId);
 }

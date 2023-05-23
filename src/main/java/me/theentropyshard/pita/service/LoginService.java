@@ -20,7 +20,9 @@ package me.theentropyshard.pita.service;
 import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
 import me.theentropyshard.pita.netschoolapi.auth.models.GetData;
 import me.theentropyshard.pita.netschoolapi.auth.models.Login;
+import me.theentropyshard.pita.netschoolapi.diary.models.DiaryInit;
 import me.theentropyshard.pita.netschoolapi.schools.School;
+import me.theentropyshard.pita.netschoolapi.user.models.UserSettings;
 import me.theentropyshard.pita.utils.SwingUtils;
 import me.theentropyshard.pita.utils.Utils;
 import me.theentropyshard.pita.view.AppWindow;
@@ -136,7 +138,8 @@ public class LoginService {
             Login login = r.body();
             if (login != null) {
                 NetSchoolAPI.at = login.at;
-                SwingUtils.later(() -> AppWindow.window.switchView(StudentView.class.getName()));
+                Call<DiaryInit> diaryInitCall = NetSchoolAPI.diaryAPI.diaryInit();
+                diaryInitCall.enqueue(new DiaryInitCallback());
             } else {
                 Scanner scanner = new Scanner(Objects.requireNonNull(r.errorBody()).charStream());
                 StringBuilder builder = new StringBuilder();
@@ -150,6 +153,31 @@ public class LoginService {
 
         @Override
         public void onFailure(@NotNull Call<Login> c, @NotNull Throwable t) {
+            LOG.error(t);
+        }
+    }
+
+    private static final class DiaryInitCallback implements Callback<DiaryInit> {
+
+        @Override
+        public void onResponse(Call<DiaryInit> c, Response<DiaryInit> r) {
+            DiaryInit diaryInit = r.body();
+            if (diaryInit != null) {
+                NetSchoolAPI.userId = diaryInit.students.get(diaryInit.currentStudentId).studentId;
+                SwingUtils.later(() -> AppWindow.window.switchView(StudentView.class.getName()));
+            } else {
+                Scanner scanner = new Scanner(Objects.requireNonNull(r.errorBody()).charStream());
+                StringBuilder builder = new StringBuilder();
+                while (scanner.hasNextLine()) {
+                    builder.append(scanner.nextLine());
+                }
+                scanner.close();
+                LOG.warn("Login response body is null, code: {}, message: {}", r.code(), builder.toString());
+            }
+        }
+
+        @Override
+        public void onFailure(Call<DiaryInit> c, Throwable t) {
             LOG.error(t);
         }
     }

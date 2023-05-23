@@ -15,14 +15,8 @@
  *      along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.pita.netschoolapi.diary;
+package me.theentropyshard.pita.netschoolapi.utils.models;
 
-import me.theentropyshard.pita.netschoolapi.Urls;
-import me.theentropyshard.pita.netschoolapi.diary.models.DiaryInit;
-import retrofit2.Call;
-import retrofit2.http.GET;
+public class Years {
 
-public interface DiaryAPI {
-    @GET(Urls.DIARY_INIT)
-    Call<DiaryInit> diaryInit();
 }

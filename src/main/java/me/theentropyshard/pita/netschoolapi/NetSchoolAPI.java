@@ -23,6 +23,8 @@ import me.theentropyshard.pita.netschoolapi.diary.DiaryAPI;
 import me.theentropyshard.pita.netschoolapi.mail.MailAPI;
 import me.theentropyshard.pita.netschoolapi.schools.School;
 import me.theentropyshard.pita.netschoolapi.schools.SchoolsAPI;
+import me.theentropyshard.pita.netschoolapi.user.UserAPI;
+import me.theentropyshard.pita.netschoolapi.utils.UtilsAPI;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
 import retrofit2.Retrofit;
@@ -49,6 +51,8 @@ public class NetSchoolAPI {
     public static AnnouncementsAPI announcementsAPI;
     public static MailAPI mailAPI;
     public static DiaryAPI diaryAPI;
+    public static UserAPI userAPI;
+    public static UtilsAPI utilsAPI;
 
     public static void init(String baseUrl) {
         NetSchoolAPI.at = "";
@@ -124,6 +128,8 @@ public class NetSchoolAPI {
         NetSchoolAPI.announcementsAPI = retrofit.create(AnnouncementsAPI.class);
         NetSchoolAPI.mailAPI = retrofit.create(MailAPI.class);
         NetSchoolAPI.diaryAPI = retrofit.create(DiaryAPI.class);
+        NetSchoolAPI.userAPI = retrofit.create(UserAPI.class);
+        NetSchoolAPI.utilsAPI = retrofit.create(UtilsAPI.class);
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> NetSchoolAPI.authAPI.logout()));
     }

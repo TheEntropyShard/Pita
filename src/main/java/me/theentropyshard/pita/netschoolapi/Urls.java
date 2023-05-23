@@ -82,17 +82,17 @@ public enum Urls {
     /**
      * Mail
      */
-    public static final String MAIL_MESSAGES        = "mail/messages";
-    public static final String MAIL_REGISTRY        = "mail/registry";
-    public static final String MAIL_RECIPIENTS      = "mail/recipients";
-    public static final String MAIL_READ            = "mail/messages/%d/read";
-    public static final String MAIL_EDIT            = "mail/messages/%d/edit";
-    public static final String MAIL_RESTORE         = "mail/messages/restore";
-    public static final String MAIL_UNREAD          = "mail/messages/unread";
-    public static final String MAIL_MARK_AS         = "mail/messages/mark-as";
-    public static final String MAIL_UNREAD_COUNT    = "mail/messages/unread-count";
-    public static final String MAIL_MOVING          = "mail/messages/moving";
-    public static final String MAIL_DELETE          = "mail/messages/delete";
+    public static final String MAIL_MESSAGES        = "webapi/mail/messages";
+    public static final String MAIL_REGISTRY        = "webapi/mail/registry";
+    public static final String MAIL_RECIPIENTS      = "webapi/mail/recipients";
+    public static final String MAIL_READ            = "webapi/mail/messages/%d/read";
+    public static final String MAIL_EDIT            = "webapi/mail/messages/%d/edit";
+    public static final String MAIL_RESTORE         = "webapi/mail/messages/restore";
+    public static final String MAIL_UNREAD          = "webapi/mail/messages/unread";
+    public static final String MAIL_MARK_AS         = "webapi/mail/messages/mark-as";
+    public static final String MAIL_UNREAD_COUNT    = "webapi/mail/messages/unread-count";
+    public static final String MAIL_MOVING          = "webapi/mail/messages/moving";
+    public static final String MAIL_DELETE          = "webapi/mail/messages/delete";
 
     //@formatter:on
 }

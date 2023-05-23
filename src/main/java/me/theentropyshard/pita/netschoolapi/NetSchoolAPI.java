@@ -1,7 +1,26 @@
+/*      Pita. A simple desktop client for NetSchool by irTech
+ *      Copyright (C) 2022-2023 TheEntropyShard
+ *
+ *      This program is free software: you can redistribute it and/or modify
+ *      it under the terms of the GNU General Public License as published by
+ *      the Free Software Foundation, either version 3 of the License, or
+ *      (at your option) any later version.
+ *
+ *      This program is distributed in the hope that it will be useful,
+ *      but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *      GNU General Public License for more details.
+ *
+ *      You should have received a copy of the GNU General Public License
+ *      along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package me.theentropyshard.pita.netschoolapi;
 
 import me.theentropyshard.pita.netschoolapi.announcements.AnnouncementsAPI;
 import me.theentropyshard.pita.netschoolapi.auth.AuthAPI;
+import me.theentropyshard.pita.netschoolapi.diary.DiaryAPI;
+import me.theentropyshard.pita.netschoolapi.mail.MailAPI;
 import me.theentropyshard.pita.netschoolapi.schools.School;
 import me.theentropyshard.pita.netschoolapi.schools.SchoolsAPI;
 import okhttp3.*;
@@ -23,10 +42,13 @@ public class NetSchoolAPI {
     public static String at = "";
     public static String ver = "";
     public static School school;
+    public static int userId;
 
     public static SchoolsAPI schoolsAPI;
     public static AuthAPI authAPI;
     public static AnnouncementsAPI announcementsAPI;
+    public static MailAPI mailAPI;
+    public static DiaryAPI diaryAPI;
 
     public static void init(String baseUrl) {
         NetSchoolAPI.at = "";
@@ -100,6 +122,8 @@ public class NetSchoolAPI {
         NetSchoolAPI.schoolsAPI = retrofit.create(SchoolsAPI.class);
         NetSchoolAPI.authAPI = retrofit.create(AuthAPI.class);
         NetSchoolAPI.announcementsAPI = retrofit.create(AnnouncementsAPI.class);
+        NetSchoolAPI.mailAPI = retrofit.create(MailAPI.class);
+        NetSchoolAPI.diaryAPI = retrofit.create(DiaryAPI.class);
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> NetSchoolAPI.authAPI.logout()));
     }

@@ -32,10 +32,12 @@ public final class Config {
     private static Map<String, Object> config;
     private static File configFile;
 
+    public static void init(File dir) {
+        Config.configFile = Utils.makeFile(new File(dir, "config.json"));
+    }
+
     @SuppressWarnings("unchecked")
     public static void load() {
-        File dir = Pita.getPita().getPitaDir();
-        Config.configFile = Utils.makeFile(new File(dir, "config.json"));
         if (Config.configFile.length() == 0L) {
             Config.saveDefault();
         }

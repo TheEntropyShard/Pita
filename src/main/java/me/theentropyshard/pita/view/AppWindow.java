@@ -31,10 +31,7 @@ public class AppWindow extends JFrame {
     private final CardLayout rootLayout;
     private final JPanel root;
 
-    private final LoginView loginView;
     private final LoginController loginController;
-
-    private final StudentView studentView;
     private final StudentController studentController;
 
     private String lastView;
@@ -47,16 +44,16 @@ public class AppWindow extends JFrame {
         this.rootLayout = new CardLayout();
         this.root = new JPanel(this.rootLayout);
 
-        this.loginView = new LoginView();
-        this.loginController = new LoginController(new LoginService(), this.loginView);
+        LoginView loginView = new LoginView();
+        this.loginController = new LoginController(new LoginService(), loginView);
 
-        this.studentView = new StudentView();
-        this.studentController = new StudentController(this.studentView);
+        StudentView studentView = new StudentView();
+        this.studentController = new StudentController(studentView);
 
-        this.root.add(this.loginView, LoginView.class.getName());
-        this.root.add(this.studentView, StudentView.class.getName());
+        this.root.add(loginView, LoginView.class.getName());
+        this.root.add(studentView, StudentView.class.getName());
 
-        boolean startMaximized = Config.getBoolean("startMaximized", false);
+        boolean startMaximized = Config.getBoolean("startMaximized");
         if (!startMaximized) {
             int width = Config.getInt("defaultWidth", 1280);
             int height = Config.getInt("defaultHeight", 720);

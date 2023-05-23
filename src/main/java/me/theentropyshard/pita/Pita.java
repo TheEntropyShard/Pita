@@ -59,6 +59,7 @@ public final class Pita {
         java.util.logging.Logger.getLogger(OkHttpClient.class.getName()).setLevel(Level.FINE);
         this.logger = LogManager.getLogger(Pita.class);
 
+        Config.init(this.pitaDir);
         Config.load();
         CredentialsManager.init(this.pitaDir);
 

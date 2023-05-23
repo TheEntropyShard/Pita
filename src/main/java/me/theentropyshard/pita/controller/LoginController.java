@@ -35,6 +35,7 @@ import org.apache.logging.log4j.Logger;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.nio.charset.Charset;
 
@@ -51,6 +52,12 @@ public class LoginController {
         this.loginView = loginView;
 
         this.loginView.getLoginButton().addActionListener(e -> this.login());
+        this.loginView.getPasswordField().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                passwordHashed = false;
+            }
+        });
 
         InputMap inputMap = this.loginView.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "ENTER");

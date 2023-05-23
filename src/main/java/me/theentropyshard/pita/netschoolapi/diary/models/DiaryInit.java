@@ -17,13 +17,12 @@
 
 package me.theentropyshard.pita.netschoolapi.diary.models;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class DiaryInit {
     public List<Student> students;
     public int currentStudentId;
-    public LocalDateTime weekStart;
+    public String weekStart;
     public boolean yaClass;
     public Object yaClassAuthUrl;
     public String newDiskToken;

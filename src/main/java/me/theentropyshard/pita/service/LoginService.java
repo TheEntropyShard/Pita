@@ -88,7 +88,7 @@ public class LoginService {
 
         @Override
         public void onFailure(@NotNull Call<School[]> c, @NotNull Throwable t) {
-            LOG.error(t);
+            LOG.error("[SchoolsCallback]: " + t);
         }
     }
 
@@ -128,7 +128,7 @@ public class LoginService {
 
         @Override
         public void onFailure(@NotNull Call<GetData> c, @NotNull Throwable t) {
-            LOG.error(t);
+            LOG.error("[GetDataCallback]: " + t);
         }
     }
 
@@ -153,12 +153,11 @@ public class LoginService {
 
         @Override
         public void onFailure(@NotNull Call<Login> c, @NotNull Throwable t) {
-            LOG.error(t);
+            LOG.error("[LoginCallback]: " + t);
         }
     }
 
     private static final class DiaryInitCallback implements Callback<DiaryInit> {
-
         @Override
         public void onResponse(Call<DiaryInit> c, Response<DiaryInit> r) {
             DiaryInit diaryInit = r.body();
@@ -178,7 +177,7 @@ public class LoginService {
 
         @Override
         public void onFailure(Call<DiaryInit> c, Throwable t) {
-            LOG.error(t);
+            LOG.error("[DiaryInitCallback]: " + t);
         }
     }
 }

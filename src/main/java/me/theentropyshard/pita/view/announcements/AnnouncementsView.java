@@ -236,7 +236,9 @@ public class AnnouncementsView extends JPanel {
                 .replace("amp;#160", "nbsp")
                 .replace("&amp;quot;", "\"")
                 .replace("&amp;#171;", "«")
-                .replace("&amp;#187;", "»");
+                .replace("&amp;#187;", "»")
+                .replace("&amp;#183;", "\u00b7")
+                .replace("&amp;", "&");
     }
 
     public void loadData() {

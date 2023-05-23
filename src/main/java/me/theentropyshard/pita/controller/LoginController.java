@@ -144,6 +144,8 @@ public class LoginController {
         }
 
         this.resetLoginButton();
+        this.loginView.getLoginButton().setLoading(true);
+        this.loginView.getLoginButton().setEnabled(false);
 
         TextField addressField = this.loginView.getSgoAddressField();
         String baseUrl = addressField.getText();

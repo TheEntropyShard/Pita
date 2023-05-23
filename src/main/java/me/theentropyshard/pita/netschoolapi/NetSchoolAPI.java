@@ -27,12 +27,14 @@ import me.theentropyshard.pita.netschoolapi.user.UserAPI;
 import me.theentropyshard.pita.netschoolapi.utils.UtilsAPI;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
+import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
+import java.io.IOException;
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
@@ -131,7 +133,14 @@ public class NetSchoolAPI {
         NetSchoolAPI.userAPI = retrofit.create(UserAPI.class);
         NetSchoolAPI.utilsAPI = retrofit.create(UtilsAPI.class);
 
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> NetSchoolAPI.authAPI.logout()));
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            Call<Void> logoutCall = NetSchoolAPI.authAPI.logout();
+            try {
+                logoutCall.execute();
+            } catch (IOException ignored) {
+
+            }
+        }));
     }
 
     public static class SimpleCookieJar implements CookieJar {

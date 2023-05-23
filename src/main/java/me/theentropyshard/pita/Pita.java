@@ -17,7 +17,6 @@
 
 package me.theentropyshard.pita;
 
-import me.theentropyshard.pita.netschoolapi.NetSchoolAPI_old;
 import me.theentropyshard.pita.utils.Utils;
 import me.theentropyshard.pita.utils.credentials.CredentialsManager;
 import me.theentropyshard.pita.view.AppWindow;

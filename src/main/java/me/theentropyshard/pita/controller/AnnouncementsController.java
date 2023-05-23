@@ -19,7 +19,6 @@ package me.theentropyshard.pita.controller;
 
 import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
 import me.theentropyshard.pita.netschoolapi.announcements.models.Announcement;
-import me.theentropyshard.pita.utils.SwingUtils;
 import me.theentropyshard.pita.view.announcements.AnnouncementsView;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,6 +27,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import javax.swing.*;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -47,7 +47,7 @@ public class AnnouncementsController {
             public void onResponse(@NotNull Call<Announcement[]> c, @NotNull Response<Announcement[]> r) {
                 Announcement[] announcements = r.body();
                 if (announcements != null) {
-                    SwingUtils.later(() -> {
+                    SwingUtilities.invokeLater(() -> {
                         announcementsView.setNumAnnouncements(0);
                         announcementsView.getPanel().removeAll();
                         for (Announcement a : announcements) {

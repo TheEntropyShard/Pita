@@ -21,19 +21,50 @@ import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
 import me.theentropyshard.pita.netschoolapi.models.UserSession;
 import me.theentropyshard.pita.netschoolapi.utils.models.IntIdName;
 import me.theentropyshard.pita.utils.AbstractCallback;
+import me.theentropyshard.pita.utils.SwingUtils;
 import me.theentropyshard.pita.utils.Utils;
+import me.theentropyshard.pita.view.ActiveSessionsPanel;
+import me.theentropyshard.pita.view.AppWindow;
 import me.theentropyshard.pita.view.Header;
+import me.theentropyshard.pita.view.UIConstants;
 import me.theentropyshard.pita.view.component.PGradientLabel;
 import me.theentropyshard.pita.view.component.PSimpleButton;
 import retrofit2.Call;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class HeaderController {
     private final Header header;
 
     public HeaderController(Header header) {
         this.header = header;
+
+        header.getInfoLabel().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                AppWindow.window.getGlassPane().setVisible(true);
+
+                ActiveSessionsPanel panel = new ActiveSessionsPanel();
+                panel.loadData();
+                panel.revalidate();
+
+                Dimension preferredSize = panel.getPreferredSize();
+                if (preferredSize.height > UIConstants.DEFAULT_HEIGHT) {
+                    panel.setPreferredSize(new Dimension(preferredSize.width, UIConstants.DEFAULT_HEIGHT));
+                }
+
+                header.getInfoLabel().setText(
+                        Utils.getTodaysDateRussian() + " - В системе работает " + panel.getActiveSessions() + " чел."
+                );
+
+                SwingUtils.newDialog("Список пользователей в сети", true, panel).setVisible(true);
+
+                AppWindow.window.getGlassPane().setVisible(false);
+            }
+        });
     }
 
     public void loadData() {

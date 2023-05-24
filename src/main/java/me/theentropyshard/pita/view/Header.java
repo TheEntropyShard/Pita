@@ -45,34 +45,6 @@ public class Header extends JPanel {
         this.infoLabel = new PGradientLabel();
         this.infoLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
         this.infoLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        /*this.infoLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                View.getView().getFrame().getGlassPane().setVisible(true);
-
-                JDialog dialog = new JDialog(View.getView().getFrame(), "Список пользователей в сети", true);
-                dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-
-                ActiveSessionsPanel panel = new ActiveSessionsPanel();
-
-                dialog.add(panel);
-                panel.loadData();
-                panel.revalidate();
-
-                Dimension preferredSize = panel.getPreferredSize();
-                if (preferredSize.height > UIConstants.DEFAULT_HEIGHT) {
-                    panel.setPreferredSize(new Dimension(preferredSize.width, UIConstants.DEFAULT_HEIGHT));
-                }
-
-                infoLabel.setText(Utils.getTodaysDateRussian() + " - В системе работает " + panel.getActiveSessions() + " чел.");
-
-                dialog.pack();
-                dialog.setLocationRelativeTo(null);
-                dialog.setVisible(true);
-
-                View.getView().getFrame().getGlassPane().setVisible(false);
-            }
-        });*/
 
         this.schoolNameLabel = new PGradientLabel();
         this.schoolNameLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

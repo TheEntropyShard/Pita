@@ -17,17 +17,17 @@
 
 package me.theentropyshard.pita.view;
 
-import me.theentropyshard.pita.netschoolapi.NetSchoolAPI_old;
+import me.theentropyshard.pita.netschoolapi.NetSchoolAPI;
 import me.theentropyshard.pita.netschoolapi.models.UserSession;
 import me.theentropyshard.pita.view.component.PGradientLabel;
 import me.theentropyshard.pita.view.component.PScrollBar;
 import net.miginfocom.swing.MigLayout;
+import retrofit2.Call;
+import retrofit2.Response;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ActiveSessionsPanel extends JPanel {
     private final BorderPanel sessionsPanel;
@@ -65,20 +65,26 @@ public class ActiveSessionsPanel extends JPanel {
     }
 
     public void loadData() {
-        List<UserSession> activeSessions = new ArrayList<>();
+        Call<UserSession[]> activeSessionsCall = NetSchoolAPI.utilsAPI.getActiveSessions();
         try {
-            activeSessions.addAll(NetSchoolAPI_old.I.getActiveSessions());
+            Response<UserSession[]> response = activeSessionsCall.execute();
+            UserSession[] userSessions = response.body();
+            if (userSessions == null) {
+                return;
+            }
+
+            activeSessions = userSessions.length;
+            for (int i = 0; i < userSessions.length; i++) {
+                UserSession session = userSessions[i];
+                UserInfoElement element = new UserInfoElement();
+                element.setNumber(String.valueOf(i + 1));
+                element.setDisplayName(session.nickName);
+                element.setRoles(session.roles);
+                sessionsPanel.addComponent(element);
+            }
+            sessionsPanel.revalidate();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        this.activeSessions = activeSessions.size();
-        for(int i = 0; i < activeSessions.size(); i++) {
-            UserSession session = activeSessions.get(i);
-            UserInfoElement element = new UserInfoElement();
-            element.setNumber(String.valueOf(i + 1));
-            element.setDisplayName(session.nickName);
-            element.setRoles(session.roles);
-            this.sessionsPanel.addComponent(element);
         }
     }
 

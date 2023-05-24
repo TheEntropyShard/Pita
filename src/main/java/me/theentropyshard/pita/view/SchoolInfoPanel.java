@@ -19,8 +19,8 @@ package me.theentropyshard.pita.view;
 
 import me.theentropyshard.pita.netschoolapi.NetSchoolAPI_old;
 import me.theentropyshard.pita.netschoolapi.models.SchoolCard;
-import me.theentropyshard.pita.view.component.GradientLabel;
-import me.theentropyshard.pita.view.component.ScrollBar;
+import me.theentropyshard.pita.view.component.PGradientLabel;
+import me.theentropyshard.pita.view.component.PScrollBar;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -41,14 +41,14 @@ public class SchoolInfoPanel extends JPanel {
         scrollPane.setBorder(null);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setViewportView(panel);
-        scrollPane.setVerticalScrollBar(new ScrollBar());
+        scrollPane.setVerticalScrollBar(new PScrollBar());
 
         this.add(scrollPane, BorderLayout.CENTER);
 
         /// Common info
         panel.add(new JPanel() {{
             this.setBackground(Color.WHITE);
-            this.add(new GradientLabel("Основная информация") {{
+            this.add(new PGradientLabel("Основная информация") {{
                 this.setFont(new Font("JetBrains Mono", Font.BOLD, 18));
             }});
         }});
@@ -71,7 +71,7 @@ public class SchoolInfoPanel extends JPanel {
         /// Management info
         panel.add(new JPanel() {{
             this.setBackground(Color.WHITE);
-            this.add(new GradientLabel("Управление") {{
+            this.add(new PGradientLabel("Управление") {{
                 this.setFont(new Font("JetBrains Mono", Font.BOLD, 18));
             }});
         }});
@@ -79,7 +79,7 @@ public class SchoolInfoPanel extends JPanel {
         // Contact info
         panel.add(new JPanel() {{
             this.setBackground(Color.WHITE);
-            this.add(new GradientLabel("Контактная информация") {{
+            this.add(new PGradientLabel("Контактная информация") {{
                 this.setFont(new Font("JetBrains Mono", Font.BOLD, 18));
             }});
         }});
@@ -87,7 +87,7 @@ public class SchoolInfoPanel extends JPanel {
         // Other info
         panel.add(new JPanel() {{
             this.setBackground(Color.WHITE);
-            this.add(new GradientLabel("Другая информация") {{
+            this.add(new PGradientLabel("Другая информация") {{
                 this.setFont(new Font("JetBrains Mono", Font.BOLD, 18));
             }});
         }});
@@ -95,7 +95,7 @@ public class SchoolInfoPanel extends JPanel {
         // Food payment
         panel.add(new JPanel() {{
             this.setBackground(Color.WHITE);
-            this.add(new GradientLabel("Оплата питания") {{
+            this.add(new PGradientLabel("Оплата питания") {{
                 this.setFont(new Font("JetBrains Mono", Font.BOLD, 18));
             }});
         }});
@@ -103,7 +103,7 @@ public class SchoolInfoPanel extends JPanel {
         // Internet connection info
         panel.add(new JPanel() {{
             this.setBackground(Color.WHITE);
-            this.add(new GradientLabel("Информация об интернет-соединении") {{
+            this.add(new PGradientLabel("Информация об интернет-соединении") {{
                 this.setFont(new Font("JetBrains Mono", Font.BOLD, 18));
             }});
         }});
@@ -121,14 +121,14 @@ public class SchoolInfoPanel extends JPanel {
     }
 
     private static class DataElementPanel extends JPanel {
-        private final GradientLabel keyLabel;
-        private final GradientLabel valueLabel;
+        private final PGradientLabel keyLabel;
+        private final PGradientLabel valueLabel;
 
         public DataElementPanel() {
-            this.keyLabel = new GradientLabel("");
+            this.keyLabel = new PGradientLabel("");
             this.keyLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
 
-            this.valueLabel = new GradientLabel("") {
+            this.valueLabel = new PGradientLabel("") {
                 @Override
                 protected void paintComponent(Graphics g) {
                     Color oldColor = g.getColor();

@@ -25,9 +25,9 @@ import me.theentropyshard.pita.netschoolapi.diary.models.Lesson;
 import me.theentropyshard.pita.Pita;
 import me.theentropyshard.pita.view.BorderPanel;
 import me.theentropyshard.pita.view.ThemeManager;
-import me.theentropyshard.pita.view.component.GradientLabel;
-import me.theentropyshard.pita.view.component.MarkLabel;
-import me.theentropyshard.pita.view.component.ScrollBar;
+import me.theentropyshard.pita.view.component.PGradientLabel;
+import me.theentropyshard.pita.view.component.PMarkLabel;
+import me.theentropyshard.pita.view.component.PScrollBar;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -72,8 +72,8 @@ public class DiaryView extends JPanel {
         scrollPane.setBorder(null);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setViewportView(panel);
-        scrollPane.setVerticalScrollBar(new ScrollBar());
-        scrollPane.setHorizontalScrollBar(new ScrollBar() {{
+        scrollPane.setVerticalScrollBar(new PScrollBar());
+        scrollPane.setHorizontalScrollBar(new PScrollBar() {{
             this.setOrientation(JScrollBar.HORIZONTAL);
         }});
 
@@ -166,7 +166,7 @@ public class DiaryView extends JPanel {
 
     private static class DiaryDay extends BorderPanel {
         private final List<DiaryLesson> lessons;
-        private GradientLabel dateLabel;
+        private PGradientLabel dateLabel;
 
         public DiaryDay() {
             this.lessons = new ArrayList<>();
@@ -178,10 +178,10 @@ public class DiaryView extends JPanel {
         }
 
         public void initLessons() {
-            this.dateLabel = new GradientLabel();
+            this.dateLabel = new PGradientLabel();
             this.dateLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
             this.addComponent(this.dateLabel, "center, span, wrap");
-            this.addComponent(new GradientLabel(" "), "center, span, wrap");
+            this.addComponent(new PGradientLabel(" "), "center, span, wrap");
 
             this.addHeader(new DiaryLesson(0, "Урок", "Домашнее задание") {{
                 this.addMark("Оценка");
@@ -218,19 +218,19 @@ public class DiaryView extends JPanel {
     }
 
     private static class DiaryLesson {
-        private final GradientLabel lessonNameLabel;
-        private final GradientLabel homeworkLabel;
+        private final PGradientLabel lessonNameLabel;
+        private final PGradientLabel homeworkLabel;
         private final JPanel marksPanel;
 
         public DiaryLesson(int number, String lessonName, String homework) {
             if (number > 0) {
-                this.lessonNameLabel = new GradientLabel(number + ". " + lessonName);
+                this.lessonNameLabel = new PGradientLabel(number + ". " + lessonName);
             } else {
-                this.lessonNameLabel = new GradientLabel(lessonName);
+                this.lessonNameLabel = new PGradientLabel(lessonName);
             }
             this.lessonNameLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
 
-            this.homeworkLabel = new GradientLabel(homework);
+            this.homeworkLabel = new PGradientLabel(homework);
             this.homeworkLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
 
             ThemeManager tm = Pita.getPita().getThemeManager();
@@ -246,16 +246,16 @@ public class DiaryView extends JPanel {
             } catch (NumberFormatException ignored) {
 
             }
-            MarkLabel label = new MarkLabel(iMark);
+            PMarkLabel label = new PMarkLabel(iMark);
             label.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
             this.marksPanel.add(label);
         }
 
-        public GradientLabel getLessonNameLabel() {
+        public PGradientLabel getLessonNameLabel() {
             return this.lessonNameLabel;
         }
 
-        public GradientLabel getHomeworkLabel() {
+        public PGradientLabel getHomeworkLabel() {
             return this.homeworkLabel;
         }
 

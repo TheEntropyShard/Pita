@@ -24,12 +24,12 @@ import me.theentropyshard.pita.view.UIConstants;
 import javax.swing.*;
 import java.awt.*;
 
-public class SimpleButton extends JButton {
+public class PSimpleButton extends JButton {
     private final ThemeManager tm;
     private boolean roundCorners;
     private boolean squareSides;
 
-    public SimpleButton(String text) {
+    public PSimpleButton(String text) {
         super(text);
         this.setFocusPainted(false);
         this.setContentAreaFilled(false);

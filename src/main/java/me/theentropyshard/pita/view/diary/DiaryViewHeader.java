@@ -21,8 +21,8 @@ import me.theentropyshard.pita.date.Week;
 import me.theentropyshard.pita.netschoolapi.NetSchoolAPI_old;
 import me.theentropyshard.pita.netschoolapi.models.Term;
 import me.theentropyshard.pita.view.ThemeManager;
-import me.theentropyshard.pita.view.component.ComboBox;
-import me.theentropyshard.pita.view.component.SimpleButton;
+import me.theentropyshard.pita.view.component.PComboBox;
+import me.theentropyshard.pita.view.component.PSimpleButton;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -34,9 +34,9 @@ import java.util.List;
 import java.util.Map;
 
 public class DiaryViewHeader extends JPanel {
-    private final ComboBox comboBox;
-    private final SimpleButton prevButton;
-    private final SimpleButton nextButton;
+    private final PComboBox comboBox;
+    private final PSimpleButton prevButton;
+    private final PSimpleButton nextButton;
 
     private final Map<Week, Map.Entry<LocalDate, LocalDate>> weeks;
 
@@ -51,13 +51,13 @@ public class DiaryViewHeader extends JPanel {
 
         this.weeks = new HashMap<>();
 
-        this.prevButton = new SimpleButton("<");
+        this.prevButton = new PSimpleButton("<");
         this.prevButton.setRoundCorners(true);
         this.prevButton.setSquareSides(true);
-        this.nextButton = new SimpleButton(">");
+        this.nextButton = new PSimpleButton(">");
         this.nextButton.setRoundCorners(true);
         this.nextButton.setSquareSides(true);
-        this.comboBox = new ComboBox();
+        this.comboBox = new PComboBox();
         this.comboBox.setPreferredSize(new Dimension(250, this.prevButton.getPreferredSize().height));
         this.comboBox.setBorder(BorderFactory.createEmptyBorder(5, 12, 5, 5));
         this.comboBox.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
@@ -104,13 +104,13 @@ public class DiaryViewHeader extends JPanel {
         return this.selectedWeekEnd;
     }
 
-    public ComboBox getComboBox() {
+    public PComboBox getComboBox() {
         return this.comboBox;
     }
-    public SimpleButton getPrevButton() {
+    public PSimpleButton getPrevButton() {
         return this.prevButton;
     }
-    public SimpleButton getNextButton() {
+    public PSimpleButton getNextButton() {
         return this.nextButton;
     }
 }

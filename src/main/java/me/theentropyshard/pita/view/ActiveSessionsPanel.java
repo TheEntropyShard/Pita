@@ -19,8 +19,8 @@ package me.theentropyshard.pita.view;
 
 import me.theentropyshard.pita.netschoolapi.NetSchoolAPI_old;
 import me.theentropyshard.pita.netschoolapi.models.UserSession;
-import me.theentropyshard.pita.view.component.GradientLabel;
-import me.theentropyshard.pita.view.component.ScrollBar;
+import me.theentropyshard.pita.view.component.PGradientLabel;
+import me.theentropyshard.pita.view.component.PScrollBar;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -47,7 +47,7 @@ public class ActiveSessionsPanel extends JPanel {
         scrollPane.setBorder(null);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setViewportView(panel);
-        scrollPane.setVerticalScrollBar(new ScrollBar());
+        scrollPane.setVerticalScrollBar(new PScrollBar());
 
         this.add(scrollPane, BorderLayout.CENTER);
 
@@ -87,18 +87,18 @@ public class ActiveSessionsPanel extends JPanel {
     }
 
     private static class UserInfoElement extends JPanel {
-        private final GradientLabel numberLabel;
-        private final GradientLabel displayNameLabel;
-        private final GradientLabel rolesLabel;
+        private final PGradientLabel numberLabel;
+        private final PGradientLabel displayNameLabel;
+        private final PGradientLabel rolesLabel;
 
         public UserInfoElement() {
-            this.numberLabel = new GradientLabel();
+            this.numberLabel = new PGradientLabel();
             this.numberLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
 
-            this.displayNameLabel = new GradientLabel();
+            this.displayNameLabel = new PGradientLabel();
             this.displayNameLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
 
-            this.rolesLabel = new GradientLabel();
+            this.rolesLabel = new PGradientLabel();
             this.rolesLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
 
             this.setLayout(new GridLayout(1, 3));

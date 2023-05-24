@@ -17,8 +17,8 @@
 
 package me.theentropyshard.pita.view;
 
-import me.theentropyshard.pita.view.component.SimpleButton;
-import me.theentropyshard.pita.view.component.TextPane;
+import me.theentropyshard.pita.view.component.PSimpleButton;
+import me.theentropyshard.pita.view.component.PTextPane;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -42,7 +42,7 @@ public class LongMessageDialog extends JDialog {
         panel.add(borderPanel);
 
         //TODO
-        TextPane textPane = new TextPane();
+        PTextPane textPane = new PTextPane();
         textPane.setText("<p>" + message + "</p>");
         borderPanel.addComponent(textPane);
 
@@ -50,14 +50,14 @@ public class LongMessageDialog extends JDialog {
             BorderPanel buttonsPanel = new BorderPanel();
             buttonsPanel.getInternalPanel().setLayout(new MigLayout("nogrid, fillx", "[right]", ""));
 
-            SimpleButton okButton = new SimpleButton("ОК");
+            PSimpleButton okButton = new PSimpleButton("ОК");
             okButton.setRoundCorners(true);
             okButton.addActionListener(e -> {
                 this.result = Result.OK;
                 this.dispose();
             });
 
-            SimpleButton cancelButton = new SimpleButton("Отмена");
+            PSimpleButton cancelButton = new PSimpleButton("Отмена");
             cancelButton.setRoundCorners(true);
             cancelButton.addActionListener(e -> this.dispose());
 

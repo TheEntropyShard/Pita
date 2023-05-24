@@ -20,26 +20,21 @@ package me.theentropyshard.pita.view;
 import me.theentropyshard.pita.Pita;
 import me.theentropyshard.pita.utils.Utils;
 import me.theentropyshard.pita.netschoolapi.NetSchoolAPI_old;
-import me.theentropyshard.pita.view.announcements.AnnouncementsView;
-import me.theentropyshard.pita.view.component.GradientLabel;
-import me.theentropyshard.pita.view.component.SimpleButton;
-import me.theentropyshard.pita.view.diary.DiaryView;
-import me.theentropyshard.pita.view.mail.MailPanel;
+import me.theentropyshard.pita.view.component.PGradientLabel;
+import me.theentropyshard.pita.view.component.PSimpleButton;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 public class Header extends JPanel {
-    private final GradientLabel infoLabel;
-    private final GradientLabel schoolNameLabel;
+    private final PGradientLabel infoLabel;
+    private final PGradientLabel schoolNameLabel;
 
-    private final GradientLabel currentYearLabel;
-    private final GradientLabel usernameLabel;
-    private final SimpleButton mailButton;
+    private final PGradientLabel currentYearLabel;
+    private final PGradientLabel usernameLabel;
+    private final PSimpleButton mailButton;
 
     public Header() {
         ThemeManager tm = Pita.getPita().getThemeManager();
@@ -47,7 +42,7 @@ public class Header extends JPanel {
         this.setLayout(new BorderLayout());
         this.setBackground(tm.getColor("mainColor"));
 
-        this.infoLabel = new GradientLabel();
+        this.infoLabel = new PGradientLabel();
         this.infoLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
         this.infoLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         /*this.infoLabel.addMouseListener(new MouseAdapter() {
@@ -79,7 +74,7 @@ public class Header extends JPanel {
             }
         });*/
 
-        this.schoolNameLabel = new GradientLabel();
+        this.schoolNameLabel = new PGradientLabel();
         this.schoolNameLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         this.schoolNameLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 16));
         /*this.schoolNameLabel.addMouseListener(new MouseAdapter() {
@@ -104,10 +99,10 @@ public class Header extends JPanel {
             }
         });*/
 
-        this.currentYearLabel = new GradientLabel();
+        this.currentYearLabel = new PGradientLabel();
         this.currentYearLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
 
-        this.usernameLabel = new GradientLabel();
+        this.usernameLabel = new PGradientLabel();
         this.usernameLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         this.usernameLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
         /*this.usernameLabel.addMouseListener(new MouseAdapter() {
@@ -117,7 +112,7 @@ public class Header extends JPanel {
             }
         });*/
 
-        GradientLabel exitLabel = new GradientLabel("Выход");
+        PGradientLabel exitLabel = new PGradientLabel("Выход");
         exitLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         exitLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
         /*exitLabel.addMouseListener(new MouseAdapter() {
@@ -142,7 +137,7 @@ public class Header extends JPanel {
 
         JPanel topPanel = new JPanel(new MigLayout("nogrid, fillx", "[]", ""));
         topPanel.setBackground(tm.getColor("mainColor"));
-        topPanel.add(new GradientLabel("Сетевой город. Образование") {{
+        topPanel.add(new PGradientLabel("Сетевой город. Образование") {{
             this.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
         }}, "grow");
         topPanel.add(this.infoLabel, "wrap");
@@ -152,7 +147,7 @@ public class Header extends JPanel {
 
         JPanel bottomPanel = new JPanel(new GridLayout(1, 4));
         bottomPanel.setBackground(tm.getColor("mainColor"));
-        bottomPanel.add(new SimpleButton("Дневник") {{
+        bottomPanel.add(new PSimpleButton("Дневник") {{
             /*this.addActionListener(e -> {
                 StudentView mp = View.getView().getMainPanel();
                 DiaryView diaryView = mp.getDiaryPanel();
@@ -165,7 +160,7 @@ public class Header extends JPanel {
                 }
             });*/
         }});
-        bottomPanel.add(new SimpleButton("Отчеты") {{
+        bottomPanel.add(new PSimpleButton("Отчеты") {{
             /*this.addActionListener(e -> {
                 StudentView mp = View.getView().getMainPanel();
                 ReportsPanel reportsPanel = mp.getReportsPanel();
@@ -178,7 +173,7 @@ public class Header extends JPanel {
                 }
             });*/
         }});
-        this.mailButton = new SimpleButton("Почта") {{
+        this.mailButton = new PSimpleButton("Почта") {{
             /*this.addActionListener(e -> {
                 StudentView mp = View.getView().getMainPanel();
                 MailPanel mailPanel = mp.getMailPanel();
@@ -192,7 +187,7 @@ public class Header extends JPanel {
             });*/
         }};
         bottomPanel.add(this.mailButton);
-        bottomPanel.add(new SimpleButton("Объявления") {{
+        bottomPanel.add(new PSimpleButton("Объявления") {{
             /*this.addActionListener(e -> {
                 StudentView mp = View.getView().getMainPanel();
                 AnnouncementsView annPanel = mp.getAnnouncementsView();
@@ -241,23 +236,23 @@ public class Header extends JPanel {
         this.infoLabel.setText(Utils.getTodaysDateRussian() + " - В системе работает " + num + " чел.");
     }
 
-    public SimpleButton getMailButton() {
+    public PSimpleButton getMailButton() {
         return this.mailButton;
     }
 
-    public GradientLabel getSchoolNameLabel() {
+    public PGradientLabel getSchoolNameLabel() {
         return this.schoolNameLabel;
     }
 
-    public GradientLabel getCurrentYearLabel() {
+    public PGradientLabel getCurrentYearLabel() {
         return this.currentYearLabel;
     }
 
-    public GradientLabel getUsernameLabel() {
+    public PGradientLabel getUsernameLabel() {
         return this.usernameLabel;
     }
 
-    public GradientLabel getInfoLabel() {
+    public PGradientLabel getInfoLabel() {
         return this.infoLabel;
     }
 }

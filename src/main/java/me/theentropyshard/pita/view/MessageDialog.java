@@ -17,8 +17,8 @@
 
 package me.theentropyshard.pita.view;
 
-import me.theentropyshard.pita.view.component.GradientLabel;
-import me.theentropyshard.pita.view.component.SimpleButton;
+import me.theentropyshard.pita.view.component.PGradientLabel;
+import me.theentropyshard.pita.view.component.PSimpleButton;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -41,7 +41,7 @@ public class MessageDialog extends JDialog {
         panel.setLayout(new MigLayout("fillx, flowy", "[fill]"));
         panel.add(borderPanel);
 
-        GradientLabel label = new GradientLabel(message);
+        PGradientLabel label = new PGradientLabel(message);
         label.setFont(new Font("JetBrains Mono", Font.BOLD, 16));
         borderPanel.addComponent(label);
 
@@ -49,14 +49,14 @@ public class MessageDialog extends JDialog {
             BorderPanel buttonsPanel = new BorderPanel();
             buttonsPanel.getInternalPanel().setLayout(new MigLayout("nogrid, fillx", "[right]", ""));
 
-            SimpleButton okButton = new SimpleButton("ОК");
+            PSimpleButton okButton = new PSimpleButton("ОК");
             okButton.setRoundCorners(true);
             okButton.addActionListener(e -> {
                 this.result = Result.OK;
                 this.dispose();
             });
 
-            SimpleButton cancelButton = new SimpleButton("Отмена");
+            PSimpleButton cancelButton = new PSimpleButton("Отмена");
             cancelButton.setRoundCorners(true);
             cancelButton.addActionListener(e -> this.dispose());
 

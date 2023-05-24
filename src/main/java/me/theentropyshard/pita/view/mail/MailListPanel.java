@@ -21,7 +21,7 @@ import me.theentropyshard.pita.Pita;
 import me.theentropyshard.pita.view.StudentView;
 import me.theentropyshard.pita.view.ThemeManager;
 import me.theentropyshard.pita.view.View;
-import me.theentropyshard.pita.view.component.GradientLabel;
+import me.theentropyshard.pita.view.component.PGradientLabel;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -42,22 +42,22 @@ public class MailListPanel extends JPanel {
     public void addNewRecord(String number, String from, String subject, String sent, boolean isRead, boolean isSpecial) {
         ThemeManager tm = Pita.getPita().getThemeManager();
 
-        GradientLabel numberLabel = new GradientLabel(number);
+        PGradientLabel numberLabel = new PGradientLabel(number);
         numberLabel.setOpaque(true);
         numberLabel.setBackground(tm.getColor("mainColor"));
         numberLabel.setFont(new Font("JetBrains Mono", Font.PLAIN, 14));
 
-        GradientLabel fromLabel = new GradientLabel(from);
+        PGradientLabel fromLabel = new PGradientLabel(from);
         fromLabel.setOpaque(true);
         fromLabel.setBackground(tm.getColor("mainColor"));
         fromLabel.setFont(new Font("JetBrains Mono", Font.PLAIN, 14));
 
-        GradientLabel subjectLabel = new GradientLabel(subject);
+        PGradientLabel subjectLabel = new PGradientLabel(subject);
         subjectLabel.setOpaque(true);
         subjectLabel.setBackground(tm.getColor("mainColor"));
         subjectLabel.setFont(new Font("JetBrains Mono", Font.PLAIN, 14));
 
-        GradientLabel sentLabel = new GradientLabel(sent);
+        PGradientLabel sentLabel = new PGradientLabel(sent);
         sentLabel.setOpaque(true);
         sentLabel.setBackground(tm.getColor("mainColor"));
         sentLabel.setFont(new Font("JetBrains Mono", Font.PLAIN, 14));

@@ -17,7 +17,7 @@
 
 package me.theentropyshard.pita.view;
 
-import me.theentropyshard.pita.view.component.GradientLabel;
+import me.theentropyshard.pita.view.component.PGradientLabel;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -25,7 +25,7 @@ import java.awt.*;
 
 public class ShortMessagePanel extends JPanel {
     public ShortMessagePanel(String message) {
-        GradientLabel label = new GradientLabel(message);
+        PGradientLabel label = new PGradientLabel(message);
         label.setFont(new Font("JetBrains Mono", Font.BOLD, 16));
 
         BorderPanel borderPanel = new BorderPanel();

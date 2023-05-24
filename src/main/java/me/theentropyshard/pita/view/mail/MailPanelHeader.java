@@ -22,10 +22,10 @@ import me.theentropyshard.pita.netschoolapi.mail.MailBox;
 import me.theentropyshard.pita.netschoolapi.mail.MailField;
 import me.theentropyshard.pita.netschoolapi.mail.models.MailRecord;
 import me.theentropyshard.pita.view.*;
-import me.theentropyshard.pita.view.component.GradientLabel;
-import me.theentropyshard.pita.view.component.ComboBox;
-import me.theentropyshard.pita.view.component.TextField;
-import me.theentropyshard.pita.view.component.SimpleButton;
+import me.theentropyshard.pita.view.component.PGradientLabel;
+import me.theentropyshard.pita.view.component.PComboBox;
+import me.theentropyshard.pita.view.component.PTextField;
+import me.theentropyshard.pita.view.component.PSimpleButton;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -36,18 +36,18 @@ import java.util.Objects;
 import java.util.Set;
 
 public class MailPanelHeader extends JPanel {
-    private final GradientLabel pageLabel;
-    private final TextField pageField;
+    private final PGradientLabel pageLabel;
+    private final PTextField pageField;
 
     public MailPanelHeader(ActionListener lbc, MailPanel mailPanel) {
         this.setLayout(new MigLayout("flowy", "[left]15[left]5[left]15[left]15[left]push", "[center][center][center]"));
         this.setBackground(Color.WHITE);
 
-        GradientLabel label = new GradientLabel("Почтовая папка");
+        PGradientLabel label = new PGradientLabel("Почтовая папка");
         label.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
         this.add(label, "cell 0 0");
 
-        ComboBox comboBox = new ComboBox();
+        PComboBox comboBox = new PComboBox();
         comboBox.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
         comboBox.setBorder(BorderFactory.createEmptyBorder(5, 12, 5, 5));
         comboBox.addItem("Входящие");
@@ -78,11 +78,11 @@ public class MailPanelHeader extends JPanel {
 
         this.add(comboBox, "cell 0 1");
 
-        GradientLabel searchLabel = new GradientLabel("Поиск");
+        PGradientLabel searchLabel = new PGradientLabel("Поиск");
         searchLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
         this.add(searchLabel, "cell 1 0");
 
-        ComboBox searchCB = new ComboBox();
+        PComboBox searchCB = new PComboBox();
         searchCB.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
         searchCB.setBorder(BorderFactory.createEmptyBorder(5, 12, 5, 5));
         searchCB.addItem("От кого");
@@ -106,7 +106,7 @@ public class MailPanelHeader extends JPanel {
             }
         });
 
-        TextField searchField = new TextField();
+        PTextField searchField = new PTextField();
         searchField.setHint("Введите текст...");
         searchField.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
 
@@ -121,24 +121,24 @@ public class MailPanelHeader extends JPanel {
 
         searchCB.setPreferredSize(comboBox.getPreferredSize());
 
-        GradientLabel numberLabel = new GradientLabel("Число записей на странице");
+        PGradientLabel numberLabel = new PGradientLabel("Число записей на странице");
         numberLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
 
         this.add(numberLabel, "cell 3 0");
 
-        TextField numberField = new TextField();
+        PTextField numberField = new PTextField();
         numberField.setPreferredSize(new Dimension(250, searchField.getPreferredSize().height));
         numberField.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
         numberField.setText("20");
 
         this.add(numberField, "cell 3 1");
 
-        this.pageLabel = new GradientLabel("");
+        this.pageLabel = new PGradientLabel("");
         this.pageLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
 
         this.add(this.pageLabel, "cell 4 0");
 
-        this.pageField = new TextField();
+        this.pageField = new PTextField();
         this.pageField.setText("1");
         this.pageField.setPreferredSize(new Dimension(250, searchField.getPreferredSize().height));
         this.pageField.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
@@ -148,7 +148,7 @@ public class MailPanelHeader extends JPanel {
         JPanel panel = new JPanel(new MigLayout("insets 0, fillx"));
         panel.setBackground(Color.WHITE);
 
-        SimpleButton loadButton = new SimpleButton("Загрузить");
+        PSimpleButton loadButton = new PSimpleButton("Загрузить");
         loadButton.addActionListener(e -> {
             int pageSize = 20;
             try {
@@ -172,7 +172,7 @@ public class MailPanelHeader extends JPanel {
 
         panel.add(loadButton, "");
 
-        SimpleButton writeButton = new SimpleButton("Написать");
+        PSimpleButton writeButton = new PSimpleButton("Написать");
         writeButton.setRoundCorners(true);
         writeButton.addActionListener(e -> {
             View v = View.getView();
@@ -182,7 +182,7 @@ public class MailPanelHeader extends JPanel {
 
         panel.add(writeButton, "");
 
-        SimpleButton deleteButton = new SimpleButton("Удалить");
+        PSimpleButton deleteButton = new PSimpleButton("Удалить");
         deleteButton.setRoundCorners(true);
         deleteButton.addActionListener(e -> {
             Set<String> selectedRows = mailPanel.getMailListPanel().getSelectedRows();

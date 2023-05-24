@@ -26,9 +26,9 @@ import me.theentropyshard.pita.view.AppWindow;
 import me.theentropyshard.pita.view.LoginView;
 import me.theentropyshard.pita.view.PitaColors;
 import me.theentropyshard.pita.view.ShortMessagePanel;
-import me.theentropyshard.pita.view.component.LoginButton;
-import me.theentropyshard.pita.view.component.PassField;
-import me.theentropyshard.pita.view.component.TextField;
+import me.theentropyshard.pita.view.component.PLoginButton;
+import me.theentropyshard.pita.view.component.PPassField;
+import me.theentropyshard.pita.view.component.PTextField;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -81,7 +81,7 @@ public class LoginController {
     }
 
     public void resetLoginButton() {
-        LoginButton loginButton = this.loginView.getLoginButton();
+        PLoginButton loginButton = this.loginView.getLoginButton();
         loginButton.setLoading(false);
         loginButton.setEnabled(true);
     }
@@ -108,19 +108,19 @@ public class LoginController {
     }
 
     private void makeFieldValid(JTextField t) {
-        if (t instanceof TextField) {
-            ((TextField) t).setWrong(false);
-        } else if (t instanceof PassField) {
-            ((PassField) t).setWrong(false);
+        if (t instanceof PTextField) {
+            ((PTextField) t).setWrong(false);
+        } else if (t instanceof PPassField) {
+            ((PPassField) t).setWrong(false);
         }
         t.setBackground(PitaColors.ULTRA_LIGHT_COLOR);
     }
 
     private void makeFieldInvalid(JTextField t) {
-        if (t instanceof TextField) {
-            ((TextField) t).setWrong(true);
-        } else if (t instanceof PassField) {
-            ((PassField) t).setWrong(true);
+        if (t instanceof PTextField) {
+            ((PTextField) t).setWrong(true);
+        } else if (t instanceof PPassField) {
+            ((PPassField) t).setWrong(true);
         }
         t.setBackground(PitaColors.WRONG);
     }
@@ -147,28 +147,28 @@ public class LoginController {
         this.loginView.getLoginButton().setLoading(true);
         this.loginView.getLoginButton().setEnabled(false);
 
-        TextField addressField = this.loginView.getSgoAddressField();
+        PTextField addressField = this.loginView.getSgoAddressField();
         String baseUrl = addressField.getText();
         if (!Utils.isUrlValid(baseUrl)) {
             this.wrongField("Некорректный URL-адрес: " + baseUrl, addressField);
             return;
         }
 
-        TextField schoolNameField = this.loginView.getSchoolNameField();
+        PTextField schoolNameField = this.loginView.getSchoolNameField();
         String schoolName = schoolNameField.getText();
         if (schoolName == null || schoolName.isEmpty()) {
             this.wrongField("Имя школы пусто или равно null", schoolNameField);
             return;
         }
 
-        TextField loginField = this.loginView.getLoginField();
+        PTextField loginField = this.loginView.getLoginField();
         String login = loginField.getText();
         if (login == null || login.isEmpty()) {
             this.wrongField("Логин пуст или равен null", loginField);
             return;
         }
 
-        PassField passwordField = this.loginView.getPasswordField();
+        PPassField passwordField = this.loginView.getPasswordField();
         char[] cPass = passwordField.getPassword();
         if (cPass == null || cPass.length == 0) {
             this.wrongField("Пароль пуст или равен null", passwordField);

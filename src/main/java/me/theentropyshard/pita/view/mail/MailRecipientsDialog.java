@@ -21,8 +21,8 @@ import me.theentropyshard.pita.Pita;
 import me.theentropyshard.pita.view.BorderPanel;
 import me.theentropyshard.pita.view.ThemeManager;
 import me.theentropyshard.pita.view.View;
-import me.theentropyshard.pita.view.component.GradientLabel;
-import me.theentropyshard.pita.view.component.ScrollBar;
+import me.theentropyshard.pita.view.component.PGradientLabel;
+import me.theentropyshard.pita.view.component.PScrollBar;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -43,7 +43,7 @@ public class MailRecipientsDialog extends JDialog {
         scrollPane.setBorder(null);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setViewportView(this.panel);
-        scrollPane.setVerticalScrollBar(new ScrollBar());
+        scrollPane.setVerticalScrollBar(new PScrollBar());
 
         BorderPanel borderPanel = new BorderPanel();
         for(String recipient : recipients) {
@@ -70,7 +70,7 @@ public class MailRecipientsDialog extends JDialog {
         private final JPanel panel;
 
         public RecipientPanel(String recipient) {
-            GradientLabel label = new GradientLabel(recipient);
+            PGradientLabel label = new PGradientLabel(recipient);
             label.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
 
             this.panel = new JPanel(new FlowLayout(FlowLayout.CENTER));

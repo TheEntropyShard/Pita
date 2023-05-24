@@ -17,13 +17,11 @@
 
 package me.theentropyshard.pita.view.announcements;
 
-import me.theentropyshard.pita.view.component.ScrollBar;
+import me.theentropyshard.pita.view.component.PScrollBar;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 
 public class AnnouncementsView extends JPanel {
     private final JScrollPane scrollPane;
@@ -39,7 +37,7 @@ public class AnnouncementsView extends JPanel {
         this.scrollPane.setBorder(null);
         this.scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         this.scrollPane.setViewportView(this.panel);
-        this.scrollPane.setVerticalScrollBar(new ScrollBar());
+        this.scrollPane.setVerticalScrollBar(new PScrollBar());
 
         this.setLayout(new BorderLayout());
         this.add(this.scrollPane, BorderLayout.CENTER);

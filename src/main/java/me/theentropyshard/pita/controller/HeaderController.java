@@ -23,8 +23,8 @@ import me.theentropyshard.pita.netschoolapi.utils.models.IntIdName;
 import me.theentropyshard.pita.utils.AbstractCallback;
 import me.theentropyshard.pita.utils.Utils;
 import me.theentropyshard.pita.view.Header;
-import me.theentropyshard.pita.view.component.GradientLabel;
-import me.theentropyshard.pita.view.component.SimpleButton;
+import me.theentropyshard.pita.view.component.PGradientLabel;
+import me.theentropyshard.pita.view.component.PSimpleButton;
 import retrofit2.Call;
 
 import javax.swing.*;
@@ -42,7 +42,7 @@ public class HeaderController {
             @Override
             public void handleResponse(Integer i) {
                 SwingUtilities.invokeLater(() -> {
-                    SimpleButton mailButton = header.getMailButton();
+                    PSimpleButton mailButton = header.getMailButton();
                     if (i > 0) {
                         mailButton.setText("Почта - " + i + " непрочитанных");
                     } else {
@@ -57,7 +57,7 @@ public class HeaderController {
             @Override
             public void handleResponse(IntIdName[] intIdNames) {
                 SwingUtilities.invokeLater(() -> {
-                    GradientLabel currentYearLabel = header.getCurrentYearLabel();
+                    PGradientLabel currentYearLabel = header.getCurrentYearLabel();
                     currentYearLabel.setText("текущий " + intIdNames[0].name + " уч.год");
                 });
             }
@@ -68,7 +68,7 @@ public class HeaderController {
             @Override
             public void handleResponse(UserSession[] userSessions) {
                 SwingUtilities.invokeLater(() -> {
-                    GradientLabel infoLabel = header.getInfoLabel();
+                    PGradientLabel infoLabel = header.getInfoLabel();
                     infoLabel.setText(
                             Utils.getTodaysDateRussian() + " - В системе работает " + userSessions.length + " чел."
                     );

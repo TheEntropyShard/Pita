@@ -20,9 +20,10 @@ package me.theentropyshard.pita.view.mail;
 import me.theentropyshard.pita.netschoolapi.NetSchoolAPI_old;
 import me.theentropyshard.pita.netschoolapi.models.UploadLimits;
 import me.theentropyshard.pita.netschoolapi.models.UserModel;
+import me.theentropyshard.pita.utils.SwingUtils;
 import me.theentropyshard.pita.view.*;
 import me.theentropyshard.pita.view.component.*;
-import me.theentropyshard.pita.view.component.TextField;
+import me.theentropyshard.pita.view.component.PTextField;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -42,7 +43,7 @@ import java.util.stream.Collectors;
 
 public class MailWritePanel extends JPanel {
     private final JTextArea textArea;
-    private final TextField subjectField;
+    private final PTextField subjectField;
     private final JPanel attachedFilesPanel;
     private final DataElementPanel receiversPanel;
 
@@ -73,7 +74,7 @@ public class MailWritePanel extends JPanel {
         scrollPane.setBorder(null);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setViewportView(panel);
-        scrollPane.setVerticalScrollBar(new ScrollBar());
+        scrollPane.setVerticalScrollBar(new PScrollBar());
 
         this.add(scrollPane, BorderLayout.CENTER);
 
@@ -84,10 +85,10 @@ public class MailWritePanel extends JPanel {
         internalButtonsPanel.setBackground(Color.WHITE);
         internalButtonsPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-        SimpleButton sendButton = new SimpleButton("Отправить");
+        PSimpleButton sendButton = new PSimpleButton("Отправить");
         sendButton.setRoundCorners(true);
 
-        SimpleButton saveButton = new SimpleButton("Сохранить");
+        PSimpleButton saveButton = new PSimpleButton("Сохранить");
         saveButton.setRoundCorners(true);
 
         internalButtonsPanel.add(sendButton);
@@ -106,9 +107,10 @@ public class MailWritePanel extends JPanel {
             public void mousePressed(MouseEvent e) {
                 View.getView().getFrame().getGlassPane().setVisible(true);
 
-                MailChooseRecipientDialog dialog = new MailChooseRecipientDialog();
+                MailChooseRecipientPanel panel = new MailChooseRecipientPanel();
+                SwingUtils.newDialog("Выберите получателей", true, panel);
 
-                Set<UserModel> recipients = dialog.getRecipients();
+                Set<UserModel> recipients = panel.getRecipients();
 
                 StringJoiner joiner = new StringJoiner("; ");
                 for(UserModel model : recipients) {
@@ -125,7 +127,7 @@ public class MailWritePanel extends JPanel {
         DestUserPanel subjectPanel = new DestUserPanel();
         subjectPanel.setKey("Тема");
 
-        this.subjectField = new TextField() {{
+        this.subjectField = new PTextField() {{
             this.setUI(new BasicTextFieldUI() {
                 @Override
                 protected void paintSafely(Graphics g) {
@@ -145,7 +147,7 @@ public class MailWritePanel extends JPanel {
         notifyPanel.setBackground(new Color(240, 240, 240));
         notifyPanel.setKey("Уведомить о прочтении");
 
-        CheckBox notifyCheckBox = new CheckBox();
+        PCheckBox notifyCheckBox = new PCheckBox();
         notifyPanel.setValueComponent(notifyCheckBox);
 
         controlsPanel.addComponent(this.receiversPanel, "growx, width 0:0:100%");
@@ -166,7 +168,7 @@ public class MailWritePanel extends JPanel {
 
         BorderPanel attachedFilesPanel = new BorderPanel();
 
-        SimpleButton addNewFileButton = new SimpleButton("Загрузить файл");
+        PSimpleButton addNewFileButton = new PSimpleButton("Загрузить файл");
         addNewFileButton.setRoundCorners(true);
 
         this.attachedFilesPanel = new JPanel();
@@ -273,7 +275,7 @@ public class MailWritePanel extends JPanel {
 
     public void attachFileById(String name, String id) {
         this.attachedFilesIds.add(id);
-        GradientLabel label = new GradientLabel(name);
+        PGradientLabel label = new PGradientLabel(name);
         label.setFont(new Font("JetBrains Mono", Font.BOLD, 12));
         label.setBorder(new EmptyBorder(0, 5, 3, 0));
         label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -290,7 +292,7 @@ public class MailWritePanel extends JPanel {
     }
 
     public void attachFile(File file) {
-        GradientLabel label = new GradientLabel(file.getName());
+        PGradientLabel label = new PGradientLabel(file.getName());
         label.setFont(new Font("JetBrains Mono", Font.BOLD, 12));
         label.setBorder(new EmptyBorder(0, 5, 3, 0));
         label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -336,10 +338,10 @@ public class MailWritePanel extends JPanel {
     }
 
     public static class DestUserPanel extends JPanel {
-        private final GradientLabel keyLabel;
+        private final PGradientLabel keyLabel;
 
         public DestUserPanel() {
-            this.keyLabel = new GradientLabel("");
+            this.keyLabel = new PGradientLabel("");
             this.keyLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
 
             this.setLayout(new GridLayout(1, 1));
@@ -366,14 +368,14 @@ public class MailWritePanel extends JPanel {
     }
 
     public static class DataElementPanel extends JPanel {
-        private final GradientLabel keyLabel;
-        private final GradientLabel valueLabel;
+        private final PGradientLabel keyLabel;
+        private final PGradientLabel valueLabel;
 
         public DataElementPanel() {
-            this.keyLabel = new GradientLabel("");
+            this.keyLabel = new PGradientLabel("");
             this.keyLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
 
-            this.valueLabel = new GradientLabel("") {
+            this.valueLabel = new PGradientLabel("") {
                 @Override
                 protected void paintComponent(Graphics g) {
                     Color oldColor = g.getColor();
@@ -404,7 +406,7 @@ public class MailWritePanel extends JPanel {
             this.valueLabel.setText(value);
         }
 
-        public GradientLabel getValueLabel() {
+        public PGradientLabel getValueLabel() {
             return this.valueLabel;
         }
     }

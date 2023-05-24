@@ -24,8 +24,8 @@ import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
 import java.awt.*;
 
-public class TextPane extends JTextPane {
-    public TextPane() {
+public class PTextPane extends JTextPane {
+    public PTextPane() {
         ThemeManager tm = Pita.getPita().getThemeManager();
 
         this.setContentType("text/html");

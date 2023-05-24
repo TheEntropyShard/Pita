@@ -21,10 +21,9 @@ import me.theentropyshard.pita.netschoolapi.NetSchoolAPI_old;
 import me.theentropyshard.pita.netschoolapi.models.UserModel;
 import me.theentropyshard.pita.view.BorderPanel;
 import me.theentropyshard.pita.view.PitaColors;
-import me.theentropyshard.pita.view.View;
-import me.theentropyshard.pita.view.component.GradientLabel;
-import me.theentropyshard.pita.view.component.ComboBox;
-import me.theentropyshard.pita.view.component.ScrollBar;
+import me.theentropyshard.pita.view.component.PComboBox;
+import me.theentropyshard.pita.view.component.PGradientLabel;
+import me.theentropyshard.pita.view.component.PScrollBar;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -36,12 +35,10 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.*;
 
-public class MailChooseRecipientDialog extends JDialog {
+public class MailChooseRecipientPanel extends JScrollPane {
     private final Set<UserModel> recipients;
 
-    public MailChooseRecipientDialog() {
-        super(View.getView().getFrame(), "Выбор получателей", true);
-
+    public MailChooseRecipientPanel() {
         this.recipients = new HashSet<>();
 
         MigLayout layout = new MigLayout("fill, ltr", "[fill, center][fill, center]", "[top]");
@@ -52,7 +49,7 @@ public class MailChooseRecipientDialog extends JDialog {
         BorderPanel leftPanel = new BorderPanel();
         BorderPanel rightPanel = new BorderPanel();
 
-        ComboBox receiversCategory = new ComboBox();
+        PComboBox receiversCategory = new PComboBox();
         receiversCategory.addItem("Администраторы");
         receiversCategory.addItem("Завучи");
         receiversCategory.addItem("Классные руководители");
@@ -100,7 +97,7 @@ public class MailChooseRecipientDialog extends JDialog {
             String item = (String) receiversCategory.getSelectedItem();
             List<UserModel> users = new ArrayList<>();
             System.out.println(item);
-            switch(Objects.requireNonNull(item)) {
+            switch (Objects.requireNonNull(item)) {
                 case "Администраторы":
                     users.addAll(NetSchoolAPI_old.I.getAdmins());
                     break;
@@ -117,29 +114,29 @@ public class MailChooseRecipientDialog extends JDialog {
                     users.addAll(NetSchoolAPI_old.I.getClassmates());
                     break;
             }
-            for(UserModel user : users) {
-                GradientLabel label = new GradientLabel(user.name);
+            for (UserModel user : users) {
+                PGradientLabel label = new PGradientLabel(user.name);
                 label.setFont(new Font("JetBrains Mono", Font.BOLD, 12));
                 label.setBorder(new EmptyBorder(0, 5, 3, 0));
                 label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                 label.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mousePressed(MouseEvent e) {
-                        GradientLabel label = new GradientLabel(user.name);
+                        PGradientLabel label = new PGradientLabel(user.name);
                         label.setFont(new Font("JetBrains Mono", Font.BOLD, 12));
                         label.setBorder(new EmptyBorder(0, 5, 3, 0));
                         label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
                         label.addMouseListener(new MouseAdapter() {
                             @Override
                             public void mousePressed(MouseEvent e) {
-                                if(recipients.contains(user)) {
+                                if (recipients.contains(user)) {
                                     recipients.remove(user);
                                     selectedUsers.remove(label);
                                     selectedUsers.revalidate();
                                 }
                             }
                         });
-                        if(!recipients.contains(user)) {
+                        if (!recipients.contains(user)) {
                             recipients.add(user);
                             selectedUsers.add(label);
                             selectedUsers.revalidate();
@@ -156,18 +153,11 @@ public class MailChooseRecipientDialog extends JDialog {
         panel.add(leftPanel);
         panel.add(rightPanel);
 
-        JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setBorder(null);
-        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.setViewportView(panel);
-        scrollPane.setVerticalScrollBar(new ScrollBar());
-
-        this.add(scrollPane);
-        this.getContentPane().setPreferredSize(new Dimension(800, 522));
-        this.pack();
-        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        this.setLocationRelativeTo(null);
-        this.setVisible(true);
+        this.setBorder(null);
+        this.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        this.setViewportView(panel);
+        this.setVerticalScrollBar(new PScrollBar());
+        this.setPreferredSize(new Dimension(800, 522));
     }
 
     public Set<UserModel> getRecipients() {

@@ -19,10 +19,10 @@ package me.theentropyshard.pita.view;
 
 import me.theentropyshard.pita.Pita;
 import me.theentropyshard.pita.utils.ResourceManager;
-import me.theentropyshard.pita.view.component.GradientLabel;
-import me.theentropyshard.pita.view.component.LoginButton;
-import me.theentropyshard.pita.view.component.PassField;
-import me.theentropyshard.pita.view.component.TextField;
+import me.theentropyshard.pita.view.component.PGradientLabel;
+import me.theentropyshard.pita.view.component.PLoginButton;
+import me.theentropyshard.pita.view.component.PPassField;
+import me.theentropyshard.pita.view.component.PTextField;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,11 +32,11 @@ public class LoginView extends JPanel {
     public static final String SGO_LABEL_FONT_NAME = "sansserif";
     public static final int SGO_TEXT_SIZE = 30;
 
-    private final TextField sgoAddressField;
-    private final TextField schoolNameField;
-    private final TextField loginField;
-    private final PassField passwordField;
-    private final LoginButton loginButton;
+    private final PTextField sgoAddressField;
+    private final PTextField schoolNameField;
+    private final PTextField loginField;
+    private final PPassField passwordField;
+    private final PLoginButton loginButton;
 
     public LoginView() {
         this.setLayout(new GridBagLayout());
@@ -52,41 +52,41 @@ public class LoginView extends JPanel {
         c.gridx = 0;
         c.gridy = 0;
 
-        GradientLabel sgoLabel = new GradientLabel();
+        PGradientLabel sgoLabel = new PGradientLabel();
         sgoLabel.setText(LoginView.SGO_TEXT);
         sgoLabel.setFont(new Font(LoginView.SGO_LABEL_FONT_NAME, Font.BOLD, LoginView.SGO_TEXT_SIZE));
         this.add(sgoLabel, c);
 
         c.gridy = 1;
-        this.sgoAddressField = new TextField();
+        this.sgoAddressField = new PTextField();
         this.sgoAddressField.setPrefixIcon(ResourceManager.getIcon("/images/browser.png"));
         this.sgoAddressField.setHint("Сайт дневника");
         this.sgoAddressField.setPreferredSize(new Dimension(sgoLabel.getPreferredSize().width, this.sgoAddressField.getPreferredSize().height));
         this.add(this.sgoAddressField, c);
 
         c.gridy = 2;
-        this.schoolNameField = new TextField();
+        this.schoolNameField = new PTextField();
         this.schoolNameField.setPrefixIcon(ResourceManager.getIcon("/images/school.png"));
         this.schoolNameField.setHint("Имя школы");
         this.schoolNameField.setPreferredSize(new Dimension(sgoLabel.getPreferredSize().width, this.sgoAddressField.getPreferredSize().height));
         this.add(this.schoolNameField, c);
 
         c.gridy = 3;
-        this.loginField = new TextField();
+        this.loginField = new PTextField();
         loginField.setPrefixIcon(ResourceManager.getIcon("/images/mail.png"));
         loginField.setHint("Логин");
         loginField.setPreferredSize(new Dimension(sgoLabel.getPreferredSize().width, this.sgoAddressField.getPreferredSize().height));
         this.add(loginField, c);
 
         c.gridy = 4;
-        this.passwordField = new PassField();
+        this.passwordField = new PPassField();
         this.passwordField.setPrefixIcon(ResourceManager.getIcon("/images/pass.png"));
         this.passwordField.setHint("Пароль");
         this.passwordField.setPreferredSize(new Dimension(sgoLabel.getPreferredSize().width, this.sgoAddressField.getPreferredSize().height));
         this.add(this.passwordField, c);
 
         c.gridy = 5;
-        this.loginButton = new LoginButton("Войти");
+        this.loginButton = new PLoginButton("Войти");
         this.loginButton.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
         this.loginButton.setPreferredSize(new Dimension(sgoLabel.getPreferredSize().width, this.sgoAddressField.getPreferredSize().height));
         this.add(this.loginButton, c);
@@ -99,23 +99,23 @@ public class LoginView extends JPanel {
         super.paintComponent(g);
     }
 
-    public LoginButton getLoginButton() {
+    public PLoginButton getLoginButton() {
         return this.loginButton;
     }
 
-    public TextField getSgoAddressField() {
+    public PTextField getSgoAddressField() {
         return this.sgoAddressField;
     }
 
-    public TextField getSchoolNameField() {
+    public PTextField getSchoolNameField() {
         return this.schoolNameField;
     }
 
-    public TextField getLoginField() {
+    public PTextField getLoginField() {
         return this.loginField;
     }
 
-    public PassField getPasswordField() {
+    public PPassField getPasswordField() {
         return this.passwordField;
     }
 }

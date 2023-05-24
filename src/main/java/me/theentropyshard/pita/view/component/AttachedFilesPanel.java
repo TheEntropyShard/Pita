@@ -44,7 +44,7 @@ public class AttachedFilesPanel extends JPanel {
     }
 
     public void attachFile(String name, String data, ActionListener listener) {
-        GradientLabel label = new GradientLabel(name);
+        PGradientLabel label = new PGradientLabel(name);
         label.setFont(new Font("JetBrains Mono", Font.BOLD, 12));
         label.setBorder(new EmptyBorder(0, 5, 3, 0));
         label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

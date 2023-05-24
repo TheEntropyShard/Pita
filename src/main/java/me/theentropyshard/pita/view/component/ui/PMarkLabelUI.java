@@ -19,17 +19,17 @@ package me.theentropyshard.pita.view.component.ui;
 
 import me.theentropyshard.pita.Pita;
 import me.theentropyshard.pita.view.ThemeManager;
-import me.theentropyshard.pita.view.component.MarkLabel;
+import me.theentropyshard.pita.view.component.PMarkLabel;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicLabelUI;
 import java.awt.*;
 
-public class MarkLabelUI extends BasicLabelUI {
+public class PMarkLabelUI extends BasicLabelUI {
     @Override
     protected void paintEnabledText(JLabel l, Graphics g, String s, int x, int y) {
-        if(l instanceof MarkLabel) {
-            MarkLabel ml = (MarkLabel) l;
+        if(l instanceof PMarkLabel) {
+            PMarkLabel ml = (PMarkLabel) l;
             Graphics2D g2 = (Graphics2D) g;
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             ThemeManager tm = Pita.getPita().getThemeManager();

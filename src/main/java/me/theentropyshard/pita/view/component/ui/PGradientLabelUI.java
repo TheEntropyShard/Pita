@@ -19,7 +19,7 @@ package me.theentropyshard.pita.view.component.ui;
 
 import me.theentropyshard.pita.Pita;
 import me.theentropyshard.pita.view.ThemeManager;
-import me.theentropyshard.pita.view.component.GradientLabel;
+import me.theentropyshard.pita.view.component.PGradientLabel;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicLabelUI;
@@ -28,10 +28,10 @@ import java.awt.*;
 /**
  * @see <a href="https://stackoverflow.com/a/65133451/19857533">Redrawing a JLabel to get a Gradient Painted Text</a>
  */
-public class GradientLabelUI extends BasicLabelUI {
+public class PGradientLabelUI extends BasicLabelUI {
     @Override
     protected void paintEnabledText(JLabel l, Graphics g, String s, int x, int y) {
-        if(l instanceof GradientLabel) {
+        if(l instanceof PGradientLabel) {
             Graphics2D g2 = (Graphics2D) g;
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             ThemeManager tm = Pita.getPita().getThemeManager();

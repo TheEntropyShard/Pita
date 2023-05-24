@@ -17,8 +17,8 @@
 
 package me.theentropyshard.pita.view;
 
-import me.theentropyshard.pita.view.component.GradientLabel;
-import me.theentropyshard.pita.view.component.SimpleButton;
+import me.theentropyshard.pita.view.component.PGradientLabel;
+import me.theentropyshard.pita.view.component.PSimpleButton;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -38,12 +38,12 @@ public class FileUploadDialog extends JDialog {
 
         BorderPanel chooseFilePanel = new BorderPanel();
 
-        SimpleButton chooseFileButton = new SimpleButton("Выбрать файл");
+        PSimpleButton chooseFileButton = new PSimpleButton("Выбрать файл");
         chooseFileButton.setRoundCorners(true);
 
         chooseFilePanel.addComponent(chooseFileButton);
 
-        GradientLabel fileNameLabel = new GradientLabel("Имя файла...");
+        PGradientLabel fileNameLabel = new PGradientLabel("Имя файла...");
         fileNameLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
 
         chooseFilePanel.addComponent(fileNameLabel);
@@ -62,7 +62,7 @@ public class FileUploadDialog extends JDialog {
         BorderPanel buttonsPanel = new BorderPanel();
         buttonsPanel.getInternalPanel().setLayout(new MigLayout("nogrid, fillx", "[right]", ""));
 
-        SimpleButton addFileButton = new SimpleButton("Прикрепить файл");
+        PSimpleButton addFileButton = new PSimpleButton("Прикрепить файл");
         addFileButton.setRoundCorners(true);
         addFileButton.addActionListener(e -> this.dispose());
 

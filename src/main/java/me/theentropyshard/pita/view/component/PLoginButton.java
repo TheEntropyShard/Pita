@@ -32,7 +32,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
-public class LoginButton extends JButton implements ActionListener {
+public class PLoginButton extends JButton implements ActionListener {
     private final Animator animator;
     private final ThemeManager tm;
 
@@ -49,7 +49,7 @@ public class LoginButton extends JButton implements ActionListener {
 
     private final Timer timer;
 
-    public LoginButton(String text) {
+    public PLoginButton(String text) {
         super(text);
 
         this.oldText = text;

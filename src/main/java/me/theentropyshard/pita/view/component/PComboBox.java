@@ -19,7 +19,7 @@ package me.theentropyshard.pita.view.component;
 
 import me.theentropyshard.pita.view.PitaColors;
 import me.theentropyshard.pita.view.UIConstants;
-import me.theentropyshard.pita.view.component.ui.ComboBoxUI;
+import me.theentropyshard.pita.view.component.ui.PComboBoxUI;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -29,11 +29,11 @@ import javax.swing.plaf.basic.BasicComboBoxRenderer;
 import javax.swing.plaf.basic.BasicComboPopup;
 import java.awt.*;
 
-public class ComboBox extends JComboBox<String> {
+public class PComboBox extends JComboBox<String> {
     private Icon prefixIcon;
 
-    public ComboBox() {
-        this.setUI(new ComboBoxUI());
+    public PComboBox() {
+        this.setUI(new PComboBoxUI());
         this.setBackground(PitaColors.ULTRA_LIGHT_COLOR);
         this.setEditable(false);
         this.setOpaque(false);
@@ -87,7 +87,7 @@ public class ComboBox extends JComboBox<String> {
         });
 
         JScrollPane scrollPane = (JScrollPane) popup.getAccessibleContext().getAccessibleChild(0);
-        scrollPane.setVerticalScrollBar(new ScrollBar());
+        scrollPane.setVerticalScrollBar(new PScrollBar());
     }
 
     @Override

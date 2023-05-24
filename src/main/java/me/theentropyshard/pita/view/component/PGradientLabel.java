@@ -17,40 +17,18 @@
 
 package me.theentropyshard.pita.view.component;
 
-import me.theentropyshard.pita.view.component.ui.MarkLabelUI;
+import me.theentropyshard.pita.view.component.ui.PGradientLabelUI;
 
 import javax.swing.*;
 
-public class MarkLabel extends JLabel {
-    private final boolean goodMark;
-
-    public MarkLabel(int mark) {
+public class PGradientLabel extends JLabel {
+    public PGradientLabel() {
         this.setOpaque(false);
-        this.setUI(new MarkLabelUI());
-
-        String strMark;
-        switch(mark) {
-            case 0:
-                strMark = "Оценка";
-                this.goodMark = true;
-                break;
-            case 1:
-                strMark = "\u00b7"; // middle dot
-                this.goodMark = false;
-                break;
-            case 2:
-                strMark = String.valueOf(mark);
-                this.goodMark = false;
-                break;
-            default:
-                this.goodMark = true;
-                strMark = String.valueOf(mark);
-                break;
-        }
-        this.setText(strMark);
+        this.setUI(new PGradientLabelUI());
     }
 
-    public boolean isGoodMark() {
-        return this.goodMark;
+    public PGradientLabel(String text) {
+        this();
+        this.setText(text);
     }
 }

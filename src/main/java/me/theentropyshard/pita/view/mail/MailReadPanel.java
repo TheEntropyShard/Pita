@@ -26,9 +26,9 @@ import me.theentropyshard.pita.netschoolapi.mail.models.MailRecord;
 import me.theentropyshard.pita.netschoolapi.mail.models.Message;
 import me.theentropyshard.pita.netschoolapi.models.UserModel;
 import me.theentropyshard.pita.view.*;
-import me.theentropyshard.pita.view.component.GradientLabel;
-import me.theentropyshard.pita.view.component.ScrollBar;
-import me.theentropyshard.pita.view.component.SimpleButton;
+import me.theentropyshard.pita.view.component.PGradientLabel;
+import me.theentropyshard.pita.view.component.PScrollBar;
+import me.theentropyshard.pita.view.component.PSimpleButton;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -111,7 +111,7 @@ public class MailReadPanel extends JPanel {
         scrollPane.setBorder(null);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setViewportView(panel);
-        scrollPane.setVerticalScrollBar(new ScrollBar());
+        scrollPane.setVerticalScrollBar(new PScrollBar());
 
         this.add(scrollPane, BorderLayout.CENTER);
 
@@ -119,7 +119,7 @@ public class MailReadPanel extends JPanel {
         buttonsPanel.addComponent(new JPanel() {{
             this.setBackground(Color.WHITE);
             this.setLayout(new FlowLayout(FlowLayout.LEFT));
-            this.add(new SimpleButton("Ответить") {{
+            this.add(new PSimpleButton("Ответить") {{
                 this.setRoundCorners(true);
                 this.addActionListener(e -> {
                     StudentView studentView = View.getView().getMainPanel();
@@ -140,7 +140,7 @@ public class MailReadPanel extends JPanel {
                     studentView.getContentLayout().show(studentView.getContentPanel(), MailWritePanel.class.getSimpleName());
                 });
             }});
-            this.add(new SimpleButton("Переслать сообщение") {{
+            this.add(new PSimpleButton("Переслать сообщение") {{
                 this.setRoundCorners(true);
                 this.addActionListener(e -> {
                     StudentView studentView = View.getView().getMainPanel();
@@ -160,7 +160,7 @@ public class MailReadPanel extends JPanel {
                     studentView.getContentLayout().show(studentView.getContentPanel(), MailWritePanel.class.getSimpleName());
                 });
             }});
-            this.add(new SimpleButton("Удалить") {{
+            this.add(new PSimpleButton("Удалить") {{
                 this.setRoundCorners(true);
                 this.addActionListener(e -> {
                     if(messageId != 0) {
@@ -283,7 +283,7 @@ public class MailReadPanel extends JPanel {
                 attachedFiles.setLayout(new BoxLayout(attachedFiles, BoxLayout.PAGE_AXIS));
 
                 for(Attachment attach : message.fileAttachments) {
-                    GradientLabel label = new GradientLabel(attach.name);
+                    PGradientLabel label = new PGradientLabel(attach.name);
                     label.setFont(new Font("JetBrains Mono", Font.BOLD, 12));
                     label.setBorder(new EmptyBorder(0, 5, 3, 0));
                     label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -316,14 +316,14 @@ public class MailReadPanel extends JPanel {
     }
 
     public static class DataElementPanel extends JPanel {
-        private final GradientLabel keyLabel;
-        private final GradientLabel valueLabel;
+        private final PGradientLabel keyLabel;
+        private final PGradientLabel valueLabel;
 
         public DataElementPanel() {
-            this.keyLabel = new GradientLabel("");
+            this.keyLabel = new PGradientLabel("");
             this.keyLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
 
-            this.valueLabel = new GradientLabel("") {
+            this.valueLabel = new PGradientLabel("") {
                 @Override
                 protected void paintComponent(Graphics g) {
                     Color oldColor = g.getColor();
@@ -354,11 +354,11 @@ public class MailReadPanel extends JPanel {
             this.valueLabel.setText(value);
         }
 
-        public GradientLabel getKeyLabel() {
+        public PGradientLabel getKeyLabel() {
             return this.keyLabel;
         }
 
-        public GradientLabel getValueLabel() {
+        public PGradientLabel getValueLabel() {
             return this.valueLabel;
         }
     }

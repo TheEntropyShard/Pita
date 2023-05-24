@@ -17,18 +17,16 @@
 
 package me.theentropyshard.pita.view.component;
 
-import me.theentropyshard.pita.view.component.ui.GradientLabelUI;
+import me.theentropyshard.pita.view.component.ui.PScrollBarUI;
 
 import javax.swing.*;
+import java.awt.*;
 
-public class GradientLabel extends JLabel {
-    public GradientLabel() {
-        this.setOpaque(false);
-        this.setUI(new GradientLabelUI());
-    }
-
-    public GradientLabel(String text) {
-        this();
-        this.setText(text);
+public class PScrollBar extends JScrollBar {
+    public PScrollBar() {
+        this.setUI(new PScrollBarUI());
+        this.setPreferredSize(new Dimension(5, 5));
+        this.setUnitIncrement(25);
+        this.setBackground(Color.WHITE);
     }
 }

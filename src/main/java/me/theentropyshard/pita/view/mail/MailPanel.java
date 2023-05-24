@@ -26,8 +26,8 @@ import me.theentropyshard.pita.netschoolapi.mail.models.Mail;
 import me.theentropyshard.pita.netschoolapi.mail.models.MailRecord;
 import me.theentropyshard.pita.view.BorderPanel;
 import me.theentropyshard.pita.view.View;
-import me.theentropyshard.pita.view.component.ScrollBar;
-import me.theentropyshard.pita.view.component.SimpleButton;
+import me.theentropyshard.pita.view.component.PScrollBar;
+import me.theentropyshard.pita.view.component.PSimpleButton;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -64,8 +64,8 @@ public class MailPanel extends JPanel {
         scrollPane.setBorder(null);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setViewportView(panel);
-        scrollPane.setVerticalScrollBar(new ScrollBar());
-        scrollPane.setHorizontalScrollBar(new ScrollBar() {{
+        scrollPane.setVerticalScrollBar(new PScrollBar());
+        scrollPane.setHorizontalScrollBar(new PScrollBar() {{
             this.setOrientation(JScrollBar.HORIZONTAL);
         }});
 
@@ -94,7 +94,7 @@ public class MailPanel extends JPanel {
         this.mailListPanel.addNewRecord(" ", " ", " ", " ", false, true);
 
         try {
-            SimpleButton mailButton = View.getView().getMainPanel().getHeader().getMailButton();
+            PSimpleButton mailButton = View.getView().getMainPanel().getHeader().getMailButton();
 
             int umc = 0;
             try {

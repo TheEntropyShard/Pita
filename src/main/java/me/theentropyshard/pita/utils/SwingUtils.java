@@ -23,7 +23,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class SwingUtils {
-    public static JDialog newDialog(String title, boolean modal, JPanel content) {
+    public static JDialog newDialog(String title, boolean modal, JComponent content) {
         JDialog dialog = new JDialog(AppWindow.window, title, modal);
         dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         dialog.add(content, BorderLayout.CENTER);

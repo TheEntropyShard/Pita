@@ -20,8 +20,8 @@ package me.theentropyshard.pita.view.announcements;
 import me.theentropyshard.pita.model.announcements.AnnouncementModel;
 import me.theentropyshard.pita.view.component.AttachedFilesPanel;
 import me.theentropyshard.pita.view.BorderPanel;
-import me.theentropyshard.pita.view.component.TextPane;
-import me.theentropyshard.pita.view.component.GradientLabel;
+import me.theentropyshard.pita.view.component.PTextPane;
+import me.theentropyshard.pita.view.component.PGradientLabel;
 import net.miginfocom.swing.MigLayout;
 
 import java.awt.*;
@@ -33,22 +33,22 @@ public class AnnouncementCardView extends BorderPanel {
     public AnnouncementCardView(AnnouncementModel model, ActionListener listener) {
         this.getInternalPanel().setLayout(new MigLayout("nogrid, fillx", "[]", ""));
 
-        GradientLabel topicLabel = new GradientLabel();
+        PGradientLabel topicLabel = new PGradientLabel();
         topicLabel.setText("Тема: " + model.getSubject());
         topicLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
         this.add(topicLabel, "grow", 0);
 
-        GradientLabel timeLabel = new GradientLabel();
+        PGradientLabel timeLabel = new PGradientLabel();
         timeLabel.setText(model.getTime());
         timeLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
         this.add(timeLabel, "wrap", 1);
 
-        GradientLabel authorLabel = new GradientLabel();
+        PGradientLabel authorLabel = new PGradientLabel();
         authorLabel.setText("Автор: " + model.getAuthor());
         authorLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
         this.add(authorLabel, "wrap", 2);
 
-        TextPane textPane = new TextPane();
+        PTextPane textPane = new PTextPane();
         textPane.setText(model.getText());
 
         AttachedFilesPanel attachedFiles = new AttachedFilesPanel();

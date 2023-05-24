@@ -152,14 +152,14 @@ public class LoginService {
 
         @Override
         public void onResponse(@NotNull Call<Login> c, @NotNull Response<Login> r) {
-            ResponseBody body = r.errorBody();
-            if (body != null) {
-                Scanner s = new Scanner(Objects.requireNonNull(body).charStream());
+            ResponseBody eBody = r.errorBody();
+            if (eBody != null) {
+                Scanner s = new Scanner(Objects.requireNonNull(eBody).charStream());
                 StringBuilder b = new StringBuilder();
                 while (s.hasNextLine()) {
                     b.append(s.nextLine());
                 }
-                body.close();
+                eBody.close();
                 s.close();
 
                 String message = new Gson().fromJson(b.toString(), JsonObject.class).get("message").getAsString();

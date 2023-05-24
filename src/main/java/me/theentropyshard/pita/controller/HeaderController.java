@@ -23,10 +23,7 @@ import me.theentropyshard.pita.netschoolapi.utils.models.IntIdName;
 import me.theentropyshard.pita.utils.AbstractCallback;
 import me.theentropyshard.pita.utils.SwingUtils;
 import me.theentropyshard.pita.utils.Utils;
-import me.theentropyshard.pita.view.ActiveSessionsPanel;
-import me.theentropyshard.pita.view.AppWindow;
-import me.theentropyshard.pita.view.Header;
-import me.theentropyshard.pita.view.UIConstants;
+import me.theentropyshard.pita.view.*;
 import me.theentropyshard.pita.view.component.PGradientLabel;
 import me.theentropyshard.pita.view.component.PSimpleButton;
 import retrofit2.Call;
@@ -61,6 +58,26 @@ public class HeaderController {
                 );
 
                 SwingUtils.newDialog("Список пользователей в сети", true, panel).setVisible(true);
+
+                AppWindow.window.getGlassPane().setVisible(false);
+            }
+        });
+
+        header.getSchoolNameLabel().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                AppWindow.window.getGlassPane().setVisible(true);
+
+                SchoolInfoPanel panel = new SchoolInfoPanel();
+                panel.loadData();
+                panel.revalidate();
+
+                Dimension preferredSize = panel.getPreferredSize();
+                if (preferredSize.height > UIConstants.DEFAULT_HEIGHT) {
+                    panel.setPreferredSize(new Dimension(preferredSize.width, UIConstants.DEFAULT_HEIGHT));
+                }
+
+                SwingUtils.newDialog("Карточка образовательной организации", true, panel).setVisible(true);
 
                 AppWindow.window.getGlassPane().setVisible(false);
             }

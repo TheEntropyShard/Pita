@@ -47,29 +47,8 @@ public class Header extends JPanel {
         this.infoLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
         this.schoolNameLabel = new PGradientLabel();
-        this.schoolNameLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         this.schoolNameLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 16));
-        /*this.schoolNameLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                View.getView().getFrame().getGlassPane().setVisible(true);
-
-                JDialog dialog = new JDialog(View.getView().getFrame(), "Карточка образовательной организации", true);
-                dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-
-                SchoolInfoPanel panel = new SchoolInfoPanel();
-
-                dialog.add(panel);
-                panel.loadData();
-                panel.revalidate();
-
-                dialog.pack();
-                dialog.setLocationRelativeTo(null);
-                dialog.setVisible(true);
-
-                View.getView().getFrame().getGlassPane().setVisible(false);
-            }
-        });*/
+        this.schoolNameLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
         this.currentYearLabel = new PGradientLabel();
         this.currentYearLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));

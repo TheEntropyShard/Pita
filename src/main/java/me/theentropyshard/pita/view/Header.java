@@ -18,8 +18,8 @@
 package me.theentropyshard.pita.view;
 
 import me.theentropyshard.pita.Pita;
-import me.theentropyshard.pita.utils.Utils;
 import me.theentropyshard.pita.netschoolapi.NetSchoolAPI_old;
+import me.theentropyshard.pita.utils.Utils;
 import me.theentropyshard.pita.view.component.PGradientLabel;
 import me.theentropyshard.pita.view.component.PSimpleButton;
 import net.miginfocom.swing.MigLayout;
@@ -35,6 +35,7 @@ public class Header extends JPanel {
     private final PGradientLabel currentYearLabel;
     private final PGradientLabel usernameLabel;
     private final PSimpleButton mailButton;
+    private final PGradientLabel exitLabel;
 
     public Header() {
         ThemeManager tm = Pita.getPita().getThemeManager();
@@ -63,16 +64,9 @@ public class Header extends JPanel {
             }
         });*/
 
-        PGradientLabel exitLabel = new PGradientLabel("Выход");
-        exitLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        exitLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
-        /*exitLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                NetSchoolAPI_old.I.logout();
-                View.getView().getRootLayout().show(View.getView().getRoot(), LoginView.class.getSimpleName());
-            }
-        });*/
+        this.exitLabel = new PGradientLabel("Выход");
+        this.exitLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        this.exitLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
 
         JPanel panel = new JPanel();
         panel.setBackground(tm.getColor("mainColor"));
@@ -84,7 +78,7 @@ public class Header extends JPanel {
         panel.add(new JSeparator(JSeparator.VERTICAL) {{
             this.setPreferredSize(new Dimension(5, 20));
         }});
-        panel.add(exitLabel);
+        panel.add(this.exitLabel);
 
         JPanel topPanel = new JPanel(new MigLayout("nogrid, fillx", "[]", ""));
         topPanel.setBackground(tm.getColor("mainColor"));
@@ -205,5 +199,9 @@ public class Header extends JPanel {
 
     public PGradientLabel getInfoLabel() {
         return this.infoLabel;
+    }
+
+    public PGradientLabel getExitLabel() {
+        return this.exitLabel;
     }
 }

@@ -26,14 +26,19 @@ import me.theentropyshard.pita.utils.Utils;
 import me.theentropyshard.pita.view.*;
 import me.theentropyshard.pita.view.component.PGradientLabel;
 import me.theentropyshard.pita.view.component.PSimpleButton;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import retrofit2.Call;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 public class HeaderController {
+    private static final Logger LOG = LogManager.getLogger(HeaderController.class);
+
     private final Header header;
 
     public HeaderController(Header header) {
@@ -80,6 +85,19 @@ public class HeaderController {
                 SwingUtils.newDialog("Карточка образовательной организации", true, panel).setVisible(true);
 
                 AppWindow.window.getGlassPane().setVisible(false);
+            }
+        });
+
+        header.getExitLabel().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                Call<Void> logout = NetSchoolAPI.authAPI.logout();
+                try {
+                    logout.execute();
+                } catch (IOException ex) {
+                    LOG.error(ex);
+                }
+                AppWindow.window.switchView(LoginView.class.getName());
             }
         });
     }

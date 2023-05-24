@@ -80,10 +80,7 @@ public class LoginService {
             }
 
             if (NetSchoolAPI.school == null) {
-                LoginController.showErrorDialog("Школа '" + this.schoolName + "' не найдена");
-                LoginController loginController = AppWindow.window.getLoginController();
-                loginController.resetLoginButton();
-                loginController.resetFields(false, true);
+                LoginService.unexpectedError("Школа '" + this.schoolName + "' не найдена");
                 return;
             }
 
@@ -96,10 +93,7 @@ public class LoginService {
             if (t instanceof UnknownHostException) {
                 URL url = c.request().url().url();
                 String baseUrl = url.getProtocol() + "://" + url.getHost();
-                LoginController.showErrorDialog("Некорректный URL-адрес: " + baseUrl);
-                LoginController loginController = AppWindow.window.getLoginController();
-                loginController.resetLoginButton();
-                loginController.resetFields(false, true);
+                LoginService.unexpectedError("Некорректный URL-адрес: " + baseUrl);
                 return;
             }
 
@@ -145,6 +139,7 @@ public class LoginService {
                 NetSchoolAPI.userName = login.accountInfo.user.name;
             } catch (Exception e) {
                 LOG.error(e);
+                LoginService.unexpectedError(e.getMessage());
             }
             Call<DiaryInit> diaryInitCall = NetSchoolAPI.diaryAPI.diaryInit();
             diaryInitCall.enqueue(new DiaryInitCallback());
@@ -163,10 +158,7 @@ public class LoginService {
                 s.close();
 
                 String message = new Gson().fromJson(b.toString(), JsonObject.class).get("message").getAsString();
-                LoginController.showErrorDialog(message);
-                LoginController loginController = AppWindow.window.getLoginController();
-                loginController.resetLoginButton();
-                loginController.resetFields(false, true);
+                LoginService.unexpectedError(message);
 
                 return;
             }
@@ -186,8 +178,16 @@ public class LoginService {
                 NetSchoolAPI.userId = diaryInit.students.get(diaryInit.currentStudentId).studentId;
             } catch (Exception e) {
                 LOG.error(e);
+                LoginService.unexpectedError(e.getMessage());
             }
             SwingUtils.later(() -> AppWindow.window.switchView(StudentView.class.getName()));
         }
+    }
+
+    private static void unexpectedError(String msg) {
+        LoginController.showErrorDialog(msg);
+        LoginController loginController = AppWindow.window.getLoginController();
+        loginController.resetLoginButton();
+        loginController.resetFields(false, true);
     }
 }

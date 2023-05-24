@@ -44,13 +44,13 @@ public abstract class AbstractCallback<T> implements Callback<T> {
         if (t != null) {
             this.handleResponse(t);
         } else {
-            Scanner scanner = new Scanner(Objects.requireNonNull(r.errorBody()).charStream());
-            StringBuilder builder = new StringBuilder();
-            while (scanner.hasNextLine()) {
-                builder.append(scanner.nextLine());
+            Scanner s = new Scanner(Objects.requireNonNull(r.errorBody()).charStream());
+            StringBuilder b = new StringBuilder();
+            while (s.hasNextLine()) {
+                b.append(s.nextLine());
             }
-            scanner.close();
-            LOG.warn("'{}' response body is null, code: {}, message: {}", this.name, r.code(), builder.toString());
+            s.close();
+            LOG.warn("'{}' response body is null, code: {}, message: {}", this.name, r.code(), b.toString());
         }
     }
 

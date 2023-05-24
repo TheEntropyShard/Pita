@@ -17,6 +17,7 @@
 
 package me.theentropyshard.pita.controller;
 
+import me.theentropyshard.pita.Pita;
 import me.theentropyshard.pita.view.Header;
 import me.theentropyshard.pita.view.StudentView;
 import me.theentropyshard.pita.view.announcements.AnnouncementsView;
@@ -31,7 +32,7 @@ public class StudentController {
     private final StudentView studentView;
 
     private final HeaderController headerController;
-    private final AnnouncementsController announcementsController;
+    private final AnnouncementsController annsController;
 
     public StudentController(StudentView studentView) {
         this.studentView = studentView;
@@ -40,7 +41,7 @@ public class StudentController {
         this.headerController = new HeaderController(header);
 
         AnnouncementsView announcementsView = studentView.getAnnouncementsView();
-        this.announcementsController = new AnnouncementsController(announcementsView);
+        this.annsController = new AnnouncementsController(announcementsView, Pita.getPita().getAttachmentsDir());
     }
 
     public void loadHeader() {
@@ -54,7 +55,7 @@ public class StudentController {
             case "announcements":
                 CardLayout layout = this.studentView.getContentLayout();
                 layout.show(this.studentView.getContentPanel(), AnnouncementsView.class.getName());
-                this.announcementsController.loadAnnouncements();
+                this.annsController.loadAnnouncements();
                 break;
             case "diary":
                 break;

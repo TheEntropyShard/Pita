@@ -152,8 +152,8 @@ public class Header extends JPanel {
 
         JPanel bottomPanel = new JPanel(new GridLayout(1, 4));
         bottomPanel.setBackground(tm.getColor("mainColor"));
-        /*bottomPanel.add(new SimpleButton("Дневник") {{
-            this.addActionListener(e -> {
+        bottomPanel.add(new SimpleButton("Дневник") {{
+            /*this.addActionListener(e -> {
                 StudentView mp = View.getView().getMainPanel();
                 DiaryView diaryView = mp.getDiaryPanel();
                 if (!diaryView.isVisible()) {
@@ -163,10 +163,10 @@ public class Header extends JPanel {
                             DiaryView.class.getSimpleName()
                     );
                 }
-            });
+            });*/
         }});
         bottomPanel.add(new SimpleButton("Отчеты") {{
-            this.addActionListener(e -> {
+            /*this.addActionListener(e -> {
                 StudentView mp = View.getView().getMainPanel();
                 ReportsPanel reportsPanel = mp.getReportsPanel();
                 if (!reportsPanel.isVisible()) {
@@ -176,8 +176,8 @@ public class Header extends JPanel {
                             ReportsPanel.class.getSimpleName()
                     );
                 }
-            });
-        }});*/
+            });*/
+        }});
         this.mailButton = new SimpleButton("Почта") {{
             /*this.addActionListener(e -> {
                 StudentView mp = View.getView().getMainPanel();

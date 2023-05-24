@@ -26,7 +26,6 @@ import me.theentropyshard.pita.netschoolapi.auth.models.Login;
 import me.theentropyshard.pita.netschoolapi.diary.models.DiaryInit;
 import me.theentropyshard.pita.netschoolapi.schools.School;
 import me.theentropyshard.pita.utils.AbstractCallback;
-import me.theentropyshard.pita.utils.SwingUtils;
 import me.theentropyshard.pita.utils.Utils;
 import me.theentropyshard.pita.view.AppWindow;
 import me.theentropyshard.pita.view.StudentView;
@@ -37,6 +36,7 @@ import org.jetbrains.annotations.NotNull;
 import retrofit2.Call;
 import retrofit2.Response;
 
+import javax.swing.*;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
@@ -180,7 +180,7 @@ public class LoginService {
                 LOG.error(e);
                 LoginService.unexpectedError(e.getMessage());
             }
-            SwingUtils.later(() -> AppWindow.window.switchView(StudentView.class.getName()));
+            SwingUtilities.invokeLater(() -> AppWindow.window.switchView(StudentView.class.getName()));
         }
     }
 

@@ -33,10 +33,6 @@ public class SwingUtils {
         return dialog;
     }
 
-    public static void later(Runnable r) {
-        SwingUtilities.invokeLater(r);
-    }
-
     private SwingUtils() {
         throw new UnsupportedOperationException("Class SwingUtils should not be instantiated");
     }

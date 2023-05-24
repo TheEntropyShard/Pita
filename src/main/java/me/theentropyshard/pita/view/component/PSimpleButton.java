@@ -28,6 +28,7 @@ public class PSimpleButton extends JButton {
     private final ThemeManager tm;
     private boolean roundCorners;
     private boolean squareSides;
+    private boolean useMinWidth;
 
     public PSimpleButton(String text) {
         super(text);
@@ -64,7 +65,7 @@ public class PSimpleButton extends JButton {
     public Dimension getPreferredSize() {
         if(this.squareSides) {
             Dimension d = super.getPreferredSize();
-            int s = Math.max(d.height, d.width);
+            int s = this.useMinWidth ? Math.min(d.height, d.width) : Math.max(d.height, d.width);
             return new Dimension(s, s);
         } else {
             return super.getPreferredSize();
@@ -85,5 +86,13 @@ public class PSimpleButton extends JButton {
 
     public void setSquareSides(boolean squareSides) {
         this.squareSides = squareSides;
+    }
+
+    public boolean isUseMinWidth() {
+        return this.useMinWidth;
+    }
+
+    public void setUseMinWidth(boolean useMinWidth) {
+        this.useMinWidth = useMinWidth;
     }
 }

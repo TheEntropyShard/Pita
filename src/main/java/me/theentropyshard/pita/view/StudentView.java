@@ -19,6 +19,7 @@ package me.theentropyshard.pita.view;
 
 import me.theentropyshard.pita.view.announcements.AnnouncementsView;
 import me.theentropyshard.pita.view.diary.DiaryView;
+import me.theentropyshard.pita.view.downloads.DownloadsPanel;
 import me.theentropyshard.pita.view.mail.MailPanel;
 import me.theentropyshard.pita.view.mail.MailReadPanel;
 import me.theentropyshard.pita.view.mail.MailWritePanel;
@@ -28,6 +29,7 @@ import java.awt.*;
 
 public class StudentView extends JPanel {
     private final Header header;
+    private final DownloadsPanel downloadsPanel;
 
     private final CardLayout contentLayout;
     private final JPanel contentPanel;
@@ -46,6 +48,10 @@ public class StudentView extends JPanel {
 
         this.header = new Header();
         this.add(this.header, BorderLayout.NORTH);
+
+        this.downloadsPanel = new DownloadsPanel();
+        this.downloadsPanel.setVisible(false);
+        this.add(this.downloadsPanel, BorderLayout.SOUTH);
 
         this.contentLayout = new CardLayout();
         this.contentPanel = new JPanel(this.contentLayout);
@@ -72,6 +78,10 @@ public class StudentView extends JPanel {
 
     public Header getHeader() {
         return this.header;
+    }
+
+    public DownloadsPanel getDownloadsPanel() {
+        return this.downloadsPanel;
     }
 
     public CardLayout getContentLayout() {

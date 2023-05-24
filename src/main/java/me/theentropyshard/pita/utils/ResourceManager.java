@@ -23,6 +23,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -35,16 +36,22 @@ public final class ResourceManager {
     private static final Map<String, Font> FONT_CACHE = new HashMap<>();
 
     public static Icon getIcon(String path) {
-        if(ResourceManager.ICON_CACHE.containsKey(path)) {
+        if (ResourceManager.ICON_CACHE.containsKey(path)) {
             return ResourceManager.ICON_CACHE.get(path);
         }
 
         ImageIcon icon = null;
         try {
             InputStream is = Objects.requireNonNull(ResourceManager.class.getResourceAsStream(path));
-            byte[] bytes = new byte[is.available()];
-            is.read(bytes);
-            icon = new ImageIcon(bytes);
+
+            byte[] buffer = new byte[256];
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            int nRead;
+            while ((nRead = is.read(buffer)) > 0) {
+                baos.write(buffer, 0, nRead);
+            }
+
+            icon = new ImageIcon(baos.toByteArray());
             ResourceManager.ICON_CACHE.put(path, icon);
         } catch (IOException e) {
             Pita.getPita().getLogger().warn("Unable to load icon", e);
@@ -54,7 +61,7 @@ public final class ResourceManager {
     }
 
     public static BufferedImage getImage(String path) {
-        if(ResourceManager.IMAGE_CACHE.containsKey(path)) {
+        if (ResourceManager.IMAGE_CACHE.containsKey(path)) {
             return ResourceManager.IMAGE_CACHE.get(path);
         }
 
@@ -70,7 +77,7 @@ public final class ResourceManager {
     }
 
     public static Font getFont(String path) {
-        if(ResourceManager.FONT_CACHE.containsKey(path)) {
+        if (ResourceManager.FONT_CACHE.containsKey(path)) {
             return ResourceManager.FONT_CACHE.get(path);
         }
 

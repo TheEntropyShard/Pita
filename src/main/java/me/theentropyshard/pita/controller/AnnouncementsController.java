@@ -24,8 +24,10 @@ import me.theentropyshard.pita.netschoolapi.announcements.models.Announcement;
 import me.theentropyshard.pita.netschoolapi.diary.models.Attachment;
 import me.theentropyshard.pita.utils.AbstractCallback;
 import me.theentropyshard.pita.utils.Utils;
+import me.theentropyshard.pita.view.AppWindow;
 import me.theentropyshard.pita.view.announcements.AnnouncementCardView;
 import me.theentropyshard.pita.view.announcements.AnnouncementsView;
+import me.theentropyshard.pita.view.downloads.DownloadsPanel;
 import okhttp3.ResponseBody;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -95,6 +97,13 @@ public class AnnouncementsController {
                             File file = Utils.makeFile(new File(attachDir, filename));
                             try {
                                 Files.copy(r.byteStream(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+                                SwingUtilities.invokeLater(() -> {
+                                    StudentController c = AppWindow.window.getStudentController();
+                                    DownloadsPanel panel = c.getStudentView().getDownloadsPanel();
+                                    panel.addFile(file);
+                                    panel.setVisible(true);
+                                });
                             } catch (IOException ex) {
                                 LOG.error(ex);
                             }

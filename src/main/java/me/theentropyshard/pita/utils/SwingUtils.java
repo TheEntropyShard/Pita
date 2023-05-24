@@ -20,7 +20,9 @@ package me.theentropyshard.pita.utils;
 import me.theentropyshard.pita.view.AppWindow;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
+import java.io.File;
 
 public class SwingUtils {
     public static JDialog newDialog(String title, boolean modal, JComponent content) {
@@ -31,6 +33,10 @@ public class SwingUtils {
         dialog.setLocationRelativeTo(null);
 
         return dialog;
+    }
+
+    public static Icon getFileIcon(File f) {
+         return FileSystemView.getFileSystemView().getSystemIcon(f);
     }
 
     private SwingUtils() {

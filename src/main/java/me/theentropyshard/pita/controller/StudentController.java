@@ -64,4 +64,8 @@ public class StudentController {
                 break;
         }
     }
+
+    public StudentView getStudentView() {
+        return this.studentView;
+    }
 }

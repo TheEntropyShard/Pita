@@ -70,12 +70,6 @@ public class StudentView extends JPanel {
         this.contentPanel.add(this.annPanel, AnnouncementsView.class.getName());
     }
 
-    public void showComponents() {
-        this.header.loadData();
-        this.diaryView.loadData();
-        this.contentLayout.show(this.contentPanel, DiaryView.class.getName());
-    }
-
     public Header getHeader() {
         return this.header;
     }

@@ -18,15 +18,12 @@
 package me.theentropyshard.pita.view;
 
 import me.theentropyshard.pita.Pita;
-import me.theentropyshard.pita.netschoolapi.NetSchoolAPI_old;
-import me.theentropyshard.pita.utils.Utils;
 import me.theentropyshard.pita.view.component.PGradientLabel;
 import me.theentropyshard.pita.view.component.PSimpleButton;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
 
 public class Header extends JPanel {
     private final PGradientLabel infoLabel;
@@ -57,12 +54,6 @@ public class Header extends JPanel {
         this.usernameLabel = new PGradientLabel();
         this.usernameLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         this.usernameLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
-        /*this.usernameLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                System.out.println("Show my settings");
-            }
-        });*/
 
         this.exitLabel = new PGradientLabel("Выход");
         this.exitLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -146,39 +137,6 @@ public class Header extends JPanel {
             });*/
         }});
         this.add(bottomPanel, BorderLayout.SOUTH);
-    }
-
-    public void loadData() {
-        int umc = 0;
-        try {
-            umc = NetSchoolAPI_old.I.getUnreadMessagesCount();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (umc > 0) {
-            this.mailButton.setText("Почта - " + umc + " непрочитанных");
-        } else {
-            this.mailButton.setText("Почта");
-        }
-
-        this.schoolNameLabel.setText(NetSchoolAPI_old.I.getSchool().getShortName());
-
-        try {
-            this.currentYearLabel.setText("текущий " + NetSchoolAPI_old.I.getYearlist()[0].name + " уч.год");
-        } catch (IOException e) {
-            e.printStackTrace();
-            this.currentYearLabel.setText("ОШИБКА");
-        }
-
-        this.usernameLabel.setText(NetSchoolAPI_old.I.getStudentName());
-
-        int num = 0;
-        try {
-            num = NetSchoolAPI_old.I.getActiveSessions().size();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        this.infoLabel.setText(Utils.getTodaysDateRussian() + " - В системе работает " + num + " чел.");
     }
 
     public PSimpleButton getMailButton() {

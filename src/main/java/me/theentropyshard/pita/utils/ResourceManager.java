@@ -93,11 +93,11 @@ public final class ResourceManager {
     }
 
     public static void registerFont(Font font) {
-        try {
-            GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(font);
-        } catch (NullPointerException e) {
-            Pita.getPita().getLogger().warn("Unable to register font", e);
+        if (font == null) {
+            return;
         }
+
+        GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(font);
     }
 
     private ResourceManager() {

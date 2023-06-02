@@ -21,9 +21,11 @@ import me.theentropyshard.pita.Config;
 import me.theentropyshard.pita.controller.LoginController;
 import me.theentropyshard.pita.controller.StudentController;
 import me.theentropyshard.pita.service.LoginService;
+import me.theentropyshard.pita.utils.ResourceManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Arrays;
 
 public class AppWindow extends JFrame {
     public static AppWindow window;
@@ -52,6 +54,15 @@ public class AppWindow extends JFrame {
 
         this.root.add(loginView, LoginView.class.getName());
         this.root.add(studentView, StudentView.class.getName());
+
+        this.setIconImages(
+                Arrays.asList(
+                        ResourceManager.getImage("sgo_16x16_green.gif"),
+                        ResourceManager.getImage("sgo_32x32_green.gif"),
+                        ResourceManager.getImage("sgo_48x48_green.gif"),
+                        ResourceManager.getImage("sgo_64x64_green.gif")
+                )
+        );
 
         boolean startMaximized = Config.getBoolean("startMaximized");
         if (!startMaximized) {

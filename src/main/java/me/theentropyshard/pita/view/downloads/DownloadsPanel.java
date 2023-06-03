@@ -50,20 +50,20 @@ public class DownloadsPanel extends JPanel {
         JPanel buttonPanel = new JPanel(new MigLayout("fillx", "", ""));
         buttonPanel.add(borderPanel2);
         buttonPanel.setBackground(Color.WHITE);
-        borderPanel2.addComponent(new PSimpleButton("X") {{
-            this.setFont(new Font("JetBrains Mono", Font.PLAIN, 14));
-            this.setRoundCorners(true);
-            this.addActionListener(e -> DownloadsPanel.this.setVisible(false));
-        }});
+        PSimpleButton closeButton = new PSimpleButton("X");
+        closeButton.setFont(new Font("JetBrains Mono", Font.PLAIN, 14));
+        closeButton.setRoundCorners(true);
+        closeButton.addActionListener(e -> DownloadsPanel.this.setVisible(false));
+        borderPanel2.addComponent(closeButton);
 
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBorder(null);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
         scrollPane.setViewportView(panel);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setHorizontalScrollBar(new PScrollBar() {{
-            this.setOrientation(HORIZONTAL);
-        }});
+        PScrollBar scrollBar = new PScrollBar();
+        scrollBar.setOrientation(JScrollBar.HORIZONTAL);
+        scrollPane.setHorizontalScrollBar(scrollBar);
 
         this.setMinimumSize(new Dimension(500, 50));
         this.setLayout(new BorderLayout());
@@ -73,30 +73,30 @@ public class DownloadsPanel extends JPanel {
     }
 
     public void addFile(File f) {
-        this.borderPanel.addComponent(new PSimpleButton(f.getName()) {{
-            this.setIcon(SwingUtils.getFileIcon(f));
-            this.setRoundCorners(true);
-            this.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    if(!Desktop.isDesktopSupported()) {
-                        return;
-                    }
-
-                    Desktop desktop = Desktop.getDesktop();
-                    int button = e.getButton();
-
-                    try {
-                        if (button == MouseEvent.BUTTON1) {
-                            desktop.open(f);
-                        } else if (button == MouseEvent.BUTTON3) {
-                            desktop.open(f.getParentFile());
-                        }
-                    } catch (IOException ex) {
-                        LOG.error(ex);
-                    }
+        PSimpleButton fileButton = new PSimpleButton(f.getName());
+        fileButton.setIcon(SwingUtils.getFileIcon(f));
+        fileButton.setRoundCorners(true);
+        fileButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (!Desktop.isDesktopSupported()) {
+                    return;
                 }
-            });
-        }});
+
+                Desktop desktop = Desktop.getDesktop();
+                int button = e.getButton();
+
+                try {
+                    if (button == MouseEvent.BUTTON1) {
+                        desktop.open(f);
+                    } else if (button == MouseEvent.BUTTON3) {
+                        desktop.open(f.getParentFile());
+                    }
+                } catch (IOException ex) {
+                    LOG.error(ex);
+                }
+            }
+        });
+        this.borderPanel.addComponent(fileButton);
     }
 }

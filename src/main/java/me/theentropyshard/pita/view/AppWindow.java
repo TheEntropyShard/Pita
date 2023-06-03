@@ -34,6 +34,8 @@ public class AppWindow extends JFrame {
     private final JPanel root;
 
     private final LoginController loginController;
+
+    private final StudentView studentView;
     private final StudentController studentController;
 
     private String lastView;
@@ -49,11 +51,11 @@ public class AppWindow extends JFrame {
         LoginView loginView = new LoginView();
         this.loginController = new LoginController(new LoginService(), loginView);
 
-        StudentView studentView = new StudentView();
-        this.studentController = new StudentController(studentView);
+        this.studentView = new StudentView();
+        this.studentController = new StudentController(this.studentView);
 
         this.root.add(loginView, LoginView.class.getName());
-        this.root.add(studentView, StudentView.class.getName());
+        this.root.add(this.studentView, StudentView.class.getName());
 
         this.setIconImages(
                 Arrays.asList(
@@ -113,6 +115,10 @@ public class AppWindow extends JFrame {
 
     public LoginController getLoginController() {
         return this.loginController;
+    }
+
+    public StudentView getStudentView() {
+        return this.studentView;
     }
 
     public StudentController getStudentController() {

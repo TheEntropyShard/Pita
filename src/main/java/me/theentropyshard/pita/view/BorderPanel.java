@@ -21,6 +21,8 @@ import me.theentropyshard.pita.Pita;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -37,7 +39,9 @@ public class BorderPanel extends JPanel {
                 revalidate();
             }
         });
-        this.setBorder(BorderFactory.createCompoundBorder(this.getBorder(), BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+        Border emptyBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
+        CompoundBorder compoundBorder = BorderFactory.createCompoundBorder(this.getBorder(), emptyBorder);
+        this.setBorder(compoundBorder);
 
         this.internalPanel = new JPanel(new MigLayout("fillx, flowy", "[fill]")) {
             {

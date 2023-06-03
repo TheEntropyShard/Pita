@@ -69,29 +69,28 @@ public class StudentController {
     public void switchView(String name) {
         this.loadHeader();
 
+        if (name.equals(this.lastView)) {
+            return;
+        }
+
         CardLayout layout = this.studentView.getContentLayout();
         JPanel panel = this.studentView.getContentPanel();
         switch (name) {
             case "diary":
-                if (!name.equals(this.lastView)) {
-                    layout.show(this.studentView.getContentPanel(), DiaryView.class.getName());
-                }
+                layout.show(this.studentView.getContentPanel(), DiaryView.class.getName());
+                this.diaryController.loadData();
                 break;
             case "reports":
-                if (!name.equals(this.lastView)) {
-                    layout.show(panel, ReportsView.class.getName());
-                }
+                layout.show(panel, ReportsView.class.getName());
+                this.reportsController.loadData();
                 break;
             case "mail":
-                if (!name.equals(this.lastView)) {
-                    layout.show(panel, MailView.class.getName());
-                }
+                layout.show(panel, MailView.class.getName());
+                this.mailController.loadData();
                 break;
             case "announcements":
-                if (!name.equals(this.lastView)) {
-                    layout.show(panel, AnnouncementsView.class.getName());
-                    this.annsController.loadAnnouncements();
-                }
+                layout.show(panel, AnnouncementsView.class.getName());
+                this.annsController.loadAnnouncements();
                 break;
             default:
                 LOG.warn("Unknown view: '{}'", name);

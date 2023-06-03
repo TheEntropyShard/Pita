@@ -52,8 +52,6 @@ public class MailView extends JPanel {
         headerPanel.addComponent(this.header);
 
         this.mailListPanel = new MailListPanel();
-        this.mailListPanel.addNewRecord("№", "Автор", "Тема", "Отправлено", false, true);
-        this.mailListPanel.addNewRecord(" ", " ", " ", " ", false, true);
 
         BorderPanel mainContent = new BorderPanel();
 

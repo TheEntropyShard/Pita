@@ -18,9 +18,6 @@
 package me.theentropyshard.pita.view.mail;
 
 import me.theentropyshard.pita.netschoolapi.NetSchoolAPI_old;
-import me.theentropyshard.pita.netschoolapi.mail.MailBox;
-import me.theentropyshard.pita.netschoolapi.mail.MailField;
-import me.theentropyshard.pita.netschoolapi.mail.models.MailRecord;
 import me.theentropyshard.pita.view.*;
 import me.theentropyshard.pita.view.component.PGradientLabel;
 import me.theentropyshard.pita.view.component.PComboBox;
@@ -41,7 +38,7 @@ public class MailPanelHeader extends JPanel {
     private final PComboBox mailBoxComboBox;
     private final PComboBox searchComboBox;
     private final PTextField searchField;
-    private final PTextField numberField;
+    private final PTextField pageSizeField;
     private final PSimpleButton loadButton;
     private final PSimpleButton writeButton;
     private final PSimpleButton deleteButton;
@@ -133,12 +130,12 @@ public class MailPanelHeader extends JPanel {
 
         this.add(numberLabel, "cell 3 0");
 
-        this.numberField = new PTextField();
-        this.numberField.setPreferredSize(new Dimension(250, this.searchField.getPreferredSize().height));
-        this.numberField.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
-        this.numberField.setText("20");
+        this.pageSizeField = new PTextField();
+        this.pageSizeField.setPreferredSize(new Dimension(250, this.searchField.getPreferredSize().height));
+        this.pageSizeField.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
+        this.pageSizeField.setText("20");
 
-        this.add(this.numberField, "cell 3 1");
+        this.add(this.pageSizeField, "cell 3 1");
 
         this.pageLabel = new PGradientLabel("");
         this.pageLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
@@ -157,23 +154,7 @@ public class MailPanelHeader extends JPanel {
 
         this.loadButton = new PSimpleButton("Загрузить");
         this.loadButton.addActionListener(e -> {
-            int pageSize = 20;
-            try {
-                pageSize = Integer.parseInt(this.numberField.getText());
-            } catch (NumberFormatException ignored) {
 
-            }
-
-           // mailView.setPageSize(pageSize);
-           // mailView.setSearchText(this.searchField.getText());
-            int page = 1;
-            try {
-                page = Integer.parseInt(this.pageField.getText());
-            } catch (NumberFormatException ignored) {
-
-            }
-           // mailView.setPage(page);
-            lbc.actionPerformed(e);
         });
         this.loadButton.setRoundCorners(true);
 
@@ -242,12 +223,10 @@ public class MailPanelHeader extends JPanel {
     }
 
     public void loadData() {
-        /*int totalMessages = mailView.getTotalMessages();
-        int pageSize = mailView.getPageSize();
+    }
 
-        int totalPages = (totalMessages / pageSize) + (totalMessages % pageSize == 0 ? 0 : 1);
-
-        this.pageLabel.setText("Всего страниц: " + totalPages + ", текущая: " + this.pageField.getText());*/
+    public PGradientLabel getPageLabel() {
+        return this.pageLabel;
     }
 
     public PTextField getPageField() {
@@ -266,8 +245,8 @@ public class MailPanelHeader extends JPanel {
         return this.searchField;
     }
 
-    public PTextField getNumberField() {
-        return this.numberField;
+    public PTextField getPageSizeField() {
+        return this.pageSizeField;
     }
 
     public PSimpleButton getLoadButton() {

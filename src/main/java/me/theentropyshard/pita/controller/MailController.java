@@ -25,10 +25,12 @@ import me.theentropyshard.pita.netschoolapi.mail.models.MailRecord;
 import me.theentropyshard.pita.netschoolapi.mail.models.MailRequestEntity;
 import me.theentropyshard.pita.netschoolapi.mail.models.MailResponseEntity;
 import me.theentropyshard.pita.utils.AbstractCallback;
+import me.theentropyshard.pita.view.component.PComboBox;
 import me.theentropyshard.pita.view.mail.MailPanelHeader;
 import me.theentropyshard.pita.view.mail.MailView;
 import retrofit2.Call;
 
+import javax.swing.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Set;
@@ -37,6 +39,7 @@ public class MailController {
     private static final DateTimeFormatter SENT_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
 
     private final MailView mailView;
+    private final MailPanelHeader mph;
 
     private int totalMessages;
     private int page = 1;
@@ -50,68 +53,152 @@ public class MailController {
     public MailController(MailView mailView) {
         this.mailView = mailView;
 
-        MailPanelHeader mph = mailView.getMailPanelHeader();
-        mph.getLoadButton().addActionListener(e -> {
+        this.restoreMailList();
+
+        this.mph = mailView.getMailPanelHeader();
+        this.mph.getLoadButton().addActionListener(e -> {
+            this.restoreMailList();
+            this.updateFields();
             this.loadData();
         });
 
-        mph.getWriteButton().addActionListener(e -> {
+        this.mph.getWriteButton().addActionListener(e -> {
 
         });
 
-        mph.getDeleteButton().addActionListener(e -> {
+        this.mph.getDeleteButton().addActionListener(e -> {
 
         });
     }
 
+    public void restoreMailList() {
+        this.mailView.getMailListPanel().removeAll();
+        this.mailView.getMailListPanel().addNewRecord(
+                "№",
+                "Автор",
+                "Тема",
+                "Отправлено",
+                false,
+                true
+        );
+        this.mailView.getMailListPanel().addNewRecord(
+                " ",
+                " ",
+                " ",
+                " ",
+                false,
+                true
+        );
+        this.mailView.revalidate();
+    }
+
+    public void updateFields() {
+        PComboBox mailBoxComboBox = this.mph.getMailBoxComboBox();
+        String strMailBox = String.valueOf(mailBoxComboBox.getSelectedItem());
+        switch (strMailBox) {
+            case "Входящие":
+                this.mailBox = MailBox.BOX_INCOMING;
+                break;
+            case "Отправленные":
+                this.mailBox = MailBox.BOX_SENT;
+                break;
+            case "Удаленные":
+                this.mailBox = MailBox.BOX_DELETED;
+                break;
+            case "Черновики":
+                this.mailBox = MailBox.BOX_DRAFTS;
+                break;
+            default:
+                throw new RuntimeException("Unreachable: " + strMailBox);
+        }
+
+        PComboBox searchComboBox = this.mph.getSearchComboBox();
+        String strSearchField = String.valueOf(searchComboBox.getSelectedItem());
+        switch (strSearchField) {
+            case "От кого":
+                this.searchField = MailField.AUTHOR;
+                break;
+            case "Кому":
+                this.searchField = MailField.TO_NAMES;
+                break;
+            case "Тема":
+                this.searchField = MailField.SUBJECT;
+                break;
+            default:
+                throw new RuntimeException("Unreachable: " + strSearchField);
+        }
+
+        this.searchText = this.mph.getSearchField().getText();
+
+        this.pageSize = 20;
+        try {
+            this.pageSize = Integer.parseInt(this.mph.getPageSizeField().getText());
+        } catch (NumberFormatException ignored) {
+
+        }
+
+        this.page = 1;
+        try {
+            this.page = Integer.parseInt(this.mph.getPageField().getText());
+        } catch (NumberFormatException ignored) {
+
+        }
+    }
+
     public void loadData() {
-        this.mailView.getMailPanelHeader().removeAll();
-        this.mailView.getMailListPanel()
-                .addNewRecord("№", "От кого", "Тема", "Отправлено", false, true);
-        this.mailView.getMailListPanel()
-                .addNewRecord(" ", " ", " ", " ", false, true);
-
-        //MailBox mailBox = this.mailView.getMailBox();
-
         MailRequestEntity.FilterContext.Filter[] selectedData = {
                 new MailRequestEntity.FilterContext.Filter(
-                        "MailBox", mailBox.getFilterValue(), mailBox.getFilterText()
+                        "MailBox", this.mailBox.getFilterValue(), this.mailBox.getFilterText()
                 )
         };
         MailRequestEntity.FilterContext filterContext = new MailRequestEntity.FilterContext(selectedData);
+
+        MailRequestEntity.Search search = new MailRequestEntity.Search(
+                this.searchField.getFieldId(),
+                this.searchText
+        );
+
         MailRequestEntity mre = new MailRequestEntity(
-                /*filterContext,
+                filterContext,
                 MailHelper.getDefaultFields(),
-                this.mailView.getPage(),
-                this.mailView.getPageSize(),
-                new MailRequestEntity.Search(
-                        this.mailView.getSearchField().getFieldId(),
-                        this.mailView.getSearchText()
-                ),
+                this.page,
+                this.pageSize,
+                search,
                 new MailRequestEntity.Order(
                         "sent", false
-                )*/
+                )
         );
         Call<MailResponseEntity> mailCall = NetSchoolAPI.mailAPI.getMail(mre);
         mailCall.enqueue(new AbstractCallback<MailResponseEntity>("Mail") {
             @Override
             public void handleResponse(MailResponseEntity mresp) {
+                SwingUtilities.invokeLater(() -> {
+                    int totalMessages = mresp.totalItems;
+                    int totalPages = (totalMessages / pageSize) + (totalMessages % pageSize == 0 ? 0 : 1);
+
+                    mph.getPageLabel().setText(
+                            "Всего страниц: " + totalPages + ", текущая: " + mph.getPageField().getText()
+                    );
+                });
+
                 Call<Set<Integer>> umiCall = NetSchoolAPI.mailAPI.getUnreadMessagesIds(NetSchoolAPI.userId);
                 umiCall.enqueue(new AbstractCallback<Set<Integer>>("UnreadMessagesIds") {
                     @Override
                     public void handleResponse(Set<Integer> unreadMessagesIds) {
                         MailRecord[] rows = mresp.rows;
-                        for(int i = 0; i < rows.length; i++) {
-                            MailRecord record = rows[i];
-                            mailView.getMailListPanel().addNewRecord(
-                                    String.valueOf(i + 1),
-                                    record.author,
-                                    record.subject,
-                                    LocalDateTime.parse(record.sent).format(MailController.SENT_TIME_FORMATTER),
-                                    !unreadMessagesIds.contains(record.id), false
-                            );
+                        SwingUtilities.invokeLater(() -> {
+                            for (int i = 0; i < rows.length; i++) {
+                                MailRecord record = rows[i];
+                                mailView.getMailListPanel().addNewRecord(
+                                        String.valueOf(i + 1),
+                                        record.author,
+                                        record.subject,
+                                        LocalDateTime.parse(record.sent).format(MailController.SENT_TIME_FORMATTER),
+                                        !unreadMessagesIds.contains(record.id), false
+                                );
+                            }
                             mailView.revalidate();
-                        }
+                        });
                     }
                 });
             }

@@ -86,6 +86,7 @@ public class StudentController {
                 break;
             case "mail":
                 layout.show(panel, MailView.class.getName());
+                this.mailController.restoreMailList();
                 this.mailController.loadData();
                 break;
             case "announcements":

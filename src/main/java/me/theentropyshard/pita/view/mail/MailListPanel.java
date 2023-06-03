@@ -143,6 +143,12 @@ public class MailListPanel extends JPanel {
         this.add(sentLabel, "wrap");
     }
 
+    @Override
+    public void removeAll() {
+        super.removeAll();
+        this.selectedRows.clear();
+    }
+
     public Set<String> getSelectedRows() {
         return this.selectedRows;
     }

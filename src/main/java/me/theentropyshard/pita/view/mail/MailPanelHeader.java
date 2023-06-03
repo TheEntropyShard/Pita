@@ -39,7 +39,7 @@ public class MailPanelHeader extends JPanel {
     private final PGradientLabel pageLabel;
     private final PTextField pageField;
 
-    public MailPanelHeader(ActionListener lbc, MailPanel mailPanel) {
+    public MailPanelHeader(ActionListener lbc, MailView mailView) {
         this.setLayout(new MigLayout("flowy", "[left]15[left]5[left]15[left]15[left]push", "[center][center][center]"));
         this.setBackground(Color.WHITE);
 
@@ -59,21 +59,21 @@ public class MailPanelHeader extends JPanel {
             String item = (String) comboBox.getSelectedItem();
             switch(Objects.requireNonNull(item)) {
                 case "Входящие":
-                    mailPanel.setMailBox(MailBox.BOX_INCOMING);
+                    mailView.setMailBox(MailBox.BOX_INCOMING);
                     break;
                 case "Отправленные":
-                    mailPanel.setMailBox(MailBox.BOX_SENT);
+                    mailView.setMailBox(MailBox.BOX_SENT);
                     break;
                 case "Удаленные":
-                    mailPanel.setMailBox(MailBox.BOX_DELETED);
+                    mailView.setMailBox(MailBox.BOX_DELETED);
                     break;
                 case "Черновики":
-                    mailPanel.setMailBox(MailBox.BOX_DRAFTS);
+                    mailView.setMailBox(MailBox.BOX_DRAFTS);
                     break;
                 default:
                     throw new RuntimeException("Unreachable: " + item);
             }
-            mailPanel.loadData();
+            mailView.loadData();
         });
 
         this.add(comboBox, "cell 0 1");
@@ -93,13 +93,13 @@ public class MailPanelHeader extends JPanel {
             String item = (String) searchCB.getSelectedItem();
             switch(Objects.requireNonNull(item)) {
                 case "От кого":
-                    mailPanel.setSearchField(MailField.AUTHOR);
+                    mailView.setSearchField(MailField.AUTHOR);
                     break;
                 case "Кому":
-                    mailPanel.setSearchField(MailField.TO_NAMES);
+                    mailView.setSearchField(MailField.TO_NAMES);
                     break;
                 case "Тема":
-                    mailPanel.setSearchField(MailField.SUBJECT);
+                    mailView.setSearchField(MailField.SUBJECT);
                     break;
                 default:
                     throw new RuntimeException("Unreachable: " + item);
@@ -157,15 +157,15 @@ public class MailPanelHeader extends JPanel {
 
             }
 
-            mailPanel.setPageSize(pageSize);
-            mailPanel.setSearchText(searchField.getText());
+            mailView.setPageSize(pageSize);
+            mailView.setSearchText(searchField.getText());
             int page = 1;
             try {
                 page = Integer.parseInt(this.pageField.getText());
             } catch (NumberFormatException ignored) {
 
             }
-            mailPanel.setPage(page);
+            mailView.setPage(page);
             lbc.actionPerformed(e);
         });
         loadButton.setRoundCorners(true);
@@ -185,8 +185,8 @@ public class MailPanelHeader extends JPanel {
         PSimpleButton deleteButton = new PSimpleButton("Удалить");
         deleteButton.setRoundCorners(true);
         deleteButton.addActionListener(e -> {
-            Set<String> selectedRows = mailPanel.getMailListPanel().getSelectedRows();
-            MailRecord[] rows = mailPanel.getRows();
+            Set<String> selectedRows = mailView.getMailListPanel().getSelectedRows();
+            MailRecord[] rows = mailView.getRows();
 
             int[] messageIds = new int[selectedRows.size()];
 
@@ -219,7 +219,7 @@ public class MailPanelHeader extends JPanel {
                         new MessageDialog("Внимание", "Ваши письма помещены в папку \"Удаленные\"", true);
                         StudentView studentView = View.getView().getMainPanel();
                         studentView.getMailPanel().loadData();
-                        studentView.getContentLayout().show(studentView.getContentPanel(), MailPanel.class.getSimpleName());
+                        studentView.getContentLayout().show(studentView.getContentPanel(), MailView.class.getSimpleName());
                     } else {
                         new MessageDialog("Ошибка", "Не удалось поместить письма в папку \"Удаленные\"", true);
                     }
@@ -235,10 +235,10 @@ public class MailPanelHeader extends JPanel {
     }
 
     public void loadData() {
-        MailPanel mailPanel = View.getView().getMainPanel().getMailPanel();
+        MailView mailView = View.getView().getMainPanel().getMailPanel();
 
-        int totalMessages = mailPanel.getTotalMessages();
-        int pageSize = mailPanel.getPageSize();
+        int totalMessages = mailView.getTotalMessages();
+        int pageSize = mailView.getPageSize();
 
         int totalPages = (totalMessages / pageSize) + (totalMessages % pageSize == 0 ? 0 : 1);
 

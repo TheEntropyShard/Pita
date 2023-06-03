@@ -37,7 +37,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Set;
 
-public class MailPanel extends JPanel {
+public class MailView extends JPanel {
     private static final DateTimeFormatter SENT_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
 
     private final MailListPanel mailListPanel;
@@ -53,7 +53,7 @@ public class MailPanel extends JPanel {
 
     private MailRecord[] rows;
 
-    public MailPanel() {
+    public MailView() {
         super(new BorderLayout());
 
         JPanel panel = new JPanel();
@@ -123,7 +123,7 @@ public class MailPanel extends JPanel {
                         String.valueOf(i + 1),
                         record.author,
                         record.subject,
-                        LocalDateTime.parse(record.sent).format(MailPanel.SENT_TIME_FORMATTER),
+                        LocalDateTime.parse(record.sent).format(MailView.SENT_TIME_FORMATTER),
                         !unreadMessagesIds.contains(record.id), false
                 );
             }

@@ -28,6 +28,19 @@ public class MailRequestEntity {
     public Search search;
     public Order order;
 
+    public MailRequestEntity() {
+
+    }
+
+    public MailRequestEntity(FilterContext filterContext, List<String> fields, int page, int pageSize, Search search, Order order) {
+        this.filterContext = filterContext;
+        this.fields = fields;
+        this.page = page;
+        this.pageSize = pageSize;
+        this.search = search;
+        this.order = order;
+    }
+
     public static class Order {
         public String fieldId;
         public boolean order;
@@ -75,6 +88,16 @@ public class MailRequestEntity {
             public String filterId;
             public String filterValue;
             public String filterText;
+
+            public Filter() {
+
+            }
+
+            public Filter(String filterId, String filterValue, String filterText) {
+                this.filterId = filterId;
+                this.filterValue = filterValue;
+                this.filterText = filterText;
+            }
 
             @Override
             public String toString() {

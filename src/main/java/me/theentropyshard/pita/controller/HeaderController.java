@@ -100,6 +100,26 @@ public class HeaderController {
                 AppWindow.window.switchView(LoginView.class.getName());
             }
         });
+
+        header.getDiaryButton().addActionListener(e -> {
+            StudentController studentController = AppWindow.window.getStudentController();
+            studentController.switchView("diary");
+        });
+
+        header.getReportsButton().addActionListener(e -> {
+            StudentController studentController = AppWindow.window.getStudentController();
+            studentController.switchView("reports");
+        });
+
+        header.getMailButton().addActionListener(e -> {
+            StudentController studentController = AppWindow.window.getStudentController();
+            studentController.switchView("mail");
+        });
+
+        header.getAnnouncementsButton().addActionListener(e -> {
+            StudentController studentController = AppWindow.window.getStudentController();
+            studentController.switchView("announcements");
+        });
     }
 
     public void loadData() {

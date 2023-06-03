@@ -28,11 +28,14 @@ import java.awt.*;
 public class Header extends JPanel {
     private final PGradientLabel infoLabel;
     private final PGradientLabel schoolNameLabel;
-
     private final PGradientLabel currentYearLabel;
     private final PGradientLabel usernameLabel;
-    private final PSimpleButton mailButton;
     private final PGradientLabel exitLabel;
+
+    private final PSimpleButton diaryButton;
+    private final PSimpleButton reportsButton;
+    private final PSimpleButton mailButton;
+    private final PSimpleButton announcementsButton;
 
     public Header() {
         ThemeManager tm = Pita.getPita().getThemeManager();
@@ -59,6 +62,11 @@ public class Header extends JPanel {
         this.exitLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         this.exitLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
 
+        this.diaryButton = new PSimpleButton("Дневник");
+        this.reportsButton = new PSimpleButton("Отчеты");
+        this.mailButton = new PSimpleButton("Почта");
+        this.announcementsButton = new PSimpleButton("Объявления");
+
         JPanel panel = new JPanel();
         panel.setBackground(tm.getColor("mainColor"));
         panel.add(this.currentYearLabel);
@@ -73,9 +81,9 @@ public class Header extends JPanel {
 
         JPanel topPanel = new JPanel(new MigLayout("nogrid, fillx", "[]", ""));
         topPanel.setBackground(tm.getColor("mainColor"));
-        topPanel.add(new PGradientLabel("Сетевой город. Образование") {{
-            this.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
-        }}, "grow");
+        PGradientLabel sgoLabel = new PGradientLabel("Сетевой город. Образование");
+        sgoLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
+        topPanel.add(sgoLabel, "grow");
         topPanel.add(this.infoLabel, "wrap");
         topPanel.add(this.schoolNameLabel, "grow");
         topPanel.add(panel);
@@ -83,64 +91,11 @@ public class Header extends JPanel {
 
         JPanel bottomPanel = new JPanel(new GridLayout(1, 4));
         bottomPanel.setBackground(tm.getColor("mainColor"));
-        bottomPanel.add(new PSimpleButton("Дневник") {{
-            /*this.addActionListener(e -> {
-                StudentView mp = View.getView().getMainPanel();
-                DiaryView diaryView = mp.getDiaryPanel();
-                if (!diaryView.isVisible()) {
-                    diaryView.loadData();
-                    mp.getContentLayout().show(
-                            mp.getContentPanel(),
-                            DiaryView.class.getSimpleName()
-                    );
-                }
-            });*/
-        }});
-        bottomPanel.add(new PSimpleButton("Отчеты") {{
-            /*this.addActionListener(e -> {
-                StudentView mp = View.getView().getMainPanel();
-                ReportsPanel reportsPanel = mp.getReportsPanel();
-                if (!reportsPanel.isVisible()) {
-                    reportsPanel.loadData();
-                    mp.getContentLayout().show(
-                            mp.getContentPanel(),
-                            ReportsPanel.class.getSimpleName()
-                    );
-                }
-            });*/
-        }});
-        this.mailButton = new PSimpleButton("Почта") {{
-            /*this.addActionListener(e -> {
-                StudentView mp = View.getView().getMainPanel();
-                MailPanel mailPanel = mp.getMailPanel();
-                if (!mailPanel.isVisible()) {
-                    mailPanel.loadData();
-                    mp.getContentLayout().show(
-                            mp.getContentPanel(),
-                            MailPanel.class.getSimpleName()
-                    );
-                }
-            });*/
-        }};
+        bottomPanel.add(this.diaryButton);
+        bottomPanel.add(this.reportsButton);
         bottomPanel.add(this.mailButton);
-        bottomPanel.add(new PSimpleButton("Объявления") {{
-            /*this.addActionListener(e -> {
-                StudentView mp = View.getView().getMainPanel();
-                AnnouncementsView annPanel = mp.getAnnouncementsView();
-                if (!annPanel.isVisible()) {
-                    annPanel.loadData();
-                    mp.getContentLayout().show(
-                            mp.getContentPanel(),
-                            AnnouncementsView.class.getSimpleName()
-                    );
-                }
-            });*/
-        }});
+        bottomPanel.add(this.announcementsButton);
         this.add(bottomPanel, BorderLayout.SOUTH);
-    }
-
-    public PSimpleButton getMailButton() {
-        return this.mailButton;
     }
 
     public PGradientLabel getSchoolNameLabel() {
@@ -161,5 +116,21 @@ public class Header extends JPanel {
 
     public PGradientLabel getExitLabel() {
         return this.exitLabel;
+    }
+
+    public PSimpleButton getDiaryButton() {
+        return this.diaryButton;
+    }
+
+    public PSimpleButton getReportsButton() {
+        return this.reportsButton;
+    }
+
+    public PSimpleButton getMailButton() {
+        return this.mailButton;
+    }
+
+    public PSimpleButton getAnnouncementsButton() {
+        return this.announcementsButton;
     }
 }

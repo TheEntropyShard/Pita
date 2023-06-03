@@ -48,7 +48,7 @@ import java.util.StringJoiner;
 public class MailReadPanel extends JPanel {
     private static final DateTimeFormatter SENT_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
 
-    private final MailPanel mailPanel;
+    private final MailView mailView;
 
     private final DataElementPanel from;
     private final DataElementPanel to;
@@ -61,10 +61,10 @@ public class MailReadPanel extends JPanel {
 
     private int messageId;
 
-    public MailReadPanel(MailPanel mailPanel) {
+    public MailReadPanel(MailView mailView) {
         super(new BorderLayout());
 
-        this.mailPanel = mailPanel;
+        this.mailView = mailView;
         this.toNames = new ArrayList<>();
 
         this.from = new DataElementPanel();
@@ -186,7 +186,7 @@ public class MailReadPanel extends JPanel {
                                 new MessageDialog("Внимание", "Ваше письмо помещено в папку \"Удаленные\"", true);
                                 StudentView studentView = View.getView().getMainPanel();
                                 studentView.getMailPanel().loadData();
-                                studentView.getContentLayout().show(studentView.getContentPanel(), MailPanel.class.getSimpleName());
+                                studentView.getContentLayout().show(studentView.getContentPanel(), MailView.class.getSimpleName());
                             } else {
                                 new MessageDialog("Ошибка", "Не удалось поместить письмо в папку \"Удаленные\"", true);
                             }
@@ -214,7 +214,7 @@ public class MailReadPanel extends JPanel {
     }
 
     public void loadData(int index) {
-        MailRecord mailRecord = this.mailPanel.getRows()[index];
+        MailRecord mailRecord = this.mailView.getRows()[index];
         try {
             Message message = NetSchoolAPI_old.I.readMessage(mailRecord.id);
             this.messageId = message.id;

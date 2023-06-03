@@ -20,7 +20,7 @@ package me.theentropyshard.pita.view;
 import me.theentropyshard.pita.view.announcements.AnnouncementsView;
 import me.theentropyshard.pita.view.diary.DiaryView;
 import me.theentropyshard.pita.view.downloads.DownloadsPanel;
-import me.theentropyshard.pita.view.mail.MailPanel;
+import me.theentropyshard.pita.view.mail.MailView;
 import me.theentropyshard.pita.view.mail.MailReadPanel;
 import me.theentropyshard.pita.view.mail.MailWritePanel;
 
@@ -35,9 +35,9 @@ public class StudentView extends JPanel {
     private final JPanel contentPanel;
 
     private final DiaryView diaryView;
-    private final ReportsPanel reportsPanel;
+    private final ReportsView reportsView;
 
-    private final MailPanel mailPanel;
+    private final MailView mailView;
     private final MailReadPanel mailReadPanel;
     private final MailWritePanel mailWritePanel;
 
@@ -60,13 +60,13 @@ public class StudentView extends JPanel {
         this.diaryView = new DiaryView();
         this.contentPanel.add(this.diaryView, DiaryView.class.getName());
 
-        this.reportsPanel = new ReportsPanel();
-        this.contentPanel.add(this.reportsPanel, ReportsPanel.class.getName());
+        this.reportsView = new ReportsView();
+        this.contentPanel.add(this.reportsView, ReportsView.class.getName());
 
-        this.mailPanel = new MailPanel();
-        this.contentPanel.add(this.mailPanel, MailPanel.class.getName());
+        this.mailView = new MailView();
+        this.contentPanel.add(this.mailView, MailView.class.getName());
 
-        this.mailReadPanel = new MailReadPanel(this.mailPanel);
+        this.mailReadPanel = new MailReadPanel(this.mailView);
         this.contentPanel.add(this.mailReadPanel, MailReadPanel.class.getName());
 
         this.mailWritePanel = new MailWritePanel();
@@ -96,12 +96,12 @@ public class StudentView extends JPanel {
         return this.diaryView;
     }
 
-    public ReportsPanel getReportsPanel() {
-        return this.reportsPanel;
+    public ReportsView getReportsPanel() {
+        return this.reportsView;
     }
 
-    public MailPanel getMailPanel() {
-        return this.mailPanel;
+    public MailView getMailPanel() {
+        return this.mailView;
     }
 
     public MailReadPanel getMailReadPanel() {

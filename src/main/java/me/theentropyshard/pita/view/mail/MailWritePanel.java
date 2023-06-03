@@ -234,7 +234,7 @@ public class MailWritePanel extends JPanel {
 
             StudentView studentView = View.getView().getMainPanel();
             studentView.getMailPanel().loadData();
-            studentView.getContentLayout().show(studentView.getContentPanel(), MailPanel.class.getSimpleName());
+            studentView.getContentLayout().show(studentView.getContentPanel(), MailView.class.getSimpleName());
 
             View.getView().getFrame().getGlassPane().setVisible(true);
 

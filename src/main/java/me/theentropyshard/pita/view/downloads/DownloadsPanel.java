@@ -20,6 +20,8 @@ package me.theentropyshard.pita.view.downloads;
 import me.theentropyshard.pita.utils.SwingUtils;
 import me.theentropyshard.pita.utils.Utils;
 import me.theentropyshard.pita.view.BorderPanel;
+import me.theentropyshard.pita.view.LongMessageDialog;
+import me.theentropyshard.pita.view.ShortMessagePanel;
 import me.theentropyshard.pita.view.component.PScrollBar;
 import me.theentropyshard.pita.view.component.PSimpleButton;
 import net.miginfocom.swing.MigLayout;
@@ -46,24 +48,27 @@ public class DownloadsPanel extends JPanel {
         panel.setBackground(Color.WHITE);
         panel.add(this.borderPanel, "grow");
 
-        BorderPanel borderPanel2 = new BorderPanel();
-        borderPanel2.getInternalPanel().setLayout(new FlowLayout(FlowLayout.CENTER));
-        JPanel buttonPanel = new JPanel(new MigLayout("fillx", "", ""));
-        buttonPanel.add(borderPanel2);
-        buttonPanel.setBackground(Color.WHITE);
         PSimpleButton closeButton = new PSimpleButton("X");
         closeButton.setFont(new Font("JetBrains Mono", Font.PLAIN, 14));
         closeButton.setRoundCorners(true);
-        closeButton.addActionListener(e -> DownloadsPanel.this.setVisible(false));
+        closeButton.addActionListener(e -> this.setVisible(false));
+
+        BorderPanel borderPanel2 = new BorderPanel();
+        borderPanel2.getInternalPanel().setLayout(new FlowLayout(FlowLayout.CENTER));
         borderPanel2.addComponent(closeButton);
+
+        JPanel buttonPanel = new JPanel(new MigLayout("fillx", "", ""));
+        buttonPanel.add(borderPanel2);
+        buttonPanel.setBackground(Color.WHITE);
+
+        PScrollBar scrollBar = new PScrollBar();
+        scrollBar.setOrientation(JScrollBar.HORIZONTAL);
 
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBorder(null);
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
         scrollPane.setViewportView(panel);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        PScrollBar scrollBar = new PScrollBar();
-        scrollBar.setOrientation(JScrollBar.HORIZONTAL);
         scrollPane.setHorizontalScrollBar(scrollBar);
 
         this.setMinimumSize(new Dimension(500, 50));
@@ -75,6 +80,7 @@ public class DownloadsPanel extends JPanel {
 
     public void addFile(File f) {
         String name = Utils.ellipsize(f.getName(), 28);
+
         PSimpleButton fileButton = new PSimpleButton(name);
         fileButton.setIcon(SwingUtils.getFileIcon(f));
         fileButton.setRoundCorners(true);
@@ -82,6 +88,8 @@ public class DownloadsPanel extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (!Desktop.isDesktopSupported()) {
+                    // TODO: warn user if java.awt.Desktop is not supported
+                    // and show the place where the file was saved instead
                     return;
                 }
 
@@ -89,16 +97,20 @@ public class DownloadsPanel extends JPanel {
                 int button = e.getButton();
 
                 try {
-                    if (button == MouseEvent.BUTTON1) {
-                        desktop.open(f);
-                    } else if (button == MouseEvent.BUTTON3) {
-                        desktop.open(f.getParentFile());
+                    switch (button) {
+                        case MouseEvent.BUTTON1:
+                            desktop.open(f);
+                            break;
+                        case MouseEvent.BUTTON3:
+                            desktop.open(f.getParentFile());
+                            break;
                     }
                 } catch (IOException ex) {
                     LOG.error(ex);
                 }
             }
         });
+
         this.borderPanel.addComponent(fileButton);
     }
 }

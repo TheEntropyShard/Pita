@@ -86,7 +86,7 @@ public enum Urls {
     public static final String MAIL_MESSAGES        = "webapi/mail/messages";
     public static final String MAIL_REGISTRY        = "webapi/mail/registry";
     public static final String MAIL_RECIPIENTS      = "webapi/mail/recipients";
-    public static final String MAIL_READ            = "webapi/mail/messages/%d/read";
+    public static final String MAIL_READ            = "webapi/mail/messages/{id}/read";
     public static final String MAIL_EDIT            = "webapi/mail/messages/%d/edit";
     public static final String MAIL_RESTORE         = "webapi/mail/messages/restore";
     public static final String MAIL_UNREAD          = "webapi/mail/messages/unread";

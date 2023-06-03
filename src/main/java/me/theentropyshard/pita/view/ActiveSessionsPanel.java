@@ -73,16 +73,16 @@ public class ActiveSessionsPanel extends JPanel {
                 return;
             }
 
-            activeSessions = userSessions.length;
+            this.activeSessions = userSessions.length;
             for (int i = 0; i < userSessions.length; i++) {
                 UserSession session = userSessions[i];
                 UserInfoElement element = new UserInfoElement();
                 element.setNumber(String.valueOf(i + 1));
                 element.setDisplayName(session.nickName);
                 element.setRoles(session.roles);
-                sessionsPanel.addComponent(element);
+                this.sessionsPanel.addComponent(element);
             }
-            sessionsPanel.revalidate();
+            this.sessionsPanel.revalidate();
         } catch (IOException e) {
             e.printStackTrace();
         }

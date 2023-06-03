@@ -22,7 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import me.theentropyshard.pita.netschoolapi.NetSchoolAPI_old;
 import me.theentropyshard.pita.netschoolapi.Urls;
 import me.theentropyshard.pita.netschoolapi.http.ContentType;
-import me.theentropyshard.pita.netschoolapi.mail.models.Mail;
+import me.theentropyshard.pita.netschoolapi.mail.models.MailResponseEntity;
 import me.theentropyshard.pita.netschoolapi.mail.models.MailSend;
 import me.theentropyshard.pita.netschoolapi.mail.models.Message;
 import me.theentropyshard.pita.utils.Utils;
@@ -56,7 +56,7 @@ public class MailService {
         }
     }
 
-    public Mail getMail(MailBox mailBox, List<String> fields, MailOrder order, MailSearch search, int page, int pageSize) throws IOException {
+    public MailResponseEntity getMail(MailBox mailBox, List<String> fields, MailOrder order, MailSearch search, int page, int pageSize) throws IOException {
         String data = String.format("{\"filterContext\":{\"selectedData\":[{\"filterId\":\"MailBox\",\"filterValue\":\"%s\",\"filterText\":\"%s\"}]},\"fields\":%s,\"page\":%d,\"pageSize\":%d,\"search\":%s,\"order\":%s}",
                 mailBox.getFilterValue(),
                 mailBox.getFilterText(),
@@ -66,7 +66,7 @@ public class MailService {
                 search == null ? "null" : search.getJsonString(),
                 order == null ? "{\"fieldId\":\"sent\",\"ascending\":false}" : order.getJsonString());
         try(Response response = this.api.getClient().post(Urls.MAIL_REGISTRY, new Object[0], data, ContentType.JSON)) {
-            return this.mapper.readValue(Objects.requireNonNull(response.body()).charStream(), Mail.class);
+            return this.mapper.readValue(Objects.requireNonNull(response.body()).charStream(), MailResponseEntity.class);
         }
     }
 

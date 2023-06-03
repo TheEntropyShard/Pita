@@ -29,7 +29,7 @@ import me.theentropyshard.pita.netschoolapi.exceptions.AuthException;
 import me.theentropyshard.pita.netschoolapi.exceptions.SchoolNotFoundException;
 import me.theentropyshard.pita.netschoolapi.http.HttpClientWrapper;
 import me.theentropyshard.pita.netschoolapi.mail.*;
-import me.theentropyshard.pita.netschoolapi.mail.models.Mail;
+import me.theentropyshard.pita.netschoolapi.mail.models.MailResponseEntity;
 import me.theentropyshard.pita.netschoolapi.mail.models.MailEdit;
 import me.theentropyshard.pita.netschoolapi.mail.models.Message;
 import me.theentropyshard.pita.netschoolapi.models.*;
@@ -270,7 +270,7 @@ public enum NetSchoolAPI_old {
         return this.mailService.getUnreadMessagesIds();
     }
 
-    public Mail getMail(MailBox mailBox, List<String> fields, MailOrder order, MailSearch search, int page, int pageSize) throws IOException {
+    public MailResponseEntity getMail(MailBox mailBox, List<String> fields, MailOrder order, MailSearch search, int page, int pageSize) throws IOException {
         return this.mailService.getMail(mailBox, fields, order, search, page, pageSize);
     }
 

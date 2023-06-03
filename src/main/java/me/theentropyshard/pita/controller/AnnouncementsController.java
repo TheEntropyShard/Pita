@@ -90,7 +90,7 @@ public class AnnouncementsController {
             String filename = data.substring(0, index);
             int id = Integer.parseInt(data.substring(index + 1));
 
-            NetSchoolAPI.utilsAPI.downloadFile(String.format(Urls.ATTACHMENTS_DOWNLOAD, id))
+            NetSchoolAPI.utilsAPI.downloadAttachment(String.format(Urls.ATTACHMENTS_DOWNLOAD, id))
                     .enqueue(new AbstractCallback<ResponseBody>("FileDownload (" + filename + " " + id + ")") {
                         @Override
                         public void handleResponse(ResponseBody r) {
@@ -163,7 +163,7 @@ public class AnnouncementsController {
                 .replace("&amp;quot;", "\"")
                 .replace("&amp;#171;", "«")
                 .replace("&amp;#187;", "»")
-                .replace("&amp;#183;", "\u00b7")
+                .replace("&amp;#183;", "·")
                 .replace("&amp;", "&");
     }
 }

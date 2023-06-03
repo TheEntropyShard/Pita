@@ -1,4 +1,4 @@
-/*      NetSchoolAPI. A simple API client for NetSchool by irTech
+/*      Pita. A simple desktop client for NetSchool by irTech
  *      Copyright (C) 2022-2023 TheEntropyShard
  *
  *      This program is free software: you can redistribute it and/or modify
@@ -15,23 +15,19 @@
  *      along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.pita.netschoolapi.mail.models;
+package me.theentropyshard.pita.netschoolapi.utils.models;
 
-import java.util.Arrays;
+public class AttachmentInfo {
+    public String name;
+    public String description;
 
-public class Mail {
-    public MailRecord[] rows;
-    public Object[] messages;
-    public int page;
-    public int totalItems;
+    public AttachmentInfo(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
 
     @Override
     public String toString() {
-        return "Mail{" +
-                "rows=" + Arrays.toString(rows) +
-                ", messages=" + Arrays.toString(messages) +
-                ", page=" + page +
-                ", totalItems=" + totalItems +
-                '}';
+        return super.toString();
     }
 }

@@ -18,11 +18,28 @@
 package me.theentropyshard.pita.netschoolapi.mail;
 
 import me.theentropyshard.pita.netschoolapi.Urls;
+import me.theentropyshard.pita.netschoolapi.mail.models.MailRequestEntity;
+import me.theentropyshard.pita.netschoolapi.mail.models.MailResponseEntity;
+import me.theentropyshard.pita.netschoolapi.mail.models.Message;
+import me.theentropyshard.pita.netschoolapi.mail.models.MessageRequestEntity;
 import retrofit2.Call;
-import retrofit2.http.GET;
-import retrofit2.http.Query;
+import retrofit2.http.*;
+
+import java.util.Set;
 
 public interface MailAPI {
     @GET(Urls.MAIL_UNREAD_COUNT)
     Call<Integer> getUnreadMessagesCount(@Query("userId") int userId);
+
+    @GET(Urls.MAIL_UNREAD)
+    Call<Set<Integer>> getUnreadMessagesIds(@Query("userId") int userId);
+
+    @POST(Urls.MAIL_REGISTRY)
+    Call<MailResponseEntity> getMail(@Body MailRequestEntity entity);
+
+    @GET(Urls.MAIL_READ)
+    Call<Message> readMessage(@Query("userId") int userId, @Path("id") int id);
+
+    @POST(Urls.MAIL_MESSAGES)
+    Call<Void> sendMessage(@Body MessageRequestEntity entity);
 }

@@ -22,13 +22,13 @@ import me.theentropyshard.pita.netschoolapi.models.MySettings;
 import me.theentropyshard.pita.netschoolapi.models.SchoolCard;
 import me.theentropyshard.pita.netschoolapi.models.UploadLimits;
 import me.theentropyshard.pita.netschoolapi.models.UserSession;
+import me.theentropyshard.pita.netschoolapi.utils.models.AttachmentInfo;
 import me.theentropyshard.pita.netschoolapi.utils.models.IntIdName;
 import me.theentropyshard.pita.netschoolapi.utils.models.Term;
+import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.http.GET;
-import retrofit2.http.Streaming;
-import retrofit2.http.Url;
+import retrofit2.http.*;
 
 public interface UtilsAPI {
     @GET(Urls.ACTIVE_SESSIONS)
@@ -55,6 +55,14 @@ public interface UtilsAPI {
     @GET(Urls.UPLOAD_LIMITS)
     Call<UploadLimits> getUploadLimits();
 
-    @GET @Streaming
-    Call<ResponseBody> downloadFile(@Url String url);
+    @GET
+    @Streaming
+    Call<ResponseBody> downloadAttachment(@Url String url);
+
+    @POST(Urls.ATTACHMENTS)
+    @Multipart
+    Call<ResponseBody> uploadAttachment(
+            @Part("data") AttachmentInfo info,
+            @Part("file") MultipartBody.Part file
+    );
 }

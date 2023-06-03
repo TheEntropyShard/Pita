@@ -22,7 +22,7 @@ import me.theentropyshard.pita.netschoolapi.mail.MailBox;
 import me.theentropyshard.pita.netschoolapi.mail.MailField;
 import me.theentropyshard.pita.netschoolapi.mail.MailHelper;
 import me.theentropyshard.pita.netschoolapi.mail.MailSearch;
-import me.theentropyshard.pita.netschoolapi.mail.models.Mail;
+import me.theentropyshard.pita.netschoolapi.mail.models.MailResponseEntity;
 import me.theentropyshard.pita.netschoolapi.mail.models.MailRecord;
 import me.theentropyshard.pita.view.BorderPanel;
 import me.theentropyshard.pita.view.View;
@@ -113,7 +113,7 @@ public class MailPanel extends JPanel {
                 mailSearch = MailSearch.of(this.searchField, this.searchText);
             }
             Set<Integer> unreadMessagesIds = NetSchoolAPI_old.I.getUnreadMessagesIds();
-            Mail mail = NetSchoolAPI_old.I.getMail(this.mailBox, MailHelper.getDefaultFields(), null, mailSearch, this.page, this.pageSize);
+            MailResponseEntity mail = NetSchoolAPI_old.I.getMail(this.mailBox, MailHelper.getDefaultFields(), null, mailSearch, this.page, this.pageSize);
             this.totalMessages = mail.totalItems;
             MailRecord[] rows = mail.rows;
             this.rows = rows;

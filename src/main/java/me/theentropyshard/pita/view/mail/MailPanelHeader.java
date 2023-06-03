@@ -38,6 +38,13 @@ import java.util.Set;
 public class MailPanelHeader extends JPanel {
     private final PGradientLabel pageLabel;
     private final PTextField pageField;
+    private final PComboBox mailBoxComboBox;
+    private final PComboBox searchComboBox;
+    private final PTextField searchField;
+    private final PTextField numberField;
+    private final PSimpleButton loadButton;
+    private final PSimpleButton writeButton;
+    private final PSimpleButton deleteButton;
 
     public MailPanelHeader(ActionListener lbc, MailView mailView) {
         this.setLayout(new MigLayout("flowy", "[left]15[left]5[left]15[left]15[left]push", "[center][center][center]"));
@@ -47,28 +54,28 @@ public class MailPanelHeader extends JPanel {
         label.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
         this.add(label, "cell 0 0");
 
-        PComboBox comboBox = new PComboBox();
-        comboBox.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
-        comboBox.setBorder(BorderFactory.createEmptyBorder(5, 12, 5, 5));
-        comboBox.addItem("Входящие");
-        comboBox.addItem("Отправленные");
-        comboBox.addItem("Удаленные");
-        comboBox.addItem("Черновики");
+        this.mailBoxComboBox = new PComboBox();
+        this.mailBoxComboBox.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
+        this.mailBoxComboBox.setBorder(BorderFactory.createEmptyBorder(5, 12, 5, 5));
+        this.mailBoxComboBox.addItem("Входящие");
+        this.mailBoxComboBox.addItem("Отправленные");
+        this.mailBoxComboBox.addItem("Удаленные");
+        this.mailBoxComboBox.addItem("Черновики");
 
-        comboBox.addItemListener(e -> {
-            String item = (String) comboBox.getSelectedItem();
+        this.mailBoxComboBox.addItemListener(e -> {
+            String item = (String) this.mailBoxComboBox.getSelectedItem();
             switch(Objects.requireNonNull(item)) {
                 case "Входящие":
-                    mailView.setMailBox(MailBox.BOX_INCOMING);
+                    //mailView.setMailBox(MailBox.BOX_INCOMING);
                     break;
                 case "Отправленные":
-                    mailView.setMailBox(MailBox.BOX_SENT);
+                    //mailView.setMailBox(MailBox.BOX_SENT);
                     break;
                 case "Удаленные":
-                    mailView.setMailBox(MailBox.BOX_DELETED);
+                    //mailView.setMailBox(MailBox.BOX_DELETED);
                     break;
                 case "Черновики":
-                    mailView.setMailBox(MailBox.BOX_DRAFTS);
+                    //mailView.setMailBox(MailBox.BOX_DRAFTS);
                     break;
                 default:
                     throw new RuntimeException("Unreachable: " + item);
@@ -76,62 +83,62 @@ public class MailPanelHeader extends JPanel {
             mailView.loadData();
         });
 
-        this.add(comboBox, "cell 0 1");
+        this.add(this.mailBoxComboBox, "cell 0 1");
 
         PGradientLabel searchLabel = new PGradientLabel("Поиск");
         searchLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
         this.add(searchLabel, "cell 1 0");
 
-        PComboBox searchCB = new PComboBox();
-        searchCB.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
-        searchCB.setBorder(BorderFactory.createEmptyBorder(5, 12, 5, 5));
-        searchCB.addItem("От кого");
-        searchCB.addItem("Кому");
-        searchCB.addItem("Тема");
+        this.searchComboBox = new PComboBox();
+        this.searchComboBox.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
+        this.searchComboBox.setBorder(BorderFactory.createEmptyBorder(5, 12, 5, 5));
+        this.searchComboBox.addItem("От кого");
+        this.searchComboBox.addItem("Кому");
+        this.searchComboBox.addItem("Тема");
 
-        searchCB.addItemListener(e -> {
-            String item = (String) searchCB.getSelectedItem();
+        this.searchComboBox.addItemListener(e -> {
+            String item = (String) this.searchComboBox.getSelectedItem();
             switch(Objects.requireNonNull(item)) {
                 case "От кого":
-                    mailView.setSearchField(MailField.AUTHOR);
+                   // mailView.setSearchField(MailField.AUTHOR);
                     break;
                 case "Кому":
-                    mailView.setSearchField(MailField.TO_NAMES);
+                  //  mailView.setSearchField(MailField.TO_NAMES);
                     break;
                 case "Тема":
-                    mailView.setSearchField(MailField.SUBJECT);
+                   // mailView.setSearchField(MailField.SUBJECT);
                     break;
                 default:
                     throw new RuntimeException("Unreachable: " + item);
             }
         });
 
-        PTextField searchField = new PTextField();
-        searchField.setHint("Введите текст...");
-        searchField.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
+        this.searchField = new PTextField();
+        this.searchField.setHint("Введите текст...");
+        this.searchField.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
 
-        Dimension preferredSize = searchField.getPreferredSize();
-        searchField.setPreferredSize(new Dimension(250, preferredSize.height));
+        Dimension preferredSize = this.searchField.getPreferredSize();
+        this.searchField.setPreferredSize(new Dimension(250, preferredSize.height));
 
-        comboBox.setPreferredSize(new Dimension(comboBox.getPreferredSize().width, preferredSize.height));
-        searchCB.setPreferredSize(new Dimension(searchCB.getPreferredSize().width, preferredSize.height));
+        this.mailBoxComboBox.setPreferredSize(new Dimension(this.mailBoxComboBox.getPreferredSize().width, preferredSize.height));
+        this.searchComboBox.setPreferredSize(new Dimension(this.searchComboBox.getPreferredSize().width, preferredSize.height));
 
-        this.add(searchCB, "cell 1 1");
-        this.add(searchField, "cell 2 1");
+        this.add(this.searchComboBox, "cell 1 1");
+        this.add(this.searchField, "cell 2 1");
 
-        searchCB.setPreferredSize(comboBox.getPreferredSize());
+        this.searchComboBox.setPreferredSize(this.mailBoxComboBox.getPreferredSize());
 
         PGradientLabel numberLabel = new PGradientLabel("Число записей на странице");
         numberLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
 
         this.add(numberLabel, "cell 3 0");
 
-        PTextField numberField = new PTextField();
-        numberField.setPreferredSize(new Dimension(250, searchField.getPreferredSize().height));
-        numberField.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
-        numberField.setText("20");
+        this.numberField = new PTextField();
+        this.numberField.setPreferredSize(new Dimension(250, this.searchField.getPreferredSize().height));
+        this.numberField.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
+        this.numberField.setText("20");
 
-        this.add(numberField, "cell 3 1");
+        this.add(this.numberField, "cell 3 1");
 
         this.pageLabel = new PGradientLabel("");
         this.pageLabel.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
@@ -140,7 +147,7 @@ public class MailPanelHeader extends JPanel {
 
         this.pageField = new PTextField();
         this.pageField.setText("1");
-        this.pageField.setPreferredSize(new Dimension(250, searchField.getPreferredSize().height));
+        this.pageField.setPreferredSize(new Dimension(250, this.searchField.getPreferredSize().height));
         this.pageField.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
 
         this.add(this.pageField, "cell 4 1");
@@ -148,51 +155,51 @@ public class MailPanelHeader extends JPanel {
         JPanel panel = new JPanel(new MigLayout("insets 0, fillx"));
         panel.setBackground(Color.WHITE);
 
-        PSimpleButton loadButton = new PSimpleButton("Загрузить");
-        loadButton.addActionListener(e -> {
+        this.loadButton = new PSimpleButton("Загрузить");
+        this.loadButton.addActionListener(e -> {
             int pageSize = 20;
             try {
-                pageSize = Integer.parseInt(numberField.getText());
+                pageSize = Integer.parseInt(this.numberField.getText());
             } catch (NumberFormatException ignored) {
 
             }
 
-            mailView.setPageSize(pageSize);
-            mailView.setSearchText(searchField.getText());
+           // mailView.setPageSize(pageSize);
+           // mailView.setSearchText(this.searchField.getText());
             int page = 1;
             try {
                 page = Integer.parseInt(this.pageField.getText());
             } catch (NumberFormatException ignored) {
 
             }
-            mailView.setPage(page);
+           // mailView.setPage(page);
             lbc.actionPerformed(e);
         });
-        loadButton.setRoundCorners(true);
+        this.loadButton.setRoundCorners(true);
 
-        panel.add(loadButton, "");
+        panel.add(this.loadButton, "");
 
-        PSimpleButton writeButton = new PSimpleButton("Написать");
-        writeButton.setRoundCorners(true);
-        writeButton.addActionListener(e -> {
+        this.writeButton = new PSimpleButton("Написать");
+        this.writeButton.setRoundCorners(true);
+        this.writeButton.addActionListener(e -> {
             View v = View.getView();
             StudentView mp = v.getMainPanel();
             mp.getContentLayout().show(mp.getContentPanel(), MailWritePanel.class.getSimpleName());
         });
 
-        panel.add(writeButton, "");
+        panel.add(this.writeButton, "");
 
-        PSimpleButton deleteButton = new PSimpleButton("Удалить");
-        deleteButton.setRoundCorners(true);
-        deleteButton.addActionListener(e -> {
+        this.deleteButton = new PSimpleButton("Удалить");
+        this.deleteButton.setRoundCorners(true);
+        this.deleteButton.addActionListener(e -> {
             Set<String> selectedRows = mailView.getMailListPanel().getSelectedRows();
-            MailRecord[] rows = mailView.getRows();
+           // MailRecord[] rows = mailView.getRows();
 
             int[] messageIds = new int[selectedRows.size()];
 
             int i = 0;
             for(String s : selectedRows) {
-                messageIds[i] = rows[Integer.parseInt(s) - 1].id;
+                //messageIds[i] = rows[Integer.parseInt(s) - 1].id;
                 i++;
             }
 
@@ -229,19 +236,49 @@ public class MailPanelHeader extends JPanel {
             }
         });
 
-        panel.add(deleteButton, "");
+        panel.add(this.deleteButton, "");
 
         this.add(panel, "cell 0 2, span");
     }
 
     public void loadData() {
-        MailView mailView = View.getView().getMainPanel().getMailPanel();
-
-        int totalMessages = mailView.getTotalMessages();
+        /*int totalMessages = mailView.getTotalMessages();
         int pageSize = mailView.getPageSize();
 
         int totalPages = (totalMessages / pageSize) + (totalMessages % pageSize == 0 ? 0 : 1);
 
-        this.pageLabel.setText("Всего страниц: " + totalPages + ", текущая: " + this.pageField.getText());
+        this.pageLabel.setText("Всего страниц: " + totalPages + ", текущая: " + this.pageField.getText());*/
+    }
+
+    public PTextField getPageField() {
+        return this.pageField;
+    }
+
+    public PComboBox getMailBoxComboBox() {
+        return this.mailBoxComboBox;
+    }
+
+    public PComboBox getSearchComboBox() {
+        return this.searchComboBox;
+    }
+
+    public PTextField getSearchField() {
+        return this.searchField;
+    }
+
+    public PTextField getNumberField() {
+        return this.numberField;
+    }
+
+    public PSimpleButton getLoadButton() {
+        return this.loadButton;
+    }
+
+    public PSimpleButton getWriteButton() {
+        return this.writeButton;
+    }
+
+    public PSimpleButton getDeleteButton() {
+        return this.deleteButton;
     }
 }

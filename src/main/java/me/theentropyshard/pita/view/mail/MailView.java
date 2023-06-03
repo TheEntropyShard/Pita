@@ -17,41 +17,16 @@
 
 package me.theentropyshard.pita.view.mail;
 
-import me.theentropyshard.pita.netschoolapi.NetSchoolAPI_old;
-import me.theentropyshard.pita.netschoolapi.mail.MailBox;
-import me.theentropyshard.pita.netschoolapi.mail.MailField;
-import me.theentropyshard.pita.netschoolapi.mail.MailHelper;
-import me.theentropyshard.pita.netschoolapi.mail.MailSearch;
-import me.theentropyshard.pita.netschoolapi.mail.models.MailResponseEntity;
-import me.theentropyshard.pita.netschoolapi.mail.models.MailRecord;
 import me.theentropyshard.pita.view.BorderPanel;
-import me.theentropyshard.pita.view.View;
 import me.theentropyshard.pita.view.component.PScrollBar;
-import me.theentropyshard.pita.view.component.PSimpleButton;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Set;
 
 public class MailView extends JPanel {
-    private static final DateTimeFormatter SENT_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
-
-    private final MailListPanel mailListPanel;
-
     private final MailPanelHeader header;
-
-    private int totalMessages;
-    private int page = 1;
-    private int pageSize = 20;
-    private MailBox mailBox = MailBox.BOX_INCOMING;
-    private String searchText;
-    private MailField searchField = MailField.AUTHOR;
-
-    private MailRecord[] rows;
+    private final MailListPanel mailListPanel;
 
     public MailView() {
         super(new BorderLayout());
@@ -89,26 +64,7 @@ public class MailView extends JPanel {
     }
 
     public void loadData() {
-        this.mailListPanel.removeAll();
-        this.mailListPanel.addNewRecord("№", "От кого", "Тема", "Отправлено", false, true);
-        this.mailListPanel.addNewRecord(" ", " ", " ", " ", false, true);
-
-        try {
-            PSimpleButton mailButton = View.getView().getMainPanel().getHeader().getMailButton();
-
-            int umc = 0;
-            try {
-                umc = NetSchoolAPI_old.I.getUnreadMessagesCount();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            if(umc > 0) {
-                mailButton.setText("Почта - " + umc + " непрочитанных");
-            } else {
-                mailButton.setText("Почта");
-            }
-
-            MailSearch mailSearch = null;
+            /*MailSearch mailSearch = null;
             if(this.searchText != null && !this.searchText.isEmpty() && this.searchField != null) {
                 mailSearch = MailSearch.of(this.searchField, this.searchText);
             }
@@ -116,58 +72,14 @@ public class MailView extends JPanel {
             MailResponseEntity mail = NetSchoolAPI_old.I.getMail(this.mailBox, MailHelper.getDefaultFields(), null, mailSearch, this.page, this.pageSize);
             this.totalMessages = mail.totalItems;
             MailRecord[] rows = mail.rows;
-            this.rows = rows;
-            for(int i = 0; i < rows.length; i++) {
-                MailRecord record = rows[i];
-                this.mailListPanel.addNewRecord(
-                        String.valueOf(i + 1),
-                        record.author,
-                        record.subject,
-                        LocalDateTime.parse(record.sent).format(MailView.SENT_TIME_FORMATTER),
-                        !unreadMessagesIds.contains(record.id), false
-                );
-            }
-            this.revalidate();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            this.rows = rows;*/
+    }
 
-        this.header.loadData();
+    public MailPanelHeader getMailPanelHeader() {
+        return this.header;
     }
 
     public MailListPanel getMailListPanel() {
         return this.mailListPanel;
-    }
-
-    public MailRecord[] getRows() {
-        return this.rows;
-    }
-
-    public int getTotalMessages() {
-        return this.totalMessages;
-    }
-
-    public void setPage(int page) {
-        this.page = page;
-    }
-
-    public int getPageSize() {
-        return this.pageSize;
-    }
-
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
-    }
-
-    public void setMailBox(MailBox mailBox) {
-        this.mailBox = mailBox;
-    }
-
-    public void setSearchText(String searchText) {
-        this.searchText = searchText;
-    }
-
-    public void setSearchField(MailField searchField) {
-        this.searchField = searchField;
     }
 }

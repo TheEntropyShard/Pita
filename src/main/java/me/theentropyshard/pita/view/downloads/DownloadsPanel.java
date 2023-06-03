@@ -18,6 +18,7 @@
 package me.theentropyshard.pita.view.downloads;
 
 import me.theentropyshard.pita.utils.SwingUtils;
+import me.theentropyshard.pita.utils.Utils;
 import me.theentropyshard.pita.view.BorderPanel;
 import me.theentropyshard.pita.view.component.PScrollBar;
 import me.theentropyshard.pita.view.component.PSimpleButton;
@@ -73,7 +74,8 @@ public class DownloadsPanel extends JPanel {
     }
 
     public void addFile(File f) {
-        PSimpleButton fileButton = new PSimpleButton(f.getName());
+        String name = Utils.ellipsize(f.getName(), 28);
+        PSimpleButton fileButton = new PSimpleButton(name);
         fileButton.setIcon(SwingUtils.getFileIcon(f));
         fileButton.setRoundCorners(true);
         fileButton.addMouseListener(new MouseAdapter() {

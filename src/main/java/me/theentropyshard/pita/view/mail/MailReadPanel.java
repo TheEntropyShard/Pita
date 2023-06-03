@@ -214,7 +214,7 @@ public class MailReadPanel extends JPanel {
     }
 
     public void loadData(int index) {
-        MailRecord mailRecord = this.mailView.getRows()[index];
+        MailRecord mailRecord =/* this.mailView.getRows()[index]*/null;
         try {
             Message message = NetSchoolAPI_old.I.readMessage(mailRecord.id);
             this.messageId = message.id;

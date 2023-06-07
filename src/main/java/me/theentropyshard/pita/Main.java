@@ -19,6 +19,11 @@ package me.theentropyshard.pita;
 
 import me.theentropyshard.pita.utils.ResourceManager;
 
+import javax.swing.*;
+import javax.swing.plaf.ColorUIResource;
+import javax.swing.plaf.metal.MetalLookAndFeel;
+import javax.swing.plaf.metal.MetalTheme;
+import javax.swing.plaf.metal.OceanTheme;
 import java.awt.*;
 
 public class Main {
@@ -34,6 +39,8 @@ public class Main {
 
         System.setProperty("sun.java2d.d3d", "false");
         System.setProperty("sun.java2d.noddraw", "true");
+
+        UIManager.put("ComboBox.selectionBackground", new ColorUIResource(53, 170, 60));
 
         ResourceManager.registerFont(ResourceManager.getFont("JetBrainsMono-Regular.ttf"));
         ResourceManager.registerFont(ResourceManager.getFont("JetBrainsMono-Bold.ttf"));

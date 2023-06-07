@@ -75,7 +75,7 @@ public class MailListPanel extends JPanel {
                 Object source = e.getSource();
                 if(source == fromLabel || source == subjectLabel) {
                     StudentView mp = View.getView().getMainPanel();
-                    mp.getContentLayout().show(mp.getContentPanel(), MailReadPanel.class.getSimpleName());
+                    mp.getContentLayout().show(mp.getContentPanel(), MailReadView.class.getSimpleName());
                     mp.getMailReadPanel().loadData(Integer.parseInt(number) - 1);
                 } else if(source == numberLabel || source == sentLabel) {
                     ThemeManager tm = Pita.getPita().getThemeManager();

@@ -45,7 +45,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.StringJoiner;
 
-public class MailReadPanel extends JPanel {
+public class MailReadView extends JPanel {
     private static final DateTimeFormatter SENT_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
 
     private final MailView mailView;
@@ -61,7 +61,7 @@ public class MailReadPanel extends JPanel {
 
     private int messageId;
 
-    public MailReadPanel(MailView mailView) {
+    public MailReadView(MailView mailView) {
         super(new BorderLayout());
 
         this.mailView = mailView;
@@ -123,7 +123,7 @@ public class MailReadPanel extends JPanel {
                 this.setRoundCorners(true);
                 this.addActionListener(e -> {
                     StudentView studentView = View.getView().getMainPanel();
-                    MailWritePanel mailWritePanel = studentView.getMailWritePanel();
+                    MailWriteView mailWriteView = studentView.getMailWritePanel();
                     MailEdit mailEdit;
                     try {
                         mailEdit = NetSchoolAPI_old.I.editMessage(MailEditAction.REPLY, messageId);
@@ -131,20 +131,20 @@ public class MailReadPanel extends JPanel {
                         ex.printStackTrace();
                         return;
                     }
-                    mailWritePanel.setReceivers(mailEdit.to);
-                    mailWritePanel.setSubject(mailEdit.subject);
-                    mailWritePanel.setMainText(mailEdit.text);
+                    mailWriteView.setReceivers(mailEdit.to);
+                    mailWriteView.setSubject(mailEdit.subject);
+                    mailWriteView.setMainText(mailEdit.text);
                     for(Attachment attach : mailEdit.fileAttachments) {
-                        mailWritePanel.attachFileById(attach.name, String.valueOf(attach.id));
+                        mailWriteView.attachFileById(attach.name, String.valueOf(attach.id));
                     }
-                    studentView.getContentLayout().show(studentView.getContentPanel(), MailWritePanel.class.getSimpleName());
+                    studentView.getContentLayout().show(studentView.getContentPanel(), MailWriteView.class.getSimpleName());
                 });
             }});
             this.add(new PSimpleButton("Переслать сообщение") {{
                 this.setRoundCorners(true);
                 this.addActionListener(e -> {
                     StudentView studentView = View.getView().getMainPanel();
-                    MailWritePanel mailWritePanel = studentView.getMailWritePanel();
+                    MailWriteView mailWriteView = studentView.getMailWritePanel();
                     MailEdit mailEdit;
                     try {
                         mailEdit = NetSchoolAPI_old.I.editMessage(MailEditAction.FORWARD, messageId);
@@ -152,12 +152,12 @@ public class MailReadPanel extends JPanel {
                         ex.printStackTrace();
                         return;
                     }
-                    mailWritePanel.setSubject(mailEdit.subject);
-                    mailWritePanel.setMainText(mailEdit.text);
+                    mailWriteView.setSubject(mailEdit.subject);
+                    mailWriteView.setMainText(mailEdit.text);
                     for(Attachment attach : mailEdit.fileAttachments) {
-                        mailWritePanel.attachFileById(attach.name, String.valueOf(attach.id));
+                        mailWriteView.attachFileById(attach.name, String.valueOf(attach.id));
                     }
-                    studentView.getContentLayout().show(studentView.getContentPanel(), MailWritePanel.class.getSimpleName());
+                    studentView.getContentLayout().show(studentView.getContentPanel(), MailWriteView.class.getSimpleName());
                 });
             }});
             this.add(new PSimpleButton("Удалить") {{
@@ -228,7 +228,7 @@ public class MailReadPanel extends JPanel {
             this.from.setValue(message.author.name);
             this.to.setValue(joiner.toString());
             this.copy.setValue("");
-            this.sent.setValue(LocalDateTime.parse(message.sent).format(MailReadPanel.SENT_TIME_FORMATTER));
+            this.sent.setValue(LocalDateTime.parse(message.sent).format(MailReadView.SENT_TIME_FORMATTER));
             this.subject.setValue(message.subject);
 
             this.mailBodyPanel.removeAll();
@@ -247,7 +247,7 @@ public class MailReadPanel extends JPanel {
             Font textPaneFont = new Font("JetBrains Mono", Font.PLAIN, 14);
             textPane.setFont(textPaneFont);
             textPane.setContentType("text/html");
-            String txt = MailReadPanel.fixHTMLEntities(message.text);
+            String txt = MailReadView.fixHTMLEntities(message.text);
             textPane.setText("<html><head><style> a { color: #2a5885; } p { font-family: \"JetBrains Mono\"; } </style></head><p>" + txt + "</p></html>");
             textPane.setForeground(new Color(120, 120, 120));
             textPane.setSelectionColor(PitaColors.ULTRA_LIGHT_COLOR);

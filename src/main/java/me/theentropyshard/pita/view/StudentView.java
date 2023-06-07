@@ -21,8 +21,8 @@ import me.theentropyshard.pita.view.announcements.AnnouncementsView;
 import me.theentropyshard.pita.view.diary.DiaryView;
 import me.theentropyshard.pita.view.downloads.DownloadsPanel;
 import me.theentropyshard.pita.view.mail.MailView;
-import me.theentropyshard.pita.view.mail.MailReadPanel;
-import me.theentropyshard.pita.view.mail.MailWritePanel;
+import me.theentropyshard.pita.view.mail.MailReadView;
+import me.theentropyshard.pita.view.mail.MailWriteView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,8 +38,8 @@ public class StudentView extends JPanel {
     private final ReportsView reportsView;
 
     private final MailView mailView;
-    private final MailReadPanel mailReadPanel;
-    private final MailWritePanel mailWritePanel;
+    private final MailReadView mailReadView;
+    private final MailWriteView mailWriteView;
 
     private final AnnouncementsView annPanel;
 
@@ -66,11 +66,11 @@ public class StudentView extends JPanel {
         this.mailView = new MailView();
         this.contentPanel.add(this.mailView, MailView.class.getName());
 
-        this.mailReadPanel = new MailReadPanel(this.mailView);
-        this.contentPanel.add(this.mailReadPanel, MailReadPanel.class.getName());
+        this.mailReadView = new MailReadView(this.mailView);
+        this.contentPanel.add(this.mailReadView, MailReadView.class.getName());
 
-        this.mailWritePanel = new MailWritePanel();
-        this.contentPanel.add(this.mailWritePanel, MailWritePanel.class.getName());
+        this.mailWriteView = new MailWriteView();
+        this.contentPanel.add(this.mailWriteView, MailWriteView.class.getName());
 
         this.annPanel = new AnnouncementsView();
         this.contentPanel.add(this.annPanel, AnnouncementsView.class.getName());
@@ -104,12 +104,12 @@ public class StudentView extends JPanel {
         return this.mailView;
     }
 
-    public MailReadPanel getMailReadPanel() {
-        return this.mailReadPanel;
+    public MailReadView getMailReadPanel() {
+        return this.mailReadView;
     }
 
-    public MailWritePanel getMailWritePanel() {
-        return this.mailWritePanel;
+    public MailWriteView getMailWritePanel() {
+        return this.mailWriteView;
     }
 
     public AnnouncementsView getAnnouncementsView() {

@@ -41,7 +41,7 @@ import java.util.List;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class MailWritePanel extends JPanel {
+public class MailWriteView extends JPanel {
     private final JTextArea textArea;
     private final PTextField subjectField;
     private final JPanel attachedFilesPanel;
@@ -51,7 +51,7 @@ public class MailWritePanel extends JPanel {
     private final Set<File> attachedFiles;
     private final Set<String> attachedFilesIds;
 
-    public MailWritePanel() {
+    public MailWriteView() {
         super(new BorderLayout());
 
         this.receiverIds = new HashSet<>();

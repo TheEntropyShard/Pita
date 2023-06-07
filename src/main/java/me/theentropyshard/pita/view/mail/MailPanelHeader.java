@@ -165,7 +165,7 @@ public class MailPanelHeader extends JPanel {
         this.writeButton.addActionListener(e -> {
             View v = View.getView();
             StudentView mp = v.getMainPanel();
-            mp.getContentLayout().show(mp.getContentPanel(), MailWritePanel.class.getSimpleName());
+            mp.getContentLayout().show(mp.getContentPanel(), MailWriteView.class.getSimpleName());
         });
 
         panel.add(this.writeButton, "");

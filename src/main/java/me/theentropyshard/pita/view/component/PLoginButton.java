@@ -20,8 +20,6 @@ package me.theentropyshard.pita.view.component;
 import me.theentropyshard.pita.Pita;
 import me.theentropyshard.pita.view.ThemeManager;
 import me.theentropyshard.pita.view.UIConstants;
-import org.jdesktop.animation.timing.Animator;
-import org.jdesktop.animation.timing.TimingTargetAdapter;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -33,7 +31,6 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 public class PLoginButton extends JButton implements ActionListener {
-    private final Animator animator;
     private final ThemeManager tm;
 
     private int targetSize;
@@ -65,36 +62,6 @@ public class PLoginButton extends JButton implements ActionListener {
         this.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         this.timer = new Timer(100, this);
-
-        this.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent me) {
-                if (isEnabled()) {
-                    targetSize = Math.max(getWidth(), getHeight()) * 2;
-                    animationSize = 0;
-                    pressedPoint = me.getPoint();
-                    alpha = 0.5f;
-                    if (animator.isRunning()) {
-                        animator.stop();
-                    }
-                    animator.start();
-                }
-            }
-        });
-
-        this.animator = new Animator(700, new TimingTargetAdapter() {
-            @Override
-            public void timingEvent(float fraction) {
-                if (fraction > 0.5f) {
-                    alpha = 1 - fraction;
-                }
-                animationSize = fraction * targetSize;
-                repaint();
-            }
-        });
-        this.animator.setAcceleration(0.5f);
-        this.animator.setDeceleration(0.5f);
-        this.animator.setResolution(0);
     }
 
     @Override
@@ -104,11 +71,6 @@ public class PLoginButton extends JButton implements ActionListener {
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setPaint(new GradientPaint(0, 0, this.tm.getColor("darkAccentColor"), this.getWidth(), this.getHeight(), this.tm.getColor("lightAccentColor")));
         g2.fillRoundRect(0, 0, this.getWidth(), this.getHeight(), UIConstants.ARC_WIDTH, UIConstants.ARC_HEIGHT);
-        if (this.pressedPoint != null && !this.loading) {
-            g2.setColor(this.effectColor);
-            g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_ATOP, this.alpha));
-            g2.fillOval((int) (this.pressedPoint.x - this.animationSize / 2), (int) (this.pressedPoint.y - this.animationSize / 2), (int) this.animationSize, (int) this.animationSize);
-        }
         if (this.loading) {
             int w = this.getWidth();
             int h = this.getHeight();

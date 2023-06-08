@@ -30,14 +30,9 @@ import java.util.Arrays;
 public class AppWindow extends JFrame {
     public static AppWindow window;
 
-    /*private final CardLayout rootLayout;
-    private final JPanel root;*/
-
     private final CardLayoutPanel root;
 
     private final LoginController loginController;
-
-    private final StudentView studentView;
     private final StudentController studentController;
 
     private String lastView;
@@ -52,11 +47,11 @@ public class AppWindow extends JFrame {
         LoginView loginView = new LoginView();
         this.loginController = new LoginController(new LoginService(), loginView);
 
-        this.studentView = new StudentView();
-        this.studentController = new StudentController(this.studentView);
+        StudentView studentView = new StudentView();
+        this.studentController = new StudentController(studentView);
 
         this.root.addComponent(loginView, LoginView.class.getName());
-        this.root.addComponent(this.studentView, StudentView.class.getName());
+        this.root.addComponent(studentView, StudentView.class.getName());
 
         this.setIconImages(
                 Arrays.asList(

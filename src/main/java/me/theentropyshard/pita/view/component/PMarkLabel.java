@@ -35,7 +35,7 @@ public class PMarkLabel extends JLabel {
                 this.goodMark = true;
                 break;
             case 1:
-                strMark = "\u00b7"; // middle dot
+                strMark = "·"; // middle dot
                 this.goodMark = false;
                 break;
             case 2:

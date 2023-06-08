@@ -23,6 +23,6 @@
             <AppenderRef ref="FileLogger"/>
         </Logger>
 
-        <Root></Root>
+        <Root/>
     </Loggers>
 </Configuration>

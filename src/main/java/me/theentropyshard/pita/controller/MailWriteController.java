@@ -17,5 +17,10 @@
 
 package me.theentropyshard.pita.controller;
 
+import me.theentropyshard.pita.view.mail.MailWriteView;
+
 public class MailWriteController {
+    public MailWriteController(MailWriteView mailWriteView) {
+
+    }
 }

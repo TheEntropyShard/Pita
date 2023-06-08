@@ -24,12 +24,11 @@ import me.theentropyshard.pita.view.ReportsView;
 import me.theentropyshard.pita.view.StudentView;
 import me.theentropyshard.pita.view.announcements.AnnouncementsView;
 import me.theentropyshard.pita.view.diary.DiaryView;
+import me.theentropyshard.pita.view.mail.MailReadView;
 import me.theentropyshard.pita.view.mail.MailView;
+import me.theentropyshard.pita.view.mail.MailWriteView;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import javax.swing.*;
-import java.awt.*;
 
 public class StudentController {
     private static final Logger LOG = LogManager.getLogger(StudentController.class);
@@ -40,6 +39,8 @@ public class StudentController {
     private final DiaryController diaryController;
     private final ReportsController reportsController;
     private final MailController mailController;
+    private final MailWriteController mailWriteController;
+    private final MailReadController mailReadController;
     private final AnnouncementsController annsController;
 
     private String lastView;
@@ -50,14 +51,20 @@ public class StudentController {
         Header header = studentView.getHeader();
         this.headerController = new HeaderController(header);
 
-        DiaryView diaryView = studentView.getDiaryPanel();
+        DiaryView diaryView = studentView.getDiaryView();
         this.diaryController = new DiaryController(diaryView);
 
-        ReportsView reportsView = studentView.getReportsPanel();
+        ReportsView reportsView = studentView.getReportsView();
         this.reportsController = new ReportsController(reportsView);
 
-        MailView mailView = studentView.getMailPanel();
+        MailView mailView = studentView.getMailView();
         this.mailController = new MailController(mailView);
+
+        MailWriteView mailWriteView = studentView.getMailWriteView();
+        this.mailWriteController = new MailWriteController(mailWriteView);
+
+        MailReadView mailReadView = studentView.getMailReadView();
+        this.mailReadController = new MailReadController(mailReadView);
 
         AnnouncementsView announcementsView = studentView.getAnnouncementsView();
         this.annsController = new AnnouncementsController(announcementsView, Pita.getPita().getAttachmentsDir());
@@ -88,6 +95,14 @@ public class StudentController {
                 panel.showComponent(MailView.class.getName());
                 this.mailController.restoreMailList();
                 this.mailController.loadData();
+                break;
+            case "mail_write":
+                panel.showComponent(MailWriteView.class.getName());
+                // TODO
+                break;
+            case "mail_read":
+                panel.showComponent(MailReadView.class.getName());
+                // TODO
                 break;
             case "announcements":
                 panel.showComponent(AnnouncementsView.class.getName());

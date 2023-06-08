@@ -20,8 +20,8 @@ package me.theentropyshard.pita.view;
 import me.theentropyshard.pita.view.announcements.AnnouncementsView;
 import me.theentropyshard.pita.view.diary.DiaryView;
 import me.theentropyshard.pita.view.downloads.DownloadsPanel;
-import me.theentropyshard.pita.view.mail.MailView;
 import me.theentropyshard.pita.view.mail.MailReadView;
+import me.theentropyshard.pita.view.mail.MailView;
 import me.theentropyshard.pita.view.mail.MailWriteView;
 
 import javax.swing.*;
@@ -30,9 +30,6 @@ import java.awt.*;
 public class StudentView extends JPanel {
     private final Header header;
     private final DownloadsPanel downloadsPanel;
-
-    /*private final CardLayout contentLayout;
-    private final JPanel contentPanel;*/
 
     private final CardLayoutPanel contentPanel;
 
@@ -85,31 +82,27 @@ public class StudentView extends JPanel {
         return this.downloadsPanel;
     }
 
-    public CardLayout getContentLayout() {
-        return new CardLayout();
-    }
-
     public CardLayoutPanel getContentPanel() {
         return this.contentPanel;
     }
 
-    public DiaryView getDiaryPanel() {
+    public DiaryView getDiaryView() {
         return this.diaryView;
     }
 
-    public ReportsView getReportsPanel() {
+    public ReportsView getReportsView() {
         return this.reportsView;
     }
 
-    public MailView getMailPanel() {
+    public MailView getMailView() {
         return this.mailView;
     }
 
-    public MailReadView getMailReadPanel() {
+    public MailReadView getMailReadView() {
         return this.mailReadView;
     }
 
-    public MailWriteView getMailWritePanel() {
+    public MailWriteView getMailWriteView() {
         return this.mailWriteView;
     }
 

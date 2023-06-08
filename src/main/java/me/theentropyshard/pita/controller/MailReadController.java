@@ -17,5 +17,10 @@
 
 package me.theentropyshard.pita.controller;
 
+import me.theentropyshard.pita.view.mail.MailReadView;
+
 public class MailReadController {
+    public MailReadController(MailReadView mailReadView) {
+
+    }
 }

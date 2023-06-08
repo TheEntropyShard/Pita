@@ -30,8 +30,10 @@ import java.util.Arrays;
 public class AppWindow extends JFrame {
     public static AppWindow window;
 
-    private final CardLayout rootLayout;
-    private final JPanel root;
+    /*private final CardLayout rootLayout;
+    private final JPanel root;*/
+
+    private final CardLayoutPanel root;
 
     private final LoginController loginController;
 
@@ -45,8 +47,7 @@ public class AppWindow extends JFrame {
 
         AppWindow.window = this;
 
-        this.rootLayout = new CardLayout();
-        this.root = new JPanel(this.rootLayout);
+        this.root = new CardLayoutPanel();
 
         LoginView loginView = new LoginView();
         this.loginController = new LoginController(new LoginService(), loginView);
@@ -54,8 +55,8 @@ public class AppWindow extends JFrame {
         this.studentView = new StudentView();
         this.studentController = new StudentController(this.studentView);
 
-        this.root.add(loginView, LoginView.class.getName());
-        this.root.add(this.studentView, StudentView.class.getName());
+        this.root.addComponent(loginView, LoginView.class.getName());
+        this.root.addComponent(this.studentView, StudentView.class.getName());
 
         this.setIconImages(
                 Arrays.asList(
@@ -110,15 +111,12 @@ public class AppWindow extends JFrame {
         }
 
         this.lastView = name;
-        this.rootLayout.show(this.root, name);
+
+        this.root.showComponent(name);
     }
 
     public LoginController getLoginController() {
         return this.loginController;
-    }
-
-    public StudentView getStudentView() {
-        return this.studentView;
     }
 
     public StudentController getStudentController() {

@@ -76,14 +76,6 @@ public final class Pita {
         return this.logger;
     }
 
-    public File getPitaDir() {
-        return this.pitaDir;
-    }
-
-    public File getConfigFile() {
-        return this.configFile;
-    }
-
     public File getAttachmentsDir() {
         return this.attachmentsDir;
     }

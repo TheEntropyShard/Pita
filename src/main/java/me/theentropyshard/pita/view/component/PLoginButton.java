@@ -39,7 +39,6 @@ public class PLoginButton extends JButton implements ActionListener {
     private Point pressedPoint;
     private Color effectColor = new Color(255, 255, 255);
     private boolean loading;
-    private int startAngle;
     private int endAngle;
 
     private String oldText;

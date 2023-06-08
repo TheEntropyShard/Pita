@@ -163,9 +163,9 @@ public class MailPanelHeader extends JPanel {
         this.writeButton = new PSimpleButton("Написать");
         this.writeButton.setRoundCorners(true);
         this.writeButton.addActionListener(e -> {
-            View v = View.getView();
+            /*View v = View.getView();
             StudentView mp = v.getMainPanel();
-            mp.getContentLayout().show(mp.getContentPanel(), MailWriteView.class.getSimpleName());
+            mp.getContentLayout().show(mp.getContentPanel(), MailWriteView.class.getSimpleName());*/
         });
 
         panel.add(this.writeButton, "");
@@ -185,7 +185,7 @@ public class MailPanelHeader extends JPanel {
             }
 
             if(selectedRows.size() != 0) {
-                View.getView().getFrame().getGlassPane().setVisible(true);
+                /*View.getView().getFrame().getGlassPane().setVisible(true);
 
                 MessageDialog dialog = new MessageDialog("Подтверждение", "Вы хотите выбранные письма в папку \"Удаленные\"?", true);
 
@@ -213,7 +213,7 @@ public class MailPanelHeader extends JPanel {
                     }
 
                     View.getView().getFrame().getGlassPane().setVisible(false);
-                }
+                }*/
             }
         });
 

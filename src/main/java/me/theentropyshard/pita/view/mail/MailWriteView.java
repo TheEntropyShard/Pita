@@ -105,7 +105,7 @@ public class MailWriteView extends JPanel {
         this.receiversPanel.getValueLabel().addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                View.getView().getFrame().getGlassPane().setVisible(true);
+                /*View.getView().getFrame().getGlassPane().setVisible(true);
 
                 MailChooseRecipientPanel panel = new MailChooseRecipientPanel();
                 SwingUtils.newDialog("Выберите получателей", true, panel);
@@ -120,7 +120,7 @@ public class MailWriteView extends JPanel {
 
                 receiverIds.addAll(recipients.stream().map(userModel -> userModel.id).collect(Collectors.toList()));
 
-                View.getView().getFrame().getGlassPane().setVisible(false);
+                View.getView().getFrame().getGlassPane().setVisible(false);*/
             }
         });
 
@@ -185,7 +185,7 @@ public class MailWriteView extends JPanel {
         this.attachedFilesPanel.setLayout(new BoxLayout(this.attachedFilesPanel, BoxLayout.PAGE_AXIS));
 
         addNewFileButton.addActionListener(e -> {
-            View.getView().getFrame().getGlassPane().setVisible(true);
+            /*View.getView().getFrame().getGlassPane().setVisible(true);
 
             FileUploadDialog dialog = new FileUploadDialog(View.getView().getFrame());
             File file = dialog.getSelectedFile();
@@ -214,7 +214,7 @@ public class MailWriteView extends JPanel {
 
             View.getView().getFrame().getGlassPane().setVisible(false);
 
-            this.attachFile(file);
+            this.attachFile(file);*/
         });
 
         ActionListener buttonListener = e -> {
@@ -232,7 +232,7 @@ public class MailWriteView extends JPanel {
                 success = false;
             }
 
-            StudentView studentView = View.getView().getMainPanel();
+            /*StudentView studentView = View.getView().getMainPanel();
             studentView.getMailPanel().loadData();
             studentView.getContentLayout().show(studentView.getContentPanel(), MailView.class.getSimpleName());
 
@@ -244,7 +244,7 @@ public class MailWriteView extends JPanel {
                 new MessageDialog("Ошибка", "Не удалось отправить письмо");
             }
 
-            View.getView().getFrame().getGlassPane().setVisible(false);
+            View.getView().getFrame().getGlassPane().setVisible(false);*/
         };
 
         sendButton.addActionListener(buttonListener);
@@ -258,11 +258,11 @@ public class MailWriteView extends JPanel {
 
     private boolean checkFields() {
         if(this.textArea.getText().isEmpty() && this.subjectField.getText().isEmpty()) {
-            View.getView().getFrame().getGlassPane().setVisible(true);
+            /*View.getView().getFrame().getGlassPane().setVisible(true);
 
             new MessageDialog("Ошибка", "Вы должны ввести хотя бы текст письма или тему");
 
-            View.getView().getFrame().getGlassPane().setVisible(false);
+            View.getView().getFrame().getGlassPane().setVisible(false);*/
 
             return true;
         }

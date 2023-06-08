@@ -18,9 +18,9 @@
 package me.theentropyshard.pita.view.mail;
 
 import me.theentropyshard.pita.Pita;
+import me.theentropyshard.pita.view.AppWindow;
 import me.theentropyshard.pita.view.BorderPanel;
 import me.theentropyshard.pita.view.ThemeManager;
-import me.theentropyshard.pita.view.View;
 import me.theentropyshard.pita.view.component.PGradientLabel;
 import me.theentropyshard.pita.view.component.PScrollBar;
 import net.miginfocom.swing.MigLayout;
@@ -32,7 +32,7 @@ public class MailRecipientsDialog extends JDialog {
     private final JPanel panel;
 
     public MailRecipientsDialog(String... recipients) {
-        super(View.getView().getFrame(), "Получатели", true);
+        super(AppWindow.window, "Получатели", true);
 
         this.panel = new JPanel();
         ThemeManager tm = Pita.getPita().getThemeManager();

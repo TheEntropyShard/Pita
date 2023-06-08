@@ -85,11 +85,11 @@ public class MailReadView extends JPanel {
         this.to.getValueLabel().addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                View.getView().getFrame().getGlassPane().setVisible(true);
+                /*View.getView().getFrame().getGlassPane().setVisible(true);
 
                 new MailRecipientsDialog(toNames.toArray(new String[0]));
 
-                View.getView().getFrame().getGlassPane().setVisible(false);
+                View.getView().getFrame().getGlassPane().setVisible(false);*/
             }
 
             @Override
@@ -122,7 +122,7 @@ public class MailReadView extends JPanel {
             this.add(new PSimpleButton("Ответить") {{
                 this.setRoundCorners(true);
                 this.addActionListener(e -> {
-                    StudentView studentView = View.getView().getMainPanel();
+                    /*StudentView studentView = View.getView().getMainPanel();
                     MailWriteView mailWriteView = studentView.getMailWritePanel();
                     MailEdit mailEdit;
                     try {
@@ -137,13 +137,13 @@ public class MailReadView extends JPanel {
                     for(Attachment attach : mailEdit.fileAttachments) {
                         mailWriteView.attachFileById(attach.name, String.valueOf(attach.id));
                     }
-                    studentView.getContentLayout().show(studentView.getContentPanel(), MailWriteView.class.getSimpleName());
+                    studentView.getContentLayout().show(studentView.getContentPanel(), MailWriteView.class.getSimpleName());*/
                 });
             }});
             this.add(new PSimpleButton("Переслать сообщение") {{
                 this.setRoundCorners(true);
                 this.addActionListener(e -> {
-                    StudentView studentView = View.getView().getMainPanel();
+                    /*StudentView studentView = View.getView().getMainPanel();
                     MailWriteView mailWriteView = studentView.getMailWritePanel();
                     MailEdit mailEdit;
                     try {
@@ -157,13 +157,13 @@ public class MailReadView extends JPanel {
                     for(Attachment attach : mailEdit.fileAttachments) {
                         mailWriteView.attachFileById(attach.name, String.valueOf(attach.id));
                     }
-                    studentView.getContentLayout().show(studentView.getContentPanel(), MailWriteView.class.getSimpleName());
+                    studentView.getContentLayout().show(studentView.getContentPanel(), MailWriteView.class.getSimpleName());*/
                 });
             }});
             this.add(new PSimpleButton("Удалить") {{
                 this.setRoundCorners(true);
                 this.addActionListener(e -> {
-                    if(messageId != 0) {
+                    /*if(messageId != 0) {
                         View.getView().getFrame().getGlassPane().setVisible(true);
 
                         MessageDialog dialog = new MessageDialog("Подтверждение", "Вы хотите переместить это письмо в папку \"Удаленные\"?", true);
@@ -193,7 +193,7 @@ public class MailReadView extends JPanel {
 
                             View.getView().getFrame().getGlassPane().setVisible(false);
                         }
-                    }
+                    }*/
                 });
             }});
         }});

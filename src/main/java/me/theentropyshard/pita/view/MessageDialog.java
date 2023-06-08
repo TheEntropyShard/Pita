@@ -32,7 +32,7 @@ public class MessageDialog extends JDialog {
     }
 
     public MessageDialog(String title, String message, boolean confirmDialog) {
-        super(View.getView().getFrame(), title, true);
+        super(AppWindow.window, title, true);
 
         BorderPanel borderPanel = new BorderPanel();
 

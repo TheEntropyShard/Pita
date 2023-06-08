@@ -20,7 +20,6 @@ package me.theentropyshard.pita.view.mail;
 import me.theentropyshard.pita.Pita;
 import me.theentropyshard.pita.view.StudentView;
 import me.theentropyshard.pita.view.ThemeManager;
-import me.theentropyshard.pita.view.View;
 import me.theentropyshard.pita.view.component.PGradientLabel;
 import net.miginfocom.swing.MigLayout;
 
@@ -74,9 +73,9 @@ public class MailListPanel extends JPanel {
             public void mousePressed(MouseEvent e) {
                 Object source = e.getSource();
                 if(source == fromLabel || source == subjectLabel) {
-                    StudentView mp = View.getView().getMainPanel();
+                    /*StudentView mp = View.getView().getMainPanel();
                     mp.getContentLayout().show(mp.getContentPanel(), MailReadView.class.getSimpleName());
-                    mp.getMailReadPanel().loadData(Integer.parseInt(number) - 1);
+                    mp.getMailReadPanel().loadData(Integer.parseInt(number) - 1);*/
                 } else if(source == numberLabel || source == sentLabel) {
                     ThemeManager tm = Pita.getPita().getThemeManager();
                     Color mainColor = tm.getColor("mainColor");

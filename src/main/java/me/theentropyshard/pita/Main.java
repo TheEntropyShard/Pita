@@ -27,14 +27,10 @@ import javax.swing.plaf.metal.OceanTheme;
 import java.awt.*;
 
 public class Main {
-    public static void exit() {
-        System.exit(0);
-    }
-
     private static void initGUI() {
         if (GraphicsEnvironment.isHeadless()) {
             System.err.println("Your graphics environment is headless");
-            Main.exit();
+            System.exit(0);
         }
 
         System.setProperty("sun.java2d.d3d", "false");

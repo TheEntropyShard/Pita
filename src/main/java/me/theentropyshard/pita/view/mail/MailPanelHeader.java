@@ -59,27 +59,6 @@ public class MailPanelHeader extends JPanel {
         this.mailBoxComboBox.addItem("Удаленные");
         this.mailBoxComboBox.addItem("Черновики");
 
-        this.mailBoxComboBox.addItemListener(e -> {
-            String item = (String) this.mailBoxComboBox.getSelectedItem();
-            switch(Objects.requireNonNull(item)) {
-                case "Входящие":
-                    //mailView.setMailBox(MailBox.BOX_INCOMING);
-                    break;
-                case "Отправленные":
-                    //mailView.setMailBox(MailBox.BOX_SENT);
-                    break;
-                case "Удаленные":
-                    //mailView.setMailBox(MailBox.BOX_DELETED);
-                    break;
-                case "Черновики":
-                    //mailView.setMailBox(MailBox.BOX_DRAFTS);
-                    break;
-                default:
-                    throw new RuntimeException("Unreachable: " + item);
-            }
-            mailView.loadData();
-        });
-
         this.add(this.mailBoxComboBox, "cell 0 1");
 
         PGradientLabel searchLabel = new PGradientLabel("Поиск");
@@ -92,23 +71,6 @@ public class MailPanelHeader extends JPanel {
         this.searchComboBox.addItem("От кого");
         this.searchComboBox.addItem("Кому");
         this.searchComboBox.addItem("Тема");
-
-        this.searchComboBox.addItemListener(e -> {
-            String item = (String) this.searchComboBox.getSelectedItem();
-            switch(Objects.requireNonNull(item)) {
-                case "От кого":
-                   // mailView.setSearchField(MailField.AUTHOR);
-                    break;
-                case "Кому":
-                  //  mailView.setSearchField(MailField.TO_NAMES);
-                    break;
-                case "Тема":
-                   // mailView.setSearchField(MailField.SUBJECT);
-                    break;
-                default:
-                    throw new RuntimeException("Unreachable: " + item);
-            }
-        });
 
         this.searchField = new PTextField();
         this.searchField.setHint("Введите текст...");
@@ -162,11 +124,6 @@ public class MailPanelHeader extends JPanel {
 
         this.writeButton = new PSimpleButton("Написать");
         this.writeButton.setRoundCorners(true);
-        this.writeButton.addActionListener(e -> {
-            /*View v = View.getView();
-            StudentView mp = v.getMainPanel();
-            mp.getContentLayout().show(mp.getContentPanel(), MailWriteView.class.getSimpleName());*/
-        });
 
         panel.add(this.writeButton, "");
 

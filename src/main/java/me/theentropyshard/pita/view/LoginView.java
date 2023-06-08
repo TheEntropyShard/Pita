@@ -57,38 +57,45 @@ public class LoginView extends JPanel {
         sgoLabel.setFont(new Font(LoginView.SGO_LABEL_FONT_NAME, Font.BOLD, LoginView.SGO_TEXT_SIZE));
         this.add(sgoLabel, c);
 
+        Dimension size;
+
         c.gridy = 1;
         this.sgoAddressField = new PTextField();
         this.sgoAddressField.setPrefixIcon(ResourceManager.getIcon("/images/browser.png"));
         this.sgoAddressField.setHint("Сайт дневника");
-        this.sgoAddressField.setPreferredSize(new Dimension(sgoLabel.getPreferredSize().width, this.sgoAddressField.getPreferredSize().height));
+        this.sgoAddressField.setPreferredSize(
+                size = new Dimension(
+                        sgoLabel.getPreferredSize().width,
+                        this.sgoAddressField.getPreferredSize().height
+                )
+        );
         this.add(this.sgoAddressField, c);
 
         c.gridy = 2;
         this.schoolNameField = new PTextField();
         this.schoolNameField.setPrefixIcon(ResourceManager.getIcon("/images/school.png"));
         this.schoolNameField.setHint("Имя школы");
-        this.schoolNameField.setPreferredSize(new Dimension(sgoLabel.getPreferredSize().width, this.sgoAddressField.getPreferredSize().height));
+        this.schoolNameField.setPreferredSize(size);
         this.add(this.schoolNameField, c);
 
         c.gridy = 3;
         this.loginField = new PTextField();
         loginField.setPrefixIcon(ResourceManager.getIcon("/images/mail.png"));
         loginField.setHint("Логин");
-        loginField.setPreferredSize(new Dimension(sgoLabel.getPreferredSize().width, this.sgoAddressField.getPreferredSize().height));
+        loginField.setPreferredSize(size);
         this.add(loginField, c);
 
         c.gridy = 4;
         this.passwordField = new PPassField();
         this.passwordField.setPrefixIcon(ResourceManager.getIcon("/images/pass.png"));
         this.passwordField.setHint("Пароль");
-        this.passwordField.setPreferredSize(new Dimension(sgoLabel.getPreferredSize().width, this.sgoAddressField.getPreferredSize().height));
+        this.passwordField.setPreferredSize(size);
         this.add(this.passwordField, c);
 
         c.gridy = 5;
         this.loginButton = new PLoginButton("Войти");
         this.loginButton.setFont(new Font("JetBrains Mono", Font.BOLD, 14));
-        this.loginButton.setPreferredSize(new Dimension(sgoLabel.getPreferredSize().width, this.sgoAddressField.getPreferredSize().height));
+        this.loginButton.setPreferredSize(size);
         this.add(this.loginButton, c);
     }
 

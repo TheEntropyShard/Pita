@@ -43,7 +43,7 @@ public class MailPanelHeader extends JPanel {
     private final PSimpleButton writeButton;
     private final PSimpleButton deleteButton;
 
-    public MailPanelHeader(ActionListener lbc, MailView mailView) {
+    public MailPanelHeader(MailView mailView) {
         this.setLayout(new MigLayout("flowy", "[left]15[left]5[left]15[left]15[left]push", "[center][center][center]"));
         this.setBackground(Color.WHITE);
 

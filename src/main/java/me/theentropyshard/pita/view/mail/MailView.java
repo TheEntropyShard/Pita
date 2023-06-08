@@ -48,7 +48,7 @@ public class MailView extends JPanel {
 
         BorderPanel headerPanel = new BorderPanel();
 
-        this.header = new MailPanelHeader(e -> this.loadData(), this);
+        this.header = new MailPanelHeader(this);
         headerPanel.addComponent(this.header);
 
         this.mailListPanel = new MailListPanel();
@@ -59,18 +59,6 @@ public class MailView extends JPanel {
 
         panel.add(headerPanel);
         panel.add(mainContent, "gapy 4 0");
-    }
-
-    public void loadData() {
-            /*MailSearch mailSearch = null;
-            if(this.searchText != null && !this.searchText.isEmpty() && this.searchField != null) {
-                mailSearch = MailSearch.of(this.searchField, this.searchText);
-            }
-            Set<Integer> unreadMessagesIds = NetSchoolAPI_old.I.getUnreadMessagesIds();
-            MailResponseEntity mail = NetSchoolAPI_old.I.getMail(this.mailBox, MailHelper.getDefaultFields(), null, mailSearch, this.page, this.pageSize);
-            this.totalMessages = mail.totalItems;
-            MailRecord[] rows = mail.rows;
-            this.rows = rows;*/
     }
 
     public MailPanelHeader getMailPanelHeader() {

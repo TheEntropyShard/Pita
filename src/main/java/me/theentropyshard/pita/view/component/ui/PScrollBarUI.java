@@ -24,7 +24,8 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
 
 /**
- * Slightly modified version of https://github.com/DJ-Raven/java-swing-school-management-dashboard/blob/main/school-dashboard/src/com/raven/swing/scrollbar/ModernScrollBarUI.java
+ * Slightly modified version of
+ * <a href="https://github.com/DJ-Raven/java-swing-school-management-dashboard/blob/main/school-dashboard/src/com/raven/swing/scrollbar/ModernScrollBarUI.java">Scroll Bar</a>
  */
 public class PScrollBarUI extends BasicScrollBarUI {
     private static final int THUMB_SIZE = 80;

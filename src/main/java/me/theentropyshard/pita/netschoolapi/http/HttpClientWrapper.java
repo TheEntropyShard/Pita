@@ -170,7 +170,7 @@ public class HttpClientWrapper {
 
     /**
      * Simple implementation of CookieJar
-     * https://gist.github.com/johannes-staehlin/63a72467bd1f21829d11bc55456c5836
+     * <a href="https://gist.github.com/johannes-staehlin/63a72467bd1f21829d11bc55456c5836">Cookie Jar</a>
      */
     public static class SimpleCookieJar implements CookieJar {
         private final List<Cookie> cookies = new ArrayList<>();

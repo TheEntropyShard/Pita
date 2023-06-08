@@ -7,7 +7,7 @@
 остался нетронут.
 
 ### Мобильная версия
-Если вы ищите андроид версию, то взгляните на [SGO-app](https://github.com/mezhendosina/sgo-app)
+Если вы ищете андроид версию, то взгляните на [SGO-app](https://github.com/mezhendosina/sgo-app)
 
 ### Скриншоты
 Скриншоты можно посмотреть [здесь](Screenshots.md)

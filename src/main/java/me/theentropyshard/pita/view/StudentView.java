@@ -31,8 +31,10 @@ public class StudentView extends JPanel {
     private final Header header;
     private final DownloadsPanel downloadsPanel;
 
-    private final CardLayout contentLayout;
-    private final JPanel contentPanel;
+    /*private final CardLayout contentLayout;
+    private final JPanel contentPanel;*/
+
+    private final CardLayoutPanel contentPanel;
 
     private final DiaryView diaryView;
     private final ReportsView reportsView;
@@ -53,27 +55,26 @@ public class StudentView extends JPanel {
         this.downloadsPanel.setVisible(false);
         this.add(this.downloadsPanel, BorderLayout.SOUTH);
 
-        this.contentLayout = new CardLayout();
-        this.contentPanel = new JPanel(this.contentLayout);
+        this.contentPanel = new CardLayoutPanel();
         this.add(this.contentPanel, BorderLayout.CENTER);
 
         this.diaryView = new DiaryView();
-        this.contentPanel.add(this.diaryView, DiaryView.class.getName());
+        this.contentPanel.addComponent(this.diaryView, DiaryView.class.getName());
 
         this.reportsView = new ReportsView();
-        this.contentPanel.add(this.reportsView, ReportsView.class.getName());
+        this.contentPanel.addComponent(this.reportsView, ReportsView.class.getName());
 
         this.mailView = new MailView();
-        this.contentPanel.add(this.mailView, MailView.class.getName());
+        this.contentPanel.addComponent(this.mailView, MailView.class.getName());
 
         this.mailReadView = new MailReadView(this.mailView);
-        this.contentPanel.add(this.mailReadView, MailReadView.class.getName());
+        this.contentPanel.addComponent(this.mailReadView, MailReadView.class.getName());
 
         this.mailWriteView = new MailWriteView();
-        this.contentPanel.add(this.mailWriteView, MailWriteView.class.getName());
+        this.contentPanel.addComponent(this.mailWriteView, MailWriteView.class.getName());
 
         this.annPanel = new AnnouncementsView();
-        this.contentPanel.add(this.annPanel, AnnouncementsView.class.getName());
+        this.contentPanel.addComponent(this.annPanel, AnnouncementsView.class.getName());
     }
 
     public Header getHeader() {
@@ -85,10 +86,10 @@ public class StudentView extends JPanel {
     }
 
     public CardLayout getContentLayout() {
-        return this.contentLayout;
+        return new CardLayout();
     }
 
-    public JPanel getContentPanel() {
+    public CardLayoutPanel getContentPanel() {
         return this.contentPanel;
     }
 

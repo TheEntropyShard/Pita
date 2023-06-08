@@ -18,6 +18,7 @@
 package me.theentropyshard.pita.controller;
 
 import me.theentropyshard.pita.Pita;
+import me.theentropyshard.pita.view.CardLayoutPanel;
 import me.theentropyshard.pita.view.Header;
 import me.theentropyshard.pita.view.ReportsView;
 import me.theentropyshard.pita.view.StudentView;
@@ -73,24 +74,23 @@ public class StudentController {
             return;
         }
 
-        CardLayout layout = this.studentView.getContentLayout();
-        JPanel panel = this.studentView.getContentPanel();
+        CardLayoutPanel panel = this.studentView.getContentPanel();
         switch (name) {
             case "diary":
-                layout.show(this.studentView.getContentPanel(), DiaryView.class.getName());
+                panel.showComponent(DiaryView.class.getName());
                 this.diaryController.loadData();
                 break;
             case "reports":
-                layout.show(panel, ReportsView.class.getName());
+                panel.showComponent(ReportsView.class.getName());
                 this.reportsController.loadData();
                 break;
             case "mail":
-                layout.show(panel, MailView.class.getName());
+                panel.showComponent(MailView.class.getName());
                 this.mailController.restoreMailList();
                 this.mailController.loadData();
                 break;
             case "announcements":
-                layout.show(panel, AnnouncementsView.class.getName());
+                panel.showComponent(AnnouncementsView.class.getName());
                 this.annsController.loadAnnouncements();
                 break;
             default:

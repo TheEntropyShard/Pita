@@ -45,6 +45,10 @@ public class CardLayoutPanel extends JPanel {
             return;
         }
 
+        if(c == this.showingComponent) {
+            return;
+        }
+
         this.showingComponent = c;
         this.layout.show(this, name);
     }

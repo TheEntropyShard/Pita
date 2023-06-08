@@ -26,6 +26,7 @@ public class CardLayoutPanel extends JPanel {
     private final CardLayout layout;
     private final Map<String, Component> componentMap;
 
+    private String showingName;
     private Component showingComponent;
 
     public CardLayoutPanel() {
@@ -40,22 +41,32 @@ public class CardLayoutPanel extends JPanel {
     }
 
     public void showComponent(String name) {
+        if (name == null) {
+            return;
+        }
+
         Component c = this.componentMap.get(name);
         if (c == null) {
             return;
         }
 
-        if(c == this.showingComponent) {
+        if (c == this.showingComponent) {
             return;
         }
 
+        this.showingName = name;
         this.showingComponent = c;
+
         this.layout.show(this, name);
     }
 
     public void addComponent(Component c, String name) {
         this.add(c, name);
         this.componentMap.put(name, c);
+    }
+
+    public String getShowingName() {
+        return this.showingName;
     }
 
     public Component getShowingComponent() {

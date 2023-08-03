@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+
+<!--
+    XML is used here because Java has support for it out of the box.
+    Properties are not used because by default it does not use UTF-8
+ -->
+
+<strings>
+    <sgo>Сетевой Город. Образование</sgo>
+
+    <!--Strings used by LoginView-->
+    <sgoAddressFieldHint>Адрес дневника</sgoAddressFieldHint>
+    <schoolNameField>Имя школы</schoolNameField>
+    <loginFieldHint>Логин</loginFieldHint>
+    <passwordFieldHint>Пароль</passwordFieldHint>
+
+
+</strings>

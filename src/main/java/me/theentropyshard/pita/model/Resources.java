@@ -17,8 +17,15 @@
 
 package me.theentropyshard.pita.model;
 
-public class Main {
-    public static void main(String[] args) {
+import java.io.InputStream;
+import java.util.Objects;
 
+public final class Resources {
+    public static InputStream inputStream(String path) {
+        return Objects.requireNonNull(Resources.class.getResourceAsStream(path));
+    }
+
+    private Resources() {
+        throw new UnsupportedOperationException();
     }
 }

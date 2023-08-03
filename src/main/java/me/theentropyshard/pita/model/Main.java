@@ -15,18 +15,10 @@
  *      along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.theentropyshard.pita.view.component;
+package me.theentropyshard.pita.model;
 
-import me.theentropyshard.pita.view.component.ui.PScrollBarUI;
-
-import javax.swing.*;
-import java.awt.*;
-
-public class PScrollBar extends JScrollBar {
-    public PScrollBar() {
-        this.setUI(new PScrollBarUI());
-        this.setPreferredSize(new Dimension(5, 5));
-        this.setUnitIncrement(25);
-        this.setBackground(Color.WHITE);
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("Hello, World!");
     }
 }

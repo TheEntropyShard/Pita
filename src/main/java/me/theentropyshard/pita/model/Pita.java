@@ -16,8 +16,8 @@
 
 package me.theentropyshard.pita.model;
 
-public class Main {
-    public static void main(String[] args) {
-        new Pita();
+public class Pita {
+    public Pita() {
+
     }
 }

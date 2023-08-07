@@ -14,10 +14,12 @@
  *  limitations under the License.
  */
 
-package me.theentropyshard.pita.model;
+package me.theentropyshard.pita.model.gui;
 
-public class Main {
-    public static void main(String[] args) {
-        new Pita();
+import javax.swing.*;
+
+public class LoginView extends JPanel {
+    public LoginView() {
+
     }
 }

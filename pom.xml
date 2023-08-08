@@ -29,24 +29,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.14.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.squareup.retrofit2</groupId>
-            <artifactId>retrofit</artifactId>
-            <version>2.9.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.squareup.retrofit2</groupId>
-            <artifactId>converter-gson</artifactId>
-            <version>2.9.0</version>
-        </dependency>
-
-        <dependency>
             <groupId>com.miglayout</groupId>
             <artifactId>miglayout-core</artifactId>
             <version>4.2</version>
@@ -56,18 +38,6 @@
             <groupId>com.miglayout</groupId>
             <artifactId>miglayout-swing</artifactId>
             <version>4.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-            <version>2.20.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>2.20.0</version>
         </dependency>
     </dependencies>
 </project>

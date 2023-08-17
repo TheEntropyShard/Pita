@@ -14,12 +14,15 @@
  *  limitations under the License.
  */
 
-package me.theentropyshard.pita.model.gui;
+package me.theentropyshard.pita.model.gui.page;
 
 import javax.swing.*;
+import java.awt.*;
 
-public class LoginView extends JPanel {
-    public LoginView() {
+public class LoginPage extends JPanel {
+    public LoginPage() {
+        super(new GridBagLayout());
+
 
     }
 }
